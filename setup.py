@@ -57,6 +57,5 @@ setup(
         'Programming Language :: Python 2.7',
         'Topic :: System :: Monitoring',
         'Topic :: System :: Networking :: Monitoring',
-        'Topic :: System :: Software Distribution',
     ],
 )
