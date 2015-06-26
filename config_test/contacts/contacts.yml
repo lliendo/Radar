@@ -1,0 +1,22 @@
+- contact group:
+    name: sysadmins
+    contacts:
+        - contact:
+            name: Lucas Liendo
+            email: mindmaster@gmail.com
+            phone: 541143081655
+
+        - contact:
+            name: Hernan Liendo
+            email: x_cell_rate@hotmail.com
+            phone: 541143081655
+
+        - contact:
+            name: Javier Liendo
+            email: liendecito@hotmail.com
+            phone: 5411439521900
+
+- contact:
+    name: Ignacio Lofeudo
+    email: ignaciolofeudo@hotmail.com
+    phone: 541147958095

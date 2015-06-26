@@ -1,0 +1,13 @@
+#!/bin/bash
+
+clear
+
+echo '---------------------------------'
+echo 'Removing build...' `rm -rf build dist Radar_Monitoring_System.egg-info`
+echo 'Cleaning .pyc files...' `find . -name '*.pyc' -delete`
+echo 'Code count :' `find ./radar -type f | xargs -I file cat file | wc -l`
+echo 'Files :' `find ./radar -type f -size +0c | wc -l`
+echo 'Classes :' `grep -r 'class ' ./radar/* | grep -v 'Exception' | wc -l`
+echo 'Exceptions :' `grep -r '(Exception)' ./radar/* | wc -l`
+echo 'PEP 8 violations : ' `pep8 ./radar/* | wc -l`
+echo '---------------------------------'

@@ -1,0 +1,34 @@
+- contact group:
+    name: AAA
+    contacts:
+        - contact:
+            name: SAAS
+            email: as@as.com
+
+        - contact:
+            name: SAAS
+            email: as@as.com
+
+        - contact:
+            name: SAAS
+            email: as@as.com
+
+- contact group:
+    name: BBB
+    contacts:
+        - contact:
+            name: SAAS
+            email: as@as.com
+
+        - contact:
+            name: SAAS
+            email: as@as.com
+
+        - contact:
+            name: SAAS
+            email: as@as.com
+
+- contact:
+    name: SAAS
+    email: as@as.com
+

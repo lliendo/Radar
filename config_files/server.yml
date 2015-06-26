@@ -1,0 +1,19 @@
+ - listen:
+    on: 127.0.0.1
+    port: 3333
+
+ - run as:
+    - user: radar
+    - group: radar
+
+ - polling interval: 300
+
+ - log file: /var/log/radar/server.log
+
+ - checks: /etc/radar/checks
+
+ - contacts: /etc/radar/contacts
+
+ - hosts: /etc/radar/hosts
+
+ - plugins: /usr/local/radar/server/plugins

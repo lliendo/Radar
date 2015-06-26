@@ -1,0 +1,31 @@
+- check group:
+    name: AAA
+    checks:
+        - check:
+            name: /
+            path: /.../...
+            args: -c a
+
+        - check:
+            name: /
+            path: /.../...
+            args: -c a
+
+- check group:
+    name: AAA
+    checks:
+        - check:
+            name: /
+            path: /.../...
+            args: -c a
+
+        - check:
+            name: /
+            path: /.../...
+            args: -c a
+
+- check:
+    name: /
+    path: /.../...
+    args: -c a
+

@@ -1,0 +1,14 @@
+ - listen:
+    - on: 127.0.0.1
+    - port: 3333
+
+ - run as:
+    - user: lucas
+    - group: lucas
+
+ - polling interval: 300
+ - log file: /tmp/server.log
+ - checks: /home/lucas/Dropbox/Radar/config_test/checks
+ - contacts: /home/lucas/Dropbox/Radar/config_test/contacts
+ - hosts: /home/lucas/Dropbox/Radar/config_test/hosts
+ - plugins: /home/lucas/Dropbox/Radar/config_test/plugins

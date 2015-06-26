@@ -1,0 +1,8 @@
+DATE : MONTH name MONTH day TIME
+
+DATE - Server started.
+DATE - Server stopped.
+DATE - HOST rejected.
+DATE - HOST got connected.
+DATE - HOST got disconnected.
+DATE - HOST / STATUS. Details: DETAILS.
