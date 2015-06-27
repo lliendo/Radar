@@ -39,23 +39,26 @@ class ConfigBuilder(object):
 
     def __init__(self, path):
         self.path = path
-        # self.config = self._lower_config_keys(self._read_config(path))
-        self.config = self._read_config(path)
+        self.config = self._lower_config_keys(self._read_config(path))
         self.logger = None
 
-    # TODO: Need to be worked out.
-    # def _lower_config_keys(self, config):
-    #     for k in config.keys():
-    #         if type(config[k]) == dict:
-    #             config[k.lower()] = self._lower_config_keys(config.pop(k))
-    #         # elif type(config[k]) == list:
-    #         #     config[k.lower()] = [self._lower_config_keys(d) for d in config[k]]
-    #         else:
-    #             config[k.lower()] = config.pop(k)
+    def _lower_config_keys(self, config):
+        if type(config) == list:
+            return [self._lower_config_keys(d) for d in config]
 
-    #     return config
+        for k in config.keys():
+            if type(config[k]) == dict:
+                config[k.lower()] = self._lower_config_keys(config.pop(k))
+            elif type(config[k]) == list and all([type(e) == str for e in config[k]]):
+                config[k.lower()] = config.pop(k)
+            elif type(config[k]) == list:
+                config[k.lower()] = [self._lower_config_keys(d) for d in config[k]]
+            else:
+                config[k.lower()] = config.pop(k)
 
-    # TODO: Add YAML catchs.
+        return config
+
+    # TODO: Add YAML exception catch.
     def _read_config(self, path):
         try:
             with open(path) as fd:
