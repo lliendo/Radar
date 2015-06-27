@@ -22,6 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from abc import ABCMeta, abstractmethod
 from yaml import safe_load
+from yaml.error import YAMLError
 from ..logger import RadarLogger
 
 
@@ -58,13 +59,12 @@ class ConfigBuilder(object):
 
         return config
 
-    # TODO: Add YAML exception catch.
     def _read_config(self, path):
         try:
             with open(path) as fd:
                 return safe_load(fd)
-        except IOError, e:
-            raise ConfigError('Error - Couldn\'t open config file : \'{:}\'. Details : {:}.'.format(path, e))
+        except (YAMLError, IOError), e:
+            raise ConfigError('Error - Couldn\'t parse YAML file : \'{:}\'. Details : {:}.'.format(path, e))
 
     def _filter_config(self, key):
         return [config for config in self.config if key in config]
