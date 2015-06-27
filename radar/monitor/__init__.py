@@ -33,16 +33,12 @@ class MonitorError(Exception):
 # TODO: Use sets & implement __hash__ to actually get rid of duplicated monitors !
 # Also re-implement __eq__ without calling set.
 class Monitor(RemoteControl):
-    def __init__(self, addresses=[], checks=[], contacts=[], enabled=True):
+    def __init__(self, name='', addresses=[], checks=[], contacts=[], enabled=True):
         super(Monitor, self).__init__(enabled=enabled)
-        # self.addresses = addresses
-        # self.checks = checks
-        # self.contacts = contacts
-
+        self.name = ''
         self.addresses = set(addresses)
         self.checks = set(checks)
         self.contacts = set(contacts)
-
         self.active_clients = []
         self._validate()
 
@@ -94,28 +90,20 @@ class Monitor(RemoteControl):
         if message:
             [c['client'].send_message(message_type, serialize_json(message)) for c in self.active_clients]
 
-    # TODO: This is wrong. Can't identify to which hosts the checks belong to
-    # (I only get ids but not the ids associated to a particular client).
-    def to_dict(self):
-        d = super(Monitor, self).to_dict(['id', 'enabled'])
-        # d.update({
-        #     'addresses': [a.to_dict() for a in self.addresses],
-        #     'checks': [c.to_dict() for c in self.checks],
-        #     'contacts': [c.to_dict() for c in self.contacts],
-        # })
+    def _active_client_to_dict(self, active_client):
+        return {
+            'address': active_client['client'].address,
+            'checks': [c.to_dict() for c in active_client['client']['checks']],
+            'contacts': [c.to_dict() for c in active_client['client']['contacts']],
+        }
 
+    def to_dict(self):
+        d = super(Monitor, self).to_dict(['id', 'name', 'enabled'])
         d.update({
-            'addresses': [a.to_dict() for a in self.addresses],
-            'checks': [c.to_dict() for c in self.checks],
-            'contacts': [c.to_dict() for c in self.contacts],
+            'clients': [self._active_client_to_dict(c) for c in self.active_clients()]
         })
 
         return d
-
-    # def __eq__(self, other_monitor):
-    #     return (set(self.addresses) == set(other_monitor.addresses)) and \
-    #         (set(self._checks) == set(other_monitor._checks)) and \
-    #         (set(self.contacts) == set(other_monitor.contacts))
 
     def __eq__(self, other_monitor):
         return (self.addresses == other_monitor.addresses) and (self._checks == other_monitor._checks) and \
