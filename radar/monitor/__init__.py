@@ -30,8 +30,6 @@ class MonitorError(Exception):
     pass
 
 
-# TODO: Use sets & implement __hash__ to actually get rid of duplicated monitors !
-# Also re-implement __eq__ without calling set.
 class Monitor(RemoteControl):
     def __init__(self, name='', addresses=[], checks=[], contacts=[], enabled=True):
         super(Monitor, self).__init__(enabled=enabled)
