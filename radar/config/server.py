@@ -149,6 +149,7 @@ class MonitorBuilder(ConfigBuilder):
         monitor = monitor[self.TAG]
 
         return Monitor(
+            name=monitor.get('name', ''),
             addresses=[self._build_address(address) for address in monitor['hosts']],
             checks=[c for c in self.checks if c.name in monitor['watch']],
             contacts=[c for c in self.contacts if c.name in monitor['notify']],
