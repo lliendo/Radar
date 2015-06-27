@@ -64,7 +64,6 @@ class Address(object):
 
         return self.n == Address(other_address).n
 
-    # TODO: Add test !
     def __hash__(self):
         return hash(self.ip) ^ hash(self.n)
 
@@ -91,7 +90,6 @@ class AddressRange(object):
 
         return start_ip, end_ip
 
-    # TODO: Add test !
     def __eq__(self, other_address_range):
         if type(other_address_range) == AddressRange:
             return self.start_ip == other_address_range.start_ip and \
@@ -100,7 +98,6 @@ class AddressRange(object):
         return self.start_ip.n == AddressRange(other_address_range).start_ip.n and \
             self.end_ip.n == AddressRange(other_address_range).end_ip.n
 
-    # TODO: Add test !
     def __hash__(self):
         return self.start_ip.__hash__() ^ self.end_ip.__hash__()
 
