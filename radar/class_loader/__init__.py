@@ -32,7 +32,6 @@ class ClassLoaderError(Exception):
     pass
 
 
-# TODO: Skip all inner defined classes.
 class ClassLoader(object):
     """
     This class offers a simple mechanism to get all user-defined
@@ -58,9 +57,7 @@ class ClassLoader(object):
         classes = []
 
         for _, module_name, _ in iter_modules(path=[self._module_path]):
-            # filename = join_path(self._module_path, module_name)
             module_path = join_path(self._module_path, module_name)
-            # class_names = self._get_class_names(filename + '.py')
             class_names = self._get_class_names(module_path + '/__init__.py')
             imported_module = __import__(module_name)
             classes += [getattr(imported_module, class_name) for class_name in class_names]
