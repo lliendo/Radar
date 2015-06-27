@@ -63,8 +63,6 @@ class Client(object):
         self.blocking_socket = blocking_socket
 
     def connect(self):
-        # Old implementation.
-        # if self.socket is not None:
         if self.is_connected():
             raise ClientError('Error - Client is already connected to {:}:{:}.'.format(self.address, self.port))
 
@@ -76,8 +74,6 @@ class Client(object):
         self.on_connect()
 
     def disconnect(self):
-        # Old implementation.
-        # if self.socket is None:
         if not self.is_connected():
             raise ClientError('Error - Client is not connected.')
 
@@ -87,8 +83,6 @@ class Client(object):
 
     # Despite its name this method resets the connection.
     def abort(self):
-        # Old implementation.
-        # if self.socket is None:
         if not self.is_connected():
             raise ClientError('Error - Client is not connected.')
 
