@@ -108,4 +108,5 @@ class Monitor(RemoteControl):
             (self.contacts == other_monitor.contacts)
 
     def __hash__(self):
-        return reduce(lambda l, m: l.__hash__() ^ m.__hash__(), self.addresses.union(self.checks).union(self.contacts))
+        sets_union = self.addresses.union(self.checks).union(self.contacts)
+        return hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), sets_union)
