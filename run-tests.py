@@ -23,12 +23,11 @@ Copyright 2015 Lucas Liendo.
 
 
 from nose import run as nose_run
-from os.path import dirname
+from os.path import dirname, abspath
 
 
 def get_tests_path():
-    return '{:}/radar/tests'.format(dirname(__file__))
-
+    return '{:}/radar/tests'.format(dirname(abspath(__file__)))
 
 if __name__ == '__main__':
     nose_run(argv=['-w', get_tests_path(), '--no-byte-compile'])
