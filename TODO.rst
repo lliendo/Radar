@@ -21,7 +21,7 @@ Roadmap
     * Add further OS support. Oracle Solaris. Other propietary OSes ?
     * Minimum plugins & checks library.
       Plugins : At least an EmailNotifier / SSLEmailNotifier.
-      Checks : CPU, RAM, Disks.
+      Checks : CPU, RAM, Disks, Uptime.
     * Build an abstract class that makes it easy build checks from Python.
     * Add secure TCP connections (using TLS/SSL sockets).
     * SNMP support ? We should !
