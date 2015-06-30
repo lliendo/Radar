@@ -76,9 +76,6 @@ class RadarLauncher(object):
 
         return platform_setup
 
-    # def _start_threads(self):
-    #     [t.start() for t in self._threads]
-
     def _start_threads(self, threads):
         [t.start() for t in threads]
 
