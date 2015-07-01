@@ -34,8 +34,9 @@ class RadarLauncherError(Exception):
 
 
 class CLI(object):
-    def __init__(self, program_name=''):
+    def __init__(self, program_name='', version=''):
         self._program_name = program_name
+        self._version = version
         self._options = self._build_parser().parse_args()
 
     def __getattr__(self, option):
@@ -47,6 +48,7 @@ class CLI(object):
     def _build_parser(self):
         parser = ArgumentParser(prog=self._program_name)
         parser.add_argument('-c', '--config', dest='main_config', action='store', required=True)
+        parser.add_argument('-v', '--version', action='version', version=self._version)
 
         return parser
 
@@ -56,12 +58,13 @@ class RadarLauncher(object):
     __metaclass__ = ABCMeta
 
     PROGRAM_NAME = ''
+    PROGRAM_VERSION = ''
     THREAD_POLLING_TIME = 0.2
     AVAILABLE_PLATFORMS = {}
 
     def __init__(self):
-        self._platform_setup = self._setup_platform(
-            CLI(program_name=self.PROGRAM_NAME).main_config)
+        cli = CLI(program_name=self.PROGRAM_NAME, version=self.PROGRAM_VERSION)
+        self._platform_setup = self._setup_platform(cli.main_config)
 
     def _setup_platform(self, path):
         platform = platform_name()
