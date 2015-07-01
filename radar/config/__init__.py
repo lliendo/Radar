@@ -43,19 +43,27 @@ class ConfigBuilder(object):
         self.config = self._lower_config_keys(self._read_config(path))
         self.logger = None
 
+    def _set_default_config(self):
+        try:
+            [self.config.setdefault(k, self.PLATFORM_CONFIG[k]) for k in self.PLATFORM_CONFIG.keys()]
+        except AttributeError:
+            raise ConfigError('Error - Wrong Radar main config format.')
+
     def _lower_config_keys(self, config):
         if type(config) == list:
             return [self._lower_config_keys(d) for d in config]
 
         for k in config.keys():
             if type(config[k]) == dict:
-                config[k.lower()] = self._lower_config_keys(config.pop(k))
+                lowered = self._lower_config_keys(config.pop(k))
             elif type(config[k]) == list and all([type(e) == str for e in config[k]]):
-                config[k.lower()] = config.pop(k)
+                lowered = config.pop(k)
             elif type(config[k]) == list:
-                config[k.lower()] = [self._lower_config_keys(d) for d in config[k]]
+                lowered = [self._lower_config_keys(d) for d in config[k]]
             else:
-                config[k.lower()] = config.pop(k)
+                lowered = config.pop(k)
+
+            config[k.lower()] = lowered
 
         return config
 
