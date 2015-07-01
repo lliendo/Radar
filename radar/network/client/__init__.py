@@ -81,7 +81,7 @@ class Client(object):
         self.socket = None
         self.on_disconnect()
 
-    # Despite its name this method resets the connection.
+    # Despite its name this method performs a TCP connection reset.
     def abort(self):
         if not self.is_connected():
             raise ClientError('Error - Client is not connected.')
