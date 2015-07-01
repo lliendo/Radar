@@ -2,34 +2,31 @@
 Radar Monitoring System
 =======================
 
-Radar is general purpose monitoring system. It aims to be simple and
-extendable. It uses arbitrary check execution and server side plugins to
-provide maximum flexibility. It is entirely written in the Python
-programming language and is distributed under the LGPL v3 license.
+Radar is general purpose monitoring system. It aims to be simple and extendable.
+It uses arbitrary check execution and server side plugins to provide maximum
+flexibility. It is entirely written in the Pythonprogramming language and is
+distributed under the LGPL v3 license.
 
 
 Status
 ------
 
-Radar is currently under testing and bug fixing, however its foundations
-are almost complete. This means that it might change, however if it does
-these changes won't affect your current setup.
-You can take a look at the TODO to have an idea what features are going 
-to (or might) be implemented in the future.
+Radar is currently under testing and bug fixing, however its foundations are
+almost complete. You can take a look at the TODO to have an idea what features
+are going to (or might) be implemented in the future.
 
 
 Documentation
 -------------
 
-You can read how to set up Radar (both client and server) from `here <https://...>`.
+You can read how to setup and use Radar (both client and server) from `here <https://...>`.
 If you think that documentation is incomplete or not clear enough, please let me know.
 
 
 Supported platforms
 -------------------
 
-Radar tries to run on most popular platforms. Currently suported platforms
-include :
+Radar tries to run on most popular platforms. Currently suported platforms include :
 
     * GNU/Linux.
     * FreeBSD.
@@ -62,7 +59,7 @@ Development
 
 If you're interested in how Radar works you are encouraged to take a look at
 the code, documentation about its internals are `here <https://...>`.
-Radar is designed to be both simple and easy to understand and run, it will
+Radar is designed to be both simple and easy to use and understand, it will
 always try to keep this way.
 
 
@@ -70,13 +67,13 @@ Tests
 -----
 
 Radar uses Travis CI to run its tests. You can however run tests manually by
-cloning the latest available code :
+cloning the latest available code (you will need to install `Tox <https://...>`) :
 
 .. code-block:: bash
 
     git clone https://github.com/lliendo/Radar.git
     cd Radar
-    python setup.py test
+    tox
 
 
 License
@@ -88,8 +85,8 @@ Radar is distributed under the LGPL v3 license.
 Contact
 -------
 
-If you find this software useful you can drop me a line. Bug reporting,
-suggestions, missing documentation and critics are always welcome !
+If you find this software useful you can drop me a line. Bug reporting, suggestions,
+missing documentation and critics are always welcome !
 
 
 Authors
