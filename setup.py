@@ -20,8 +20,16 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-# from setuptools import setup, find_packages
 from setuptools import setup
+
+
+def radar_dependencies():
+    dependencies = [
+        'nose==1.3.7',
+        'pyyaml==3.11',
+    ]
+
+    return dependencies
 
 
 setup(
@@ -29,7 +37,6 @@ setup(
     description='An extensible and generic monitoring system.',
     version='0.0.1b',
     packages=['radar'],
-    # packages=find_packages(),
     author='Lucas Liendo',
     author_email='mindmaster@gmail.com',
     keywords='monitor monitoring system administration',
@@ -37,14 +44,12 @@ setup(
     zip_safe=False,
     test_suite='nose.collector',
     url='https://github.com/lliendo/Radar',
-    install_requires=[
-        'nose==1.3.7',
-        'pyyaml==3.11',
-    ],
+    install_requires=radar_dependencies(),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: System Administrators',
+        'Intended Audience :: Information Technology',
         'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
         'Natural Language :: English',
         'Operating System :: MacOS :: MacOS X',
