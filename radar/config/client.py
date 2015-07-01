@@ -46,7 +46,7 @@ class ClientConfig(ConfigBuilder):
 
     def __init__(self, path=None):
         super(ClientConfig, self).__init__(path or self.MAIN_CONFIG_PATH)
-        [self.config.setdefault(k, self.PLATFORM_CONFIG[k]) for k in self.PLATFORM_CONFIG.keys()]
+        self._set_default_config()
 
     def build(self):
         return self
