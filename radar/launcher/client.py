@@ -30,6 +30,7 @@ from ..client import RadarClient
 class RadarClientLauncher(RadarLauncher):
 
     PROGRAM_NAME = 'Radar client'
+    PROGRAM_VERSION = '0.0.1'
     AVAILABLE_PLATFORMS = {
         'Linux': LinuxClientSetup,
         'Windows': WindowsClientSetup,
