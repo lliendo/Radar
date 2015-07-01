@@ -189,9 +189,7 @@ class ServerConfig(ConfigBuilder):
 
     def __init__(self, path=None):
         super(ServerConfig, self).__init__(path or self.MAIN_CONFIG_PATH)
-        # TODO: Analyze why with another YAML layout (from config_files) the
-        # following update fails drastically.
-        [self.config.setdefault(k, self.PLATFORM_CONFIG[k]) for k in self.PLATFORM_CONFIG.keys()]
+        self._set_default_config()
         self.monitors = []
         self.plugins = []
 
