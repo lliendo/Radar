@@ -201,4 +201,9 @@ class CheckGroup(RemoteControl):
         return self.name == other_check_group.name and self.checks == other_check_group.checks
 
     def __hash__(self):
-        return hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), self.checks)
+        if len(self.checks) > 1:
+            hashed = hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), self.checks)
+        else:
+            hashed = hash(self.name) ^ list(self.checks).pop().__hash__()
+
+        return hashed
