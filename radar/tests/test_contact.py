@@ -43,6 +43,12 @@ class TestContactGroup(TestCase):
         another_contact = Contact(name='another contact', email='another@contact.com')
         self.assertNotEqual(ContactGroup(contacts=[contact]), ContactGroup(contacts=[another_contact]))
 
+    def test_contact_groups_set(self):
+        contact = Contact(name='contact', email='contact@contact.com')
+        another_contact = Contact(name='another contact', email='another@contact.com')
+        self.assertEqual(len(set([ContactGroup(contacts=[contact, another_contact]), ContactGroup(contacts=[contact, another_contact])])), 1)
+        self.assertEqual(len(set([ContactGroup(contacts=[contact]), ContactGroup(contacts=[another_contact])])), 2)
+
     def test_to_dict(self):
         d = ContactGroup().to_dict()
         keys = ['id', 'name', 'contacts', 'enabled']
