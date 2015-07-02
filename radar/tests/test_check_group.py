@@ -71,6 +71,12 @@ class TestCheckGroup(TestCase):
         another_check = Check(name='Free RAM', path='free_ram.py')
         self.assertNotEqual(CheckGroup(checks=[check]), CheckGroup(checks=[another_check]))
 
+    def test_check_groups_set(self):
+        check = Check(name='Load average', path='load_average.py')
+        another_check = Check(name='Free RAM', path='free_ram.py')
+        self.assertEqual(len(set([CheckGroup(checks=[check, another_check]), CheckGroup(checks=[check, another_check])])), 1)
+        self.assertEqual(len(set([CheckGroup(checks=[check]), CheckGroup(checks=[another_check])])), 2)
+
     @raises(CheckError)
     def test_check_group_raises_exception_due_to_missing_id(self):
         check_group = CheckGroup(checks=[Check()])
