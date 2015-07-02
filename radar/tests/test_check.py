@@ -167,3 +167,11 @@ class TestCheck(TestCase):
     def test_check_as_list(self):
         self.assertEqual(type(self.check.as_list()), list)
         self.assertEqual(len(self.check.as_list()), 1)
+
+    def test_check_set(self):
+        check = Check(name='Load average', path='load_average', args='-a arg')
+        duplicated_check = Check(name='Load average', path='load_average', args='-a arg')
+        another_check = Check(name='Free RAM', path='free_ram', args='-a arg')
+        self.assertEqual(len(set([check, duplicated_check])), 1)
+        self.assertEqual(len(set([check, another_check])), 2)
+        self.assertEqual(len(set([check, duplicated_check, another_check])), 2)
