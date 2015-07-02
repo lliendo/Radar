@@ -64,4 +64,9 @@ class ContactGroup(RemoteControl):
             and self.contacts == other_contact_group.contacts
 
     def __hash__(self):
-        return hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), self.contacts)
+        if len(self.contacts) > 1:
+            hashed = hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), self.contacts)
+        else:
+            hashed = hash(self.name) ^ list(self.contacts).pop().__hash__()
+
+        return hashed
