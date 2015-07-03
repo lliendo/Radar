@@ -65,7 +65,15 @@ class Monitor(RemoteControl):
         return added
 
     def remove_client(self, client):
+        removed = False
+        pre_remove_clients_count = len(self.active_clients)
+
         self.active_clients = [c for c in self.active_clients if c['client'] != client]
+
+        if len(self.active_clients) < pre_remove_clients_count:
+            removed = True
+
+        return removed
 
     def update_checks(self, client, statuses):
         updated = {}
