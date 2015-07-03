@@ -21,33 +21,39 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from ..contact import Contact
+from ..contact import Contact, ContactGroup
 
 
-class TestContact(TestCase):
+class TestContactGroup(TestCase):
     def setUp(self):
-        self.contact = Contact()
+        self.contact_group = ContactGroup()
 
-    def test_contact_default_values(self):
-        self.assertNotEqual(self.contact.id, None)
-        self.assertEqual(self.contact.name, '')
-        self.assertEqual(self.contact.email, '')
-        self.assertEqual(self.contact.phone, '')
-        self.assertEqual(self.contact.enabled, True)
+    def test_contact_group_default_values(self):
+        self.assertNotEqual(self.contact_group.id, None)
+        self.assertEqual(self.contact_group.name, '')
+        self.assertEqual(type(self.contact_group.contacts), set)
+        self.assertEqual(len(self.contact_group.contacts), 0)
+        self.assertEqual(self.contact_group.enabled, True)
 
-    def test_contacts_are_equal(self):
-        self.assertEqual(self.contact, Contact())
+    def test_contact_groups_are_equal(self):
+        self.assertEqual(self.contact_group, ContactGroup())
 
-    def test_contacts_are_not_equal(self):
+    def test_contact_groups_are_not_equal(self):
         contact = Contact(name='contact', email='')
         another_contact = Contact(name='another contact', email='another@contact.com')
-        self.assertNotEqual(contact, another_contact)
+        self.assertNotEqual(ContactGroup(contacts=[contact]), ContactGroup(contacts=[another_contact]))
+
+    def test_contact_groups_set(self):
+        contact = Contact(name='contact', email='contact@contact.com')
+        another_contact = Contact(name='another contact', email='another@contact.com')
+        self.assertEqual(len(set([ContactGroup(contacts=[contact, another_contact]), ContactGroup(contacts=[contact, another_contact])])), 1)
+        self.assertEqual(len(set([ContactGroup(contacts=[contact]), ContactGroup(contacts=[another_contact])])), 2)
 
     def test_to_dict(self):
-        d = Contact().to_dict()
-        keys = ['id', 'name', 'email', 'phone']
+        d = ContactGroup().to_dict()
+        keys = ['id', 'name', 'contacts', 'enabled']
         self.assertTrue(all([k in d for k in keys]))
 
-    def test_check_as_list(self):
-        self.assertEqual(type(self.contact.as_list()), list)
-        self.assertEqual(len(self.contact.as_list()), 1)
+    # def test_check_as_list(self):
+    #     self.assertEqual(type(self.contact.as_list()), list)
+    #     self.assertEqual(len(self.contact.as_list()), 1)
