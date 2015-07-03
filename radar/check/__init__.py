@@ -64,6 +64,11 @@ class Check(RemoteControl):
         self.details = details
         self.data = data
 
+    # TODO: Add me to __init__().
+    def _validate(self):
+        if self.path == '':
+            raise CheckError('Error - Missing \'path\' from check definition.')
+
     def update_status(self, check_status):
         updated = False
 
