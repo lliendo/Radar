@@ -33,7 +33,7 @@ class MonitorError(Exception):
 class Monitor(RemoteControl):
     def __init__(self, name='', addresses=[], checks=[], contacts=[], enabled=True):
         super(Monitor, self).__init__(enabled=enabled)
-        self.name = ''
+        self.name = name
         self.addresses = set(addresses)
         self.checks = set(checks)
         self.contacts = set(contacts)
