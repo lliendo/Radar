@@ -112,7 +112,7 @@ class Monitor(RemoteControl):
         return d
 
     def __eq__(self, other_monitor):
-        return (self.addresses == other_monitor.addresses) and (self._checks == other_monitor._checks) and \
+        return (self.addresses == other_monitor.addresses) and (self.checks == other_monitor.checks) and \
             (self.contacts == other_monitor.contacts)
 
     def __hash__(self):
