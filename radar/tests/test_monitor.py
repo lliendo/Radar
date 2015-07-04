@@ -27,10 +27,14 @@ from ..check import Check, CheckGroup
 from ..contact import Contact, ContactGroup
 from ..monitor import Monitor, MonitorError
 from ..network.client import Client
+from ..protocol import Message
 
 
 class DummyClient(Client):
     def on_receive(self):
+        pass
+
+    def send_message(self, message_type, message, message_options=Message.OPTIONS['NONE']):
         pass
 
 
@@ -120,3 +124,18 @@ class TestMonitor(TestCase):
         updated_checks = self.monitor.update_checks(self.dummy_client, [check_status])
         self.assertEqual(list(self.monitor.active_clients[0]['checks']).pop().status, Check.STATUS['UNKNOWN'])
         self.assertEqual(updated_checks, {})
+
+    def test_monitor_to_dict(self):
+        self.monitor.add_client(self.dummy_client)
+        d = self.monitor.to_dict()
+        self.assertTrue('clients' in d)
+        self.assertTrue('id' in d)
+        self.assertTrue('enabled' in d)
+        self.assertTrue('name' in d)
+        self.assertEqual(type(d['clients']), list)
+
+    def test_monitor_polls_clients(self):
+        self.monitor.add_client(self.dummy_client)
+        message = self.monitor.poll(Message.TYPE['CHECK'])
+        [self.assertTrue(('path' in c) and ('id' in c)) for c in message]
+        self.assertEqual(type(message), list)
