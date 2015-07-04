@@ -66,9 +66,6 @@ class Message(object):
     def _unpack_header(self, header):
         return unpack(self.HEADER_FORMAT, header)
 
-    def _unpack_payload(self, payload, payload_size):
-        return unpack(('!' + self.PAYLOAD_FORMAT).format(payload_size), payload)
-
     def _pack(self, message_type, message_options, message):
         message_length = len(message)
         pack_format = (self.HEADER_FORMAT + self.PAYLOAD_FORMAT).format(message_length)
