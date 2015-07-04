@@ -106,11 +106,6 @@ class Message(object):
         self.header = BytesIO()
         self.payload = BytesIO()
 
-    # def receive(self, client):
-    #     message_type, message_options, payload_size = self._unpack_header(self._receive_header(client))
-    #     self._reset_buffers()
-    #     return message_type, self._receive_payload(client, payload_size)
-
     def receive(self, client):
         message_type, message_options, payload_size = self._unpack_header(self._receive_header(client))
         payload = self._receive_payload(client, payload_size)
