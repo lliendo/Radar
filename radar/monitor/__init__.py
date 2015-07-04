@@ -92,21 +92,21 @@ class Monitor(RemoteControl):
 
     def poll(self, message_type):
         message = reduce(lambda l, m: l + m, [c.to_check_dict() for c in self.checks if c.enabled])
+        [c['client'].send_message(message_type, serialize_json(message)) for c in self.active_clients]
 
-        if message:
-            [c['client'].send_message(message_type, serialize_json(message)) for c in self.active_clients]
+        return message
 
     def _active_client_to_dict(self, active_client):
         return {
             'address': active_client['client'].address,
-            'checks': [c.to_dict() for c in active_client['client']['checks']],
-            'contacts': [c.to_dict() for c in active_client['client']['contacts']],
+            'checks': [c.to_dict() for c in active_client['checks']],
+            'contacts': [c.to_dict() for c in active_client['contacts']],
         }
 
     def to_dict(self):
         d = super(Monitor, self).to_dict(['id', 'name', 'enabled'])
         d.update({
-            'clients': [self._active_client_to_dict(c) for c in self.active_clients()]
+            'clients': [self._active_client_to_dict(c) for c in self.active_clients]
         })
 
         return d
