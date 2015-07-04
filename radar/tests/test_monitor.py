@@ -88,10 +88,13 @@ class TestMonitor(TestCase):
     def test_add_client_fails(self):
         self.assertFalse(self.monitor.add_client(DummyClient(address='192.168.0.101', port=10000)))
 
-    def test_remove_client(self):
+    def test_remove_client_succeeds(self):
         self.monitor.add_client(self.dummy_client)
         self.assertEqual(len(self.monitor.active_clients), 1)
         self.assertTrue(self.monitor.remove_client(self.dummy_client))
+
+    def test_remove_client_fails(self):
+        self.assertFalse(self.monitor.remove_client(self.dummy_client))
 
     def test_monitors_are_equal(self):
         another_monitor = Monitor(
