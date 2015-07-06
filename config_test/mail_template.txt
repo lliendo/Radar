@@ -1,7 +1,0 @@
-Radar - Host : %(address)s
---------------------------
-    Date         : %(date)s
-    Status       : %(status)s
-    Check        : %(name)s
-    Prev. status : %(previous_status)s
-    Details      : %(details)s
