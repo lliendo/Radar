@@ -103,13 +103,19 @@ class Message(object):
         self.header = BytesIO()
         self.payload = BytesIO()
 
+    def _invalid_header(self, message_type, message_options, payload_size):
+        return (message_type not in self.TYPE.values()) or \
+            (message_options not in self.OPTIONS.values()) or payload_size == 0
+
     def receive(self, client):
         message_type, message_options, payload_size = self._unpack_header(self._receive_header(client))
+
+        if self._invalid_header(message_type, message_options, payload_size):
+            self._reset_buffers()
+            raise ClientAbortError()
+
         payload = self._receive_payload(client, payload_size)
         self._reset_buffers()
-
-        if message_type not in self.TYPE.values():
-            raise ClientAbortError()
 
         return message_type, payload
 
