@@ -20,7 +20,8 @@ Documentation
 -------------
 
 You can read how to setup and use Radar (both client and server) from `here <https://...>`.
-If you think that documentation is incomplete or not clear enough, please let me know.
+If you think that documentation is incomplete or not clear enough, please let
+me know.
 
 
 Supported platforms
@@ -85,8 +86,8 @@ Radar is distributed under the LGPL v3 license.
 Contact
 -------
 
-If you find this software useful you can drop me a line. Bug reporting, suggestions,
-missing documentation and critics are always welcome !
+If you find this software useful you can drop me a line. Bug reporting,
+suggestions, missing documentation and critics of any kind are always welcome !
 
 
 Authors
