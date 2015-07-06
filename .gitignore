@@ -6,3 +6,6 @@ dist
 *.swp
 *.old.py
 *.ropeproject
+config_files
+config_test
+clean
