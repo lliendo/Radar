@@ -1,0 +1,36 @@
+ * Introduction.
+ * Minimum requirements.
+ * Installation.
+   * Checking the installation.
+ * Configuration
+   * Server
+     * Main configuration.
+     * Checks and contacts configuration.
+     * Monitors configuration
+   * Client
+     * Main configuration.
+ * Checks development.
+   * Introduction
+   * Guidelines.
+ * Plugins development.
+   * Introduction
+   * Guidelines.
+ * Radar internals.
+   * Introduction.
+   * Design philoshopy.
+   * Code layout.
+   * Application class diagram.
+   * Initialization.
+     * Client.
+     * Server.
+   * Threads.
+     * Client.
+     * Server.
+   * Protocol and message exchange.
+   * Check execution.
+   * Plugins.
+   * Tests.
+ * Getting the code.
+ * FAQ.
+ * Roadmap.
+ * Authors.
