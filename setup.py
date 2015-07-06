@@ -40,7 +40,7 @@ setup(
     author='Lucas Liendo',
     author_email='mindmaster@gmail.com',
     keywords='monitor monitoring system administration',
-    license='LGPL',
+    license='LGPLv3',
     zip_safe=False,
     test_suite='nose.collector',
     url='https://github.com/lliendo/Radar',
