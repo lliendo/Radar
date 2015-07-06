@@ -126,7 +126,7 @@ class Check(RemoteControl):
 
     def _deserialize_output(self, output):
         try:
-            d = deserialize_json(output)
+            d = {k.lower(): v for k, v in deserialize_json(output).iteritems() if k.lower() in ['status', 'details', 'data']}
             d.update({
                 'status': self.STATUS[d['status'].upper()],
                 'id': self.id,
@@ -134,7 +134,7 @@ class Check(RemoteControl):
         except ValueError, e:
             raise CheckError('Error - Couldn\'t parse JSON from check output. Details : {:}'.format(e))
         except KeyError:
-            raise CheckError('Error - Missing \'status\' from check output.')
+            raise CheckError('Error - Missing or invalid \'status\' from check output.')
 
         return d
 
