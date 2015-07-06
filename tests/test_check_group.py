@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from ..check import Check, CheckGroup, CheckError
+from radar.check import Check, CheckGroup, CheckError
 
 
 class TestCheckGroup(TestCase):

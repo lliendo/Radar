@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from ..misc import AddressError, Address
+from radar.misc import AddressError, Address
 
 
 class TestAddress(TestCase):

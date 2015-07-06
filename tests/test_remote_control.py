@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from ..misc import RemoteControl
+from radar.misc import RemoteControl
 
 
 class DummyRemoteControl(RemoteControl):

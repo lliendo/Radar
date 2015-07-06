@@ -22,12 +22,12 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from ..misc import Address, AddressRange
-from ..check import Check, CheckGroup
-from ..contact import Contact, ContactGroup
-from ..monitor import Monitor, MonitorError
-from ..network.client import Client
-from ..protocol import Message
+from radar.misc import Address, AddressRange
+from radar.check import Check, CheckGroup
+from radar.contact import Contact, ContactGroup
+from radar.monitor import Monitor, MonitorError
+from radar.network.client import Client
+from radar.protocol import Message
 
 
 class DummyClient(Client):

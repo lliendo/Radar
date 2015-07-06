@@ -27,7 +27,7 @@ from os.path import dirname, abspath
 
 
 def get_tests_path():
-    return '{:}/radar/tests'.format(dirname(abspath(__file__)))
+    return '{:}/tests'.format(dirname(abspath(__file__)))
 
 if __name__ == '__main__':
     nose_run(argv=['-w', get_tests_path(), '--no-byte-compile'])

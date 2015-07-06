@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from ..contact import Contact
+from radar.contact import Contact
 
 
 class TestContact(TestCase):

@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from unittest import TestCase
 from nose.tools import raises
 from json import dumps as serialize_json
-from ..check import Check, CheckError
+from radar.check import Check, CheckError
 
 
 class TestCheck(TestCase):

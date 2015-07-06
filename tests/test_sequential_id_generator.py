@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from ..misc import SequentialIdGenerator
+from radar.misc import SequentialIdGenerator
 
 
 class TestSequentialIdGenerator(TestCase):

@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from ..contact import Contact, ContactGroup
+from radar.contact import Contact, ContactGroup
 
 
 class TestContactGroup(TestCase):
