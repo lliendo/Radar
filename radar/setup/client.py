@@ -33,6 +33,7 @@ class LinuxClientSetup(ClientConfig, LinuxSetup):
     PLATFORM_CONFIG.update({
         'pidfile': '/var/run/radar/client.pid',
         'log file': '/var/log/radar/client.log',
+        'checks': '/usr/local/radar/client/checks'
     })
 
     def configure(self, launcher):
