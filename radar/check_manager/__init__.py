@@ -43,7 +43,7 @@ class CheckManager(Thread):
         }
 
     def _build_checks(self, checks):
-        return [Check(**c) for c in checks]
+        return [Check(**c, platform_setup=self._platform_setup) for c in checks]
 
     def _on_check(self, message_type, message):
         checks = self._build_checks(message)
