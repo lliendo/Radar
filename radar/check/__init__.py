@@ -23,8 +23,10 @@ Copyright 2015 Lucas Liendo.
 from functools import reduce
 from json import loads as deserialize_json
 from os import stat
+from os.path import isabs as is_absolute_path
 from shlex import split as split_args
 from subprocess import Popen, PIPE
+from platform import system as platform_name
 from ..misc import RemoteControl
 
 
@@ -52,17 +54,16 @@ class Check(RemoteControl):
 
         return super(Check, cls).__new__(cls, *args, **kwargs)
 
-    def __init__(self, id=None, name='', path='', args='',
-                 status=STATUS['UNKNOWN'], previous_status=STATUS['UNKNOWN'],
-                 details='', data=None, enabled=True):
+    def __init__(self, id=None, name='', path='', args='', details='', data=None, enabled=True, platform_setup=None):
         super(Check, self).__init__(id=id, enabled=enabled)
         self.name = name
         self.path = path
         self.args = args
-        self.status = status
-        self.previous_status = previous_status
         self.details = details
         self.data = data
+        self._platform_setup = platform_setup
+        self.status = self.STATUS['UNKNOWN']
+        self.previous_status = self.STATUS['UNKNOWN']
 
     # TODO: Add me to __init__().
     def _validate(self):
@@ -138,27 +139,39 @@ class Check(RemoteControl):
 
         return d
 
-    def _owned_by_user(self, user):
+    def _owned_by_user(self, path, user):
         try:
-            return getpwnam(user).pw_uid == stat(self.path)['st_uid']
+            return getpwnam(user).pw_uid == stat(path)['st_uid']
         except KeyError:
             raise CheckError('Error - User : \'{:}\' doesn\'t exist.'.format(user))
 
-    def _owned_by_group(self, group):
+    def _owned_by_group(self, path, group):
         try:
-            return getpwnam(group).pw_gid == stat(self.path)['st_gid']
+            return getpwnam(group).pw_gid == stat(path)['st_gid']
         except KeyError:
             raise CheckError('Error - Group : \'{:}\' doesn\'t exist.'.format(group))
 
-    def _owned_by(self, user, group):
+    def _owned_by(self, path, user, group):
         return self._owned_by_user(user) and self._owned_by_group(group)
 
-    def _call_popen(self, user, group, enforce_ownership):
-        if enforce_ownership and not self._owned_by(user, group):
-            raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
-                self.path, user, group))
+    def _build_absolute_path(self, path):
+        absolute_path = self._platform_setup['checks']
 
-        return Popen([self.path] + split_args(self.args), stdout=PIPE).communicate()[0]
+        if platform_name() != 'Windows':
+            absolute_path += '' if self._platform_setup.endswith('/') else '/'
+        else:
+            absolute_path += '' if self._platform_setup.endswith('\\') else '\\'
+
+        return path if is_absolute_path(path) else absolute_path + path
+
+    def _call_popen(self, user, group, enforce_ownership):
+        absolute_path = self._build_absolute_path(self.path)
+
+        if enforce_ownership and not self._owned_by(absolute_path, user, group):
+            raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
+                absolute_path, user, group))
+
+        return Popen([absolute_path] + split_args(self.args), stdout=PIPE).communicate()[0]
 
     def run(self, user, group, enforce_ownership):
         try:
