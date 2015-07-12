@@ -24,7 +24,7 @@ from Queue import Queue
 from . import RadarLauncher
 from ..client_manager import ClientManager
 from ..server import RadarServer, RadarServerPoller
-from ..setup.server import LinuxServerSetup, WindowsServerSetup
+from ..platform_setup.server import LinuxServerSetup, WindowsServerSetup
 from ..plugin import PluginManager
 
 

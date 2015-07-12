@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from Queue import Queue
 from . import RadarLauncher
-from ..setup.client import LinuxClientSetup, WindowsClientSetup
+from ..platform_setup.client import LinuxClientSetup, WindowsClientSetup
 from ..check_manager import CheckManager
 from ..client import RadarClient
 
