@@ -28,6 +28,7 @@ from ..monitor.select_monitor import SelectMonitor
 from ..monitor.poll_monitor import PollMonitor
 from ..monitor.epoll_monitor import EPollMonitor
 from ..monitor.kqueue_monitor import KQueueMonitor
+from ..monitor.iocp_monitor import IOCPMonitor
 from ..client import ClientReceiveError, ClientSendError, ClientDisconnected, ClientAbortError, \
     Client as BaseClient
 
@@ -55,7 +56,7 @@ class Server(object):
     AVAILABLE_PLATFORM_MONITORS = {
         'BSD': [KQueueMonitor, PollMonitor, SelectMonitor],
         'Linux': [EPollMonitor, PollMonitor, SelectMonitor],
-        'Windows': [SelectMonitor],
+        'Windows': [IOCPMonitor, SelectMonitor],
     }
 
     Client = None
