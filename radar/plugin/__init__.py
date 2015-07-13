@@ -114,6 +114,7 @@ class PluginManager(Thread):
         self._queue = queue
         self.stop_event = Event()
 
+    # We dereference objects ids, to avoid re-instaintiating duplicate objects.
     def _dereference(self, ids):
         return [cast(object_id, py_object).value for object_id in ids]
 
