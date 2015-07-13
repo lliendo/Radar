@@ -35,23 +35,25 @@ class IOCPMonitor(NetworkMonitor):
 
     def __init__(self, *args, **kwargs):
         super(IOCPMonitor, self).__init__(*args, **kwargs)
+        self._fds = []
         self._iocp_monitor = CreateIoCompletionPort(INVALID_HANDLE_VALUE, None, 0, 0)
         self._register(self._server.socket)
-        self.fds = []
 
     def _register(self, fd):
         # Is it possible to use the fd directly ?
         # CreateIoCompletionPort(fd.fileno(), self._iocp_monitor, 0, 0)
         CreateIoCompletionPort(fd.fileno(), self._iocp_monitor, fd.fileno(), 0)
+        self._fds.append(fd)
 
     def on_disconnect(self, client):
         # Is it possible to use the fd directly ?
         CancelIo(client.socket.fileno())
+        self._fds.remove(client.socket)
 
     def on_connect(self, client):
         self._register(client.socket)
 
     def watch(self):
         # Does overlapped contain my socket object, my fd ?       
-        _, _, fd, overlapped = GetQueuedCompletionStatus(self._iocp_monitor, self._timeout)
-        super(IOCPMonitor, self)._watch([fd])
+        _, _, ready_fileno, overlapped = GetQueuedCompletionStatus(self._iocp_monitor, self._timeout)
+        super(IOCPMonitor, self)._watch([fd for fd in self._fds if fd.fileno() == ready_fileno])
