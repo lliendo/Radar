@@ -30,7 +30,7 @@ from ..plugin import PluginManager
 
 class RadarServerLauncher(RadarLauncher):
 
-    PROGRAM_NAME = 'Radar server'
+    PROGRAM_NAME = 'radar-server'
     PROGRAM_VERSION = '0.0.1'
     AVAILABLE_PLATFORMS = {
         'Linux': LinuxServerSetup,
