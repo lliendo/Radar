@@ -46,6 +46,7 @@ class Message(object):
     OPTIONS = {
         'NONE': 0x00,
         'COMPRESS': 0x01,
+        'ENCRYPT': 0x02,
     }
 
     # TODO: Use just one buffer ?
