@@ -4,7 +4,7 @@ Radar Monitoring System
 
 Radar is general purpose monitoring system. It aims to be simple and extendable.
 It uses arbitrary check execution and server side plugins to provide maximum
-flexibility. It is entirely written in the Pythonprogramming language and is
+flexibility. It is entirely written in the Python programming language and is
 distributed under the LGPL v3 license.
 
 
