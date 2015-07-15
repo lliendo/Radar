@@ -1,5 +1,5 @@
 Checking the installation
--------------------------
+=========================
 
     You can check that Radar was successfully installed by running from the
     command line :
@@ -22,13 +22,13 @@ Checking the installation
 
         * FreeBSD :
 
-        * Microsoft Windows :
-
         * NetBSD :
 
         * OpenBSD :
 
         * Darwin / Mac OS X :
+
+        * Microsoft Windows :
 
     It is a good practice to use these default directories. Of course if
     don't want to use those locations you can change them from the main
