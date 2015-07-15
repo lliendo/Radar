@@ -81,7 +81,7 @@ class ConfigBuilder(object):
     def build(self):
         pass
 
-    def configure(self):
+    def configure(self, *args):
         self.logger = RadarLogger(self.config['log file'])
 
     def tear_down(self):
