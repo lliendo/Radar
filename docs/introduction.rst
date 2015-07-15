@@ -1,5 +1,5 @@
 Introduction
-------------
+============
 
     Welcome to Radar ! Radar is a simple and easy to use monitoring
     tool designed with flexibility and extendability in mind.
