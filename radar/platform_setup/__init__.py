@@ -20,15 +20,6 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-# from abc import ABCMeta
-# from os import getpid, seteuid, setegid, remove, mkdir
-# from os.path import dirname, isfile as file_exists
-# from pwd import getpwnam
-# from grp import getgrnam
-# from signal import signal, SIGTERM, SIGINT
-# from errno import EEXIST
-
-
 from abc import ABCMeta
 from os import getpid, remove, mkdir
 from os.path import dirname, isfile as file_exists
@@ -54,7 +45,6 @@ class LinuxSetup(object):
             raise LinuxSetupError('')
 
         return object.__new__(cls, *args, **kwargs)
-        # return super(LinuxSetup, cls).__new__(cls, *args, **kwargs)
 
     def _create_dir(self, path):
         try:
