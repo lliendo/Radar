@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from copy import copy
 from ..config.server import ServerConfig
 from . import LinuxSetup
 
@@ -33,7 +34,7 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
     BASE_PATH = '/etc/radar/server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/radar.yml'
-    PLATFORM_CONFIG = ServerConfig.DEFAULT_CONFIG
+    PLATFORM_CONFIG = copy(ServerConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'checks': PLATFORM_CONFIG_PATH + '/checks',
         'contacts': PLATFORM_CONFIG_PATH + '/contacts',
@@ -67,7 +68,7 @@ class WindowsServerSetup(ServerConfig):
     BASE_PATH = 'C:\\Program Files\\Radar\\Server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '\\radar.yml'
-    PLATFORM_CONFIG = ServerConfig.DEFAULT_CONFIG
+    PLATFORM_CONFIG = copy(ServerConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'checks': PLATFORM_CONFIG_PATH + '\\Checks',
         'contacts': PLATFORM_CONFIG_PATH + '\\Contacts',
@@ -75,3 +76,23 @@ class WindowsServerSetup(ServerConfig):
         'plugins': PLATFORM_CONFIG_PATH + '\\Plugins',
         'log file': BASE_PATH + '\\Log\\server.log'
     })
+
+    def _configure_plugins(self):
+        [p.configure(self.logger) for p in self.plugins]
+
+    def _shutdown_plugins(self):
+        [p.on_shutdown() for p in self.plugins]
+
+    # TODO : Enforce ownership is not currently available on Windows platforms.
+    # Try to make this option available.
+    def _disable_enforce_ownership(self):
+        self.config['enforce ownership'] = False
+
+    def configure(self, launcher):
+        super(WindowsServerSetup, self).configure()
+        self._configure_plugins()
+        self._disable_enforce_ownership()
+
+    def tear_down(self, launcher):
+        self._shutdown_plugins()
+        super(WindowsServerSetup, self).tear_down()
