@@ -215,9 +215,6 @@ class ServerConfig(ConfigBuilder):
         plugin_classes = ClassLoader(self.config['plugins']).get_classes(subclass=ServerPlugin)
         return set([P() for P in plugin_classes])
 
-    def _unload_plugins(self):
-        [p.on_shutdown() for p in self.plugins]
-
     def build(self):
         self.monitors = self._build_monitors()
         self.plugins = self._load_plugins()
