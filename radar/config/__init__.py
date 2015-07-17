@@ -49,6 +49,7 @@ class ConfigBuilder(object):
         except AttributeError:
             raise ConfigError('Error - Wrong Radar main config format.')
 
+    # This is ugly.
     def _lower_config_keys(self, config):
         if type(config) == list:
             return [self._lower_config_keys(d) for d in config]
