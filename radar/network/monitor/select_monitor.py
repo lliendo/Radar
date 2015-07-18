@@ -26,6 +26,7 @@ from . import NetworkMonitor, NetworkMonitorError
 class SelectMonitor(NetworkMonitor):
     def __new__(cls, *args, **kwargs):
         try:
+            global select
             from select import select
         except ImportError:
             raise NetworkMonitorError('SelectMonitor')
