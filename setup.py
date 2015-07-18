@@ -33,7 +33,7 @@ def radar_dependencies():
 
 
 setup(
-    name='Radar Monitoring System',
+    name='Radar-Monitoring-System',
     description='An extensible and generic monitoring system.',
     version='0.0.1b',
     packages=['radar'],
