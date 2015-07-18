@@ -155,12 +155,12 @@ class Check(RemoteControl):
         return self._owned_by_user(user) and self._owned_by_group(group)
 
     def _build_absolute_path(self, path):
-        absolute_path = self._platform_setup['checks']
+        absolute_path = self._platform_setup.PLATFORM_CONFIG['checks']
 
         if platform_name() != 'Windows':
-            absolute_path += '' if self._platform_setup.endswith('/') else '/'
+            absolute_path += '' if self._platform_setup.PLATFORM_CONFIG['checks'].endswith('/') else '/'
         else:
-            absolute_path += '' if self._platform_setup.endswith('\\') else '\\'
+            absolute_path += '' if self._platform_setup.PLATFORM_CONFIG['checks'].endswith('\\') else '\\'
 
         return path if is_absolute_path(path) else absolute_path + path
 
