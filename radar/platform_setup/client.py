@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from copy import copy
 from ..config.client import ClientConfig
 from . import LinuxSetup
 
@@ -29,7 +30,7 @@ class LinuxClientSetup(ClientConfig, LinuxSetup):
     BASE_PATH = '/etc/radar/client'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/radar.yml'
-    PLATFORM_CONFIG = ClientConfig.DEFAULT_CONFIG
+    PLATFORM_CONFIG = copy(ClientConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'pid file': '/var/run/radar/client.pid',
         'log file': '/var/log/radar/client.log',
@@ -52,7 +53,7 @@ class WindowsClientSetup(ClientConfig):
     BASE_PATH = 'C:\\Program Files\\Radar\\Client'
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '\\radar.yml'
-    PLATFORM_CONFIG = ClientConfig.DEFAULT_CONFIG
+    PLATFORM_CONFIG = copy(ClientConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'log file': BASE_PATH + '\\Log\\client.log',
     })
