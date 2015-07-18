@@ -55,5 +55,5 @@ class IOCPMonitor(NetworkMonitor):
 
     def watch(self):
         # Does overlapped contain my socket object, my fd ?       
-        _, _, ready_fileno, overlapped = GetQueuedCompletionStatus(self._iocp_monitor, int(self._timeout) * 1000)
+        _, _, ready_fileno, overlapped = GetQueuedCompletionStatus(self._iocp_monitor, int(self._timeout * 1000))
         super(IOCPMonitor, self)._watch([fd for fd in self._fds if fd.fileno() == ready_fileno])
