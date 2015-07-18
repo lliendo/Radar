@@ -26,7 +26,7 @@ from ctypes import cast, py_object
 from functools import reduce
 from threading import Thread, Event
 from time import time
-from ..misc import SequentialIdGenerator, RemoteControl
+from ..misc import RemoteControl
 from ..protocol import Message
 
 
@@ -50,7 +50,7 @@ class ServerPlugin(RemoteControl):
         if not self.PLUGIN_NAME:
             raise ServerPluginError('Error - Plugin name not defined.')
 
-        self.id = SequentialIdGenerator().generate()
+        super(ServerPlugin, self).__init__()
         self._logger = None
         self._message_actions = {
             Message.TYPE['CHECK REPLY']: self.on_check_reply,
@@ -114,7 +114,8 @@ class PluginManager(Thread):
         self._queue = queue
         self.stop_event = Event()
 
-    # We dereference objects ids, to avoid re-instaintiating duplicate objects.
+    # We dereference ids, to avoid re-instantiating objects. We can actually
+    # do this because we're on the same process address space.
     def _dereference(self, ids):
         return [cast(object_id, py_object).value for object_id in ids]
 
