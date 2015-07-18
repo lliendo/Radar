@@ -23,8 +23,11 @@ Copyright 2015 Lucas Liendo.
 
 
 from platform import system as platform_name
-from os import mkdir
-# from shutil import copyfile
+from os import chmod, makedirs
+from os.path import dirname
+from collections import OrderedDict
+from errno import EEXIST
+from stat import S_IRUSR, S_IWUSR, S_IXUSR
 from radar.platform_setup.server import LinuxServerSetup, WindowsServerSetup
 
 
@@ -39,46 +42,95 @@ class PlatformServerConfig(object):
         'Windows': WindowsServerSetup,
     }
 
+    TEMPLATES_PATH = dirname(__file__) + '/templates'
+
     def __init__(self):
         self.platform_name = platform_name()
-        self.PlatformSetup = self._get_platform()
+        self.PlatformSetup = self._get_platform_setup()
 
-    def create_dir(self, path):
-        mkdir(path)
-
-    # def copy_main_config_file(self):
-    #     copyfile()
-
-    def configure_radar_directories(self):
-        defaults = [
-            ('Config directory path : [{:}] ? ', self.PlatformSetup.PLATFORM_CONFIG_PATH),
-            ('Main config file path : [{:}] ? ', self.PlatformSetup.MAIN_CONFIG_PATH),
-            ('Checks directory path : [{:}] ? ', self.PlatformSetup.PLATFORM_CONFIG['checks']),
-            ('Contacts directory path : [{:}] ? ', self.PlatformSetup.PLATFORM_CONFIG['contacts']),
-            ('Monitors directory path : [{:}] ? ', self.PlatformSetup.PLATFORM_CONFIG['monitors']),
-            ('Plugins directory path : [{:}] ? ', self.PlatformSetup.PLATFORM_CONFIG['plugins']),
-        ]
-
-        for message, path in defaults:
-            path = raw_input(message.format(path))
-
-    def _get_platform(self):
+    def _get_platform_setup(self):
         try:
-            platform_setup = self.AVAILABLE_PLATFORMS[self.platform_name]
+            PlatformSetup = self.AVAILABLE_PLATFORMS[self.platform_name]
             print '\nDetected platform : {:}\n'.format(self.platform_name)
         except KeyError:
             raise PlatformConfigError('Error - Platform {:} is not currently supported.'.format(self.platform_name))
 
-        return platform_setup
+        return PlatformSetup
+
+    # Ugly.
+    def _get_default_configuration(self):
+        return OrderedDict([
+            ('address', ('Listen address ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['listen']['address'])),
+            ('port', ('Port to listen on ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['listen']['port'])),
+            ('user', ('User to run Radar as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['user'])),
+            ('group', ('Group to run Radas as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['group'])),
+            ('polling time', ('Polling time ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['polling time'])),
+            ('platform config', ('Config directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG_PATH)),
+            ('main config', ('Main config file path ? [{:}] ', self.PlatformSetup.MAIN_CONFIG_PATH)),
+            ('checks', ('Checks directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['checks'])),
+            ('contacts', ('Contacts directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['contacts'])),
+            ('monitors', ('Monitors directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['monitors'])),
+            ('plugins', ('Plugins directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['plugins'])),
+            ('pid file', ('Pid file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['pid file'])),
+            ('log file', ('Log file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['log file'])),
+        ])
+
+    def _configure(self, configuration):
+        for k, (message, path) in configuration.iteritems():
+            path = raw_input(message.format(path)) or path
+            configuration[k] = (message, path)
+
+        return configuration
+
+    def _create_directory(self, path):
+        try:
+            makedirs(path)
+        except OSError, e:
+            if (e.errno != EEXIST):
+                raise PlatformConfigError('Error - Couldn\'t create : \'{:}\'. Details : {:}.'.format(path, e))
+
+        try:
+            chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
+        except Exception, e:
+            raise PlatformConfigError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, e))
+
+    def _create_directories(self, configuration):
+        directories = ['platform config', 'checks', 'contacts', 'monitors', 'plugins']
+        [self._create_directory(path) for k, (_, path) in configuration.iteritems() if k in directories]
+
+    def _read_template(self, path):
+        with open(path, 'r') as fd:
+            return fd.read()
+
+    def _render_template(self, template, configuration):
+        return template.format(*[v for _, (_, v) in configuration.iteritems()])
+
+    def _save_template(self, template, path):
+        with open(path, 'a') as fd:
+            fd.write(template)
+
+        try:
+            chmod(path, S_IRUSR | S_IWUSR)
+        except Exception, e:
+            raise PlatformConfigError('Error - Couldn\'t change permission of : \'{:}\' file. Details : {:}.'.format(path, e))
+
+    def _print_header(self):
+        print 'Press enter for default value or input a custom one :'
+        print '-----------------------------------------------------\n'
 
     def run(self):
-        print 'Press enter for default value or input a custom one :'
-        print '-----------------------------------------------------'
-        self.configure_radar_directories()
+        self._print_header()
+        configuration = self._configure(self._get_default_configuration())
+        self._create_directories(configuration)
+        template = self._read_template(self.TEMPLATES_PATH + '/radar-server.templ')
+        self._save_template(self._render_template(template, configuration), configuration['main config'][1])
 
 
 if __name__ == '__main__':
     try:
         PlatformServerConfig().run()
+        print 'Done !'
+    except KeyboardInterrupt:
+        print '\n\nAborting configuration...'
     except Exception, e:
         print e
