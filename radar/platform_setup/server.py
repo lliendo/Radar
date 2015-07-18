@@ -40,7 +40,7 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
         'contacts': PLATFORM_CONFIG_PATH + '/contacts',
         'monitors': PLATFORM_CONFIG_PATH + '/monitors',
         'plugins': '/usr/local/radar/server/plugins',
-        'pidfile': '/var/run/radar/server.pid',
+        'pid file': '/var/run/radar/server.pid',
         'log file': '/var/log/radar/server.log',
     })
 
@@ -53,12 +53,12 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
     def configure(self, launcher):
         super(LinuxServerSetup, self).configure()
         self._configure_plugins()
-        self._write_pid_file(self.config['pidfile'])
+        self._write_pid_file(self.config['pid file'])
         self._install_signal_handlers(launcher)
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
     def tear_down(self, launcher):
-        self._delete_pid_file(self.config['pidfile'])
+        self._delete_pid_file(self.config['pid file'])
         self._shutdown_plugins()
         super(LinuxServerSetup, self).tear_down()
 

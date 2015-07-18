@@ -31,19 +31,19 @@ class LinuxClientSetup(ClientConfig, LinuxSetup):
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/radar.yml'
     PLATFORM_CONFIG = ClientConfig.DEFAULT_CONFIG
     PLATFORM_CONFIG.update({
-        'pidfile': '/var/run/radar/client.pid',
+        'pid file': '/var/run/radar/client.pid',
         'log file': '/var/log/radar/client.log',
         'checks': '/usr/local/radar/client/checks'
     })
 
     def configure(self, launcher):
         super(LinuxClientSetup, self).configure()
-        self._write_pid_file(self.config['pidfile'])
+        self._write_pid_file(self.config['pid file'])
         self._install_signal_handlers(launcher)
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
     def tear_down(self, launcher):
-        self._delete_pid_file(self.config['pidfile'])
+        self._delete_pid_file(self.config['pid file'])
         super(LinuxClientSetup, self).tear_down()
 
 
