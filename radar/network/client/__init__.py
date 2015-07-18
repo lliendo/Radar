@@ -170,7 +170,7 @@ class Client(object):
         except ClientSendError, error:
             self.on_send_error(error)
         except ClientDisconnected:
-            self._on_disconnect()
+            self.on_disconnect()
 
     def _watch(self, fds):
         ready_fds = []
