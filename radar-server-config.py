@@ -22,20 +22,13 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from platform import system as platform_name
-from os import chmod, makedirs
-from os.path import dirname
 from collections import OrderedDict
-from errno import EEXIST
-from stat import S_IRUSR, S_IWUSR, S_IXUSR
+from os.path import dirname
+from radar.initial_setup import InitialSetup
 from radar.platform_setup.server import LinuxServerSetup, WindowsServerSetup
 
 
-class PlatformConfigError(Exception):
-    pass
-
-
-class PlatformServerConfig(object):
+class ServerInitialSetup(InitialSetup):
 
     AVAILABLE_PLATFORMS = {
         'Linux': LinuxServerSetup,
@@ -44,20 +37,6 @@ class PlatformServerConfig(object):
 
     TEMPLATES_PATH = dirname(__file__) + '/templates'
 
-    def __init__(self):
-        self.platform_name = platform_name()
-        self.PlatformSetup = self._get_platform_setup()
-
-    def _get_platform_setup(self):
-        try:
-            PlatformSetup = self.AVAILABLE_PLATFORMS[self.platform_name]
-            print '\nDetected platform : {:}\n'.format(self.platform_name)
-        except KeyError:
-            raise PlatformConfigError('Error - Platform {:} is not currently supported.'.format(self.platform_name))
-
-        return PlatformSetup
-
-    # Ugly.
     def _get_default_configuration(self):
         return OrderedDict([
             ('address', ('Listen address ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['listen']['address'])),
@@ -75,62 +54,6 @@ class PlatformServerConfig(object):
             ('log file', ('Log file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['log file'])),
         ])
 
-    def _configure(self, configuration):
-        for k, (message, path) in configuration.iteritems():
-            path = raw_input(message.format(path)) or path
-            configuration[k] = (message, path)
-
-        return configuration
-
-    def _create_directory(self, path):
-        try:
-            makedirs(path)
-        except OSError, e:
-            if (e.errno != EEXIST):
-                raise PlatformConfigError('Error - Couldn\'t create : \'{:}\'. Details : {:}.'.format(path, e))
-
-        try:
-            chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
-        except Exception, e:
-            raise PlatformConfigError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, e))
-
-    def _create_directories(self, configuration):
-        directories = ['platform config', 'checks', 'contacts', 'monitors', 'plugins']
-        [self._create_directory(path) for k, (_, path) in configuration.iteritems() if k in directories]
-
-    def _read_template(self, path):
-        with open(path, 'r') as fd:
-            return fd.read()
-
-    def _render_template(self, template, configuration):
-        return template.format(*[v for _, (_, v) in configuration.iteritems()])
-
-    def _save_template(self, template, path):
-        with open(path, 'a') as fd:
-            fd.write(template)
-
-        try:
-            chmod(path, S_IRUSR | S_IWUSR)
-        except Exception, e:
-            raise PlatformConfigError('Error - Couldn\'t change permission of : \'{:}\' file. Details : {:}.'.format(path, e))
-
-    def _print_header(self):
-        print 'Press enter for default value or input a custom one :'
-        print '-----------------------------------------------------\n'
-
-    def run(self):
-        self._print_header()
-        configuration = self._configure(self._get_default_configuration())
-        self._create_directories(configuration)
-        template = self._read_template(self.TEMPLATES_PATH + '/radar-server.templ')
-        self._save_template(self._render_template(template, configuration), configuration['main config'][1])
-
 
 if __name__ == '__main__':
-    try:
-        PlatformServerConfig().run()
-        print 'Done !'
-    except KeyboardInterrupt:
-        print '\n\nAborting configuration...'
-    except Exception, e:
-        print e
+    ServerInitialSetup().run(template_name='radar-server.templ')
