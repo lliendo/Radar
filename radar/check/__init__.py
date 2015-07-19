@@ -171,14 +171,17 @@ class Check(RemoteControl):
             raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
                 absolute_path, user, group))
 
-        return Popen([absolute_path] + split_args(self.args), stdout=PIPE).communicate()[0]
+        try:
+            return Popen([absolute_path] + split_args(self.args), stdout=PIPE).communicate()[0]
+        except OSError, e:
+            raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
 
     def run(self, user, group, enforce_ownership):
         try:
             output = self._call_popen(user, group, enforce_ownership)
             deserialized_output = self._deserialize_output(output)
             self.update_status(deserialized_output)
-        except (OSError, CheckError), e:
+        except CheckError, e:
             self.status = self.STATUS['ERROR']
             self.details = str(e)
 
