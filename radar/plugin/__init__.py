@@ -26,6 +26,7 @@ from ctypes import cast, py_object
 from functools import reduce
 from threading import Thread, Event
 from time import time
+from ..config import ConfigBuilder, ConfigError
 from ..misc import RemoteControl
 from ..protocol import Message
 
@@ -34,13 +35,13 @@ class ServerPluginError(Exception):
     pass
 
 
-class ServerPlugin(RemoteControl):
+class ServerPlugin(ConfigBuilder, RemoteControl):
 
     __metaclass__ = ABCMeta
 
     PLUGIN_NAME = ''
     PLUGIN_VERSION = '0.0.1'
-    PLUGIN_CONFIG_FILE = None
+    PLUGIN_CONFIG_FILE = ''
     DEFAULT_CONFIG = {
         'enabled': True,
         'log runtime': False,
@@ -50,7 +51,13 @@ class ServerPlugin(RemoteControl):
         if not self.PLUGIN_NAME:
             raise ServerPluginError('Error - Plugin name not defined.')
 
-        super(ServerPlugin, self).__init__()
+        try:
+            ConfigBuilder.__init__(self, self.PLUGIN_CONFIG_FILE)
+            [self.config.setdefault(k, v) for k, v in self.DEFAULT_CONFIG.iteritems()]
+        except ConfigError:
+            self.config = self.DEFAULT_CONFIG
+
+        RemoteControl.__init__(self, enabled=self.config['enabled'])
         self._logger = None
         self._message_actions = {
             Message.TYPE['CHECK REPLY']: self.on_check_reply,
@@ -58,7 +65,7 @@ class ServerPlugin(RemoteControl):
         }
 
     def _log_runtime(self, elapsed_time):
-        if self.DEFAULT_CONFIG['log runtime']:
+        if self.config['log runtime']:
             self.log('Plugin {:} v{:} took {:.2f} seconds to run.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, elapsed_time))
 
     def run(self, address, port, message_type, checks, contacts):
@@ -73,7 +80,7 @@ class ServerPlugin(RemoteControl):
         self._log_runtime(time() - start)
 
     def log(self, message):
-        self._logger.log('Plugin {:} {:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
+        self._logger.log('Plugin {:} v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
 
     def configure(self, logger):
         self._logger = logger
