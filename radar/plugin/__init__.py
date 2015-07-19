@@ -58,7 +58,7 @@ class ServerPlugin(RemoteControl):
         }
 
     def _log_runtime(self, elapsed_time):
-        if self.log_runtime:
+        if self.DEFAULT_CONFIG['log runtime']:
             self.log('Plugin {:} v{:} took {:.2f} seconds to run.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, elapsed_time))
 
     def run(self, address, port, message_type, checks, contacts):
@@ -146,7 +146,7 @@ class PluginManager(Thread):
             plugin.run(address, port, message_type, checks, contacts)
         except Exception, e:
             self._logger.log('Error - Plugin \'{:}\' version \'{:}\' raised an error. Details : {:}.'.format(
-                plugin.PLUGIN_ID, plugin.PLUGIN_VERSION, e))
+                plugin.PLUGIN_NAME, plugin.PLUGIN_VERSION, e))
 
     def _run_plugins(self, queue_message):
         plugin_args = self._get_plugin_args(queue_message)
