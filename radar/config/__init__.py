@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 from yaml import safe_load
 from yaml.error import YAMLError
 from ..logger import RadarLogger
@@ -78,7 +78,6 @@ class ConfigBuilder(object):
     def _filter_config(self, key):
         return [config for config in self.config if key in config]
 
-    @abstractmethod
     def build(self):
         pass
 
