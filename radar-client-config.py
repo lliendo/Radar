@@ -22,35 +22,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from collections import OrderedDict
-from os.path import dirname
-from radar.initial_setup import InitialSetup
-from radar.platform_setup.client import LinuxClientSetup, WindowsClientSetup
-
-
-class ClientInitialSetup(InitialSetup):
-
-    AVAILABLE_PLATFORMS = {
-        'Linux': LinuxClientSetup,
-        'Windows': WindowsClientSetup,
-    }
-
-    TEMPLATES_PATH = dirname(__file__) + '/templates'
-
-    def _get_default_configuration(self):
-        return OrderedDict([
-            ('address', ('Connect address ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['connect']['to'])),
-            ('port', ('Port to connect to ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['connect']['port'])),
-            ('user', ('User to run Radar as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['user'])),
-            ('group', ('Group to run Radas as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['group'])),
-            ('enforce ownership', ('Enforce check ownership ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['enforce ownership'])),
-            ('reconnect', ('Reconnect automatically to server ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['reconnect'])),
-            ('platform config', ('Config directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG_PATH)),
-            ('main config', ('Main config file path ? [{:}] ', self.PlatformSetup.MAIN_CONFIG_PATH)),
-            ('checks', ('Checks directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['checks'])),
-            ('pid file', ('Pid file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['pid file'])),
-            ('log file', ('Log file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['log file'])),
-        ])
+from radar.initial_setup.client import ClientInitialSetup
 
 
 if __name__ == '__main__':
