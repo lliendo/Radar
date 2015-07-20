@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 from platform import system as platform_name
 from os import chmod, makedirs
 from errno import EEXIST
@@ -54,6 +54,10 @@ class InitialSetup(object):
             configuration[k] = (message, path)
 
         return configuration
+
+    @abstractmethod
+    def _get_default_configuration(self):
+        pass
 
     def _create_directory(self, path):
         try:
