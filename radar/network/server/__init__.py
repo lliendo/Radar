@@ -22,15 +22,13 @@ Copyright 2015 Lucas Liendo.
 
 from abc import ABCMeta, abstractmethod
 from platform import system as platform_name
-from socket import socket, AF_INET, SOCK_STREAM, \
-    SOL_SOCKET, SO_REUSEADDR, SOMAXCONN, error as SocketError
+from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR, SOMAXCONN, error as SocketError
 from ..monitor.select_monitor import SelectMonitor
 from ..monitor.poll_monitor import PollMonitor
 from ..monitor.epoll_monitor import EPollMonitor
 from ..monitor.kqueue_monitor import KQueueMonitor
 from ..monitor.iocp_monitor import IOCPMonitor
-from ..client import ClientReceiveError, ClientSendError, ClientDisconnected, ClientAbortError, \
-    Client as BaseClient
+from ..client import ClientReceiveError, ClientSendError, ClientDisconnected, ClientAbortError, Client as BaseClient
 
 
 class ServerListenError(Exception):
@@ -57,6 +55,7 @@ class Server(object):
         'BSD': [KQueueMonitor, PollMonitor, SelectMonitor],
         'Linux': [EPollMonitor, PollMonitor, SelectMonitor],
         'Windows': [IOCPMonitor, SelectMonitor],
+        'Unknown': [SelectMonitor],
     }
 
     Client = None
@@ -71,7 +70,8 @@ class Server(object):
     def _get_platform_name(self):
         bsds = ['Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
         platform = platform_name()
-        return 'BSD' if platform in bsds else platform
+        platform = 'BSD' if platform in bsds else platform
+        return 'Unknown' if platform not in self.AVAILABLE_PLATFORM_MONITORS.keys() else platform
 
     def _get_network_monitor(self, network_monitor_timeout):
         platform = self._get_platform_name()
