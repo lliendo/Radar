@@ -22,37 +22,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from collections import OrderedDict
-from os.path import dirname
-from radar.initial_setup import InitialSetup
-from radar.platform_setup.server import LinuxServerSetup, WindowsServerSetup
-
-
-class ServerInitialSetup(InitialSetup):
-
-    AVAILABLE_PLATFORMS = {
-        'Linux': LinuxServerSetup,
-        'Windows': WindowsServerSetup,
-    }
-
-    TEMPLATES_PATH = dirname(__file__) + '/templates'
-
-    def _get_default_configuration(self):
-        return OrderedDict([
-            ('address', ('Listen address ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['listen']['address'])),
-            ('port', ('Port to listen on ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['listen']['port'])),
-            ('user', ('User to run Radar as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['user'])),
-            ('group', ('Group to run Radas as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['group'])),
-            ('polling time', ('Polling time ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['polling time'])),
-            ('platform config', ('Config directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG_PATH)),
-            ('main config', ('Main config file path ? [{:}] ', self.PlatformSetup.MAIN_CONFIG_PATH)),
-            ('checks', ('Checks directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['checks'])),
-            ('contacts', ('Contacts directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['contacts'])),
-            ('monitors', ('Monitors directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['monitors'])),
-            ('plugins', ('Plugins directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['plugins'])),
-            ('pid file', ('Pid file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['pid file'])),
-            ('log file', ('Log file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['log file'])),
-        ])
+from radar.initial_setup.server import ServerInitialSetup
 
 
 if __name__ == '__main__':
