@@ -58,7 +58,6 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
             self.config = self.DEFAULT_CONFIG
 
         RemoteControl.__init__(self, enabled=self.config['enabled'])
-        self._logger = None
         self._message_actions = {
             Message.TYPE['CHECK REPLY']: self.on_check_reply,
             Message.TYPE['TEST REPLY']: self.on_test_reply,
@@ -75,15 +74,15 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
             action = self._message_actions[message_type]
             action(address, port, checks, contacts)
         except KeyError:
-            self._logger.log('Unknown message id \'{:}\'.'.format(message_type))
+            self.logger.log('Unknown message id \'{:}\'.'.format(message_type))
 
         self._log_runtime(time() - start)
 
     def log(self, message):
-        self._logger.log('Plugin {:} v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
+        self.logger.log('Plugin {:} v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
 
     def configure(self, logger):
-        self._logger = logger
+        self.logger = logger
         self.on_start()
 
     def on_start(self):
