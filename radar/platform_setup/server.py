@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from copy import copy
+from copy import deepcopy
 from ..config.server import ServerConfig
 from . import LinuxSetup
 
@@ -34,14 +34,16 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
     BASE_PATH = '/etc/radar/server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/radar.yml'
-    PLATFORM_CONFIG = copy(ServerConfig.DEFAULT_CONFIG)
+    PLATFORM_CONFIG = deepcopy(ServerConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'checks': PLATFORM_CONFIG_PATH + '/checks',
         'contacts': PLATFORM_CONFIG_PATH + '/contacts',
         'monitors': PLATFORM_CONFIG_PATH + '/monitors',
         'plugins': '/usr/local/radar/server/plugins',
         'pid file': '/var/run/radar/server.pid',
-        'log file': '/var/log/radar/server.log',
+    })
+    PLATFORM_CONFIG['log'].update({
+        'to': '/var/log/radar/server.log',
     })
 
     def _configure_plugins(self):
@@ -68,13 +70,15 @@ class WindowsServerSetup(ServerConfig):
     BASE_PATH = 'C:\\Program Files\\Radar\\Server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '\\radar.yml'
-    PLATFORM_CONFIG = copy(ServerConfig.DEFAULT_CONFIG)
+    PLATFORM_CONFIG = deepcopy(ServerConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'checks': PLATFORM_CONFIG_PATH + '\\Checks',
         'contacts': PLATFORM_CONFIG_PATH + '\\Contacts',
         'monitors': PLATFORM_CONFIG_PATH + '\\Monitors',
         'plugins': PLATFORM_CONFIG_PATH + '\\Plugins',
-        'log file': BASE_PATH + '\\Log\\server.log'
+    })
+    PLATFORM_CONFIG['log'].update({
+        'to': BASE_PATH + '\\Log\\server.log',
     })
 
     def _configure_plugins(self):
