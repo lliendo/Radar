@@ -25,11 +25,12 @@ from functools import reduce
 from os import walk, stat
 from os.path import join
 from stat import S_ISREG
+from copy import deepcopy
 from . import ConfigBuilder, ConfigError
 from ..check import Check, CheckGroup
-from ..contact import Contact, ContactGroup
+from ..contact import Contact, ContactGroup, ContactError
 from ..monitor import Monitor
-from ..misc import Address, AddressRange, AddressError
+from ..misc import Address, AddressRange, AddressError, SequentialIdGenerator
 from ..class_loader import ClassLoader
 from ..plugin import ServerPlugin
 
@@ -37,94 +38,121 @@ from ..plugin import ServerPlugin
 class ContactBuilder(ConfigBuilder):
 
     TAG = 'contact'
-    GROUP_TAG = 'contact group'
 
     def _build_contact(self, contact):
-        contact = contact[self.TAG]
-
-        return Contact(
-            name=contact['name'],
-            email=contact['email'],
-            phone=contact.get('phone', ''),
-            enabled=contact.get('enabled', True)
-        )
+        return Contact(enabled=contact[self.TAG].get('enabled', True), **contact[self.TAG])
 
     def _build_contacts(self, contacts):
-        return [self._build_contact(c) for c in contacts]
-
-    def _build_contact_group(self, contact_group):
-        contact_group = contact_group[self.GROUP_TAG]
-
-        return ContactGroup(
-            name=contact_group['name'],
-            contacts=self._build_contacts(contact_group['contacts']),
-            enabled=contact_group.get('enabled', True)
-        )
-
-    def _build_contact_groups(self, contact_groups):
-        return set([self._build_contact_group(cg) for cg in contact_groups])
+        return set([self._build_contact(c) for c in contacts])
 
     def build(self):
         try:
-            contacts_config = self._filter_config(self.TAG)
-            contacts = list(self._build_contacts(contacts_config))
+            return list(self._build_contacts(self._filter_config(self.TAG)))
         except KeyError, e:
             raise ConfigError('Error - Missing \'{:}\' while creating contact from \'{:}\'.'.format(e.args[0], self.path))
 
-        try:
-            contact_groups_config = self._filter_config(self.GROUP_TAG)
-            contact_groups = list(self._build_contact_groups(
-                contact_groups_config))
-        except KeyError, e:
-            raise ConfigError('Error - Missing \'{:}\' while creating contact team from \'{:}\'.'.format(e.args[0], self.path))
 
-        return contacts + contact_groups
+class ContactGroupBuilder(ContactBuilder):
+
+    TAG = 'contact group'
+
+    def _copy_contact(self, contact_name, defined_contacts):
+        try:
+            contact = deepcopy([c for c in defined_contacts if c.name == contact_name].pop())
+            contact.id = SequentialIdGenerator().generate()
+        except IndexError:
+            raise ConfigError('Error - Contact \'{:}\' does not exist.'.format(contact_name))
+
+        return contact
+
+    def _build_contact(self, contact, defined_contacts):
+        try:
+            contact = Contact(enabled=contact['contact'].get('enabled', True), **contact['contact'])
+        except ContactError:
+            contact = self._copy_contact(contact['contact']['name'], defined_contacts)
+
+        return contact
+
+    def _build_contacts(self, contacts, defined_contacts):
+        return [self._build_contact(c, defined_contacts) for c in contacts]
+
+    def _build_contact_group(self, contact_group, defined_contacts):
+        contact_group = contact_group[self.TAG]
+
+        return ContactGroup(
+            name=contact_group['name'],
+            contacts=self._build_contacts(contact_group['contacts'], defined_contacts),
+            enabled=contact_group.get('enabled', True)
+        )
+
+    def _build_contact_groups(self, contact_groups, defined_contacts):
+        return set([self._build_contact_group(cg, defined_contacts) for cg in contact_groups])
+
+    def build(self, defined_contacts):
+        try:
+            return list(self._build_contact_groups(self._filter_config(self.TAG), defined_contacts))
+        except KeyError, e:
+            raise ConfigError('Error - Missing \'{:}\' while creating contact group from \'{:}\'.'.format(e.args[0], self.path))
 
 
 class CheckBuilder(ConfigBuilder):
 
     TAG = 'check'
-    GROUP_TAG = 'check group'
 
     def _build_check(self, check):
-        check = check[self.TAG]
-
-        return Check(
-            name=check['name'],
-            path=check['path'],
-            args=check.get('args', ''),
-            enabled=check.get('enabled', True)
-        )
+        return Check(enabled=check.get('enabled', True), **check[self.TAG])
 
     def _build_checks(self, checks):
-        return [self._build_check(c) for c in checks]
-
-    def _build_check_group(self, check_group):
-        check_group = check_group[self.GROUP_TAG]
-
-        return CheckGroup(
-            name=check_group['name'],
-            checks=self._build_checks(check_group['checks']),
-            enabled=check_group.get('enabled', True)
-        )
-
-    def _build_check_groups(self, check_groups):
-        return set([self._build_check_group(cg) for cg in check_groups])
+        return set([self._build_check(c) for c in checks])
 
     def build(self):
         try:
-            checks_config = self._filter_config(self.TAG)
-            checks = list(self._build_checks(checks_config))
+            return list(self._build_checks(self._filter_config(self.TAG)))
         except KeyError, e:
             raise ConfigError('Error - Missing \'{:}\' while creating check from {:}.'.format(e.args[0], self.path))
 
+
+class CheckGroupBuilder(CheckBuilder):
+
+    TAG = 'check group'
+
+    def _copy_check(self, check_name, defined_checks):
         try:
-            check_groups_config = self._filter_config(self.GROUP_TAG)
-            check_groups = list(self._build_check_groups(check_groups_config))
+            check = deepcopy([c for c in defined_checks if c.name == check_name].pop())
+            check.id = SequentialIdGenerator().generate()
+        except IndexError:
+            raise ConfigError('Error - Check \'{:}\' does not exist.'.format(contact_name))
+
+        return check
+
+    def _build_check(self, check, defined_checks):
+        try:
+            check = Check(enabled=check['check'].get('enabled', True), **check['check'])
+        except ContactError:
+            check = self._copy_check(check['check']['name'], defined_checks)
+
+        return check
+
+    def _build_checks(self, checks, defined_checks):
+        return [self._build_check(c, defined_checks) for c in checks]
+
+    def _build_check_group(self, check_group, defined_checks):
+        check_group = check_group[self.TAG]
+
+        return CheckGroup(
+            name=check_group['name'],
+            checks=self._build_checks(check_group['checks'], defined_checks),
+            enabled=check_group.get('enabled', True)
+        )
+
+    def _build_check_groups(self, check_groups, defined_checks):
+        return set([self._build_check_group(cg, defined_checks) for cg in check_groups])
+
+    def build(self, defined_checks):
+        try:
+            return list(self._build_check_groups(self._filter_config(self.TAG), defined_checks))
         except KeyError, e:
             raise ConfigError('Error - Missing \'{:}\' while creating check group from {:}.'.format(e.args[0], self.path))
-
-        return checks + check_groups
 
 
 class MonitorBuilder(ConfigBuilder):
@@ -184,6 +212,12 @@ class ServerConfig(ConfigBuilder):
             'group': 'radar',
         },
 
+        'log': {
+            'to': '',
+            'size': 100,
+            'rotations': 5,
+        },
+
         'polling time': 300,
     }
 
@@ -199,15 +233,19 @@ class ServerConfig(ConfigBuilder):
 
     def _build_contacts(self):
         files = self._search_files(self.config['contacts'])
-        return reduce(lambda l, m: l + m, [ContactBuilder(f).build() for f in files])
+        contacts = reduce(lambda l, m: l + m, [ContactBuilder(f).build() for f in files])
+        contact_groups = reduce(lambda l, m: l + m, [ContactGroupBuilder(f).build(contacts) for f in files])
+
+        return contacts + contact_groups
 
     def _build_checks(self):
         files = self._search_files(self.config['checks'])
-        return reduce(lambda l, m: l + m, [CheckBuilder(f).build() for f in files])
+        checks = reduce(lambda l, m: l + m, [CheckBuilder(f).build() for f in files])
+        check_groups = reduce(lambda l, m: l + m, [CheckGroupBuilder(f).build(checks) for f in files])
 
-    def _build_monitors(self):
-        checks = self._build_checks()
-        contacts = self._build_contacts()
+        return checks + check_groups
+
+    def _build_monitors(self, contacts, checks):
         files = self._search_files(self.config['monitors'])
         return reduce(lambda l, m: l + m, [MonitorBuilder(f, checks, contacts).build() for f in files])
 
@@ -216,6 +254,6 @@ class ServerConfig(ConfigBuilder):
         return set([P() for P in plugin_classes])
 
     def build(self):
-        self.monitors = self._build_monitors()
+        self.monitors = self._build_monitors(self._build_contacts(), self._build_checks())
         self.plugins = self._load_plugins()
         return self
