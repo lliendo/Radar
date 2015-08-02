@@ -24,9 +24,17 @@ from functools import reduce
 from ..misc import RemoteControl
 
 
+class ContactError(Exception):
+    pass
+
+
 class Contact(RemoteControl):
     def __init__(self, id=None, name='', email='', phone='', enabled=True):
         super(Contact, self).__init__(id=id, enabled=enabled)
+
+        if not name or not email:
+            raise ContactError('Error - Missing name and/or email from contact definition.')
+
         self.name = name
         self.email = email
         self.phone = phone
@@ -48,6 +56,10 @@ class Contact(RemoteControl):
 class ContactGroup(RemoteControl):
     def __init__(self, name='', contacts=[], enabled=True):
         super(ContactGroup, self).__init__(enabled=enabled)
+
+        if not name or not contacts:
+            raise ContactError('Error - Missing name and/or contacts from contact group definition.')
+
         self.name = name
         self.contacts = set(contacts)
 
