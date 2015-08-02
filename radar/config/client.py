@@ -39,6 +39,12 @@ class ClientConfig(ConfigBuilder):
             'group': 'radar',
         },
 
+        'log': {
+            'to': '',
+            'size': 100,
+            'rotations': 5,
+        },
+
         'concurrent checks': 1,
         'enforce ownership': True,
         'reconnect': True,
