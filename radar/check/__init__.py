@@ -56,6 +56,10 @@ class Check(RemoteControl):
 
     def __init__(self, id=None, name='', path='', args='', details='', data=None, enabled=True, platform_setup=None):
         super(Check, self).__init__(id=id, enabled=enabled)
+
+        if not name or not path:
+            raise CheckError('Error - Missing name and/or path from check definition.')
+
         self.name = name
         self.path = path
         self.args = args
@@ -64,11 +68,6 @@ class Check(RemoteControl):
         self._platform_setup = platform_setup
         self.status = self.STATUS['UNKNOWN']
         self.previous_status = self.STATUS['UNKNOWN']
-
-    # TODO: Add me to __init__().
-    def _validate(self):
-        if self.path == '':
-            raise CheckError('Error - Missing \'path\' from check definition.')
 
     def update_status(self, check_status):
         updated = False
@@ -201,6 +200,10 @@ class Check(RemoteControl):
 class CheckGroup(RemoteControl):
     def __init__(self, name='', checks=[], enabled=True):
         super(CheckGroup, self).__init__(enabled=enabled)
+
+        if not name or not checks:
+            raise CheckError('Error - Missing name and/or checks from check group definition.')
+
         self.name = name
         self.checks = set(checks)
 
