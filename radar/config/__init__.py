@@ -40,14 +40,24 @@ class ConfigBuilder(object):
 
     def __init__(self, path):
         self.path = path
-        self.config = self._lower_config_keys(self._read_config(path))
+        self.config = self._lower_config_keys(self._read_config(path) or {})
         self.logger = None
 
     def _set_default_config(self):
         try:
-            [self.config.setdefault(k, self.PLATFORM_CONFIG[k]) for k in self.PLATFORM_CONFIG.keys()]
+            self.config = self._merge_options(self.config, self.PLATFORM_CONFIG)
         except AttributeError:
             raise ConfigError('Error - Wrong Radar main config format.')
+
+    def _merge_options(self, source, destination):
+        for key, value in source.items():
+            if isinstance(value, dict):
+                node = destination.setdefault(key, {})
+                self._merge_options(value, node)
+            else:
+                destination[key] = value
+
+        return destination
 
     # This is ugly.
     def _lower_config_keys(self, config):
@@ -82,7 +92,7 @@ class ConfigBuilder(object):
         pass
 
     def configure(self, *args):
-        self.logger = RadarLogger(self.config['log file'])
+        self.logger = RadarLogger(self.config['log']['to'], max_size=self.config['log']['size'], rotations=self.config['log']['rotations'])
 
     def tear_down(self):
         self.logger.shutdown()
