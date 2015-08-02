@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from copy import copy
+from copy import deepcopy
 from ..config.client import ClientConfig
 from . import LinuxSetup
 
@@ -30,11 +30,13 @@ class LinuxClientSetup(ClientConfig, LinuxSetup):
     BASE_PATH = '/etc/radar/client'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/radar.yml'
-    PLATFORM_CONFIG = copy(ClientConfig.DEFAULT_CONFIG)
+    PLATFORM_CONFIG = deepcopy(ClientConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'pid file': '/var/run/radar/client.pid',
-        'log file': '/var/log/radar/client.log',
         'checks': '/usr/local/radar/client/checks'
+    })
+    PLATFORM_CONFIG['log'].update({
+        'to': '/var/log/radar/client.log',
     })
 
     def configure(self, launcher):
@@ -53,9 +55,9 @@ class WindowsClientSetup(ClientConfig):
     BASE_PATH = 'C:\\Program Files\\Radar\\Client'
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '\\radar.yml'
-    PLATFORM_CONFIG = copy(ClientConfig.DEFAULT_CONFIG)
-    PLATFORM_CONFIG.update({
-        'log file': BASE_PATH + '\\Log\\client.log',
+    PLATFORM_CONFIG = deepcopy(ClientConfig.DEFAULT_CONFIG)
+    PLATFORM_CONFIG['log'].update({
+        'to': BASE_PATH + '\\Log\\client.log',
     })
 
     # TODO : Enforce ownership is not currently available on Windows platforms.
