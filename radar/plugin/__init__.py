@@ -53,7 +53,7 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
 
         try:
             ConfigBuilder.__init__(self, self.PLUGIN_CONFIG_FILE)
-            [self.config.setdefault(k, v) for k, v in self.DEFAULT_CONFIG.iteritems()]
+            self._set_default_config()
         except ConfigError:
             self.config = self.DEFAULT_CONFIG
 
