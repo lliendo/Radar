@@ -32,24 +32,27 @@ class LoggerError(Exception):
 
 
 class RadarLogger(object):
-    def __init__(self, path, logger_name='radar'):
-        self._create_dir(dirname(path))
-        self.logger = self._configure_logger(path, logger_name)
+    def __init__(self, path, logger_name='radar', max_size=100, rotations=5):
+        self._create_dir(path)
+        self.logger = self._configure_logger(path, logger_name, max_size * (1024 ** 2), rotations)
 
     def _create_dir(self, path):
         try:
-            mkdir(path)
+            mkdir(dirname(path))
         except OSError, e:
             if e.errno != EEXIST:
-                raise LoggerError('Error - Couldn\'t create directory : {:}. Details : {:}.'.format(path, e.strerror))
+                raise LoggerError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(path, e.strerror))
 
-    def _configure_logger(self, path, logger_name):
-        logger = getLogger(logger_name)
-        logger.setLevel(INFO)
-        file_handler = RotatingFileHandler(path, maxBytes=10 * 1024 * 1024, backupCount=10)
-        formatter = Formatter(fmt='%(asctime)s - %(message)s', datefmt='%b %d %H:%M:%S')
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
+    def _configure_logger(self, path, logger_name, max_size, rotations):
+        try:
+            logger = getLogger(logger_name)
+            logger.setLevel(INFO)
+            file_handler = RotatingFileHandler(path, maxBytes=max_size, backupCount=rotations)
+            formatter = Formatter(fmt='%(asctime)s - %(message)s', datefmt='%b %d %H:%M:%S')
+            file_handler.setFormatter(formatter)
+            logger.addHandler(file_handler)
+        except Exception, e:
+            raise LoggerError('Error - Couldn\'t configure Radar logger. Details : {:}.'.format(e))
 
         return logger
 
