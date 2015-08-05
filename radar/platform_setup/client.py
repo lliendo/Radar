@@ -35,9 +35,7 @@ class LinuxClientSetup(ClientConfig, LinuxSetup):
         'pid file': '/var/run/radar/client.pid',
         'checks': '/usr/local/radar/client/checks'
     })
-    PLATFORM_CONFIG['log'].update({
-        'to': '/var/log/radar/client.log',
-    })
+    PLATFORM_CONFIG['log']['to'] = '/var/log/radar/client.log'
 
     def configure(self, launcher):
         super(LinuxClientSetup, self).configure()
@@ -56,9 +54,7 @@ class WindowsClientSetup(ClientConfig):
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '\\radar.yml'
     PLATFORM_CONFIG = deepcopy(ClientConfig.DEFAULT_CONFIG)
-    PLATFORM_CONFIG['log'].update({
-        'to': BASE_PATH + '\\Log\\client.log',
-    })
+    PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\client.log'
 
     # TODO : Enforce ownership is not currently available on Windows platforms.
     # Try to make this option available.

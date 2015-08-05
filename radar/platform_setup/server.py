@@ -42,9 +42,7 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
         'plugins': '/usr/local/radar/server/plugins',
         'pid file': '/var/run/radar/server.pid',
     })
-    PLATFORM_CONFIG['log'].update({
-        'to': '/var/log/radar/server.log',
-    })
+    PLATFORM_CONFIG['log']['to'] = '/var/log/radar/server.log'
 
     def _configure_plugins(self):
         [p.configure(self.logger) for p in self.plugins]
@@ -77,9 +75,7 @@ class WindowsServerSetup(ServerConfig):
         'monitors': PLATFORM_CONFIG_PATH + '\\Monitors',
         'plugins': PLATFORM_CONFIG_PATH + '\\Plugins',
     })
-    PLATFORM_CONFIG['log'].update({
-        'to': BASE_PATH + '\\Log\\server.log',
-    })
+    PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\server.log'
 
     def _configure_plugins(self):
         [p.configure(self.logger) for p in self.plugins]
