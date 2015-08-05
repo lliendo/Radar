@@ -52,9 +52,9 @@ class TestMonitor(TestCase):
         address = Address('192.168.0.1')
         address_range = AddressRange('192.168.0.1 - 192.168.0.100')
         check = Check(name='Load average', path='load_average')
-        check_group = CheckGroup(checks=[check])
+        check_group = CheckGroup(name='check group', checks=[check])
         contact = Contact(name='name', email='contact@contact.com')
-        contact_group = ContactGroup(contacts=[contact])
+        contact_group = ContactGroup(name='contact group', contacts=[contact])
         monitor = Monitor(
             addresses=[address, address, address_range, address_range],
             checks=[check, check, check_group, check_group],

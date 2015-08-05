@@ -26,25 +26,23 @@ from radar.contact import Contact
 
 class TestContact(TestCase):
     def setUp(self):
-        self.contact = Contact()
+        self.contact = Contact(name='contact', email='contact@contact.com')
 
     def test_contact_default_values(self):
         self.assertNotEqual(self.contact.id, None)
-        self.assertEqual(self.contact.name, '')
-        self.assertEqual(self.contact.email, '')
         self.assertEqual(self.contact.phone, '')
         self.assertEqual(self.contact.enabled, True)
 
     def test_contacts_are_equal(self):
-        self.assertEqual(self.contact, Contact())
+        self.assertEqual(self.contact, Contact(name='contact', email='contact@contact.com'))
 
     def test_contacts_are_not_equal(self):
-        contact = Contact(name='contact', email='')
+        contact = Contact(name='contact', email='contact@contact.com')
         another_contact = Contact(name='another contact', email='another@contact.com')
         self.assertNotEqual(contact, another_contact)
 
     def test_to_dict(self):
-        d = Contact().to_dict()
+        d = Contact(name='contact', email='contact@contact.com').to_dict()
         keys = ['id', 'name', 'email', 'phone']
         self.assertTrue(all([k in d for k in keys]))
 

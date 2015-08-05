@@ -28,7 +28,7 @@ from radar.check import Check, CheckError
 
 class TestCheck(TestCase):
     def setUp(self):
-        self.check = Check()
+        self.check = Check(name='check', path='check.py')
 
     def test_check_default_values(self):
         self.assertNotEqual(self.check.id, None)
@@ -88,7 +88,7 @@ class TestCheck(TestCase):
 
     @raises(CheckError)
     def test_check_raises_exception_due_to_missing_id(self):
-        Check().update_status({'status': Check.STATUS['OK']})
+        Check(name='check', path='check.py').update_status({'status': Check.STATUS['OK']})
 
     @raises(CheckError)
     def test_check_raises_exception_due_to_missing_status(self):
@@ -132,7 +132,7 @@ class TestCheck(TestCase):
         self.check._deserialize_output('{')
 
     def test_checks_are_equal(self):
-        self.assertEqual(self.check, Check())
+        self.assertEqual(self.check, Check(name='check', path='check.py'))
 
     def test_checks_are_not_equal(self):
         check = Check(name='Load average', path='load_average.py')
@@ -140,28 +140,28 @@ class TestCheck(TestCase):
         self.assertNotEqual(check, another_check)
 
     def test_to_dict(self):
-        d = Check().to_dict()
+        d = Check(name='check', path='check.py').to_dict()
         keys = ['id', 'name', 'path', 'args', 'status', 'previous_status', 'details', 'data', 'enabled']
         self.assertTrue(all([k in d for k in keys]))
 
     def test_to_check_dict(self):
-        d = Check().to_check_dict().pop()
+        d = Check(name='check', path='check.py').to_check_dict().pop()
         self.assertTrue(all([k in d for k in ['id', 'path']]))
 
     def test_to_check_dict_contains_args(self):
-        d = Check(args='-a argument').to_check_dict().pop()
+        d = Check(name='check', path='check.py', args='-a argument').to_check_dict().pop()
         self.assertTrue('args' in d)
 
     def test_to_check_reply_dict(self):
-        d = Check().to_check_reply_dict()
+        d = Check(name='check', path='check.py').to_check_reply_dict()
         self.assertTrue(all([k in d for k in ['id', 'status']]))
 
     def test_to_check_reply_dict_contains_details(self):
-        d = Check(details='details').to_check_reply_dict()
+        d = Check(name='check', path='check.py', details='details').to_check_reply_dict()
         self.assertTrue('details' in d)
 
     def test_to_check_reply_dict_contains_data(self):
-        d = Check(data={'data': 'some data'}).to_check_reply_dict()
+        d = Check(name='check', path='check.py', data={'data': 'some data'}).to_check_reply_dict()
         self.assertTrue('data' in d)
 
     def test_check_as_list(self):
