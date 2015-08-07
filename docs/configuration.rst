@@ -1,5 +1,5 @@
-Introduction
-============
+Configuration
+=============
 
     Radar is simple and flexible in the way it defines different kind of
     components (checks, contacts and monitors). It uses YAML for all of
