@@ -27,14 +27,8 @@ me know.
 Supported platforms
 -------------------
 
-Radar tries to run on most popular platforms. Currently suported platforms include :
-
-    * GNU/Linux.
-    * FreeBSD.
-    * NetBSD.
-    * OpenBSD.
-    * Darwin / Mac OS X.
-    * Microsoft Windows (with some limited features).
+Radar should run without any problems in any platform that the Python
+interpreter is supported.
 
 
 Installation
@@ -60,8 +54,7 @@ Development
 
 If you're interested in how Radar works you are encouraged to take a look at
 the code, documentation about its internals are `here <https://...>`.
-Radar is designed to be both simple and easy to use and understand, it will
-always try to keep this way.
+Radar is designed to be both simple and easy to use and understand.
 
 
 Tests
