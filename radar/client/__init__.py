@@ -100,8 +100,5 @@ class RadarClient(RadarClientLite, Thread):
         self.connect()
 
         while not self.is_stopped() and self.is_connected():
-            # print 'here...'
             super(RadarClient, self).run()
             self.connect()
-
-        # print 'terminating ...'
