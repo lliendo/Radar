@@ -104,7 +104,7 @@ class Server(object):
     def on_reject(self, client):
         pass
 
-    def _on_disconnect(self, client):
+    def disconnect(self, client):
         self.network_monitor.on_disconnect(client)
         self.on_disconnect(client)
         self._clients.remove(client)
@@ -182,7 +182,7 @@ class Server(object):
             except ClientSendError, error:
                 self.on_send_error(c, error)
             except ClientDisconnected:
-                self._on_disconnect(c)
+                self.disconnect(c)
             except ClientAbortError:
                 self._on_abort(c)
 
