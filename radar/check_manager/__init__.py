@@ -30,13 +30,13 @@ class CheckManager(Thread):
 
     STOP_EVENT_TIMEOUT = 0.2
 
-    def __init__(self, platform_setup, input_queue, output_queue):
+    def __init__(self, platform_setup, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
         self._platform_setup = platform_setup
         self._logger = platform_setup.logger
         self._input_queue = input_queue
         self._output_queue = output_queue
-        self.stop_event = Event()
+        self.stop_event = stop_event or Event()
         self._message_actions = {
             Message.TYPE['CHECK']: self._on_check,
             Message.TYPE['TEST']: self._on_test,
