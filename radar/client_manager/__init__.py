@@ -70,6 +70,3 @@ class ClientManager(object):
             self._logger.log('Unknown message id \'{:}\'.'.format(message_type))
 
         return updated_checks
-
-    # def test(self, ids):
-    #     [m.poll(Message.TYPE['TEST'], ids) for m in self._monitors if m.enabled]
