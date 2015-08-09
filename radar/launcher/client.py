@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from Queue import Queue
+from threading import Event
 from . import RadarLauncher
 from ..platform_setup.client import LinuxClientSetup, WindowsClientSetup
 from ..check_manager import CheckManager
@@ -40,9 +41,10 @@ class RadarClientLauncher(RadarLauncher):
     def __init__(self):
         super(RadarClientLauncher, self).__init__()
         queue_a, queue_b = Queue(), Queue()
+        stop_event = Event()
         self._threads = [
-            RadarClient(self._platform_setup, queue_a, queue_b),
-            CheckManager(self._platform_setup, queue_b, queue_a),
+            RadarClient(self._platform_setup, queue_a, queue_b, stop_event=stop_event),
+            CheckManager(self._platform_setup, queue_b, queue_a, stop_event=stop_event),
         ]
 
     def _join_threads(self):
