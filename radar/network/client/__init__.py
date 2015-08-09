@@ -170,7 +170,7 @@ class Client(object):
         except ClientSendError, error:
             self.on_send_error(error)
         except ClientDisconnected:
-            self.on_disconnect()
+            self.disconnect()
 
     def _watch(self, fds):
         ready_fds = []
@@ -187,7 +187,7 @@ class Client(object):
         return self.address == other_client.address
 
     def run(self):
-        while not self.is_stopped():
+        while self.is_connected():
             ready_fds = self._watch([self.socket])
 
             if ready_fds:
@@ -195,6 +195,6 @@ class Client(object):
             else:
                 self.on_timeout()
 
-        self.on_shutdown()
+        # self.on_shutdown()
 
         return self.is_stopped()
