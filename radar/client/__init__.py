@@ -47,7 +47,7 @@ class RadarClient(RadarClientLite, Thread):
     NETWORK_MONITOR_TIMEOUT = 0.2
     RECONNECT_DELAYS = [5, 15, 60]
 
-    def __init__(self, platform_setup, input_queue, output_queue):
+    def __init__(self, platform_setup, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
         super(RadarClient, self).__init__(
             platform_setup.config['connect']['to'],
@@ -60,7 +60,7 @@ class RadarClient(RadarClientLite, Thread):
         self._input_queue = input_queue
         self._output_queue = output_queue
         self._delays = self.RECONNECT_DELAYS
-        self.stop_event = Event()
+        self.stop_event = stop_event or Event()
 
     def _sleep(self):
         self.stop_event.wait(self._delays[0])
@@ -99,6 +99,6 @@ class RadarClient(RadarClientLite, Thread):
     def run(self):
         self.connect()
 
-        while not self.is_stopped() and self.is_connected():
+        while not self.is_stopped():
             super(RadarClient, self).run()
             self.connect()
