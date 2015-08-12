@@ -6,5 +6,5 @@ Minimum requiremients
     dependencies are already defined in the project, so you don't need
     to install them manually.
 
-    If you have successfully installed the Python interpreter then is almost
-    higly probable that Radar will run without any platform specific issues.
+    If you have successfully installed the Python interpreter then is highly
+    probable that Radar will run without any platform specific issues.

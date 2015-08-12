@@ -186,8 +186,15 @@ Introduction
             args = check[0].args
             details = check[0].details
             data = check[0].data
-            # status = self.STATUS['UNKNOWN']                                       
-            # previous_status = self.STATUS['UNKNOWN']
+
+
+Guidelines
+----------
+
+    As much of what happens to checks happen to plugins. You have to a few
+    considerations when developing a plugin :
+
+     
             
 
 Example

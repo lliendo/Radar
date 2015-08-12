@@ -104,13 +104,18 @@ Guidelines
     * Test your checks ! You're encouraged to write unit tests on all of your
       checks. This way you make sure that checks behave and fail as expected.
 
+
+Examples
+--------
+
     If you're looking for some real examples you can take a look at this
-    repository. In there you'll will find some basic but useful checks
-    that allow you to monitor :
+    repository. In there you'll will find some basic but useful checks (written
+    in Python) that allows you to monitor :
 
         * Disk usage.
         * Ram usage.
         * Uptime.
+        * Process status.
 
-    They have been written to run on as many platforms as possible. They mostly
-    rely on the excellent `psutil <https://github.com/giampaolo/psutil>`_ module.
+    They have been designed to run on as many platforms as possible. They rely
+    on the excellent `psutil <https://github.com/giampaolo/psutil>`_ module.

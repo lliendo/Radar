@@ -7,8 +7,7 @@ Welcome to Radar !
 ==================
 
     Radar is a simple and easy to use monitoring tool designed with flexibility
-    and extendability in mind. It offers arbitrary check execution and server
-    side plugins to provide full customization to fit your needs.
+    and extendability in mind. 
     
     It mainly aims to be an easy to use tool, all configuration is handled
     through YAML files and almost all options are set by default for you,
@@ -22,8 +21,8 @@ Welcome to Radar !
     Radar has been carefully designed to keep the code clean and
     understandable, so everyone can take a look at its internals.
 
-Contents :
-----------
+Contents
+--------
 
 .. toctree::
     :maxdepth: 2
@@ -33,11 +32,4 @@ Contents :
     server-configuration
     checks-development
     plugins-development
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+    authors
