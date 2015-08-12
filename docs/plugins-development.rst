@@ -191,16 +191,37 @@ Introduction
 Guidelines
 ----------
 
-    As much of what happens to checks happen to plugins. You have to a few
-    considerations when developing a plugin :
+    All of the considerations taken to develop checks also apply to plugins.
+    So if in doubt review those guidelines in the checks development section.
 
-     
-            
+    Also note that Radar expects to find a unique plugin class per plugin
+    directory. It is a requirement that this class to be present only in the
+    __init__.py file in that directory. Despite of this minor limitation you're
+    allowed to code in as many different directory/files inside the plugin
+    directory as you want.
+
+    For example assuming that you wrote a plugin called A-Plugin then, you
+    could have the following file hierarchy :
+
+    .. code-block:: yaml
+
+        /A-Plugin
+            /__init__.py
+            /a-plugin.yml
+            /local_module_a
+                /some_local_module_a_file.py
+            /local_module_b
+                /some_local_module_b_file.py
+
+
+    Then /A-Plugin/__init__.py file must contain exactly one class that inherits
+    from the ServerPlugin class.
+        
 
 Example
 -------
 
     If you still want to see a little more elaborated example (actually something
-    useful, right ?)then you can take a look to a very simple email notifier
+    useful, right ?) then you can take a look to a very simple email notifier
     plugin here. This plugin will notify its contacts when a check has any of
     its status (current or previous) in a not OK status.
