@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from setuptools import setup
 
-
+# TODO: Add Mocker and add PyWin32 provided we're running on MS Windows.
 def radar_dependencies():
     dependencies = [
         'nose==1.3.7',
