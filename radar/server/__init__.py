@@ -75,8 +75,8 @@ class RadarServer(Server, Thread):
 
     def _write_queue(self, client, message_type, updated_checks):
         queue_message = {
-            'client_address': client.address,
-            'client_port': client.port,
+            'address': client.address,
+            'port': client.port,
             'message_type': message_type,
             'check_ids': [id(c) for c in updated_checks['checks']],
             'contact_ids': [id(c) for c in updated_checks['contacts']]

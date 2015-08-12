@@ -130,8 +130,8 @@ class PluginManager(Thread):
 
     def _get_plugin_args(self, message):
         return (
-            message['client_address'],
-            message['client_port'],
+            message['address'],
+            message['port'],
             message['message_type'],
             self._flatten([c.as_list() for c in self._dereference(message['check_ids'])]),
             self._flatten([c.as_list() for c in self._dereference(message['contact_ids'])]),
@@ -139,13 +139,6 @@ class PluginManager(Thread):
 
     def is_stopped(self):
         return self.stop_event.is_set()
-
-    def run(self):
-        while not self.is_stopped():
-            try:
-                self._run_plugins(self._queue.get_nowait())
-            except EmptyQueue:
-                self.stop_event.wait(self.STOP_EVENT_TIMEOUT)
 
     def _run_plugin(self, plugin, address, port, message_type, checks, contacts):
         try:
@@ -157,3 +150,10 @@ class PluginManager(Thread):
     def _run_plugins(self, queue_message):
         plugin_args = self._get_plugin_args(queue_message)
         [self._run_plugin(p, *plugin_args) for p in self._plugins if p.enabled]
+
+    def run(self):
+        while not self.is_stopped():
+            try:
+                self._run_plugins(self._queue.get_nowait())
+            except EmptyQueue:
+                self.stop_event.wait(self.STOP_EVENT_TIMEOUT)
