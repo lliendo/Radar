@@ -25,7 +25,6 @@ from abc import ABCMeta
 from ctypes import cast, py_object
 from functools import reduce
 from threading import Thread, Event
-from time import time
 from ..config import ConfigBuilder, ConfigError
 from ..misc import RemoteControl
 from ..protocol import Message
@@ -44,7 +43,6 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
     PLUGIN_CONFIG_FILE = ''
     DEFAULT_CONFIG = {
         'enabled': True,
-        'log runtime': False,
     }
 
     def __init__(self):
@@ -63,20 +61,12 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
             Message.TYPE['TEST REPLY']: self.on_test_reply,
         }
 
-    def _log_runtime(self, elapsed_time):
-        if self.config['log runtime']:
-            self.log('Plugin {:} v{:} took {:.2f} seconds to run.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, elapsed_time))
-
     def run(self, address, port, message_type, checks, contacts):
-        start = time()
-
         try:
             action = self._message_actions[message_type]
             action(address, port, checks, contacts)
         except KeyError:
             self.logger.log('Unknown message id \'{:}\'.'.format(message_type))
-
-        self._log_runtime(time() - start)
 
     def log(self, message):
         self.logger.log('Plugin {:} v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
