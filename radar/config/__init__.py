@@ -92,7 +92,10 @@ class ConfigBuilder(object):
         pass
 
     def configure(self, *args):
-        self.logger = RadarLogger(self.config['log']['to'], max_size=self.config['log']['size'], rotations=self.config['log']['rotations'])
+        self.logger = RadarLogger(
+            self.config['log']['to'], max_size=self.config['log']['size'],
+            rotations=self.config['log']['rotations']
+        )
 
     def tear_down(self):
         self.logger.shutdown()
