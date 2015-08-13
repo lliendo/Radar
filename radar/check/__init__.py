@@ -66,6 +66,8 @@ class Check(RemoteControl):
         self.details = details
         self.data = data
         self._platform_setup = platform_setup
+
+        # TODO: Change it to current_status.
         self.status = self.STATUS['UNKNOWN']
         self.previous_status = self.STATUS['UNKNOWN']
 
@@ -91,6 +93,8 @@ class Check(RemoteControl):
         except ValueError:
             raise CheckError('Error - Invalid status value : \'{:}\'.')
 
+    # TODO: Verify where the following two methods are being used and removed them
+    # They're not really necessary.
     @property
     def check_status(self):
         return Check.get_status(self.status)
