@@ -24,6 +24,7 @@ from Queue import Empty as EmptyQueue
 from abc import ABCMeta
 from ctypes import cast, py_object
 from functools import reduce
+from os.path import dirname, join
 from threading import Thread, Event
 from ..config import ConfigBuilder, ConfigError
 from ..misc import RemoteControl
@@ -41,9 +42,7 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
     PLUGIN_NAME = ''
     PLUGIN_VERSION = '0.0.1'
     PLUGIN_CONFIG_FILE = ''
-    DEFAULT_CONFIG = {
-        'enabled': True,
-    }
+    DEFAULT_CONFIG = {}
 
     def __init__(self):
         if not self.PLUGIN_NAME:
@@ -55,11 +54,15 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
         except ConfigError:
             self.config = self.DEFAULT_CONFIG
 
-        RemoteControl.__init__(self, enabled=self.config['enabled'])
+        RemoteControl.__init__(self, enabled=self.config.get('enabled', True))
         self._message_actions = {
             Message.TYPE['CHECK REPLY']: self.on_check_reply,
             Message.TYPE['TEST REPLY']: self.on_test_reply,
         }
+
+    @staticmethod
+    def get_path(source_filename, config_filename):
+        return join(dirname(source_filename), config_filename)
 
     def run(self, address, port, message_type, checks, contacts):
         try:
