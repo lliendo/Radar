@@ -53,7 +53,7 @@ Development
 -----------
 
 If you're interested in how Radar works you are encouraged to take a look at
-the code, documentation about its internals are `here <https://...>`.
+the code, documentation about its internals can be found `here <https://...>`.
 Radar is designed to be both simple and easy to use and understand.
 
 
@@ -80,7 +80,8 @@ Contact
 -------
 
 If you find this software useful you can drop me a line. Bug reporting,
-suggestions, missing documentation and critics of any kind are always welcome !
+suggestions, missing documentation and critics (both positive and negative)
+of any kind are always welcome !
 
 
 Authors
