@@ -46,7 +46,6 @@ class Message(object):
     OPTIONS = {
         'NONE': 0x00,
         'COMPRESS': 0x01,
-        'ENCRYPT': 0x02,
     }
 
     # TODO: Use just one buffer ?
@@ -72,7 +71,7 @@ class Message(object):
         pack_format = (self.HEADER_FORMAT + self.PAYLOAD_FORMAT).format(message_length)
         return pack(pack_format, message_type, message_options, message_length, message)
 
-    # TODO: Better way ? _receive_header & _receive_payload are the same...
+    # TODO: Better way ? _receive_header & _receive_payload are one and the same...
     # Will it help to use a single buffer ?
     def _receive_header(self, client):
         if not self._header_received():
