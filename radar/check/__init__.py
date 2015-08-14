@@ -23,10 +23,9 @@ Copyright 2015 Lucas Liendo.
 from functools import reduce
 from json import loads as deserialize_json
 from os import stat
-from os.path import isabs as is_absolute_path
+from os.path import join, isabs as is_absolute_path
 from shlex import split as split_args
 from subprocess import Popen, PIPE
-from platform import system as platform_name
 from ..misc import RemoteControl
 
 
@@ -66,9 +65,7 @@ class Check(RemoteControl):
         self.details = details
         self.data = data
         self._platform_setup = platform_setup
-
-        # TODO: Change it to current_status.
-        self.status = self.STATUS['UNKNOWN']
+        self.current_status = self.STATUS['UNKNOWN']
         self.previous_status = self.STATUS['UNKNOWN']
 
     def update_status(self, check_status):
@@ -76,8 +73,8 @@ class Check(RemoteControl):
 
         try:
             if (self.id == check_status['id']) and (check_status['status'] in self.STATUS.values()) and self.enabled:
-                self.previous_status = self.status
-                self.status = check_status['status']
+                self.previous_status = self.current_status
+                self.current_status = check_status['status']
                 self.details = check_status.get('details', '')
                 self.data = check_status.get('data', None)
                 updated = True
@@ -91,21 +88,11 @@ class Check(RemoteControl):
         try:
             return Check.STATUS.keys()[Check.STATUS.values().index(status)]
         except ValueError:
-            raise CheckError('Error - Invalid status value : \'{:}\'.')
-
-    # TODO: Verify where the following two methods are being used and removed them
-    # They're not really necessary.
-    @property
-    def check_status(self):
-        return Check.get_status(self.status)
-
-    @property
-    def previous_check_status(self):
-        return Check.get_status(self.previous_status)
+            raise CheckError('Error - Invalid status value : \'{:}\'.'.format(status))
 
     def to_dict(self):
         return super(Check, self).to_dict([
-            'id', 'name', 'path', 'args', 'status', 'previous_status',
+            'id', 'name', 'path', 'args', 'current_status', 'previous_status',
             'details', 'data', 'enabled',
         ])
 
@@ -118,7 +105,7 @@ class Check(RemoteControl):
         return [d]
 
     def to_check_reply_dict(self):
-        d = super(Check, self).to_dict(['id', 'status'])
+        d = super(Check, self).to_dict(['id', 'current_status'])
 
         if self.details:
             d.update({'details': self.details})
@@ -157,18 +144,12 @@ class Check(RemoteControl):
     def _owned_by(self, path, user, group):
         return self._owned_by_user(user) and self._owned_by_group(group)
 
-    def _build_absolute_path(self, path):
-        absolute_path = self._platform_setup.PLATFORM_CONFIG['checks']
-
-        if platform_name() != 'Windows':
-            absolute_path += '' if self._platform_setup.PLATFORM_CONFIG['checks'].endswith('/') else '/'
-        else:
-            absolute_path += '' if self._platform_setup.PLATFORM_CONFIG['checks'].endswith('\\') else '\\'
-
-        return path if is_absolute_path(path) else absolute_path + path
+    def _build_absolute_path(self):
+        checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
+        return self.path if is_absolute_path(self.path) else join(checks_directory, self.path)
 
     def _call_popen(self, user, group, enforce_ownership):
-        absolute_path = self._build_absolute_path(self.path)
+        absolute_path = self._build_absolute_path()
 
         if enforce_ownership and not self._owned_by(absolute_path, user, group):
             raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
@@ -185,7 +166,7 @@ class Check(RemoteControl):
             deserialized_output = self._deserialize_output(output)
             self.update_status(deserialized_output)
         except CheckError, e:
-            self.status = self.STATUS['ERROR']
+            self.current_status = self.STATUS['ERROR']
             self.details = str(e)
 
         return self
