@@ -1,8 +1,6 @@
-
 TODO
 ----
 
-    * Make this prototype serious = Add tests !
     * Support name resolution for listen/connect options from server/client.
     * Implement message compression (if payload is greater than MAX_PAYLOAD_SIZE).
       Split the message if compressed payload is greater than MAX_PAYLOAD_SIZE.
