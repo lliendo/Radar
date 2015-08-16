@@ -121,7 +121,7 @@ class SequentialIdGenerator(object):
         return id
 
 
-class RemoteControl(object):
+class Switch(object):
 
     __metaclass__ = ABCMeta
 

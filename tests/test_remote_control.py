@@ -21,19 +21,19 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from radar.misc import RemoteControl
+from radar.misc import Switch
 
 
-class DummyRemoteControl(RemoteControl):
+class DummySwitch(Switch):
     def __init__(self):
         self.some_attribute = 'a'
         self.some_other_attribute = 1
-        super(DummyRemoteControl, self).__init__()
+        super(DummySwitch, self).__init__()
 
 
-class TestRemoteControl(TestCase):
+class TestSwitch(TestCase):
     def setUp(self):
-        self.remote_control = DummyRemoteControl()
+        self.remote_control = DummySwitch()
 
     def test_remote_control_default_instance(self):
         self.assertNotEqual(self.remote_control.id, None)

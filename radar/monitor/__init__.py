@@ -23,14 +23,14 @@ Copyright 2015 Lucas Liendo.
 from json import dumps as serialize_json
 from copy import deepcopy
 from functools import reduce
-from ..misc import RemoteControl
+from ..misc import Switch
 
 
 class MonitorError(Exception):
     pass
 
 
-class Monitor(RemoteControl):
+class Monitor(Switch):
     def __init__(self, name='', addresses=[], checks=[], contacts=[], enabled=True):
         super(Monitor, self).__init__(enabled=enabled)
         self.name = name

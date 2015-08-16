@@ -26,14 +26,14 @@ from os import stat
 from os.path import join, isabs as is_absolute_path
 from shlex import split as split_args
 from subprocess import Popen, PIPE
-from ..misc import RemoteControl
+from ..misc import Switch
 
 
 class CheckError(Exception):
     pass
 
 
-class Check(RemoteControl):
+class Check(Switch):
 
     STATUS = {
         'ERROR': -1,
@@ -188,7 +188,7 @@ class Check(RemoteControl):
         return hash(self.name) ^ hash(self.path) ^ hash(self.args)
 
 
-class CheckGroup(RemoteControl):
+class CheckGroup(Switch):
     def __init__(self, name='', checks=[], enabled=True):
         super(CheckGroup, self).__init__(enabled=enabled)
 

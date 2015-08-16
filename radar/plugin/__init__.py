@@ -27,7 +27,7 @@ from functools import reduce
 from os.path import dirname, join
 from threading import Thread, Event
 from ..config import ConfigBuilder, ConfigError
-from ..misc import RemoteControl
+from ..misc import Switch
 from ..protocol import Message
 
 
@@ -35,7 +35,7 @@ class ServerPluginError(Exception):
     pass
 
 
-class ServerPlugin(ConfigBuilder, RemoteControl):
+class ServerPlugin(ConfigBuilder, Switch):
 
     __metaclass__ = ABCMeta
 
@@ -54,7 +54,7 @@ class ServerPlugin(ConfigBuilder, RemoteControl):
         except ConfigError:
             self.config = self.DEFAULT_CONFIG
 
-        RemoteControl.__init__(self, enabled=self.config.get('enabled', True))
+        Switch.__init__(self, enabled=self.config.get('enabled', True))
         self._message_actions = {
             Message.TYPE['CHECK REPLY']: self.on_check_reply,
             Message.TYPE['TEST REPLY']: self.on_test_reply,
