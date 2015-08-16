@@ -25,13 +25,13 @@ Copyright 2015 Lucas Liendo.
 from collections import OrderedDict
 from os.path import dirname
 from . import InitialSetup
-from ..platform_setup.server import LinuxServerSetup, WindowsServerSetup
+from ..platform_setup.server import UnixServerSetup, WindowsServerSetup
 
 
 class ServerInitialSetup(InitialSetup):
 
     AVAILABLE_PLATFORMS = {
-        'Linux': LinuxServerSetup,
+        'UNIX': UnixServerSetup,
         'Windows': WindowsServerSetup,
     }
 

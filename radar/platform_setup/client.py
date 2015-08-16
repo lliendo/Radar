@@ -25,7 +25,7 @@ from ..config.client import ClientConfig
 from . import LinuxSetup
 
 
-class LinuxClientSetup(ClientConfig, LinuxSetup):
+class UnixClientSetup(ClientConfig, LinuxSetup):
 
     BASE_PATH = '/etc/radar/client'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
@@ -35,17 +35,17 @@ class LinuxClientSetup(ClientConfig, LinuxSetup):
         'pid file': '/var/run/radar/client.pid',
         'checks': '/usr/local/radar/client/checks'
     })
-    PLATFORM_CONFIG['log']['to'] = '/var/log/radar/client.log'
+    PLATFORM_CONFIG['log']['to'] = '/var/log/radar-client.log'
 
     def configure(self, launcher):
-        super(LinuxClientSetup, self).configure()
+        super(UnixClientSetup, self).configure()
         self._write_pid_file(self.config['pid file'])
         self._install_signal_handlers(launcher)
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
     def tear_down(self, launcher):
         self._delete_pid_file(self.config['pid file'])
-        super(LinuxClientSetup, self).tear_down()
+        super(UnixClientSetup, self).tear_down()
 
 
 class WindowsClientSetup(ClientConfig):

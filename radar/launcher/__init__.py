@@ -66,8 +66,13 @@ class RadarLauncher(object):
         cli = CLI(program_name=self.PROGRAM_NAME, version=self.PROGRAM_VERSION)
         self._platform_setup = self._setup_platform(cli.main_config)
 
-    def _setup_platform(self, path):
+    def _get_platform_name(self):
+        unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
         platform = platform_name()
+        return 'UNIX' if platform in unixes else platform
+
+    def _setup_platform(self, path):
+        platform = self._get_platform_name()
 
         try:
             PlatformSetup = self.AVAILABLE_PLATFORMS[platform]

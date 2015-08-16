@@ -24,7 +24,7 @@ from Queue import Queue
 from . import RadarLauncher
 from ..client_manager import ClientManager
 from ..server import RadarServer, RadarServerPoller
-from ..platform_setup.server import LinuxServerSetup, WindowsServerSetup
+from ..platform_setup.server import UnixServerSetup, WindowsServerSetup
 from ..plugin import PluginManager
 
 
@@ -33,7 +33,7 @@ class RadarServerLauncher(RadarLauncher):
     PROGRAM_NAME = 'radar-server'
     PROGRAM_VERSION = '0.0.1'
     AVAILABLE_PLATFORMS = {
-        'Linux': LinuxServerSetup,
+        'UNIX': UnixServerSetup,
         'Windows': WindowsServerSetup,
     }
 

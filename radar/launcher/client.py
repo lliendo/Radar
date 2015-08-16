@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from Queue import Queue
 from threading import Event
 from . import RadarLauncher
-from ..platform_setup.client import LinuxClientSetup, WindowsClientSetup
+from ..platform_setup.client import UnixClientSetup, WindowsClientSetup
 from ..check_manager import CheckManager
 from ..client import RadarClient
 
@@ -33,7 +33,7 @@ class RadarClientLauncher(RadarLauncher):
     PROGRAM_NAME = 'radar-client'
     PROGRAM_VERSION = '0.0.1'
     AVAILABLE_PLATFORMS = {
-        'Linux': LinuxClientSetup,
+        'UNIX': UnixClientSetup,
         'Windows': WindowsClientSetup,
     }
 

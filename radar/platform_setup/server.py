@@ -29,7 +29,7 @@ class SetupError(Exception):
     pass
 
 
-class LinuxServerSetup(ServerConfig, LinuxSetup):
+class UnixServerSetup(ServerConfig, LinuxSetup):
 
     BASE_PATH = '/etc/radar/server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
@@ -42,7 +42,7 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
         'plugins': '/usr/local/radar/server/plugins',
         'pid file': '/var/run/radar/server.pid',
     })
-    PLATFORM_CONFIG['log']['to'] = '/var/log/radar/server.log'
+    PLATFORM_CONFIG['log']['to'] = '/var/log/radar-server.log'
 
     def _configure_plugins(self):
         [p.configure(self.logger) for p in self.plugins]
@@ -51,7 +51,7 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
         [p.on_shutdown() for p in self.plugins]
 
     def configure(self, launcher):
-        super(LinuxServerSetup, self).configure()
+        super(UnixServerSetup, self).configure()
         self._configure_plugins()
         self._write_pid_file(self.config['pid file'])
         self._install_signal_handlers(launcher)
@@ -60,7 +60,7 @@ class LinuxServerSetup(ServerConfig, LinuxSetup):
     def tear_down(self, launcher):
         self._delete_pid_file(self.config['pid file'])
         self._shutdown_plugins()
-        super(LinuxServerSetup, self).tear_down()
+        super(UnixServerSetup, self).tear_down()
 
 
 class WindowsServerSetup(ServerConfig):
