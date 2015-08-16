@@ -203,7 +203,7 @@ class ServerConfig(ConfigBuilder):
 
     DEFAULT_CONFIG = {
         'listen': {
-            'address': '127.0.0.1',
+            'address': 'localhost',
             'port': 3333,
         },
 

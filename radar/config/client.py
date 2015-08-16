@@ -30,7 +30,7 @@ class ClientConfig(ConfigBuilder):
 
     DEFAULT_CONFIG = {
         'connect': {
-            'to': '127.0.0.1',
+            'to': 'localhost',
             'port': 3333,
         },
 
