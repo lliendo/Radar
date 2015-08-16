@@ -48,5 +48,6 @@ class PollMonitor(NetworkMonitor):
         self._register(client.socket)
 
     def watch(self):
-        ready_fds = [fd for (fd, _) in self._poll_monitor.poll(self._timeout)]
+        print self._timeout
+        ready_fds = [fd for (fd, _) in self._poll_monitor.poll(int(self._timeout * 1000))]
         super(PollMonitor, self)._watch(ready_fds)
