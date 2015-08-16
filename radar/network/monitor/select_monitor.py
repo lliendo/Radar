@@ -34,6 +34,6 @@ class SelectMonitor(NetworkMonitor):
         return super(SelectMonitor, cls).__new__(cls, *args, **kwargs)
 
     def watch(self):
-        fds = [self._server.socket] + [c.socket for c in self._server._clients]
-        ready_fds, _, _ = select(fds, [], [], self._timeout)
+        sockets = [self._server.socket] + [c.socket for c in self._server._clients]
+        ready_fds, _, _ = select([s.fileno() for s in sockets], [], [], self._timeout)
         super(SelectMonitor, self)._watch(ready_fds)
