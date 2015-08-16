@@ -187,7 +187,7 @@ class Client(object):
         return self.address == other_client.address
 
     def run(self):
-        while self.is_connected():
+        while (not self.is_stopped()) and self.is_connected():
             ready_fds = self._watch([self.socket])
 
             if ready_fds:
