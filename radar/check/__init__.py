@@ -105,7 +105,13 @@ class Check(RemoteControl):
         return [d]
 
     def to_check_reply_dict(self):
-        d = super(Check, self).to_dict(['id', 'current_status'])
+        # d = super(Check, self).to_dict(['id', 'current_status'])
+        # d['status'] = d.pop('current_status')
+
+        d = {
+            'id': self.id,
+            'status': self.current_status,
+        }
 
         if self.details:
             d.update({'details': self.details})
