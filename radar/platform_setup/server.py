@@ -33,7 +33,7 @@ class UnixServerSetup(ServerConfig, LinuxSetup):
 
     BASE_PATH = '/etc/radar/server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
-    MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/radar.yml'
+    MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/main.yml'
     PLATFORM_CONFIG = deepcopy(ServerConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'checks': PLATFORM_CONFIG_PATH + '/checks',
@@ -67,7 +67,7 @@ class WindowsServerSetup(ServerConfig):
 
     BASE_PATH = 'C:\\Program Files\\Radar\\Server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
-    MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '\\radar.yml'
+    MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '\\main.yml'
     PLATFORM_CONFIG = deepcopy(ServerConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
         'checks': PLATFORM_CONFIG_PATH + '\\Checks',
@@ -75,7 +75,7 @@ class WindowsServerSetup(ServerConfig):
         'monitors': PLATFORM_CONFIG_PATH + '\\Monitors',
         'plugins': PLATFORM_CONFIG_PATH + '\\Plugins',
     })
-    PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\server.log'
+    PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\radar-server.log'
 
     def _configure_plugins(self):
         [p.configure(self.logger) for p in self.plugins]
