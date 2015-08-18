@@ -1,7 +1,7 @@
 Installation
 ============
 
-    You can install Radar either using pip or manually from the latest
+    You can install Radar either using `pip <https://pip.pypa.io/en/stable/>`_ or manually from the latest
     version from Github. If you want to use pip :
 
     .. code-block:: bash
@@ -33,34 +33,21 @@ Checking the installation
     installed on your system. If you see these versions then you got both
     client and server successfully installed, otherwise something went wrong.
 
-    By default Radar expects to find configuration files in well-defined
-    places. These directories are platform dependant so you may want to take
-    a look at the default places where those files should be found depending
-    on the platform where Radar is running :
+    By default Radar expects to find configuration files in well-defined places.
+    These directories are platform dependant (you can check these defaults from
+    the platform defaults section of this document).
 
-        * GNU/Linux :
-
-        * FreeBSD :
-
-        * NetBSD :
-
-        * OpenBSD :
-
-        * Darwin / Mac OS X :
-
-        * Microsoft Windows :
-
-    It is a good practice to use these default directories. Of course if
-    don't want to use those locations you can change them from the main
-    configuration file.
+    It is a good practice to use these default directories. Of course if don't
+    want to use those locations you can change them from the main configuration
+    file.
 
     Radar only takes its main configuration file to be able to run. 
-    If you want to override the default main configuration file path
-    you can invoke Radar this way :
+    If you want to override the default main configuration file path you can
+    invoke Radar this way :
 
     .. code-block:: bash
 
-        radar-client -c ALTERNATE_PATH_TO_MAIN_CONFIGURATION_FILE
-        radar-server -c ALTERNATE_PATH_TO_MAIN_CONFIGURATION_FILE
+        radar-client -c PATH_TO_MAIN_CONFIGURATION_FILE
+        radar-server -c PATH_TO_MAIN_CONFIGURATION_FILE
 
     The -c option specifies an alternate main configuration file.

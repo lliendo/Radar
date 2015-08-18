@@ -392,7 +392,7 @@ Plugins configuration
     configuration file. This directory holds all the plugins managed by Radar.
     How is the layout of this directory ? If you've read previous sections
     you noticed that you have full freedom to layout monitors, checks and contacts
-    directories. This is not the case for the plugins directory.
+    directories. This is not the case for of plugins directory.
 
     Let's assume that your plugins directory is : /tmp/Radar/server/plugins.
     Then you have a bunch of plugins you want install. Simply copy all of them

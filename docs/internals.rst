@@ -31,7 +31,7 @@ Design philosophy
     The result is that you won't find complex or twisted code and reading any
     piece of code and get the idea of what is doing takes only a few seconds.
     The code also lacks of comments, the reason for this is that the code
-    intends to be self-describing. Radar stricly tries to stick to this rule.
+    intends to be self-describing. Radar strictly tries to stick to this rule.
 
 
 Project layout
@@ -94,8 +94,8 @@ Class diagrams
     We're now going to take a look at the most relevant classes that Radar (both
     client and server) make use of.
 
-    The main idea of the diagram is to give you the big picture on how different
-    classes are related and how objects communicate each other.
+    The main idea of these diagrams is to give you the big picture on how different
+    classes are related each other and how objects talk between them.
 
 
 Server operation

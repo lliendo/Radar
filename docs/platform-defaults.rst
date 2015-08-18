@@ -3,13 +3,13 @@ Platform defaults
 
     Radar supports all platforms where the Python interpreter is able to run.
     However, Radar internally makes distinction between UNIX alike OSes and
-    Windows platforms.
+    Microsoft Windows platforms.
 
 
-UNIX OSes :
------------
+UNIX OSes
+---------
 
-    For UNIX alike OSes these default values are used :
+    For UNIX OSes these default values are used :
 
     Radar server (/etc/radar/server/main.yml) :
 
@@ -59,10 +59,10 @@ UNIX OSes :
         reconnect: True
 
 
-Windows platforms :
--------------------
+Microsoft Windows platforms
+---------------------------
 
-    Windows platforms have the following default values :
+    Microsoft Windows platforms have the following default values :
 
     Radar server (C:\\Program Files\\Radar\\Server\\Config\\main.yml) :
 
