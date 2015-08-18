@@ -2,12 +2,16 @@ Platform defaults
 =================
 
     Radar supports all platforms where the Python interpreter is able to run.
-    However, Radar internally makes distinction between UNIX alike OSes
-    and MS Windows platforms.
+    However, Radar internally makes distinction between UNIX alike OSes and
+    Windows platforms.
+
+
+UNIX OSes :
+-----------
 
     For UNIX alike OSes these default values are used :
 
-    Radar server :
+    Radar server (/etc/radar/server/main.yml) :
 
     .. code-block:: yaml
 
@@ -32,7 +36,7 @@ Platform defaults
         plugins: /usr/local/radar/server/plugins
 
 
-    Radar client :
+    Radar client (/etc/radar/client/main.yml) :
 
     .. code-block:: yaml
 
@@ -55,11 +59,43 @@ Platform defaults
         reconnect: True
 
 
-    MS Windows platforms have these default values :
+Windows platforms :
+-------------------
 
-    Radar server :
+    Windows platforms have the following default values :
+
+    Radar server (C:\\Program Files\\Radar\\Server\\Config\\main.yml) :
+
+    .. code-block:: yaml
+
+        listen:
+            address: localhost
+            port: 3333
+
+        log:
+            to: C:\Program Files\Radar\Log\radar-server.log
+            size: 100
+            rotations: 5
+
+        polling time: 300
+        checks: C:\Program Files\Radar\Server\Config\Checks
+        contacts: C:\Program Files\Radar\Server\Config\Contacts
+        monitors: C:\Program Files\Radar\Server\Config\Monitors
+        plugins: C:\Program Files\Radar\Server\Config\Plugins
 
 
-    Radar client :
+    Radar client (C:\\Program Files\\Radar\\Client\\Config\\main.yml) :
 
+    .. code-block:: yaml
 
+        connect:
+            to: localhost
+            port: 3333
+
+        log:
+            to: C:\Program Files\Radar\Log\radar-client.log
+            size: 100
+            rotations: 5
+
+        checks: C:\Program Files\Radar\Client\Config\Checks
+        reconnect: True
