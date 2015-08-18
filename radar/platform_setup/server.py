@@ -40,7 +40,7 @@ class UnixServerSetup(ServerConfig, LinuxSetup):
         'contacts': PLATFORM_CONFIG_PATH + '/contacts',
         'monitors': PLATFORM_CONFIG_PATH + '/monitors',
         'plugins': '/usr/local/radar/server/plugins',
-        'pid file': '/var/run/radar/server.pid',
+        'pid file': '/var/run/radar-server.pid',
     })
     PLATFORM_CONFIG['log']['to'] = '/var/log/radar-server.log'
 

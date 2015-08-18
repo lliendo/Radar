@@ -32,7 +32,7 @@ class UnixClientSetup(ClientConfig, LinuxSetup):
     MAIN_CONFIG_PATH = PLATFORM_CONFIG_PATH + '/radar.yml'
     PLATFORM_CONFIG = deepcopy(ClientConfig.DEFAULT_CONFIG)
     PLATFORM_CONFIG.update({
-        'pid file': '/var/run/radar/client.pid',
+        'pid file': '/var/run/radar-client.pid',
         'checks': '/usr/local/radar/client/checks'
     })
     PLATFORM_CONFIG['log']['to'] = '/var/log/radar-client.log'
