@@ -34,10 +34,10 @@ class RadarLauncherError(Exception):
 
 
 class CLI(object):
-    def __init__(self, program_name='', version=''):
+    def __init__(self, default_main_config_path, program_name='', version=''):
         self._program_name = program_name
         self._version = version
-        self._options = self._build_parser().parse_args()
+        self._options = self._build_parser(default_main_config_path).parse_args()
 
     def __getattr__(self, option):
         try:
@@ -45,9 +45,9 @@ class CLI(object):
         except AttributeError:
             raise CLIError('Error - Option: \'{:}\' does not exist.'.format(option))
 
-    def _build_parser(self):
+    def _build_parser(self, default_main_config_path):
         parser = ArgumentParser(prog=self._program_name)
-        parser.add_argument('-c', '--config', dest='main_config', action='store', required=True)
+        parser.add_argument('-c', '--config', dest='main_config', action='store', default=default_main_config_path, required=False)
         parser.add_argument('-v', '--version', action='version', version=self._version)
 
         return parser
@@ -63,8 +63,11 @@ class RadarLauncher(object):
     AVAILABLE_PLATFORMS = {}
 
     def __init__(self):
-        cli = CLI(program_name=self.PROGRAM_NAME, version=self.PROGRAM_VERSION)
+        cli = CLI(self._get_default_main_config_path(), program_name=self.PROGRAM_NAME, version=self.PROGRAM_VERSION)
         self._platform_setup = self._setup_platform(cli.main_config)
+
+    def _get_default_main_config_path(self):
+        return self.AVAILABLE_PLATFORMS[self._get_platform_name()].MAIN_CONFIG_PATH
 
     def _get_platform_name(self):
         unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
