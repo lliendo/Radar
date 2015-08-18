@@ -1,8 +1,8 @@
-Configuration
-=============
+Server configuration
+====================
 
     Radar is simple and flexible in the way it defines different kind of components
-    (checks, contacts and monitors). It uses YAML for all of itsconfiguration.
+    (checks, contacts and monitors). It uses `YAML <https://en.wikipedia.org/wiki/YAML>`_ for all of its configuration.
 
     When Radar starts it expects a main configuration file (this applies
     to both client and server) as input. From that configuration file, further
@@ -10,8 +10,8 @@ Configuration
 
     You're going to read a long document where the most important concepts
     of Radar are described. Take a cup of your favourite beverage and read it
-    carefully. Once you read it you will find that configuring Radar is simple.
-    Try not to skip sections because every part of it has something to say.
+    carefully. Once you read it you will find that configuring Radar is easy.
+    Try not to skip any sections because every part of it has something to say.
     By the end of this document you'll have a solid knowledge on how to configure
     Radar and not going into trouble on the way.
 
@@ -48,14 +48,15 @@ Main configuration
     
     * listen : The listen options specifies the address and port number where
       Radar server is going to listen for new clients. At the moment only IPv4
-      addresses are supported. The default values are to listen on 127.0.0.1
+      addresses are supported. The default values are to listen on localhost
       and port 3333.
 
-    * run as : On Unix platforms this option tells Radar the effective user
+    * run as : On UNIX platforms this option tells Radar the effective user
       and group that the process should run as. This is a basic security
       consideration to allow Radar to run with an unprivileged user. The
       specified user should not be a able to login to the system.
-      The default user and group is radar.
+      The default user and group is radar. This option does not apply to MS
+      Windows platforms.
 
     * polling time : This tells Radar the frequency of the execution of checks.
       It is expressed in seconds. By default Radar will poll all its clients
@@ -71,11 +72,10 @@ Main configuration
       up) and new logs are written to a new file. By default Radar sets a maximum 
       of 100 MiB for the log file and rotates it at most 5 times.
 
-    * pid file : On Unix platforms this file holds the PID of the Radar
+    * pid file : On UNIX platforms this file holds the PID of the Radar
       process. When Radar starts it will record its pidfile here and when
-      it shutsdown this file is deleted. The default is platform
-      dependant so if you want to take a look at each default platform
-      location you can do it here.
+      it shuts down this file is deleted. Pid files are not recorded on MS Windows
+      platforms.
 
     * checks, contacts, monitors, plugins : All these set of options tell
       Radar where to look for checks, contacts, monitors and plugins.
@@ -85,12 +85,11 @@ Main configuration
       The only requirement is that you are not allowed to mix for example
       contacts or contact groups with other components such as checks or check
       groups. Every directory is designed to contain specific elements.
-      These set of directories are platform dependant. You can read each
-      platform default values from here.
+      These set of directories are platform dependant. 
       
     Let's now take a look at a minimum configuration. Every platform has a
-    default configuration and the options that are different from one
-    another are the ones that are platform dependant.
+    default configuration and the options that are different from one another
+    are the ones that are platform dependant.
 
     .. code-block:: yaml
 
@@ -103,7 +102,7 @@ Main configuration
     are not really missing, if you don't specify an option it will take its
     default value. This means that you only need to worry about the options
     you want to modify. The above example will poll clients every minute and
-    listen on 192.168.0.100.
+    listen on 192.168.0.100:3333.
 
 
 Checks configuration
@@ -117,9 +116,9 @@ Checks configuration
     .. code-block:: yaml
 
         - check:
-            name: NAME
+            name: CHECK NAME
             path: PATH TO CHECK
-            args: ARGUMENTS
+            args: CHECK ARGUMENTS
 
     Let's review each parameter of a check definition :
 
@@ -143,9 +142,9 @@ Checks configuration
             name: CHECK GROUP NAME
             checks:
                 - check:
-                    name: NAME
+                    name: CHECK NAME
                     path: PATH TO CHECK
-                    args: ARGUMENTS
+                    args: CHECK ARGUMENTS
 
     You define a check group by giving that group a name and a group of checks
     that make up that group. This allows you to reference a check group later on
@@ -157,15 +156,15 @@ Checks configuration
     .. code-block:: yaml
 
         - check:
-            name: CHECK 1
+            name: CHECK NAME
             path: PATH TO CHECK
-            args: ARGUMENTS
+            args: CHECK ARGUMENTS
 
         - check group:
             name: CHECK GROUP NAME
             checks:
                 - check:
-                    name: CHECK 1
+                    name: CHECK NAME
 
     In this example we've defined a check first and referenced it later from a
     check group. This is perfectly valid and is actually a very convenient way to
@@ -175,8 +174,8 @@ Checks configuration
     you to define checks once and use them in as many groups as you want making
     the overall configuration shorter and easier to understand.
     Note that the check definition could also had been defined after the check
-    group because Radar does not care about order. Being that said the above
-    configuration is equal to :
+    group because Radar does not care about definition order. Being that said
+    the above configuration is equal to :
 
     .. code-block:: yaml
 
@@ -184,12 +183,12 @@ Checks configuration
             name: CHECK GROUP NAME
             checks:
                 - check:
-                    name: CHECK 1
+                    name: CHECK NAME
 
         - check:
-            name: CHECK 1
+            name: CHECK NAME
             path: PATH TO CHECK
-            args: ARGUMENTS
+            args: CHECK ARGUMENTS
 
     Here's a fragment of how a real configuration might look like :
 
@@ -236,6 +235,7 @@ Checks configuration
 
     * As stated before the order of definition does not matter because Radar will
       first build all of its checks and then proceed to build all the check groups.
+      The same applies for contacts and contact groups.
 
     * If you have a relatively big configuration then it might be useful to split
       it among different files and in some cases among directories. Remember
@@ -293,13 +293,16 @@ Contacts configuration
             name: Sysadmins
             contacts:
                 - contact:
-                    name: Lucas Liendo
-                    email: lucas@invaders
+                    name: Hernan Liendo
+                    email: hernan@invader
                 - contact:
                     name: Javier Liendo
-                    email: javier@invaders
+                    email: javier@invader
+                - contact:
+                    name: Lucas Liendo
+                    email: lucas@invader
 
-    There is one little difference between checks and contacts definition. In
+    There is one little difference between checks and contacts definitions. In
     some scenarios it might not be needed to notify any contact at all, so Radar
     allows you to leave contacts empty, in other words defining contacts and
     contact groups is completly optional.
@@ -339,16 +342,16 @@ Monitors configuration
       Ranges are specified by its start, a hypen and its end ip. The initial
       and ending hosts are included in the range.
 
-    * watch : This is a list of checks or check groups to run on the monitored
+    * watch : This is a list of checks or check groups to be run on the monitored
       hosts. You only need to reference previously defined checks or check
-      groups.
+      group names.
 
     * notify : Same as above but for contacts. You need to reference a list of
-      contacts or contact groups to be notified.
+      previously defined contacts or contact groups.
 
     Note that the hosts, watch and notify parameters are defined within squared
     brackets. Don't forget this when defining monitors ! This is the only place
-    where we use an explicit list (more precisely a YAML list) of elements.
+    where we use a list (more precisely a YAML list) of elements.
 
     You can include as many monitors as you want on each file. There are no
     restrictions. You need to be careful when you reference checks and
@@ -368,11 +371,9 @@ Monitors configuration
     it will probably inspect the current and previous status of a check to decide
     if it should notify the affected contacts.
 
-    Don't panic if you don't want to write a Radar plugin (you don't have to,
+    Don't worry if you don't want to write a Radar plugin (you don't have to,
     although you're encouraged to at least understand how a plugin works and how
-    it should be designed). In this reposiory you will find a basic plugin that
-    allows you to notify your contacts by email when a check is not returning
-    an OK status.
+    it should be designed).
 
 
 Plugins configuration
@@ -385,11 +386,11 @@ Plugins configuration
     
     Radar does not provide any built-in mechanisms to do these kind of things 
     because that responsability is left to plugins. For the moment we're not
-    going to describe how to write a plugin but how install them.
+    going to describe how to write a plugin but how to install them.
 
     As described previously there is one plugin directory defined in the main
     configuration file. This directory holds all the plugins managed by Radar.
-    How is the layout of this directory ? If you read the previous sections
+    How is the layout of this directory ? If you've read previous sections
     you noticed that you have full freedom to layout monitors, checks and contacts
     directories. This is not the case for the plugins directory.
 

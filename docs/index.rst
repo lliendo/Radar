@@ -18,8 +18,6 @@ Welcome to Radar !
     checks in your favourite programming language to monitor anything
     that you're interested in.
     
-    Radar has been carefully designed to keep the code clean and
-    understandable, so everyone can take a look at its internals.
 
 Contents
 --------
@@ -29,7 +27,11 @@ Contents
 
     minimum-requirements
     installation
+    platform-defaults
     server-configuration
+    client-configuration
     checks-development
     plugins-development
+    internals
+    limitations
     authors

@@ -1,7 +1,7 @@
 Plugins development
 ===================
 
-    We're now going to dive into plugin development. Although you may think
+    We're now going to describe plugin development. Although you may think
     that this might be a complex task, a lot of effort has been put in the
     design of this part of Radar so you can easily write a plugin.
     You will need to at least understand a little of Python and object oriented
@@ -57,13 +57,14 @@ Introduction
     As explained before a Radar plugin needs to comply with certain requirements.
     In first place every plugin must inherit from the ServerPlugin class.
     You achieve that by importing the ServerPlugin class and creating a new
-    plugin and inheriting from that class. This is achieved in lines and .
+    plugin and inheriting from that class. This is achieved in the first two
+    lines of the above example.
 
     Every plugin must have a name. We define this in the PLUGIN_NAME class attribute.
     Every plugin is uniquely identified by its name and a version. If you don't
     specify a version then it defaults to 0.0.1. To define a version you only
     need to overwrite the PLUGIN_VERSION class attribute with the desired value.
-    In this exaple we only defined the plugin name (line ).
+    In this exaple we only defined the plugin name.
 
     The example shows three methods. The on_start() method is invoked by Radar when
     the plugin is initialized, so if you want to define any instance attributes
@@ -73,9 +74,9 @@ Introduction
     this method's purpose is to gracefully release any resources that you might
     have acquired during the life of the plugin.
 
-    We have only one method remaining : on_check_reply(). Yes, this is where the
+    We have only one remaining method: on_check_reply(). Yes, this is where the
     action takes place and is your entry point to perform any useful work.
-    For every reply that Radar server receives you'll get :
+    For every reply that the Radar server receives you'll get :
 
         * address : The ip address of the Radar client that sent the check reply.
           This is a string value
@@ -83,18 +84,18 @@ Introduction
         * port : The tcp port of the Radar client that sent the check reply.
           This is an integer value.
 
-        * checks : A Python list containing Check objects that were replied by
-          the server.
+        * checks : A Python list containing Check objects that were updated by
+          the server. This list will always respond to a given monitor, that means
+          that the list of checks you got belongs to one and only one monitor.
 
-        * contacts : A Python list containing Contact objects that were affected
-          due to the replied checks.
-
-    So with this information now you're completly free to perform any task that
-    you want. A Radar plugin is just a Python class where you can code anything
-    you want. 
+        * contacts : A Python list containing Contact objects that were related
+          due to the replied checks. This list will always respond to a given
+          monitor, that means that the list of contacts you got belongs to one
+          and only one monitor.
 
     In this minimal example we're basically doing nothing, just recording a few
-    things to the Radar log file using the log() method.
+    things to the Radar log file using the log() method. A Radar plugin is just
+    a Python class where you can code anything you want.
 
     Is that all you need to know to develop a plugin ? Basically yes, but there
     is one more feature that can be extremely useful in some cases.
@@ -112,7 +113,7 @@ Introduction
     
     To use it simply set the PLUGIN_CONFIG_FILE class attribute with the
     configuration filename and that's it. How do you read those values ?
-    Easy again, just access the config dictionary. Let's see an example :
+    Easy again, just access the config dictionary. Let's see an example.
 
     Given this YAML file (called dummy.yml) :
 
@@ -133,7 +134,7 @@ Introduction
         class DummyPlugin(ServerPlugin):
 
             PLUGIN_NAME = 'Dummy plugin'
-            PLUGIN_CONFIG_FILE = 'dummy.yml'
+            PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'dummy.yml')
 
             def _connect(self):
                 address = self.config['connect']['to']
@@ -153,9 +154,11 @@ Introduction
                 self._disconnect()
 
 
-    This is still a very useless example ! However note that I've set the
-    PLUGIN_CONFIG_FILE to hold the filename of the YAML and that I use
-    the values that were read from that file in the _connect() method.
+    This is still a very useless example ! However note, that I've set the
+    PLUGIN_CONFIG_FILE to hold the filename of the YAML (dummy.yml in this case)
+    and that I use the values that were read from that file in the _connect()
+    method. Note the use of the get_path() static method to properly reference
+    the YAML file.
 
     Before we end up this section you may be wondering : How should I use the
     checks and contacts lists in the on_check_reply() method ?
@@ -167,13 +170,13 @@ Introduction
     Contact and check objects have some attributes that you can read to
     perform some work. For example : every contact object contains a name,
     an email an optionally a phone number. The following piece of code
-    shows how to read any useful values (both from a contact and a check) :
+    shows how to read any useful value (both from a contact and a check) :
 
 
     .. code-block:: python
  
         def on_check_reply(self, address, port, checks, contacts):
-            """ Accesing properties of check and contact object """
+            """ Accesing properties of a check and contact object """
 
             """ Contact properties. """
             contact_name = contacts[0].name
@@ -186,6 +189,8 @@ Introduction
             args = check[0].args
             details = check[0].details
             data = check[0].data
+            current_status = check[0].current_status
+            previous_status = check[0].previous_status
 
 
 Guidelines
@@ -203,25 +208,26 @@ Guidelines
     For example assuming that you wrote a plugin called A-Plugin then, you
     could have the following file hierarchy :
 
-    .. code-block:: yaml
+    .. code-block:: bash
 
-        /A-Plugin
-            /__init__.py
-            /a-plugin.yml
-            /local_module_a
-                /some_local_module_a_file.py
-            /local_module_b
-                /some_local_module_b_file.py
+        .../A-Plugin
+                /__init__.py
+                    /a-plugin.yml
+                    /local_module_a
+                        /__init__.py
+                        /some_file_module_a.py
+                    /local_module_b
+                        /__init__.py
+                        /some_file_module_b.py
 
-
-    Then /A-Plugin/__init__.py file must contain exactly one class that inherits
+    Then .../A-Plugin/__init__.py file must contain exactly one class that inherits
     from the ServerPlugin class.
         
 
 Example
 -------
 
-    If you still want to see a little more elaborated example (actually something
-    useful, right ?) then you can take a look to a very simple email notifier
-    plugin here. This plugin will notify its contacts when a check has any of
-    its status (current or previous) in a not OK status.
+    If you still want to see a more elaborated example (actually something
+    useful, right ?) then you can take a look to an email notifier plugin here.
+    This plugin will notify its contacts when a check has any of its status
+    (current or previous) in a not OK status.
