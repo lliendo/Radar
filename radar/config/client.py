@@ -45,7 +45,6 @@ class ClientConfig(ConfigBuilder):
             'rotations': 5,
         },
 
-        'concurrent checks': 1,
         'enforce ownership': True,
         'reconnect': True,
     }
