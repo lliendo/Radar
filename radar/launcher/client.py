@@ -37,12 +37,22 @@ class RadarClientLauncher(RadarLauncher):
         'Windows': WindowsClientSetup,
     }
 
-    # TODO: Better names for queues?
     def __init__(self):
         super(RadarClientLauncher, self).__init__()
+        self._threads = self._build_threads()
+        # queue_a, queue_b = Queue(), Queue()
+        # stop_event = Event()
+        # self._threads = [
+        #     RadarClient(self._platform_setup, queue_a, queue_b, stop_event=stop_event),
+        #     CheckManager(self._platform_setup, queue_b, queue_a, stop_event=stop_event),
+        # ]
+
+    # TODO: Better names for queues?
+    def _build_threads(self):
         queue_a, queue_b = Queue(), Queue()
         stop_event = Event()
-        self._threads = [
+
+        return [
             RadarClient(self._platform_setup, queue_a, queue_b, stop_event=stop_event),
             CheckManager(self._platform_setup, queue_b, queue_a, stop_event=stop_event),
         ]
@@ -58,8 +68,8 @@ class RadarClientLauncher(RadarLauncher):
             super(RadarClientLauncher, self)._join_threads()
 
     def run(self):
-        self._platform_setup.logger.log('Starting radar client.')
+        self._platform_setup.logger.log('Starting Radar client.')
         self._start_threads(self._threads[:1])
         self._join_threads()
-        self._platform_setup.logger.log('Shutting down radar client.')
+        self._platform_setup.logger.log('Shutting down Radar client.')
         self._platform_setup.tear_down(self)
