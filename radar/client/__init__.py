@@ -67,6 +67,12 @@ class RadarClient(RadarClientLite, Thread):
         self._delays.append(self._delays[0])
         self._delays.pop(0)
 
+    def on_connect(self):
+        self._logger.log('Connected to {:}:{:}.'.format(self.address, self.port))
+
+    def on_disconnect(self):
+        self._logger.log('Disconnected from {:}:{:}.'.format(self.address, self.port))
+
     def connect(self):
         while not self.is_stopped() and not self.is_connected():
             try:
