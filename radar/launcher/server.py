@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from Queue import Queue
+from threading import Event
 from . import RadarLauncher
 from ..client_manager import ClientManager
 from ..server import RadarServer, RadarServerPoller
@@ -39,12 +40,25 @@ class RadarServerLauncher(RadarLauncher):
 
     def __init__(self):
         super(RadarServerLauncher, self).__init__()
+        # client_manager = ClientManager(self._platform_setup)
+        self._threads = self._builds_threads()
+        # queue = Queue()
+        # stop_event = Event()
+        # self._threads = [
+        #     RadarServer(client_manager, self._platform_setup, queue, stop_event=stop_event),
+        #     RadarServerPoller(client_manager, self._platform_setup, stop_event=stop_event),
+        #     PluginManager(self._platform_setup, queue, stop_event=stop_event),
+        # ]
+
+    def _build_threads(self):
         client_manager = ClientManager(self._platform_setup)
-        self._queue = Queue()
-        self._threads = [
-            RadarServer(client_manager, self._platform_setup, self._queue),
-            RadarServerPoller(client_manager, self._platform_setup),
-            PluginManager(self._platform_setup, self._queue),
+        queue = Queue()
+        stop_event = Event()
+
+        return [
+            RadarServer(client_manager, self._platform_setup, queue, stop_event=stop_event),
+            RadarServerPoller(client_manager, self._platform_setup, stop_event=stop_event),
+            PluginManager(self._platform_setup, queue, stop_event=stop_event),
         ]
 
     def _join_threads(self):
@@ -57,8 +71,8 @@ class RadarServerLauncher(RadarLauncher):
             super(RadarServerLauncher, self)._join_threads()
 
     def run(self):
-        self._platform_setup.logger.log('Starting radar server.')
+        self._platform_setup.logger.log('Starting Radar server.')
         self._start_threads(self._threads[:1])
         self._join_threads()
-        self._platform_setup.logger.log('Shutting down radar server.')
+        self._platform_setup.logger.log('Shutting down Radar server.')
         self._platform_setup.tear_down(self)
