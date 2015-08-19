@@ -40,15 +40,7 @@ class RadarServerLauncher(RadarLauncher):
 
     def __init__(self):
         super(RadarServerLauncher, self).__init__()
-        # client_manager = ClientManager(self._platform_setup)
         self._threads = self._build_threads()
-        # queue = Queue()
-        # stop_event = Event()
-        # self._threads = [
-        #     RadarServer(client_manager, self._platform_setup, queue, stop_event=stop_event),
-        #     RadarServerPoller(client_manager, self._platform_setup, stop_event=stop_event),
-        #     PluginManager(self._platform_setup, queue, stop_event=stop_event),
-        # ]
 
     def _build_threads(self):
         client_manager = ClientManager(self._platform_setup)

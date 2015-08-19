@@ -40,12 +40,6 @@ class RadarClientLauncher(RadarLauncher):
     def __init__(self):
         super(RadarClientLauncher, self).__init__()
         self._threads = self._build_threads()
-        # queue_a, queue_b = Queue(), Queue()
-        # stop_event = Event()
-        # self._threads = [
-        #     RadarClient(self._platform_setup, queue_a, queue_b, stop_event=stop_event),
-        #     CheckManager(self._platform_setup, queue_b, queue_a, stop_event=stop_event),
-        # ]
 
     # TODO: Better names for queues?
     def _build_threads(self):
