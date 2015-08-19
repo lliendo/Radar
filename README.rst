@@ -3,23 +3,41 @@ Radar Monitoring System
 =======================
 
 Radar is general purpose monitoring system. It aims to be simple and extendable.
-It uses arbitrary check execution and server side plugins to provide maximum
-flexibility. It is entirely written in the Python programming language and is
-distributed under the LGPL v3 license.
+It uses arbitrary check execution and server side plugins to provide flexibility.
+It is entirely written in the Python programming language and is distributed
+under the LGPL v3 license.
 
 
 Status
 ------
 
 Radar is currently under testing and bug fixing, however its foundations are
-almost complete. You can take a look at the TODO to have an idea what features
-are going to (or might) be implemented in the future.
+complete. You can take a look at the TODO to have an idea what features are
+going to (or might) be implemented in the future.
 
 
 Documentation
 -------------
 
 You can read how to setup and use Radar (both client and server) from `here <https://...>`.
+You can also generate the documentation of the project by yourself using `Sphinx <http://sphinx-doc.org/>`.
+You will have to install Sphinx in first place :
+
+.. code-block:: bash
+
+    pip install sphinx
+
+
+Now change to the project's documentation directory and run make html :
+
+.. code-block:: bash
+
+    cd Radar/docs
+    make html
+
+Sphinx will output the generated documentation to the ... directory. To read
+the generated docs open up a browser and then load the index.html file.
+
 If you think that documentation is incomplete or not clear enough, please let
 me know.
 
@@ -27,8 +45,8 @@ me know.
 Supported platforms
 -------------------
 
-Radar should run without any problems in any platform that the Python
-interpreter is supported.
+Radar should run without any problems in any platform where the Python interpreter
+is supported.
 
 
 Installation
@@ -39,6 +57,7 @@ Always the latest release is available from PyPI. To install simply run :
 .. code-block:: bash
 
     pip install radar-monitoring-system
+
 
 If you wish however to use the latest version from this repository :
 
