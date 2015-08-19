@@ -1,10 +1,10 @@
 Limitations
 ===========
 
-    Radar is new tool so it's far from being perfect. Here are some things that
-    you should know about the current status of the tool.
+    Radar is a brand new project and here are some things that you should know
+    about the current status of the tool :
 
-    * Concurrent checks. Radar does not support concurrent checks at the moment.
+    * Concurrent checks : Radar does not support concurrent checks at the moment.
 
     * Concurrent plugin execution : At the moment all plugins are executed
       sequentially, this is in a way identical to the checks limitation described

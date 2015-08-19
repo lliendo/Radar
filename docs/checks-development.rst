@@ -1,9 +1,9 @@
 Checks development
 ==================
 
-    In this section we will explain how checks should be developed
-    and how Radar runs them. As stated before checks can be programmed
-    in your favourite language.
+    In this section we will explain how checks should be developed and how Radar
+    runs them. As stated before checks can be programmed in your favourite
+    language.
 
 
 Introduction
@@ -13,41 +13,39 @@ Introduction
     how you return the output of your checks, it will expect a valid `JSON <https://en.wikipedia.org/wiki/JSON>`_ 
     containing one or more of the following fields :
 
-    * status : This field is mandatory. It must be equal to any of the
-      following string values : OK, WARNING, SEVERE or ERROR.
+    * status : This field is mandatory. It must be equal to any of the following
+      string values : OK, WARNING, SEVERE or ERROR.
 
-    * details : This is an optional field. You can add details
-      about how your check performed. Radar expects this value to
-      be a string.
+    * details : This is an optional field. You can add details about how your
+      check performed. Radar expects this value to be a string.
 
-    * data : This is an optional field. You can put here any data
-      related to your check. Radar does not expect any particular
-      format for this field.
+    * data : This is an optional field. You can put here any data related to your
+      check. Radar does not expect any particular format for this field.
 
-    So, let's assume you have a load average check. So the minimum output
-    for this check would be the following JSON :
+    So, let's assume you have an uptime check. So the minimum output for this
+    check would be the following JSON :
 
     .. code-block:: javascript
 
         {"status": "OK"}
 
-    Radar is case insensitive when it reads a check's output so it does not
-    care how you name the fields (as long as you include them Radar won't
-    complain), so this JSON is also valid :
+    Radar is case insensitive when it reads a check's output so it does not care
+    how you name the fields (as long as you include them Radar won't complain),
+    so this JSON is also valid :
 
     .. code-block:: javascript
 
         {"Status": "Ok"}
 
     Any other combination of upper and lower characters is also valid.
-    Now suppose you want to be more verbose on this check, then you might
-    want to add some details :
+    Now suppose you want to be more verbose on this check, then you might want
+    to add some details :
 
     .. code-block:: javascript
 
         {
-            "status": "WARNING",
-            "details": "Load average is : 4.21 2.10 1.00"
+            "status": "OK",
+            "details": "0 days 6 hours 58 minutes"
         }
 
     Details will be stored (along with status and data) in their respective
@@ -60,33 +58,33 @@ Introduction
 
         {
             "status": "OK",
-            "details": "Load average is : 1.51 0.45 0.23",
             "data": {
-                "1_min": 1.51,
-                "5_min": 0.45,
-                "15_min": 0.23
-            }
+                "uptime": 25092, 
+                "name": "uptime"
+            },
+            "details": "0 days 6 hours 58 minutes"
         }
 
+
     As mentioned before, there is no specific format that you have to comply
-    on the data field, is completly up to you how to lay it out. You can
-    include as much data as you want and in any desired way.
+    on the data field, is completly up to you how to lay it out. You can include
+    as much data as you want and in any desired way.
 
 
 Guidelines
 ----------
 
     Currently Radar checks are executed sequentially, that is one after the
-    other (this is expected to change on future releases), so some care must
+    other (this is expected to change on a future release), so some care must
     be taken when developing them. Here are some tips and advices on how to
     write good checks :
 
-    * The order of the checks execution is irrelevant. That means that
-      check Y must not depend on previous execution of check X.
+    * The order of the checks execution is irrelevant. That means that check Y
+      must not depend on previous execution of check X.
 
-    * Checks should check one and only one resource. If you're checking
-      the load average, then just check that and not other things like
-      free memory or disk usage. For those write 2 other checks.
+    * Checks should check one and only one resource. If you're checking the load
+      average, then just check that and not other things like free memory or
+      disk usage. For those write 2 other checks.
 
     * Checks should run as fast as possible or fail quickly. As checks run
       sequentially if one check lasts 10 seconds to complete, then subsecuent

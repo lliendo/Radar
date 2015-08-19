@@ -1,13 +1,13 @@
 Radar internals
 ===============
 
-    Radar has been carefully designed to keep the code clean and understandable,
+    Radar has been carefully designed to its keep base code clean and understandable,
     so everyone can take a look at its internals (and hopefully people play
     around with the code).
 
 
-Design philosophy
------------------
+Design
+------
 
     Radar is designed to be a small tool, its core isn't intended to grow
     indefinetly besides some currently lacking features. The reason behind
@@ -15,22 +15,20 @@ Design philosophy
     its objectives is easier to understand and does its work better than an
     all-problem-solving solution.
     This also has a downside : a small tool may not offer advanced or complex
-    features. Radar's mainly objective is to be a simple and easy to use tool
-    hence the reason why you might not find as many features as other solutions
-    may offer.
+    features. Radar's main goal is to be a simple and easy to use tool hence the
+    reason why you might not find as many features as other solutions may offer.
 
-    Radar makes heavy use of object oriented programming, every component is
-    modeled through a class. Some few classes make use of mixins and all error
-    conditions are handled through exceptions. Radar also makes use of some 
-    functional programming, you'll find comprehension lists almost everywhere
-    across the project.
+    Radar makes use of object oriented programming, every component is modeled
+    through a class. Some few classes make use of mixins and all errors are
+    handled through exceptions. Radar also makes use of comprehension lists
+    extensively across the project.
 
     If you take a fast look through the code you'll realize that almost every
-    method is only a few lines long. Every object is intended to perform a
+    method is only a few lines long. Every class is intended to perform a
     specific task and each method solves a concrete piece of that task.
     The result is that you won't find complex or twisted code and reading any
-    piece of code and get the idea of what is doing takes only a few seconds.
-    The code also lacks of comments, the reason for this is that the code
+    piece of code to get the idea of what is doing takes only a few seconds.
+    The code mostly lacks of comments, the reason for this is that the code
     intends to be self-describing. Radar strictly tries to stick to this rule.
 
 
@@ -92,10 +90,31 @@ Class diagrams
 --------------
 
     We're now going to take a look at the most relevant classes that Radar (both
-    client and server) make use of.
+    client and server) has.
 
     The main idea of these diagrams is to give you the big picture on how different
     classes are related each other and how objects talk between them.
+
+
+Initialization
+--------------
+
+    Both Radar client and server go through almost the same steps before going
+    into operational mode. When Radar (client or server) is fired up it 
+    instantiates a launcher (RadarClientLauncher for the client and
+    RadarServerLauncher for the server) and inmediatly calls its run() method.
+
+    From that point a three phase initialization takes place :
+
+    1 - First the command line is processed. This is done in the RadarLauncher
+        class. After this objects and configurations are read from the main
+        configuration file and alternate files in the case of the server.
+    
+    2 - Client and server proceed to define main, create and configure threads. 
+    3 - Finally threads are launched.
+
+    After all threads are successfully launched client and server break away and
+    start performing different tasks.
 
 
 Server operation
