@@ -106,12 +106,13 @@ class PluginManager(Thread):
 
     STOP_EVENT_TIMEOUT = 0.2
 
-    def __init__(self, platform_setup, queue):
+    def __init__(self, platform_setup, queue, stop_event=None):
         Thread.__init__(self)
         self._logger = platform_setup.logger
         self._plugins = platform_setup.plugins
         self._queue = queue
-        self.stop_event = Event()
+        # self.stop_event = Event()
+        self.stop_event = stop_event or Event()
 
     # We dereference ids, to avoid re-instantiating objects. We can actually
     # do this because we're on the same process address space.

@@ -38,7 +38,7 @@ class RadarServer(Server, Thread):
     Client = RadarClientLite
     NETWORK_MONITOR_TIMEOUT = 0.2
 
-    def __init__(self, client_manager, platform_setup, queue):
+    def __init__(self, client_manager, platform_setup, queue, stop_event=None):
         Thread.__init__(self)
         Server.__init__(
             self,
@@ -51,7 +51,8 @@ class RadarServer(Server, Thread):
         self._logger = platform_setup.logger
         self._plugins = platform_setup.plugins
         self._queue = queue
-        self.stop_event = Event()
+        # self.stop_event = Event()
+        self.stop_event = stop_event or Event()
 
     def accept_client(self, client):
         return self._client_manager.matches_any_monitor(client)
@@ -106,12 +107,13 @@ class RadarServer(Server, Thread):
 
 
 class RadarServerPoller(Thread):
-    def __init__(self, client_manager, platform_setup):
+    def __init__(self, client_manager, platform_setup, stop_event=None):
         Thread.__init__(self)
         self._client_manager = client_manager
         self._logger = platform_setup.logger
         self._polling_time = self._validate(platform_setup.config['polling time'])
-        self.stop_event = Event()
+        # self.stop_event = Event()
+        self.stop_event = stop_event or Event()
 
     def _validate(self, polling_time):
         try:
@@ -137,12 +139,12 @@ class RadarServerPoller(Thread):
 
 
 class RadarServerRC(Thread):
-    def __init__(self, client_manager, platform_setup):
+    def __init__(self, client_manager, platform_setup, stop_event=None):
         Thread.__init__(self)
         self._client_manager = client_manager
         self._logger = platform_setup.logger
         self._token = platform_setup.token
-        self.stop_event = Event()
+        self.stop_event = stop_event or Event()
 
     def enable(self, ids=[]):
         pass
