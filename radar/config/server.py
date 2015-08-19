@@ -233,21 +233,33 @@ class ServerConfig(ConfigBuilder):
 
     def _build_contacts(self):
         files = self._search_files(self.config['contacts'])
-        contacts = reduce(lambda l, m: l + m, [ContactBuilder(f).build() for f in files])
-        contact_groups = reduce(lambda l, m: l + m, [ContactGroupBuilder(f).build(contacts) for f in files])
+
+        try:
+            contacts = reduce(lambda l, m: l + m, [ContactBuilder(f).build() for f in files])
+            contact_groups = reduce(lambda l, m: l + m, [ContactGroupBuilder(f).build(contacts) for f in files])
+        except TypeError:
+            return []
 
         return contacts + contact_groups
 
     def _build_checks(self):
         files = self._search_files(self.config['checks'])
-        checks = reduce(lambda l, m: l + m, [CheckBuilder(f).build() for f in files])
-        check_groups = reduce(lambda l, m: l + m, [CheckGroupBuilder(f).build(checks) for f in files])
+
+        try:
+            checks = reduce(lambda l, m: l + m, [CheckBuilder(f).build() for f in files])
+            check_groups = reduce(lambda l, m: l + m, [CheckGroupBuilder(f).build(checks) for f in files])
+        except TypeError:
+            raise ConfigError('Error - No defined checks could be found.')
 
         return checks + check_groups
 
     def _build_monitors(self, contacts, checks):
         files = self._search_files(self.config['monitors'])
-        return reduce(lambda l, m: l + m, [MonitorBuilder(f, checks, contacts).build() for f in files])
+
+        try:
+            return reduce(lambda l, m: l + m, [MonitorBuilder(f, checks, contacts).build() for f in files])
+        except TypeError:
+            raise ConfigError('Error - No defined monitors could be found.')
 
     def _load_plugins(self):
         plugin_classes = ClassLoader(self.config['plugins']).get_classes(subclass=ServerPlugin)
