@@ -41,7 +41,7 @@ class RadarServerLauncher(RadarLauncher):
     def __init__(self):
         super(RadarServerLauncher, self).__init__()
         # client_manager = ClientManager(self._platform_setup)
-        self._threads = self._builds_threads()
+        self._threads = self._build_threads()
         # queue = Queue()
         # stop_event = Event()
         # self._threads = [
