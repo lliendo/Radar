@@ -195,6 +195,4 @@ class Client(object):
             else:
                 self.on_timeout()
 
-        # self.on_shutdown()
-
         return self.is_stopped()
