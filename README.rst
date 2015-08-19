@@ -35,6 +35,7 @@ Now change to the project's documentation directory and run make html :
     cd Radar/docs
     make html
 
+
 Sphinx will output the generated documentation to the ... directory. To read
 the generated docs open up a browser and then load the index.html file.
 
@@ -79,8 +80,8 @@ Radar is designed to be both simple and easy to use and understand.
 Tests
 -----
 
-Radar uses Travis CI to run its tests. You can however run tests manually by
-cloning the latest available code (you will need to install `Tox <https://...>`) :
+Radar uses `Tox <https://...>` to run its tests. To run the Radar's tests install
+Tox and then run :
 
 .. code-block:: bash
 
