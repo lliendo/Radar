@@ -111,7 +111,6 @@ class PluginManager(Thread):
         self._logger = platform_setup.logger
         self._plugins = platform_setup.plugins
         self._queue = queue
-        # self.stop_event = Event()
         self.stop_event = stop_event or Event()
 
     # We dereference ids, to avoid re-instantiating objects. We can actually
