@@ -44,6 +44,7 @@ class Check(Switch):
         'TIMEOUT': 4,
     }
 
+    # TODO: Mmmm... Better way ? Let's not abuse of this trick...
     def __new__(cls, *args, **kwargs):
         try:
             global getpwnam
@@ -68,11 +69,15 @@ class Check(Switch):
         self.current_status = self.STATUS['UNKNOWN']
         self.previous_status = self.STATUS['UNKNOWN']
 
+    def _update_matches(self, check_status):
+        return (self.id == check_status['id']) and (check_status['status'] in self.STATUS.values()) and \
+            self.enabled
+
     def update_status(self, check_status):
         updated = False
 
         try:
-            if (self.id == check_status['id']) and (check_status['status'] in self.STATUS.values()) and self.enabled:
+            if self._update_matches(check_status):
                 self.previous_status = self.current_status
                 self.current_status = check_status['status']
                 self.details = check_status.get('details', '')
@@ -105,9 +110,6 @@ class Check(Switch):
         return [d]
 
     def to_check_reply_dict(self):
-        # d = super(Check, self).to_dict(['id', 'current_status'])
-        # d['status'] = d.pop('current_status')
-
         d = {
             'id': self.id,
             'status': self.current_status,
@@ -158,8 +160,7 @@ class Check(Switch):
         absolute_path = self._build_absolute_path()
 
         if enforce_ownership and not self._owned_by(absolute_path, user, group):
-            raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
-                absolute_path, user, group))
+            raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(absolute_path, user, group))
 
         try:
             return Popen([absolute_path] + split_args(self.args), stdout=PIPE).communicate()[0]
