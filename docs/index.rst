@@ -34,4 +34,5 @@ Contents
     plugins-development
     internals
     limitations
+    license
     authors

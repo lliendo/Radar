@@ -1,43 +1,45 @@
 Radar internals
 ===============
 
-    Radar has been carefully designed to its keep base code clean and understandable,
-    so everyone can take a look at its internals (and hopefully people play
-    around with the code).
+    Radar has been carefully designed to its keep base code clean and
+    understandable, so everyone can take a look at its internals (and hope
+    someone play with the code).
 
     This section of the documentation tries to expose the main ideas that were
-    implemente to make this project possible. We'll not describe every single detail
-    because that would take a huge amount of time and you'll get bored. Instead
-    I've decided to describe few things as possible and try to reflect why a
-    decision was taken that way. Also consider that as everybody I make mistakes
-    and no perfect software design exists and Radar is way way long from being
-    or achieve that.
+    implemented to make this project possible. We'll not describe every single
+    detail because that would take a huge amount of time and you'll get bored.
+    Instead I've decided to describe few things as possible and try to reflect
+    why a decision was taken that way. Also consider that as everybody I make
+    mistakes and no perfect software design exists and Radar is way way long
+    to achieve that.
 
 
-General design
---------------
+Overview
+--------
 
     Radar is designed to be a small tool, its core isn't intended to grow
     indefinetly besides some currently feature lacking. The reason behind
-    this decision is that a tool that is small and controlled in its size and
-    its objectives is easier to understand and does its work better than an
+    this is that a tool that is small and controlled in its size and its
+    objectives is easier to understand and does its work better than an
     all-problem-solving solution.
     This also has a downside : a small tool may not offer advanced or complex
     features. Radar's main goal is to be a simple and easy to use tool hence the
     reason why you might not find as many features as other solutions may offer.
 
     Radar makes use of object oriented programming, every component is modeled
-    through a class. Some few classes make use of mixins and all errors are
-    handled through exceptions. Radar also makes use of comprehension lists
-    extensively across the project.
+    using a class. Some few classes make use of mixins and all errors are
+    handled through exceptions. Radar also makes heavy use of comprehension lists
+    across the project.
 
-    If you take a fast look through the code you'll realize that almost every
-    method is only a few lines long. Every class is intended to perform a
-    specific task and each method solves a concrete piece of that task.
+    If you take a fast look to the code you'll realize that almost every method
+    is only a few lines long. Every class is intended to perform a specific task
+    and each method solves a concrete piece of that task.
     The result is that you won't find complex or twisted code and reading any
     piece of code to get the idea of what is doing takes only a few seconds.
     The code mostly lacks of comments, the reason for this is that the code
-    intends to be self-describing. Radar tries to stick to this rule.
+    intends to be self-describing (care has been taken to make classes and
+    methods describe and reflect their intentions). Radar tries to stick to
+    this rule.
 
 
 Project layout
@@ -54,7 +56,7 @@ Project layout
             /tests               # Project's tests.
 
             /templates           # Radar client and server templates used as
-                                 # initial configurations.
+                                 # initial configurations after install.
             /radar
                 /check           # Check and CheckGroup abstractions.
                 /check_manager   # CheckManager governs check execution.
@@ -94,9 +96,6 @@ Project layout
                 /server          # Main RadarServer abstraction.
 
 
-
-
-
 Initialization
 --------------
 
@@ -107,26 +106,24 @@ Initialization
 
     From that point a three phase initialization takes place :
 
-    1 - First the command line is processed. This is done in the RadarLauncher
-        class. After this, objects and configurations are read from the main
-        configuration file and alternate files in the case of the server are
-        parsed and processed.
-    
-    2 - Client and server proceed to define, create and configure threads. 
-
-    3 - Finally threads are launched.
+    1. First the command line is processed. This is done in the RadarLauncher
+       class. After this, objects and configurations are read from the main
+       configuration file and alternate files in the case of the server are
+       parsed and processed.
+    2. Client and server proceed to define, create and configure threads. 
+    3. Finally threads are launched.
 
     After all threads are successfully launched client and server break away and
     start performing completly different tasks.
 
 
-Radar's operational design
---------------------------
+Operational overview
+--------------------
 
     Both Radar client and server operate in an event triggered fashion and make
     use of threads to distribute the workload.
-    If you look at the code of the RadarServer and RadarClient you'll find
-    methods called 'on_something'. Every time a network event occurs it is
+    If you look at the code of the RadarServer and RadarClient classes you'll
+    find methods called 'on_something'. Every time a network event occurs it is
     reflected in any of those methods. The heart of Radar are two abstract
     classes : Client and Server which can be found under the network module.
     The Client and Server classes operate in a very similar way despite being
@@ -151,33 +148,31 @@ Server operation
 
     The main work of the server is splitted across three main threads :
 
-    1 - RadarServer.
-
-    2 - RadarServerPoller.
-
-    3 - PluginManager.
+    * RadarServer.
+    * RadarServerPoller.
+    * PluginManager.
 
 
     RadarServer :
 
     This thread is responsible for accepting clients and receiving replies from
     them. A client is only accepted if it is defined in at least one monitor
-    and is not duplicated (that is, if there isn't a client already connected).
+    and is not duplicated (that is, if the same client isn't already connected).
     
-    Once a client is successfully accepted it is registered within the ClientManager.
+    Once a client is accepted it is registered within the ClientManager.
     The ClientManager acts as proxy that talks directly to all defined monitors.
     Every monitor internally knows if it has to accept a client when it connects,
-    if it is indeed accepted then a deep copy of the checks and contacts is stored
+    if it is indeed accepted then a copy of the checks and contacts is stored
     along with the instance of that client. This copy is needed because more than
     one client may match against the same monitor.
 
-    The reverse process happens when a client disconnects, the RadarServer unregisters
+    The reverse process applies when a client disconnects, the RadarServer unregisters
     that client and the connection is closed.
 
     When a client sends a reply is it also initially processed by the ClientManager.
     The reason for this is that we need to get a list of checks and contacts
     that are affected by such reply. These two lists of objects are later on
-    sent to the PluginManager to be processed by any defined plugins.
+    transferred to the PluginManager to be processed by any defined plugins.
 
 
     RadarServerPoller :
@@ -205,17 +200,64 @@ Server operation
     same address space. This solution seems more elegant and effective than
     re-instantiating those objects from their values.
     After this pre-processing every plugin's run method is called. If a plugin
-    does not work properly the exception is trapped and registered in the
-    Radar's log.
+    does not work properly all exceptions are caught and registered in the
+    Radar's log file.
 
 
 Client operation
 ----------------
 
 
+Protocol
+--------
+
+    Radar client and server use TCP for all communications. Here is the 
+    network protocol that is used by Radar :
+
+    +------+---------+--------------+---------+
+    | TYPE | OPTIONS | PAYLOAD SIZE | PAYLOAD |
+    +------+---------+--------------+---------+
+
+    * TYPE (1 byte) : Current message types are TEST, TEST REPLY, CHECK
+      and CHECK REPLY.
+    
+    * OPTIONS (1 byte) : Current options are NONE and COMPRESS. 
+    
+    * PAYLOAD SIZE (2 bytes) : Indicates the size (in bytes) of the payload.
+    
+    * PAYLOAD (N bytes) : N bytes make up the payload. The payload maximum
+      size is 64 KiB.
+
+    Every time the poller needs to query its clients a CHECK message is built
+    and broadcasted to all clients that are managed by any monitor. When
+    the client receives this CHECK message it proceeds to run all checks that
+    the server instructs it to run. After all checks are executed their output
+    is collected and a CHECK REPLY message is built and sent to the server.
+
+    The TEST and TEST REPLY messages are not yet implemented (just defined). The
+    idea is to have a user-controlled way to explicitly force the run of specific
+    checks. This is useful because if a check is not working as expected and
+    a developer or sysadmin fixes it, it doesn't not make sense to wait until
+    the next poll round to verify that check performs as expected or fails again.
+    This feature will be implemented in a next release along with a small console
+    that allows the user to have more control of the currently running server.
+    
+    The payload is always a JSON. The decision behind using JSON is that
+    provides flexibility and an easy way to validate and convert data that
+    comes from the other side of the network. Besides that it also allows the
+    final user to layout the data field of checks as she or he wishes.
+    This also has downsides : more bytes are sent through the network and an
+    extra overhead is payed every time we serialize and deserialize a JSON
+    string.
+
+    Currently messages are not being compressed at all. This feature makes
+    sense only if the client replies a message longer than 64 KiB. This feature
+    will be certainly included in a future release.
+
+
 Class diagrams
 --------------
 
     Sometimes class diagrams help you see the big picture of a design and also
-    act as excellent documentation. Here are some diagrams that may help you
-    to see a different picture that words can't describe or make cumbersome.
+    act as useful documentation. Here are some diagrams that may help you to
+    to understand what words make cumbersome to describe.
