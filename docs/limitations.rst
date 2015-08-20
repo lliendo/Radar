@@ -14,7 +14,10 @@ Limitations
       certainly be implemented in the near future.
 
     * SNMP checks : SNMP is not supported. It hasn't been yet defined if this
-      feature will be supported.
+      feature will be supported at all.
+
+    * SSL/TLS : Not yet supported but certainly it's going to be included on
+      a future release.
 
 
     All described limitations are intended to be implemented in the future.
