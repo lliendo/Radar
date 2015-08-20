@@ -162,13 +162,13 @@ class Server(object):
     def _accept(self):
         try:
             client_socket, (address, port) = self.socket.accept()
-        except SocketError, (_, error_details):
-            raise ServerAcceptError('Error - Couldn\'t accept new client. Details : {:}.'.format(error_details))
+        except SocketError, (_, e):
+            raise ServerAcceptError('Error - Couldn\'t accept new client. Details : {:}.'.format(e))
 
         if not self.blocking_socket:
             client_socket.setblocking(0)
 
-        if (not self.Client) or (not issubclass(self.Client, BaseClient)):
+        if (self.Client is None) or (not issubclass(self.Client, BaseClient)):
             raise ServerError('Error - Wrong \'Client\' subclass or \'Client\' subclass not defined.')
 
         return self.Client(address, port, socket=client_socket, blocking_socket=self.blocking_socket)
