@@ -1,4 +1,4 @@
 Authors
 -------
 
-    * Lucas Liendo.
+    * Lucas Liendo <mindmaster@gmail.com>.

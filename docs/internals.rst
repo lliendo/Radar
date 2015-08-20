@@ -133,8 +133,8 @@ Operational overview
     dependant. Before Radar server goes into operational mode it tries to select
     the best multiplex i/o method available. In any case if the platform can't
     be detected or an efficient multiplexing method cannot be found Radar will
-    keep working with a SelectMonitor (which relies on the select system call).
-    The current supported multiplexing strategies are : select, poll, epoll,
+    fall back to the SelectMonitor (which relies on the select system call).
+    The currently supported multiplexing strategies are : select, poll, epoll,
     kqueue and i/o completion ports.
 
     Radar client and server also operate in a non-blocking way. Its main thread
@@ -211,7 +211,7 @@ Client operation
 Protocol
 --------
 
-    Radar client and server use TCP for all communications. Here is the 
+    Radar client and server use TCP for all of its communications. Here is the 
     network protocol that is used by Radar :
 
     +------+---------+--------------+---------+
@@ -225,22 +225,22 @@ Protocol
     
     * PAYLOAD SIZE (2 bytes) : Indicates the size (in bytes) of the payload.
     
-    * PAYLOAD (N bytes) : N bytes make up the payload. The payload maximum
+    * PAYLOAD (variable) : N bytes make up the payload. The payload's maximum
       size is 64 KiB.
 
     Every time the poller needs to query its clients a CHECK message is built
     and broadcasted to all clients that are managed by any monitor. When
     the client receives this CHECK message it proceeds to run all checks that
-    the server instructs it to run. After all checks are executed their output
-    is collected and a CHECK REPLY message is built and sent to the server.
+    the server instructs it to run. After all checks are executed their outputs
+    are collected and a CHECK REPLY message is built and sent to the server.
 
     The TEST and TEST REPLY messages are not yet implemented (just defined). The
     idea is to have a user-controlled way to explicitly force the run of specific
     checks. This is useful because if a check is not working as expected and
-    a developer or sysadmin fixes it, it doesn't not make sense to wait until
+    a developer or sysadmin fixes it, then it doesn't not make sense to wait until
     the next poll round to verify that check performs as expected or fails again.
     This feature will be implemented in a next release along with a small console
-    that allows the user to have more control of the currently running server.
+    that allows the user to have more control of the running server.
     
     The payload is always a JSON. The decision behind using JSON is that
     provides flexibility and an easy way to validate and convert data that
