@@ -86,7 +86,7 @@ class Client(object):
         if not self.is_connected():
             raise ClientError('Error - Client is not connected.')
 
-        # First parameter of pack means set on linger, the other option is
+        # Second parameter of pack means set on linger, the third parametern is
         # the linger timeout (0 in this case).
         self.socket.setsockopt(SOL_SOCKET, SO_LINGER, pack('ii', 1, 0))
         self.socket.close()
@@ -103,19 +103,13 @@ class Client(object):
     def send(self, data):
         try:
             sent_bytes = self.socket.send(data)
-        except SocketError, (_, error_details):
-            raise ClientSendError('Error - Couldn\'t send data. Details : {:}.'.format(error_details))
+        except SocketError, (_, e):
+            raise ClientSendError('Error - Couldn\'t send data. Details : {:}.'.format(e))
         except TypeError:
             raise ClientSendError('Error - Couldn\'t send data (data not iterable).')
 
         return sent_bytes
 
-    # TODO: Recheck that this is behaving as expected.
-    # We're assuming that on a non-blocking socket recv does not read length
-    # bytes if there are not at least length bytes... (e.g. we're doing
-    # a recv(5) when there are actually only 3 bytes on the socket)
-    # and hence those 3 bytes plus the next 2 would be available in the next
-    # recv.
     def receive(self, length):
         try:
             received_bytes = self.socket.recv(length)
@@ -172,23 +166,20 @@ class Client(object):
         except ClientDisconnected:
             self.disconnect()
 
-    def _watch(self, fds):
+    def _watch(self):
         ready_fds = []
 
         try:
-            ready_fds, _, _ = select(fds, [], [], self.network_monitor_timeout)
+            ready_fds, _, _ = select([self.socket], [], [], self.network_monitor_timeout)
         except SelectError, e:
             if not self._interrupted_by_signal(e):
                 raise e
 
         return ready_fds
 
-    def __eq__(self, other_client):
-        return self.address == other_client.address
-
     def run(self):
         while (not self.is_stopped()) and self.is_connected():
-            ready_fds = self._watch([self.socket])
+            ready_fds = self._watch()
 
             if ready_fds:
                 self._process_message()
@@ -196,3 +187,6 @@ class Client(object):
                 self.on_timeout()
 
         return self.is_stopped()
+
+    def __eq__(self, other_client):
+        return self.address == other_client.address
