@@ -51,7 +51,6 @@ class RadarServer(Server, Thread):
         self._logger = platform_setup.logger
         self._plugins = platform_setup.plugins
         self._queue = queue
-        # self.stop_event = Event()
         self.stop_event = stop_event or Event()
 
     def accept_client(self, client):
@@ -112,7 +111,6 @@ class RadarServerPoller(Thread):
         self._client_manager = client_manager
         self._logger = platform_setup.logger
         self._polling_time = self._validate(platform_setup.config['polling time'])
-        # self.stop_event = Event()
         self.stop_event = stop_event or Event()
 
     def _validate(self, polling_time):
