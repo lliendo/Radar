@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from Queue import Empty as EmptyQueue
 from threading import Thread, Event
-from ..check import Check
+from ..check import Check, CheckError
 from ..protocol import Message
 
 
@@ -43,7 +43,10 @@ class CheckManager(Thread):
         }
 
     def _build_checks(self, checks):
-        return [Check(name=c['path'], platform_setup=self._platform_setup, **c) for c in checks]
+        try:
+            return [Check(name=c['path'], platform_setup=self._platform_setup, **c) for c in checks]
+        except KeyError:
+            raise CheckError('Error - Server sent empty or invalid check.')
 
     def _on_check(self, message_type, message):
         checks = self._build_checks(message)
@@ -59,6 +62,8 @@ class CheckManager(Thread):
             action(message_type, message)
         except KeyError:
             self._logger.log('Unknown message id \'{:}\'.'.format(message_type))
+        except CheckError, e:
+            self._logger.log(e)
 
     def is_stopped(self):
         return self.stop_event.is_set()
