@@ -33,7 +33,6 @@ class ConfigError(Exception):
 # TODO: Add line numbers to config dictionaries, this allows
 # to report configuration errors in a precise way.
 # Check : http://stackoverflow.com/questions/13319067/parsing-yaml-return-with-line-number
-# Also move YAML parsing to another class, so it may be used alse by ServerPlugin class.
 class ConfigBuilder(object):
 
     __metaclass__ = ABCMeta
