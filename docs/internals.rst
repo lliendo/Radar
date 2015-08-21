@@ -137,10 +137,13 @@ Operational overview
     The currently supported multiplexing strategies are : select, poll, epoll,
     kqueue and i/o completion ports.
 
-    Radar client and server also operate in a non-blocking way. Its main thread
+    Radar's client and server also operate in a non-blocking way. Its main threads
     loops are iterated constantly every 200 milliseconds. This prevents any
     single client from blocking the server indefinetly due to a malformed or
-    incomplete network message.
+    incomplete network message. Also this mechanism is used as an easy workaround
+    to gracefully terminate threads : one thread Event is shared among all defined
+    threads, when this thread event is stopped the condition of the loop does
+    not hold and the thread successfully ends.
 
 
 Server operation
@@ -190,26 +193,26 @@ Server operation
 
     As its name indicates, this is the place where all plugins are executed and
     controlled. Whenever the RadarServer receives a reply from a client and after
-    little processing a dictionary containing all plugin data is written to a 
-    queue that RadarServer and PluginManager share, this is the mechanism of
-    communication between RadarServer and PluginManager.
+    little processing a dictionary containing all relevant plugin data is written
+    by the RadarServer to a  queue that both RadarServer and PluginManager share,
+    this is the mechanism of communication between those objects.
     The PluginManager quietly waits for a new dictionary to arrive from this
-    queue, when it does it disassembles all parameters and does object id
+    queue, when it does it disassembles all parameters and performs object id
     dereferencing of two lists that contain the affected checks and the
     related contacts. This dereferencing is possible because threads share the
     same address space. This solution seems more elegant and effective than
     re-instantiating those objects from their values.
-    After this pre-processing every plugin's run method is called. If a plugin
-    does not work properly all exceptions are caught and registered in the
-    Radar's log file.
+    After this pre-processing every plugin's run method is called with appropiate
+    arguments. If a plugin does not work properly all exceptions are caught and
+    registered in the Radar's log file.
 
 
 Client operation
 ----------------
 
 
-Protocol
---------
+Network protocol
+----------------
 
     Radar client and server use TCP for all of its communications. Here is the 
     network protocol that is used by Radar :
