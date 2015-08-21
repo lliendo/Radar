@@ -1,5 +1,5 @@
 Minimum requiremients
----------------------
+=====================
 
     In order to run, Radar needs the `Python <https://www.python.org/>`_ interpreter (at least
     version 2.7) and a few dependencies. These dependencies are already defined

@@ -36,22 +36,22 @@ Introduction
 
     Take a look a this piece of Python code :
 
-    .. code-block:: python
+        .. code-block:: python
 
-        from radar.plugin import ServerPlugin
+            from radar.plugin import ServerPlugin
 
-        class DummyPlugin(ServerPlugin):
+            class DummyPlugin(ServerPlugin):
 
-            PLUGIN_NAME = 'Dummy plugin'
+                PLUGIN_NAME = 'Dummy plugin'
 
-            def on_start(self):
-                self.log('Starting up.')
+                def on_start(self):
+                    self.log('Starting up.')
 
-            def on_check_reply(self, address, port, checks, contacts):
-                self.log('Received check reply from {:}:{:}.'.format(address, port))
+                def on_check_reply(self, address, port, checks, contacts):
+                    self.log('Received check reply from {:}:{:}.'.format(address, port))
 
-            def on_shutdown(self):
-                self.log('Shutting down.')
+                def on_shutdown(self):
+                    self.log('Shutting down.')
 
 
     As explained before a Radar plugin needs to comply with certain requirements.
@@ -117,41 +117,41 @@ Introduction
 
     Given this YAML file (called dummy.yml) :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        connect:
-            to: localhost
-            port: 2000
+            connect:
+                to: localhost
+                port: 2000
 
 
     Now we have an different version of the dummy plugin :
 
-    .. code-block:: python
+        .. code-block:: python
 
-        from socket import create_connection
-        from radar.plugin import ServerPlugin
+            from socket import create_connection
+            from radar.plugin import ServerPlugin
 
-        class DummyPlugin(ServerPlugin):
+            class DummyPlugin(ServerPlugin):
 
-            PLUGIN_NAME = 'Dummy plugin'
-            PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'dummy.yml')
+                PLUGIN_NAME = 'Dummy plugin'
+                PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'dummy.yml')
 
-            def _connect(self):
-                address = self.config['connect']['to']
-                port = self.config['connect']['port']
-                self._fd = create_connection((address, port))
+                def _connect(self):
+                    address = self.config['connect']['to']
+                    port = self.config['connect']['port']
+                    self._fd = create_connection((address, port))
 
-            def _disconnect(self):
-                self._fd.close()
+                def _disconnect(self):
+                    self._fd.close()
 
-            def on_start(self):
-                self._connect()
+                def on_start(self):
+                    self._connect()
 
-            def on_check_reply(self, address, port, checks, contacts):
-                """ Perform some useful work here """
+                def on_check_reply(self, address, port, checks, contacts):
+                    """ Perform some useful work here """
 
-            def on_shutdown(self):
-                self._disconnect()
+                def on_shutdown(self):
+                    self._disconnect()
 
 
     This is still a very useless example ! However note, that I've set the
@@ -172,25 +172,24 @@ Introduction
     an email an optionally a phone number. The following piece of code
     shows how to read any useful value (both from a contact and a check) :
 
+        .. code-block:: python
+     
+            def on_check_reply(self, address, port, checks, contacts):
+                """ Accesing properties of a check and contact object """
 
-    .. code-block:: python
- 
-        def on_check_reply(self, address, port, checks, contacts):
-            """ Accesing properties of a check and contact object """
+                """ Contact properties. """
+                contact_name = contacts[0].name
+                email = contacts[0].email
+                phone = contacts[0].phone
 
-            """ Contact properties. """
-            contact_name = contacts[0].name
-            email = contacts[0].email
-            phone = contacts[0].phone
-
-            """ Check properties. """
-            check_name = check[0].name
-            path = check[0].path
-            args = check[0].args
-            details = check[0].details
-            data = check[0].data
-            current_status = check[0].current_status
-            previous_status = check[0].previous_status
+                """ Check properties. """
+                check_name = check[0].name
+                path = check[0].path
+                args = check[0].args
+                details = check[0].details
+                data = check[0].data
+                current_status = check[0].current_status
+                previous_status = check[0].previous_status
 
 
 Guidelines
@@ -208,9 +207,9 @@ Guidelines
     For example assuming that you wrote a plugin called A-Plugin then, you
     could have the following file hierarchy :
 
-    .. code-block:: bash
+        .. code-block:: bash
 
-        .../A-Plugin
+            /A-Plugin
                 /__init__.py
                     /a-plugin.yml
                     /local_module_a

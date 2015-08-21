@@ -23,27 +23,27 @@ Main configuration
     We'll take a look at a full configuration file and describe every available
     option :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        listen:
-            address: 192.168.0.100
-            port: 3333
+            listen:
+                address: 192.168.0.100
+                port: 3333
 
-        run as:
-            user: radar
-            group: radar
+            run as:
+                user: radar
+                group: radar
 
-        log:
-            to: /tmp/radar/logs/radar-server.log
-            size: 10
-            rotations: 3
+            log:
+                to: /tmp/radar/logs/radar-server.log
+                size: 10
+                rotations: 3
 
-        polling time: 300
-        pidfile: /tmp/radar-server.pid
-        checks: /tmp/radar/server/checks
-        contacts: /tmp/radar/server/contacts
-        monitors: /tmp/radar/server/monitors
-        plugins: /tmp/radar/server/plugins
+            polling time: 300
+            pidfile: /tmp/radar-server.pid
+            checks: /tmp/radar/server/checks
+            contacts: /tmp/radar/server/contacts
+            monitors: /tmp/radar/server/monitors
+            plugins: /tmp/radar/server/plugins
 
     
     * listen : The listen options specifies the address and port number where
@@ -91,12 +91,12 @@ Main configuration
     default configuration and the options that are different from one another
     are the ones that are platform dependant.
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        listen:
-            address: 192.168.0.100
+            listen:
+                address: 192.168.0.100
 
-        polling time: 60
+            polling time: 60
 
     As you can see from the example most of the options are not defined. They
     are not really missing, if you don't specify an option it will take its
@@ -113,12 +113,12 @@ Checks configuration
 
     How checks are defined ? Each check is defined as follows :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - check:
-            name: CHECK NAME
-            path: PATH TO CHECK
-            args: CHECK ARGUMENTS
+            - check:
+                name: CHECK NAME
+                path: PATH TO CHECK
+                args: CHECK ARGUMENTS
 
     Let's review each parameter of a check definition :
 
@@ -136,15 +136,15 @@ Checks configuration
     Let's now move on defining check groups. Check groups can be defined in two
     different ways, let's see the first one :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - check group:
-            name: CHECK GROUP NAME
-            checks:
-                - check:
-                    name: CHECK NAME
-                    path: PATH TO CHECK
-                    args: CHECK ARGUMENTS
+            - check group:
+                name: CHECK GROUP NAME
+                checks:
+                    - check:
+                        name: CHECK NAME
+                        path: PATH TO CHECK
+                        args: CHECK ARGUMENTS
 
     You define a check group by giving that group a name and a group of checks
     that make up that group. This allows you to reference a check group later on
@@ -153,18 +153,18 @@ Checks configuration
     
     Let's now take a look at a second way of defining a check group :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - check:
-            name: CHECK NAME
-            path: PATH TO CHECK
-            args: CHECK ARGUMENTS
+            - check:
+                name: CHECK NAME
+                path: PATH TO CHECK
+                args: CHECK ARGUMENTS
 
-        - check group:
-            name: CHECK GROUP NAME
-            checks:
-                - check:
-                    name: CHECK NAME
+            - check group:
+                name: CHECK GROUP NAME
+                checks:
+                    - check:
+                        name: CHECK NAME
 
     In this example we've defined a check first and referenced it later from a
     check group. This is perfectly valid and is actually a very convenient way to
@@ -177,49 +177,49 @@ Checks configuration
     group because Radar does not care about definition order. Being that said
     the above configuration is equal to :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - check group:
-            name: CHECK GROUP NAME
-            checks:
-                - check:
-                    name: CHECK NAME
+            - check group:
+                name: CHECK GROUP NAME
+                checks:
+                    - check:
+                        name: CHECK NAME
 
-        - check:
-            name: CHECK NAME
-            path: PATH TO CHECK
-            args: CHECK ARGUMENTS
+            - check:
+                name: CHECK NAME
+                path: PATH TO CHECK
+                args: CHECK ARGUMENTS
 
     Here's a fragment of how a real configuration might look like :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - check group:
-            name: Basic health
-            checks:
-                - check:
-                    name: Uptime
-                    path: uptime.py
-                    args: -S 300 
+            - check group:
+                name: Basic health
+                checks:
+                    - check:
+                        name: Uptime
+                        path: uptime.py
+                        args: -S 300 
 
-                - check:
-                    name: Ram usage
-                    path: ram-usage.py
-                    args: -O 0,1000 -W 1000,1900
+                    - check:
+                        name: Ram usage
+                        path: ram-usage.py
+                        args: -O 0,1000 -W 1000,1900
 
 
-        - check group:
-            name: Disk usage
-            checks:
-                - check:
-                    name: Disk usage (/)
-                    path: disk-usage.py
-                    args: -p / -O 0,8 -W 8,10 -u gib
+            - check group:
+                name: Disk usage
+                checks:
+                    - check:
+                        name: Disk usage (/)
+                        path: disk-usage.py
+                        args: -p / -O 0,8 -W 8,10 -u gib
 
-                - check:
-                    name: Disk usage (/home)
-                    path: disk-usage.py
-                    args: -p /home -O 0,100 -W 100,150 -u gib
+                    - check:
+                        name: Disk usage (/home)
+                        path: disk-usage.py
+                        args: -p /home -O 0,100 -W 100,150 -u gib
 
     Some final notes on defining checks (this actually applies to the overall
     configuration) :
@@ -250,12 +250,12 @@ Contacts configuration
     
     Here's an example of a contact definition :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - contact:
-            name: CONTACT NAME
-            email: CONTACT EMAIL
-            phone: CONTACT PHONE NUMBER
+            - contact:
+                name: CONTACT NAME
+                email: CONTACT EMAIL
+                phone: CONTACT PHONE NUMBER
 
     * name : Each contact must be uniquely identified. This is the purpose of the
       name parameter, it acts as a unique identifier. You can use whatever name
@@ -270,15 +270,15 @@ Contacts configuration
 
     Let's see a contact group definition :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - contact group:
-            name: CONTACT GROUP NAME
-            contacts:
-                - contact:
-                    name: CONTACT NAME
-                    email: CONTACT EMAIL
-                    phone: CONTACT PHONE NUMBER
+            - contact group:
+                name: CONTACT GROUP NAME
+                contacts:
+                    - contact:
+                        name: CONTACT NAME
+                        email: CONTACT EMAIL
+                        phone: CONTACT PHONE NUMBER
 
     Compare the above definitions (against checks and check groups). You'll realize
     that they are almost identical, of course the identifiers for each component are
@@ -287,20 +287,20 @@ Contacts configuration
 
     Here's a fragment of how a real configuration might look like :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - contact group:
-            name: Sysadmins
-            contacts:
-                - contact:
-                    name: Hernan Liendo
-                    email: hernan@invader
-                - contact:
-                    name: Javier Liendo
-                    email: javier@invader
-                - contact:
-                    name: Lucas Liendo
-                    email: lucas@invader
+            - contact group:
+                name: Sysadmins
+                contacts:
+                    - contact:
+                        name: Hernan Liendo
+                        email: hernan@invader
+                    - contact:
+                        name: Javier Liendo
+                        email: javier@invader
+                    - contact:
+                        name: Lucas Liendo
+                        email: lucas@invader
 
     There is one little difference between checks and contacts definitions. In
     some scenarios it might not be needed to notify any contact at all, so Radar
@@ -317,23 +317,23 @@ Monitors configuration
 
     Let's walk through a real example :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - monitor:
-            hosts: [localhost, 192.168.0.101 - 192.168.0.200]
-            watch: [Basic health, Disk usage]
-            notify: [Sysadmins]
+            - monitor:
+                hosts: [localhost, 192.168.0.101 - 192.168.0.200]
+                watch: [Basic health, Disk usage]
+                notify: [Sysadmins]
 
     The above example is telling Radar to monitor localhost and all hosts that
     are in the 192.168.0.101 - 192.168.0.200 range and to check for Basic health,
     Disk usage and to notify Sysadmins. So to define monitors you basically have :
 
-    .. code-block:: yaml
+        .. code-block:: yaml
 
-        - monitor:
-            hosts: [HOSTNAME | IP | IP RANGE, ...]
-            watch: [CHECK | CHECK GROUP, ...]
-            notify: [CONTACT | CONTACT GROUP, ...]
+            - monitor:
+                hosts: [HOSTNAME | IP | IP RANGE, ...]
+                watch: [CHECK | CHECK GROUP, ...]
+                notify: [CONTACT | CONTACT GROUP, ...]
 
     * hosts : There are three different way to specify hosts. You can specify
       a single host by its IPv4 (this if the preferred way) or by its
@@ -400,15 +400,15 @@ Plugins configuration
 
     The layout of the plugins directory might look something like this :
 
-    .. code-block:: bash
+        .. code-block:: bash
 
-        /tmp/Radar/server/plugins
-            /some-plugin
-                /__init__.py
-            /another-plugin
-                /__init__.py
-                /another-plugin.yml
-            ...
+            /tmp/Radar/server/plugins
+                /some-plugin
+                    /__init__.py
+                /another-plugin
+                    /__init__.py
+                    /another-plugin.yml
+                ...
 
     Every plugin must be contained within one directory below the defined
     plugins directory. Some plugins might contain configurations as well (from

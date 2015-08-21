@@ -11,7 +11,7 @@ Radar internals
     Instead I've decided to describe few things as possible and try to reflect
     why a decision was taken that way. Also consider that as everybody I make
     mistakes and no perfect software design exists and Radar is way way long
-    to achieve that.
+    of achieving that.
 
 
 Overview
@@ -35,7 +35,7 @@ Overview
     is only a few lines long. Every class is intended to perform a specific task
     and each method solves a concrete piece of that task.
     The result is that you won't find complex or twisted code and reading any
-    piece of code to get the idea of what is doing takes only a few seconds.
+    piece of code and get the idea of what is doing should take little time.
     The code mostly lacks of comments, the reason for this is that the code
     intends to be self-describing (care has been taken to make classes and
     methods describe and reflect their intentions). Radar tries to stick to

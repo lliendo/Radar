@@ -25,28 +25,28 @@ Introduction
     So, let's assume you have an uptime check. So the minimum output for this
     check would be the following JSON :
 
-    .. code-block:: javascript
+        .. code-block:: javascript
 
-        {"status": "OK"}
+            {"status": "OK"}
 
     Radar is case insensitive when it reads a check's output so it does not care
     how you name the fields (as long as you include them Radar won't complain),
     so this JSON is also valid :
 
-    .. code-block:: javascript
+        .. code-block:: javascript
 
-        {"Status": "Ok"}
+            {"Status": "Ok"}
 
-    Any other combination of upper and lower characters is also valid.
-    Now suppose you want to be more verbose on this check, then you might want
-    to add some details :
+    Any other combination of upper and lower characters is also valid. Now
+    suppose you want to be more verbose on this check, then you might want to
+    add some details :
 
-    .. code-block:: javascript
+        .. code-block:: javascript
 
-        {
-            "status": "OK",
-            "details": "0 days 6 hours 58 minutes"
-        }
+            {
+                "status": "OK",
+                "details": "0 days 6 hours 58 minutes"
+            }
 
     Details will be stored (along with status and data) in their respective
     checks on the server side, and all your plugins will have visibility on
@@ -54,17 +54,16 @@ Introduction
     processed by any of the plugins on the server side, so your JSON might
     look something like this :
 
-    .. code-block:: javascript
+        .. code-block:: javascript
 
-        {
-            "status": "OK",
-            "data": {
-                "uptime": 25092, 
-                "name": "uptime"
-            },
-            "details": "0 days 6 hours 58 minutes"
-        }
-
+            {
+                "status": "OK",
+                "data": {
+                    "uptime": 25092, 
+                    "name": "uptime"
+                },
+                "details": "0 days 6 hours 58 minutes"
+            }
 
     As mentioned before, there is no specific format that you have to comply
     on the data field, is completly up to you how to lay it out. You can include
