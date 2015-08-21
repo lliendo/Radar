@@ -141,7 +141,7 @@ class TestCheck(TestCase):
 
     def test_to_dict(self):
         d = Check(name='check', path='check.py').to_dict()
-        keys = ['id', 'name', 'path', 'args', 'status', 'previous_status', 'details', 'data', 'enabled']
+        keys = ['id', 'name', 'path', 'args', 'current_status', 'previous_status', 'details', 'data', 'enabled']
         self.assertTrue(all([k in d for k in keys]))
 
     def test_to_check_dict(self):
