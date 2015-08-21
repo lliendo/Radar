@@ -118,14 +118,14 @@ class TestMonitor(TestCase):
         check_status = {'status': Check.STATUS['ERROR'], 'id': self.checks[0].id}
         self.monitor.add_client(self.dummy_client)
         updated_checks = self.monitor.update_checks(self.dummy_client, [check_status])
-        self.assertEqual(list(self.monitor.active_clients[0]['checks']).pop().status, Check.STATUS['ERROR'])
+        self.assertEqual(list(self.monitor.active_clients[0]['checks']).pop().current_status, Check.STATUS['ERROR'])
         self.assertNotEqual(updated_checks, {})
 
     def test_monitor_does_not_update_check_status(self):
         check_status = {'status': Check.STATUS['ERROR'], 'id': self.checks[0].id + 1}
         self.monitor.add_client(self.dummy_client)
         updated_checks = self.monitor.update_checks(self.dummy_client, [check_status])
-        self.assertEqual(list(self.monitor.active_clients[0]['checks']).pop().status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(list(self.monitor.active_clients[0]['checks']).pop().current_status, Check.STATUS['UNKNOWN'])
         self.assertEqual(updated_checks, {})
 
     def test_monitor_to_dict(self):

@@ -33,7 +33,7 @@ class TestCheck(TestCase):
     def test_check_default_values(self):
         self.assertNotEqual(self.check.id, None)
         self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.check.current_status, Check.STATUS['UNKNOWN'])
         self.assertEqual(self.check.enabled, True)
 
     def test_check_gets_updated(self):
@@ -43,11 +43,11 @@ class TestCheck(TestCase):
         }
         self.assertEqual(self.check.update_status(new_status), True)
         self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.status, Check.STATUS['OK'])
+        self.assertEqual(self.check.current_status, Check.STATUS['OK'])
 
         self.assertEqual(self.check.update_status(new_status), True)
         self.assertEqual(self.check.previous_status, Check.STATUS['OK'])
-        self.assertEqual(self.check.status, Check.STATUS['OK'])
+        self.assertEqual(self.check.current_status, Check.STATUS['OK'])
 
     def test_check_details_gets_updated(self):
         new_status = {
@@ -74,7 +74,7 @@ class TestCheck(TestCase):
         }
         self.assertEqual(self.check.update_status(new_status), False)
         self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.check.current_status, Check.STATUS['UNKNOWN'])
 
     def test_check_does_not_get_updated_check_is_disabled(self):
         new_status = {
@@ -84,7 +84,7 @@ class TestCheck(TestCase):
         self.check.disable()
         self.assertEqual(self.check.update_status(new_status), False)
         self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.check.current_status, Check.STATUS['UNKNOWN'])
 
     @raises(CheckError)
     def test_check_raises_exception_due_to_missing_id(self):
