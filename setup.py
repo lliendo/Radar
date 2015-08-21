@@ -27,6 +27,7 @@ def radar_dependencies():
     dependencies = [
         'nose==1.3.7',
         'pyyaml==3.11',
+        'mock==1.3.0',
     ]
 
     return dependencies
