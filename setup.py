@@ -21,8 +21,9 @@ Copyright 2015 Lucas Liendo.
 
 
 from setuptools import setup
+from platform import system as platform_name
 
-# TODO: Add Mocker and add PyWin32 provided we're running on MS Windows.
+
 def radar_dependencies():
     dependencies = [
         'nose==1.3.7',
@@ -30,13 +31,16 @@ def radar_dependencies():
         'mock==1.3.0',
     ]
 
+    if platform_name() == 'Windows':
+        dependencies.append('pywin32==219')
+
     return dependencies
 
 
 setup(
     name='Radar-Monitoring-System',
     description='An extensible and generic monitoring system.',
-    version='0.0.1b',
+    version='0.0.1a',
     packages=['radar'],
     author='Lucas Liendo',
     author_email='mindmaster@gmail.com',
@@ -47,7 +51,7 @@ setup(
     url='https://github.com/lliendo/Radar',
     install_requires=radar_dependencies(),
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Intended Audience :: System Administrators',
         'Intended Audience :: Information Technology',
