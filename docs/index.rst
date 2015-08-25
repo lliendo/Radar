@@ -25,6 +25,7 @@ Contents
 .. toctree::
     :maxdepth: 2
 
+    overview
     minimum-requirements
     installation
     platform-defaults
