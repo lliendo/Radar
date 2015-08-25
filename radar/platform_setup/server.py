@@ -22,14 +22,14 @@ Copyright 2015 Lucas Liendo.
 
 from copy import deepcopy
 from ..config.server import ServerConfig
-from . import LinuxSetup
+from . import UnixSetup
 
 
 class SetupError(Exception):
     pass
 
 
-class UnixServerSetup(ServerConfig, LinuxSetup):
+class UnixServerSetup(ServerConfig, UnixSetup):
 
     BASE_PATH = '/etc/radar/server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'

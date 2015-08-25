@@ -27,11 +27,11 @@ from signal import signal, SIGTERM, SIGINT
 from errno import EEXIST
 
 
-class LinuxSetupError(Exception):
+class UnixSetupError(Exception):
     pass
 
 
-class LinuxSetup(object):
+class UnixSetup(object):
 
     __metaclass__ = ABCMeta
 
@@ -42,7 +42,7 @@ class LinuxSetup(object):
             from pwd import getpwnam
             from grp import getgrnam
         except ImportError:
-            raise LinuxSetupError('')
+            raise UnixSetupError('')
 
         return object.__new__(cls, *args, **kwargs)
 
@@ -51,20 +51,20 @@ class LinuxSetup(object):
             mkdir(path)
         except OSError, e:
             if e.errno != EEXIST:
-                raise LinuxSetupError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(
+                raise UnixSetupError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(
                     path, e.strerror))
 
     def _write_pid_file(self, pidfile):
         self._create_dir(dirname(pidfile))
 
         if file_exists(pidfile):
-            raise LinuxSetupError('Error - \'{:}\' exists. Process already running ?.'.format(pidfile))
+            raise UnixSetupError('Error - \'{:}\' exists. Process already running ?.'.format(pidfile))
 
         try:
             with open(pidfile, 'w') as fd:
                 fd.write(str(getpid()))
         except IOError, e:
-            raise LinuxSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
+            raise UnixSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
 
     def _install_signal_handlers(self, launcher):
         signal(SIGTERM, launcher.stop)
@@ -75,13 +75,13 @@ class LinuxSetup(object):
             seteuid(getpwnam(user).pw_uid)
             setegid(getgrnam(group).gr_gid)
         except OSError, e:
-            raise LinuxSetupError('Error - Couldn\'t switch process owner \'{:}.{:}\'. Details {:}.'.format(
+            raise UnixSetupError('Error - Couldn\'t switch process owner \'{:}.{:}\'. Details {:}.'.format(
                 user, group, e))
         except KeyError:
-            raise LinuxSetupError('Error - User or group \'{:}.{:}\' does not exist.'.format(user, group))
+            raise UnixSetupError('Error - User or group \'{:}.{:}\' does not exist.'.format(user, group))
 
     def _delete_pid_file(self, pidfile):
         try:
             remove(pidfile)
         except OSError, e:
-            raise LinuxSetupError(('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.').format(pidfile, e))
+            raise UnixSetupError(('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.').format(pidfile, e))

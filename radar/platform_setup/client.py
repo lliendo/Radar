@@ -22,10 +22,10 @@ Copyright 2015 Lucas Liendo.
 
 from copy import deepcopy
 from ..config.client import ClientConfig
-from . import LinuxSetup
+from . import UnixSetup
 
 
-class UnixClientSetup(ClientConfig, LinuxSetup):
+class UnixClientSetup(ClientConfig, UnixSetup):
 
     BASE_PATH = '/etc/radar/client'
     PLATFORM_CONFIG_PATH = BASE_PATH + '/config'
