@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from abc import ABCMeta
 from functools import reduce
 from os import walk, stat
-from os.path import join
+from os.path import join as join_path
 from stat import S_ISREG
 from copy import deepcopy
 from . import ConfigBuilder, ConfigError
@@ -228,7 +228,7 @@ class ServerConfig(ConfigBuilder):
         self.plugins = []
 
     def _search_files(self, path):
-        files = [join(root, f) for root, _, files in walk(path) for f in files]
+        files = [join_path(root, f) for root, _, files in walk(path) for f in files]
         return [f for f in files if S_ISREG(stat(f).st_mode)]
 
     def _build_contacts(self):

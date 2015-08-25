@@ -24,7 +24,7 @@ from Queue import Empty as EmptyQueue
 from abc import ABCMeta
 from ctypes import cast, py_object
 from functools import reduce
-from os.path import dirname, join
+from os.path import dirname, join as join_path
 from threading import Thread, Event
 from ..config import ConfigBuilder, ConfigError
 from ..misc import Switch
@@ -62,7 +62,7 @@ class ServerPlugin(ConfigBuilder, Switch):
 
     @staticmethod
     def get_path(source_filename, config_filename):
-        return join(dirname(source_filename), config_filename)
+        return join_path(dirname(source_filename), config_filename)
 
     def run(self, address, port, message_type, checks, contacts):
         try:
