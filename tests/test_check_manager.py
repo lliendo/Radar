@@ -32,7 +32,6 @@ class TestCheckManager(TestCase):
     def setUp(self):
         self.logger_mock = Mock()
         self.logger_mock.log = MagicMock()
-
         self.platform_setup_mock = Mock()
         self.platform_setup_mock.logger = self.logger_mock
 

@@ -131,10 +131,11 @@ class TestMonitor(TestCase):
     def test_monitor_to_dict(self):
         self.monitor.add_client(self.dummy_client)
         d = self.monitor.to_dict()
-        self.assertTrue('clients' in d)
-        self.assertTrue('id' in d)
-        self.assertTrue('enabled' in d)
-        self.assertTrue('name' in d)
+        [self.assertTrue(attr in d) for attr in ['clients', 'id', 'enabled', 'name']]
+        # self.assertTrue('clients' in d)
+        # self.assertTrue('id' in d)
+        # self.assertTrue('enabled' in d)
+        # self.assertTrue('name' in d)
         self.assertEqual(type(d['clients']), list)
 
     def test_monitor_polls_clients(self):

@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
+from mock import patch, Mock, MagicMock, ANY
 from nose.tools import raises
 from json import dumps as serialize_json
 from radar.check import Check, CheckError
@@ -28,150 +29,162 @@ from radar.check import Check, CheckError
 
 class TestCheck(TestCase):
     def setUp(self):
-        self.check = Check(name='check', path='check.py')
+        self.dummy_check = Check(name='dummy', path='dummy.py')
 
     def test_check_default_values(self):
-        self.assertNotEqual(self.check.id, None)
-        self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.current_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.enabled, True)
+        self.assertNotEqual(self.dummy_check.id, None)
+        self.assertEqual(self.dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.dummy_check.current_status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.dummy_check.enabled, True)
+
+    @raises(CheckError)
+    def test_check_must_have_a_name(self):
+        Check(path='dummy.py')
+
+    @raises(CheckError)
+    def test_check_must_have_a_path(self):
+        Check(name='dummy')
 
     def test_check_gets_updated(self):
         new_status = {
-            'id': self.check.id,
-            'status': Check.STATUS['OK']
-        }
-        self.assertEqual(self.check.update_status(new_status), True)
-        self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.current_status, Check.STATUS['OK'])
-
-        self.assertEqual(self.check.update_status(new_status), True)
-        self.assertEqual(self.check.previous_status, Check.STATUS['OK'])
-        self.assertEqual(self.check.current_status, Check.STATUS['OK'])
-
-    def test_check_details_gets_updated(self):
-        new_status = {
-            'id': self.check.id,
+            'id': self.dummy_check.id,
             'status': Check.STATUS['OK'],
             'details': 'details',
+            'data': {
+                'some data'
+            },
         }
-        self.assertEqual(self.check.update_status(new_status), True)
-        self.assertEqual(self.check.details, 'details')
 
-    def test_check_data_gets_updated(self):
-        new_status = {
-            'id': self.check.id,
-            'status': Check.STATUS['OK'],
-            'data': {'some data'},
-        }
-        self.assertEqual(self.check.update_status(new_status), True)
-        self.assertEqual(self.check.data, {'some data'})
+        self.assertEqual(self.dummy_check.update_status(new_status), True)
+        self.assertEqual(self.dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.dummy_check.current_status, Check.STATUS['OK'])
+        self.assertEqual(self.dummy_check.details, 'details')
+        self.assertEqual(self.dummy_check.data, {'some data'})
 
-    def test_check_does_not_get_updated_invalid_id(self):
+    def test_check_does_not_get_updated_if_id_does_not_match(self):
         new_status = {
-            'id': self.check.id + 1,
+            'id': self.dummy_check.id + 1,
             'status': Check.STATUS['OK'],
         }
-        self.assertEqual(self.check.update_status(new_status), False)
-        self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.current_status, Check.STATUS['UNKNOWN'])
 
-    def test_check_does_not_get_updated_check_is_disabled(self):
+        self.assertEqual(self.dummy_check.update_status(new_status), False)
+        self.assertEqual(self.dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.dummy_check.current_status, Check.STATUS['UNKNOWN'])
+
+    def test_check_does_not_get_updated_when_disabled(self):
         new_status = {
-            'id': self.check.id,
+            'id': self.dummy_check.id,
             'status': Check.STATUS['OK'],
         }
-        self.check.disable()
-        self.assertEqual(self.check.update_status(new_status), False)
-        self.assertEqual(self.check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.check.current_status, Check.STATUS['UNKNOWN'])
+
+        self.dummy_check.disable()
+        self.assertEqual(self.dummy_check.update_status(new_status), False)
+        self.assertEqual(self.dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.dummy_check.current_status, Check.STATUS['UNKNOWN'])
 
     @raises(CheckError)
-    def test_check_raises_exception_due_to_missing_id(self):
-        Check(name='check', path='check.py').update_status({'status': Check.STATUS['OK']})
+    def test_check_raises_exception_when_updating_status_if_missing_id(self):
+        self.dummy_check.update_status({'status': Check.STATUS['OK']})
 
     @raises(CheckError)
-    def test_check_raises_exception_due_to_missing_status(self):
-        self.check.update_status({'id': self.check.id})
+    def test_check_raises_exception_when_updating_status_if_missing_status(self):
+        self.dummy_check.update_status({'id': self.dummy_check.id})
 
     @raises(CheckError)
-    def test_check_raises_exception_due_to_invalid_status_beyond_lowest_status(self):
-        self.check.update_status({'status': Check.STATUS['ERROR'] - 1})
+    def test_check_raises_exception_if_invalid_status_beyond_lowest_status(self):
+        self.dummy_check.update_status({'status': min(Check.STATUS.values()) - 1})
 
     @raises(CheckError)
-    def test_check_raises_exception_due_to_invalid_status_beyond_highest_status(self):
-        self.check.update_status({'status': Check.STATUS['TIMEOUT'] + 1})
-
-    def test_get_status(self):
-        [self.check.get_status(v) for v in Check.STATUS.values()]
+    def test_check_raises_exception_if_invalid_status_beyond_highest_status(self):
+        self.dummy_check.update_status({'status': max(Check.STATUS.values()) + 1})
 
     @raises(CheckError)
     def test_get_status_exception_due_to_invalid_status_beyond_lowest_status(self):
-        self.check.get_status(min(Check.STATUS.values()) - 1)
+        self.dummy_check.get_status(min(Check.STATUS.values()) - 1)
 
     @raises(CheckError)
     def test_get_status_exception_due_to_invalid_status_beyond_highest_status(self):
-        self.check.get_status(max(Check.STATUS.values()) + 1)
+        self.dummy_check.get_status(max(Check.STATUS.values()) + 1)
 
     def test_deserialize_output(self):
-        output = serialize_json({'status': 'ok'})
-        d = self.check._deserialize_output(output)
-        self.assertEqual(type(d), dict)
+        d = self.dummy_check._deserialize_output(serialize_json({'status': 'ok'}))
         self.assertEqual(d['status'], Check.STATUS['OK'])
 
-    @raises(CheckError)
-    def test_deserialize_status_raises_exception_due_to_invalid_status(self):
-        self.check._deserialize_output(serialize_json({'status': 'invalid status'}))
+    def test_deserialize_output_does_not_contain_any_arbitrary_field(self):
+        d = self.dummy_check._deserialize_output(serialize_json({'status': 'ok', 'field': 'value'}))
+        self.assertEqual(d['status'], Check.STATUS['OK'])
+        self.assertTrue('field' not in d)
 
     @raises(CheckError)
-    def test_deserialize_status_raises_exception_due_to_missing_status(self):
-        self.check._deserialize_output(serialize_json({}))
+    def test_deserialize_status_raises_exception_if_invalid_status(self):
+        self.dummy_check._deserialize_output(serialize_json({'status': 'INVALID STATUS'}))
 
     @raises(CheckError)
-    def test_deserialize_status_raises_exception_due_to_invalid_json(self):
-        self.check._deserialize_output('{')
+    def test_deserialize_status_raises_exception_if_missing_status(self):
+        self.dummy_check._deserialize_output(serialize_json({'details': 'details'}))
+
+    @raises(CheckError)
+    def test_deserialize_status_raises_exception_if_invalid_json(self):
+        self.dummy_check._deserialize_output('{')
 
     def test_checks_are_equal(self):
-        self.assertEqual(self.check, Check(name='check', path='check.py'))
+        self.assertEqual(self.dummy_check, Check(name='dummy', path='dummy.py'))
 
     def test_checks_are_not_equal(self):
-        check = Check(name='Load average', path='load_average.py')
-        another_check = Check(name='Free RAM', path='free_ram.py')
-        self.assertNotEqual(check, another_check)
+        load_average_check = Check(name='Load average', path='load-average.py')
+        self.assertNotEqual(self.dummy_check, load_average_check)
+
+    def _assert_dictionary_contains_keys(self, d, expected_keys):
+        self.assertTrue(all([k in d for k in expected_keys]))
+        self.assertEqual(len(d.keys()), len(expected_keys))
 
     def test_to_dict(self):
-        d = Check(name='check', path='check.py').to_dict()
-        keys = ['id', 'name', 'path', 'args', 'current_status', 'previous_status', 'details', 'data', 'enabled']
-        self.assertTrue(all([k in d for k in keys]))
+        d = self.dummy_check.to_dict()
+        expected_keys = ['id', 'name', 'path', 'args', 'current_status', 'previous_status', 'details', 'data', 'enabled']
+        self._assert_dictionary_contains_keys(d, expected_keys)
 
     def test_to_check_dict(self):
-        d = Check(name='check', path='check.py').to_check_dict().pop()
-        self.assertTrue(all([k in d for k in ['id', 'path']]))
+        d = Check(name='dummy', path='dummy.py', args='-a argument').to_check_dict().pop()
+        expected_keys = ['id', 'path', 'args']
+        self._assert_dictionary_contains_keys(d, expected_keys)
 
-    def test_to_check_dict_contains_args(self):
-        d = Check(name='check', path='check.py', args='-a argument').to_check_dict().pop()
-        self.assertTrue('args' in d)
+    def test_to_check_dict_does_not_contain_args(self):
+        d = Check(name='dummy', path='dummy.py').to_check_dict().pop()
+        self.assertTrue('args' not in d)
 
     def test_to_check_reply_dict(self):
-        d = Check(name='check', path='check.py').to_check_reply_dict()
-        self.assertTrue(all([k in d for k in ['id', 'status']]))
+        d = Check(name='dummy', path='dummy.py').to_check_reply_dict()
+        expected_keys = ['id', 'status']
+        self._assert_dictionary_contains_keys(d, expected_keys)
 
     def test_to_check_reply_dict_contains_details(self):
-        d = Check(name='check', path='check.py', details='details').to_check_reply_dict()
+        d = Check(name='dummy', path='dummy.py', details='details').to_check_reply_dict()
         self.assertTrue('details' in d)
 
     def test_to_check_reply_dict_contains_data(self):
-        d = Check(name='check', path='check.py', data={'data': 'some data'}).to_check_reply_dict()
+        d = Check(name='dummy', path='dummy.py', data={'data': 'some data'}).to_check_reply_dict()
         self.assertTrue('data' in d)
 
     def test_check_as_list(self):
-        self.assertEqual(type(self.check.as_list()), list)
-        self.assertEqual(len(self.check.as_list()), 1)
+        self.assertEqual(type(self.dummy_check.as_list()), list)
+        self.assertEqual(len(self.dummy_check.as_list()), 1)
 
     def test_check_set(self):
-        check = Check(name='Load average', path='load_average', args='-a arg')
-        duplicated_check = Check(name='Load average', path='load_average', args='-a arg')
-        another_check = Check(name='Free RAM', path='free_ram', args='-a arg')
-        self.assertEqual(len(set([check, duplicated_check])), 1)
-        self.assertEqual(len(set([check, another_check])), 2)
-        self.assertEqual(len(set([check, duplicated_check, another_check])), 2)
+        duplicated_dummy_check = Check(name='dummy', path='dummy.py')
+        another_check = Check(name='Free RAM', path='free-ram.py')
+        self.assertEqual(len(set([self.dummy_check, duplicated_dummy_check])), 1)
+        self.assertEqual(len(set([self.dummy_check, another_check])), 2)
+        self.assertEqual(len(set([self.dummy_check, duplicated_dummy_check, another_check])), 2)
+
+    def test_build_absolute_path_given_a_relative_path(self):
+        platform_setup_mock = Mock()
+        platform_setup_mock.PLATFORM_CONFIG = {'checks': '/tmp'}
+        dummy_check = Check(name='dummy', path='dummy.py', platform_setup=platform_setup_mock)
+        self.assertEqual(dummy_check._build_absolute_path(), '/tmp/dummy.py')
+
+    def test_build_absolute_path_given_an_absolute_path(self):
+        platform_setup_mock = Mock()
+        platform_setup_mock.PLATFORM_CONFIG = {'checks': '/tmp'}
+        absolute_check_path = '/usr/local/radar/client/checks/dummy.py'
+        dummy_check = Check(name='dummy', path=absolute_check_path, platform_setup=platform_setup_mock)
+        self.assertEqual(dummy_check._build_absolute_path(), absolute_check_path)
