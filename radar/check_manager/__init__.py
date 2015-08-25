@@ -69,10 +69,7 @@ class CheckManager(Thread):
         return self.stop_event.is_set()
 
     def _run_checks(self, checks):
-        user = self._platform_setup.config['run as']['user']
-        group = self._platform_setup.config['run as']['group']
-        enforce_ownership = self._platform_setup.config['enforce ownership']
-        checks_outputs = [c.run(user, group, enforce_ownership).to_check_reply_dict() for c in checks]
+        checks_outputs = [c.run().to_check_reply_dict() for c in checks]
         self._output_queue.put_nowait(checks_outputs)
 
     def run(self):

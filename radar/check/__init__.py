@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from functools import reduce
 from json import loads as deserialize_json
 from os import stat
-from os.path import join, isabs as is_absolute_path
+from os.path import join as join_path, isabs as is_absolute_path
 from shlex import split as split_args
 from subprocess import Popen, PIPE
 from ..misc import Switch
@@ -137,40 +137,47 @@ class Check(Switch):
 
         return d
 
-    def _owned_by_user(self, path, user):
+    def _owned_by_user(self, path):
+        user = self._platform_setup.config['run as']['user']
+
         try:
             return getpwnam(user).pw_uid == stat(path)['st_uid']
         except KeyError:
             raise CheckError('Error - User : \'{:}\' doesn\'t exist.'.format(user))
 
-    def _owned_by_group(self, path, group):
+    def _owned_by_group(self, path):
+        group = self._platform_setup.config['run as']['group']
+
         try:
             return getpwnam(group).pw_gid == stat(path)['st_gid']
         except KeyError:
             raise CheckError('Error - Group : \'{:}\' doesn\'t exist.'.format(group))
 
-    def _owned_by(self, path, user, group):
-        return self._owned_by_user(user) and self._owned_by_group(group)
+    def _owned_by_stated_user(self):
+        return self._owned_by_user() and self._owned_by_group()
 
     def _build_absolute_path(self):
         checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
-        return self.path if is_absolute_path(self.path) else join(checks_directory, self.path)
+        return self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)
 
-    def _call_popen(self, user, group, enforce_ownership):
+    def _call_popen(self):
         absolute_path = self._build_absolute_path()
 
-        if enforce_ownership and not self._owned_by(absolute_path, user, group):
-            raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(absolute_path, user, group))
+        if self._platform_setup.config['enforce ownership'] and not self._owned_by_stated_user():
+            raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
+                absolute_path,
+                self._platform_setup.config['run as']['user'],
+                self._platform_setup.config['run as']['group']
+            ))
 
         try:
             return Popen([absolute_path] + split_args(self.args), stdout=PIPE).communicate()[0]
         except OSError, e:
             raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
 
-    def run(self, user, group, enforce_ownership):
+    def run(self):
         try:
-            output = self._call_popen(user, group, enforce_ownership)
-            deserialized_output = self._deserialize_output(output)
+            deserialized_output = self._deserialize_output(self._call_popen())
             self.update_status(deserialized_output)
         except CheckError, e:
             self.current_status = self.STATUS['ERROR']
