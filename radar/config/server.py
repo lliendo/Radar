@@ -193,6 +193,9 @@ class MonitorBuilder(ConfigBuilder):
             monitors = list(self._build_monitors(monitors_config))
         except KeyError, e:
             raise ConfigError('Error - Missing \'{:}\' while creating monitor from {:}.'.format(e.args[0], self.path))
+        except TypeError, e:
+            raise ConfigError('Error - Either hosts, checks or contacts are not a YAML list in monitor definition. File : {:}.'.format(
+                e.args[0], self.path))
 
         return monitors
 
