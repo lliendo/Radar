@@ -163,7 +163,7 @@ Introduction
     Before we end up this section you may be wondering : How should I use the
     checks and contacts lists in the on_check_reply() method ?
 
-    Radar has (internally) among many abstractions two that you will use directly
+    Radar has (internally) among many abstractions have two that you will use directly
     in any plugin : Contact and Check. Whenever you get a reply you get a list
     that contains contact objects and another list that contains check objects.
 
@@ -200,7 +200,7 @@ Guidelines
 
     Also note that Radar expects to find a unique plugin class per plugin
     directory. It is a requirement that this class to be present only in the
-    __init__.py file in that directory. Despite of this minor limitation you're
+    __init__.py file in that directory. Despite this minor limitation you're
     allowed to code in as many different directory/files inside the plugin
     directory as you want.
 
@@ -211,13 +211,13 @@ Guidelines
 
             /A-Plugin
                 /__init__.py
-                    /a-plugin.yml
-                    /local_module_a
-                        /__init__.py
-                        /some_file_module_a.py
-                    /local_module_b
-                        /__init__.py
-                        /some_file_module_b.py
+                /a-plugin.yml
+                /local_module_a
+                    /__init__.py
+                    /some_file_module_a.py
+                /local_module_b
+                    /__init__.py
+                    /some_file_module_b.py
 
     Then .../A-Plugin/__init__.py file must contain exactly one class that inherits
     from the ServerPlugin class.
@@ -229,4 +229,4 @@ Example
     If you still want to see a more elaborated example (actually something
     useful, right ?) then you can take a look to an email notifier plugin here.
     This plugin will notify its contacts when a check has any of its status
-    (current or previous) in a not OK status.
+    (current or previous) distinct from OK.

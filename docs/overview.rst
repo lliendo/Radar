@@ -22,8 +22,10 @@ Overview
 
     Once you got you Radar server up and running any number of clients may connect
     and after a user-defined interval they will be polled. The following diagram
-    shows how Radar operates :
+    shows the big picture on how Radar operates :
 
+    .. image:: _static/radar-overview.svg
+        :target: _static/radar-overview.svg
 
 
     So what can you really do with Radar ? Here are some ideas :
@@ -34,7 +36,7 @@ Overview
           responsibility.
 
         * Graphing tool : Each time you receive data from a check you can add that
-          information to a database (like `RRDtool <http://www.rrdtool.org>`_) a then generate graphs.
+          information to a database (like `RRDtool <http://www.rrdtool.org>`_) and then generate graphs.
           You can get this way trends of your resources.
 
         * Take an advanced action : Suppose that you run a cluster of servers on
@@ -42,8 +44,6 @@ Overview
           you can write a plugin to add/remove servers on demand, if you get for
           example that the amount of requests/sec. that a server is processing
           are exceeded.
-          Another potential use is to take a remote action on a host if certain
-          condition is met.
 
     Any of these uses requires that you write a plugin for it. Remember that
     Radar does not include any built-in functinality and these tasks are

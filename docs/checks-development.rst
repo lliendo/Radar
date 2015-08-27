@@ -97,6 +97,7 @@ Guidelines
 
     * Checks should be platform independent. It is nice to just write a check
       once and then have it running on as many platforms as possible.
+      This promotes reusability.
 
     * Test your checks ! You're encouraged to write unit tests on all of your
       checks. This way you make sure that checks behave and fail as expected.

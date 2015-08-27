@@ -134,8 +134,8 @@ Operational overview
     the best multiplex i/o method available. In any case if the platform can't
     be detected or an efficient multiplexing method cannot be found Radar will
     fall back to the SelectMonitor (which relies on the select system call).
-    The currently supported multiplexing strategies are : select, poll, epoll,
-    kqueue and i/o completion ports.
+    The currently supported multiplexing strategies are : select, poll, epoll
+    and kqueue.
 
     Radar's client and server also operate in a non-blocking way. Its main threads
     loops are iterated constantly every 200 milliseconds. This prevents any
@@ -143,7 +143,7 @@ Operational overview
     incomplete network message. Also this mechanism is used as an easy workaround
     to gracefully terminate threads : one thread Event is shared among all defined
     threads, when this thread event is stopped the condition of the loop does
-    not hold and the thread successfully ends.
+    not hold and the threads successfully end.
 
 
 Server operation
@@ -209,6 +209,44 @@ Server operation
 
 Client operation
 ----------------
+
+    The client relies on two threads :
+
+    * RadarClient.
+    * CheckManager.
+
+    RadarClient :
+
+    This thread is responsible for receiving and replying messages from the
+    Radar server. For every message received the message is desearialized and
+    written to a queue (that is shared with the CheckManager). Both RadarClient
+    and CheckManager actually share two queues to support bidirectional
+    communication between threads. One queue is used to write checks that need
+    to be executed, the other is used to read the results of those executions.
+
+    In case the Radar client is unable to connect to the Radar server it will
+    wait a certain amount of time and try to reconnect again. This is repeated
+    indefinetly if the reconnect option is set to True. It will try to connect
+    after 5, 15 and 60 seconds (cyclically). This option is useful because after
+    updating the Radar's server configuration you need to restart it and all
+    connections are lost. Radar currently does not provide a reload mechanism.
+
+
+    CheckManager :
+
+    Whenever a CHECK message is received by the RadarClient thread and after
+    little processing is inmediatly sent to the CheckManager. When the check
+    information is received the CheckManager proceed to instantiate a bunch
+    of Checks (depending on the platform running it may instantiate a UnixCheck
+    or a WindowsCheck) and finally executes them sequentially.
+    Every check's output is collected and verified (the CheckManager makes sure
+    that the Check didn't blow up and that a valid status was returned). It also
+    discards all fields that are not relevant (it will only keep the status,
+    details and data fields of the returned JSON).
+    
+    Once the outputs have been collected they're sent back to the RadarClient
+    through the other queue and RadarClient sends those results back to the
+    RadarServer.
 
 
 Network protocol
