@@ -22,13 +22,22 @@ Copyright 2015 Lucas Liendo.
 
 from Queue import Empty as EmptyQueue
 from threading import Thread, Event
-from ..check import Check, CheckError
+from platform import system as platform_name
+from ..check import UnixCheck, WindowsCheck, CheckError
 from ..protocol import Message
+
+
+class CheckManagerError(Exception):
+    pass
 
 
 class CheckManager(Thread):
 
     STOP_EVENT_TIMEOUT = 0.2
+    AVAILABLE_PLATFORMS = {
+        'UNIX': UnixCheck,
+        'Windows': WindowsCheck,
+    }
 
     def __init__(self, platform_setup, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
@@ -37,14 +46,28 @@ class CheckManager(Thread):
         self._input_queue = input_queue
         self._output_queue = output_queue
         self.stop_event = stop_event or Event()
+        self._Check = self._get_platform_check_class()
         self._message_actions = {
             Message.TYPE['CHECK']: self._on_check,
             Message.TYPE['TEST']: self._on_test,
         }
 
+    def _get_platform_name(self):
+        unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
+        platform = platform_name()
+        return 'UNIX' if platform in unixes else platform
+
+    def _get_platform_check_class(self):
+        platform = self._get_platform_name()
+
+        try:
+            return self.AVAILABLE_PLATFORMS[platform]
+        except KeyError:
+            raise CheckManagerError('Error - Platform : \'{:}\' is not available.'.format(platform))
+
     def _build_checks(self, checks):
         try:
-            return [Check(name=c['path'], platform_setup=self._platform_setup, **c) for c in checks]
+            return [self._Check(name=c['path'], platform_setup=self._platform_setup, **c) for c in checks]
         except KeyError:
             raise CheckError('Error - Server sent empty or invalid check.')
 
