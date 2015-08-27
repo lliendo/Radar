@@ -1,15 +1,14 @@
 Installation
 ============
 
-    You can install Radar either using `pip <https://pip.pypa.io/en/stable/>`_ or manually from the latest
-    version from Github. If you want to use pip :
+    At the moment Radar is only available from its source code from Github.
+    As the project evolves it will be eventually added to `pip <https://pip.pypa.io/en/stable/>`_.
 
-        .. code-block:: bash
+    Pip packages will be delivered when the project is assured to be stable.
+    Current Radar's status is ALPHA.
 
-            pip install radar-monitoring-system
-
-    If you want to manually install the latest version from Github
-    (you will need `GIT <https://git-scm.com/>`_ installed on your system) then open a terminal and run :
+    To install Radar from Github from Github (you will need `GIT <https://git-scm.com/>`_ installed on your system)
+    then open a terminal and run :
 
         .. code-block:: bash
 

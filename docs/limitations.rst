@@ -11,7 +11,7 @@ Limitations
       sequentially, this is in a way identical to the checks limitation described
       above.
 
-    * Passive checks : There's no passive checking support yet. This feature will
+    * Passive checks : There's no passive check support yet. This feature will
       certainly be implemented in the near future.
 
     * SNMP checks : SNMP is not supported. It hasn't been yet defined if this
@@ -22,5 +22,13 @@ Limitations
 
     * IPv6 addresses are not supported yet.
 
+    * Both Windows client and server need to be improved considerably.
+      I/O Completion Port support has been developed but is not working properly,
+      consequently Radar relies on the inefficient select system call.
+      No gracefully stop mechanism is yet available.
 
-    All described limitations are intended to be implemented in the future.
+
+    These limitations are intended be overcomed as the project evolves. Currently
+    Radar's status is ALPHA and proper and expected behaviour needs to be assured
+    before moving to further features. Also minor changes can be expected at
+    this stage.
