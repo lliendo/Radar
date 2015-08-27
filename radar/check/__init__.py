@@ -44,16 +44,6 @@ class Check(Switch):
         'TIMEOUT': 4,
     }
 
-    # TODO: Mmmm... Better way ? Let's not abuse of this trick...
-    def __new__(cls, *args, **kwargs):
-        try:
-            global getpwnam
-            from pwd import getpwnam
-        except ImportError:
-            pass
-
-        return super(Check, cls).__new__(cls, *args, **kwargs)
-
     def __init__(self, id=None, name='', path='', args='', details='', data=None, enabled=True, platform_setup=None):
         super(Check, self).__init__(id=id, enabled=enabled)
 
@@ -137,25 +127,6 @@ class Check(Switch):
 
         return d
 
-    def _owned_by_user(self, path):
-        user = self._platform_setup.config['run as']['user']
-
-        try:
-            return getpwnam(user).pw_uid == stat(path)['st_uid']
-        except KeyError:
-            raise CheckError('Error - User : \'{:}\' doesn\'t exist.'.format(user))
-
-    def _owned_by_group(self, path):
-        group = self._platform_setup.config['run as']['group']
-
-        try:
-            return getpwnam(group).pw_gid == stat(path)['st_gid']
-        except KeyError:
-            raise CheckError('Error - Group : \'{:}\' doesn\'t exist.'.format(group))
-
-    def _owned_by_stated_user(self):
-        return self._owned_by_user() and self._owned_by_group()
-
     def _build_absolute_path(self):
         checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
         return self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)
@@ -194,6 +165,48 @@ class Check(Switch):
 
     def __hash__(self):
         return hash(self.name) ^ hash(self.path) ^ hash(self.args)
+
+
+class UnixCheck(Check):
+    def __new__(cls, *args, **kwargs):
+        try:
+            global getpwnam
+            from pwd import getpwnam
+        except ImportError:
+            pass
+
+        return super(Check, cls).__new__(cls, *args, **kwargs)
+
+    def _owned_by_user(self, path):
+        user = self._platform_setup.config['run as']['user']
+
+        try:
+            return getpwnam(user).pw_uid == stat(path)['st_uid']
+        except KeyError:
+            raise CheckError('Error - User : \'{:}\' doesn\'t exist.'.format(user))
+
+    def _owned_by_group(self, path):
+        group = self._platform_setup.config['run as']['group']
+
+        try:
+            return getpwnam(group).pw_gid == stat(path)['st_gid']
+        except KeyError:
+            raise CheckError('Error - Group : \'{:}\' doesn\'t exist.'.format(group))
+
+    def _owned_by_stated_user(self):
+        return self._owned_by_user() and self._owned_by_group()
+
+
+# TODO: Implement 'enforce ownership' option for Windows.
+class WindowsCheck(Check):
+    def _owned_by_user(self, path):
+        return True
+
+    def _owned_by_group(self, path):
+        return True
+
+    def _owned_by_stated_user(self):
+        return self._owned_by_user() and self._owned_by_group()
 
 
 class CheckGroup(Switch):
