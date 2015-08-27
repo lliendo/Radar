@@ -23,6 +23,7 @@ Copyright 2015 Lucas Liendo.
 from . import NetworkMonitor, NetworkMonitorError
 
 
+# TODO: Not working properly.
 class IOCPMonitor(NetworkMonitor):
     def __new__(cls, *args, **kwargs):
         try:
@@ -40,13 +41,10 @@ class IOCPMonitor(NetworkMonitor):
         self._register(self._server.socket)
 
     def _register(self, fd):
-        # Is it possible to use the fd directly ?
-        # CreateIoCompletionPort(fd.fileno(), self._iocp_monitor, 0, 0)
         CreateIoCompletionPort(fd.fileno(), self._iocp_monitor, fd.fileno(), 0)
         self._fds.append(fd)
 
     def on_disconnect(self, client):
-        # Is it possible to use the fd directly ?
         CancelIo(client.socket.fileno())
         self._fds.remove(client.socket)
 
@@ -54,6 +52,5 @@ class IOCPMonitor(NetworkMonitor):
         self._register(client.socket)
 
     def watch(self):
-        # Does overlapped contain my socket object, my fd ?
         _, _, ready_fileno, overlapped = GetQueuedCompletionStatus(self._iocp_monitor, int(self._timeout * 1000))
         super(IOCPMonitor, self)._watch([fd for fd in self._fds if fd.fileno() == ready_fileno])

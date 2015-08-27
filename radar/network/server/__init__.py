@@ -51,10 +51,11 @@ class Server(object):
 
     __metaclass__ = ABCMeta
 
+    # TODO: Make IOCPMonitor work.
     AVAILABLE_PLATFORM_MONITORS = {
         'BSD': [KQueueMonitor, PollMonitor, SelectMonitor],
         'Linux': [EPollMonitor, PollMonitor, SelectMonitor],
-        'Windows': [IOCPMonitor, SelectMonitor],
+        'Windows': [SelectMonitor],
         'Unknown': [SelectMonitor],
     }
 
