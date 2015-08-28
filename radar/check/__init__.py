@@ -199,8 +199,20 @@ class UnixCheck(Check):
 
 # TODO: Implement 'enforce ownership' option for Windows.
 class WindowsCheck(Check):
+    def __new__(cls, *args, **kwargs):
+        try:
+            global GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
+            from win32security import GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
+        except ImportError:
+            pass
+
     def _owned_by_user(self, path):
-        return True
+        try:
+            security_descriptor = GetFileSecurity(path, OWNER_SECURITY_INFORMATION)
+            user, _, _ = LookupAccountSid (None, security_descriptor.GetSecurityDescriptorOwner())
+            return user == self._platform_setup['run as']['user']
+        except MemoryError, e:
+            raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(path, e))
 
     def _owned_by_group(self, path):
         return True
