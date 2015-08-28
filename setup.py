@@ -39,7 +39,7 @@ def radar_dependencies():
 
 setup(
     name='Radar-Monitoring-System',
-    description='An extensible and generic monitoring system.',
+    description='An extendable and generic monitoring system.',
     version='0.0.1a',
     packages=['radar'],
     author='Lucas Liendo',
