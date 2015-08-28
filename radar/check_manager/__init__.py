@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from Queue import Empty as EmptyQueue
 from threading import Thread, Event
 from platform import system as platform_name
-from ..check import UnixCheck, WindowsCheck, CheckError
+from ..check import Check, UnixCheck, WindowsCheck, CheckError
 from ..protocol import Message
 
 
@@ -83,8 +83,11 @@ class CheckManager(Thread):
         try:
             action = self._message_actions[message_type]
             action(message_type, message)
+            self._logger.log('{:} from {:}:{:} -> {:}'.format(
+                Check.STATUS[message_type], self._platform_setup['connect']['to'],
+                self._platform_setup['connect']['port'], message))
         except KeyError:
-            self._logger.log('Unknown message id \'{:}\'.'.format(message_type))
+            self._logger.log('Error - Unknown message id \'{:}\'. Message : {:}.'.format(message_type, message))
         except CheckError, e:
             self._logger.log(e)
 
