@@ -115,7 +115,8 @@ class Check(Switch):
 
     def _deserialize_output(self, output):
         try:
-            d = {k.lower(): v for k, v in deserialize_json(output).iteritems() if k.lower() in ['status', 'details', 'data']}
+            valid_fields = ['status', 'details', 'data']
+            d = {k.lower(): v for k, v in deserialize_json(output).iteritems() if k.lower() in valid_fields}
             d.update({
                 'status': self.STATUS[d['status'].upper()],
                 'id': self.id,
@@ -129,22 +130,22 @@ class Check(Switch):
 
     def _build_absolute_path(self):
         checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
-        return self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)
+        return [self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)]
 
     def _call_popen(self):
         absolute_path = self._build_absolute_path()
 
-        if self._platform_setup.config['enforce ownership'] and not self._owned_by_stated_user():
+        if self._platform_setup.config['enforce ownership'] and not self._owned_by_stated_user(absolute_path):
             raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
-                absolute_path,
+                absolute_path[len(absolute_path) - 1],
                 self._platform_setup.config['run as']['user'],
                 self._platform_setup.config['run as']['group']
             ))
 
         try:
-            return Popen([absolute_path] + split_args(self.args), stdout=PIPE).communicate()[0]
+            return Popen(absolute_path + split_args(self.args), stdout=PIPE).communicate()[0]
         except OSError, e:
-            raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
+            raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path[len(absolute_path) - 1], e))
 
     def run(self):
         try:
@@ -175,50 +176,68 @@ class UnixCheck(Check):
         except ImportError:
             pass
 
-        return super(Check, cls).__new__(cls, *args, **kwargs)
+        return super(UnixCheck, cls).__new__(cls, *args, **kwargs)
 
-    def _owned_by_user(self, path):
+    def _owned_by_user(self, filename):
         user = self._platform_setup.config['run as']['user']
 
         try:
-            return getpwnam(user).pw_uid == stat(path)['st_uid']
+            return getpwnam(user).pw_uid == stat(filename)['st_uid']
         except KeyError:
             raise CheckError('Error - User : \'{:}\' doesn\'t exist.'.format(user))
 
-    def _owned_by_group(self, path):
+    def _owned_by_group(self, filename):
         group = self._platform_setup.config['run as']['group']
 
         try:
-            return getpwnam(group).pw_gid == stat(path)['st_gid']
+            return getpwnam(group).pw_gid == stat(filename)['st_gid']
         except KeyError:
             raise CheckError('Error - Group : \'{:}\' doesn\'t exist.'.format(group))
 
-    def _owned_by_stated_user(self):
-        return self._owned_by_user() and self._owned_by_group()
+    def _owned_by_stated_user(self, filename):
+        return self._owned_by_user(filename) and self._owned_by_group(filename)
 
 
-# TODO: Implement 'enforce ownership' option for Windows.
 class WindowsCheck(Check):
     def __new__(cls, *args, **kwargs):
         try:
-            global GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
+            global FindExecutable, FindExecutableError, GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
             from win32security import GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
+            from win32api import FindExecutable
+            from pywintypes import error as FindExecutableError
         except ImportError:
             pass
 
-    def _owned_by_user(self, path):
+        return super(WindowsCheck, cls).__new__(cls, *args, **kwargs)
+
+    def _find_interpreter(self, filename):
         try:
-            security_descriptor = GetFileSecurity(path, OWNER_SECURITY_INFORMATION)
-            user, _, _ = LookupAccountSid (None, security_descriptor.GetSecurityDescriptorOwner())
+            return FindExecutable(filename)
+        except FindExecutableError, e:
+            raise CheckError('Error - Couldn\'t find executable for : {:}. Details : {:}.'.format(filename, e))
+
+    # If the file isn't just executable we need to know who interprets this filetype,
+    # otherwise popen fails.
+    def _build_absolute_path(self):
+        absolute_path = super(WindowsCheck, self)._build_absolute_path().pop()
+        _, interpreter = self._find_interpreter(absolute_path)
+        executable = [interpreter, absolute_path]
+
+        if interpreter == absolute_path:
+            executable.pop()
+
+        return executable
+
+    def _owned_by_user(self, filename):
+        try:
+            security_descriptor = GetFileSecurity(filename, OWNER_SECURITY_INFORMATION)
+            user, _, _ = LookupAccountSid(None, security_descriptor.GetSecurityDescriptorOwner())
             return user == self._platform_setup['run as']['user']
         except MemoryError, e:
-            raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(path, e))
+            raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(filename, e))
 
-    def _owned_by_group(self, path):
-        return True
-
-    def _owned_by_stated_user(self):
-        return self._owned_by_user() and self._owned_by_group()
+    def _owned_by_stated_user(self, executable):
+        return self._owned_by_user(executable[len(executable) - 1])
 
 
 class CheckGroup(Switch):
