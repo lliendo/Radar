@@ -5,7 +5,6 @@ TODO
     * Implement message compression (if payload is greater than MAX_PAYLOAD_SIZE).
       Split the message if compressed payload is greater than MAX_PAYLOAD_SIZE.
     * Remote Control console.
-    * Last but not least write docs !
     * Distribution ?
 
 
@@ -17,6 +16,6 @@ Roadmap
     * Add optional secure TCP connections (using TLS/SSL sockets).
     * SNMP support ? We should !
     * UDP support ?
-    * Add passive checks (requires UDP support !).
+    * Add passive checks (requires UDP support ?).
     * Add IPv6 support !
     * Responsive web interface. This is a completly separate project by its own.
