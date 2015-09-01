@@ -84,10 +84,11 @@ class CheckManager(Thread):
             action = self._message_actions[message_type]
             action(message_type, message)
             self._logger.log('{:} from {:}:{:} -> {:}'.format(
-                Check.STATUS[message_type], self._platform_setup['connect']['to'],
-                self._platform_setup['connect']['port'], message))
+                Message.get_type(message_type), self._platform_setup.config['connect']['to'],
+                self._platform_setup.config['connect']['port'], message)
+            )
         except KeyError:
-            self._logger.log('Error - Unknown message id \'{:}\'. Message : {:}.'.format(message_type, message))
+            self._logger.log('Error - Unknown message id {:}. Message : {:}.'.format(message_type, message))
         except CheckError, e:
             self._logger.log(e)
 
