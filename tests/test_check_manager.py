@@ -34,6 +34,7 @@ class TestCheckManager(TestCase):
         self.logger_mock.log = MagicMock()
         self.platform_setup_mock = Mock()
         self.platform_setup_mock.logger = self.logger_mock
+        self.platform_setup_mock.config = MagicMock()
 
     def test_process_message_fails_due_to_invalid_message_type(self):
         invalid_message_type = max(Message.TYPE.values()) + 1

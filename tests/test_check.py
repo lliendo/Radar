@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from mock import patch, Mock, MagicMock, ANY
+from mock import Mock, MagicMock
 from nose.tools import raises
 from json import dumps as serialize_json
 from radar.check import Check, CheckError
@@ -180,11 +180,25 @@ class TestCheck(TestCase):
         platform_setup_mock = Mock()
         platform_setup_mock.PLATFORM_CONFIG = {'checks': '/tmp'}
         dummy_check = Check(name='dummy', path='dummy.py', platform_setup=platform_setup_mock)
-        self.assertEqual(dummy_check._build_absolute_path(), '/tmp/dummy.py')
+        self.assertEqual(dummy_check._build_absolute_path(), ['/tmp/dummy.py'])
 
     def test_build_absolute_path_given_an_absolute_path(self):
         platform_setup_mock = Mock()
         platform_setup_mock.PLATFORM_CONFIG = {'checks': '/tmp'}
         absolute_check_path = '/usr/local/radar/client/checks/dummy.py'
         dummy_check = Check(name='dummy', path=absolute_check_path, platform_setup=platform_setup_mock)
-        self.assertEqual(dummy_check._build_absolute_path(), absolute_check_path)
+        self.assertEqual(dummy_check._build_absolute_path(), [absolute_check_path])
+
+    def test_run_fails(self):
+        dummy_check = Check(name='dummy', path='dummy.py', platform_setup=Mock())
+        dummy_check._call_popen = MagicMock(return_value='{}')
+        dummy_check.run()
+        self.assertEqual(dummy_check.current_status, Check.STATUS['ERROR'])
+        self.assertEqual(dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+
+    def test_run(self):
+        dummy_check = Check(name='dummy', path='dummy.py', platform_setup=Mock())
+        dummy_check._call_popen = MagicMock(return_value='{"status": "OK"}')
+        dummy_check.run()
+        self.assertEqual(dummy_check.current_status, Check.STATUS['OK'])
+        self.assertEqual(dummy_check.previous_status, Check.STATUS['UNKNOWN'])
