@@ -7,8 +7,8 @@ Installation
     Pip packages will be delivered when the project is assured to be stable.
     Current Radar's status is ALPHA.
 
-    To install Radar from Github from Github (you will need `GIT <https://git-scm.com/>`_ installed on your system)
-    then open a terminal and run :
+    To install Radar from Github (you will need `GIT <https://git-scm.com/>`_ installed on your system)
+    open a terminal or command prompt and run :
 
         .. code-block:: bash
 
@@ -50,3 +50,28 @@ Checking the installation
             radar-server -c PATH_TO_MAIN_CONFIGURATION_FILE
 
     The -c option specifies an alternate main configuration file.
+
+
+Radar setup
+-----------
+
+    Before you start configuring Radar I recommend you to read the documentation
+    as some options may not make full sense. If you've already read the docs
+    then go ahead and start configuring Radar.
+
+    Radar comes with two useful scripts to help you configure it the first time.
+    
+    To configure the server just run :
+
+        .. code-block:: bash
+
+            radar-server-config
+
+    This script will ask you for some initial values. For every option you can
+    leave its default value by pressing Enter.
+
+    To configure the client run :
+
+        .. code-block:: bash
+
+            radar-client-config
