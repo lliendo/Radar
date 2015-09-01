@@ -11,9 +11,9 @@ under the LGPL v3 license.
 Status
 ------
 
-Radar is currently under testing and bug fixing, however its foundations are
-complete. You can take a look at the TODO to have an idea what features are
-going to (or might) be implemented in the future.
+Radar is currently in ALPHA status, however its foundations are complete.
+You can take a look at the TODO.rst to have an idea what features are going to
+(or might) be implemented in the future.
 
 
 Documentation
@@ -36,7 +36,7 @@ Now change to the project's documentation directory and run make html :
     make html
 
 
-Sphinx will output the generated documentation to the ... directory. To read
+Sphinx will output the generated documentation to the '_build' directory. To read
 the generated docs open up a browser and then load the index.html file.
 
 If you think that documentation is incomplete or not clear enough, please let
