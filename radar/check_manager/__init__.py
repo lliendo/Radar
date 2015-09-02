@@ -71,22 +71,27 @@ class CheckManager(Thread):
         except KeyError:
             raise CheckError('Error - Server sent empty or invalid check.')
 
-    def _on_check(self, message_type, message):
-        checks = self._build_checks(message)
-        self._run_checks(checks)
+    def _on_check(self, message):
+        self._run_checks(self._build_checks(message))
 
-    def _on_test(self, message_type, message):
-        checks = self._build_checks(message)
-        self._run_checks(checks)
+    # TODO: Yes, is the same as above ! This implementation may change in the future.
+    def _on_test(self, message):
+        self._on_check(message)
+
+    def _log_action(self, message_type, check):
+        self._logger.log('{:} from {:}:{:} -> {:}'.format(
+            Message.get_type(message_type), self._platform_setup.config['connect']['to'],
+            self._platform_setup.config['connect']['port'], check)
+        )
+
+    def _log_incoming_message(self, message_type, message):
+        [self._log_action(message_type, check) for check in message]
 
     def _process_message(self, message_type, message):
         try:
+            self._log_incoming_message(message_type, message)
             action = self._message_actions[message_type]
-            action(message_type, message)
-            self._logger.log('{:} from {:}:{:} -> {:}'.format(
-                Message.get_type(message_type), self._platform_setup.config['connect']['to'],
-                self._platform_setup.config['connect']['port'], message)
-            )
+            action(message)
         except KeyError:
             self._logger.log('Error - Unknown message id {:}. Message : {:}.'.format(message_type, message))
         except CheckError, e:
