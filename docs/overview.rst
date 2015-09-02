@@ -33,8 +33,8 @@ Overview
 
         * Notifications : This is a typical use. Notify any of your defined contacts
           if something is not performing as expected. You can notify by email, sms
-          or maybe put data in a queue and have another process to take that
-          responsibility.
+          or maybe put data in a queue and have another process take that responsibility.
+          You could also notify through a real time messaging system like `XMPP <https://en.wikipedia.org/wiki/XMPP>`_.
 
         * Graphing tool : Each time you receive data from a check you can add that
           information to a database (like `RRDtool <http://www.rrdtool.org>`_) and then generate graphs.

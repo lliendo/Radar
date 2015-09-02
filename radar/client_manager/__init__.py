@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from ..protocol import Message
+from ..check import Check
 
 
 class ClientManager(object):
@@ -48,17 +49,23 @@ class ClientManager(object):
     def poll(self, message_type=Message.TYPE['CHECK']):
         [m.poll(message_type) for m in self._monitors if m.enabled]
 
-    def _log_statuses(self, client, message_type, statuses):
-        message = '{:} from {:}:{:}'.format(Message.get_type(message_type), client.address, client.port)
-        [self._logger.log('{:} -> {:}'.format(message, s)) for s in statuses]
+    def _log_action(self, client, message_type, check):
+        check['status'] = Check.get_status(check['status'])
+        self._logger.log('{:} from {:}:{:} -> {:}'.format(
+            Message.get_type(message_type), client.address, client.port,
+            check)
+        )
 
-    def _on_check_reply(self, client, message_type, statuses):
-        self._log_statuses(client, message_type, statuses)
-        return self._update_checks(client, statuses)
+    def _log_incoming_message(self, client, message_type, message):
+        [self._log_action(client, message_type, check) for check in message]
+
+    def _on_check_reply(self, client, message_type, message):
+        self._log_incoming_message(client, message_type, message)
+        return self._update_checks(client, message)
 
     # TODO: Yes, is the same as above ! This implementation may change in the future.
-    def _on_test_reply(self, client, message_type, statuses):
-        return self._on_check_reply(client, message_type, statuses)
+    def _on_test_reply(self, client, message_type, message):
+        return self._on_check_reply(client, message_type, message)
 
     def process_message(self, client, message_type, message):
         updated_checks = []
