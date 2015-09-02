@@ -49,7 +49,8 @@ class RadarClient(RadarClientLite, Thread):
 
     def __init__(self, platform_setup, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
-        super(RadarClient, self).__init__(
+        RadarClientLite.__init__(
+            self,
             platform_setup.config['connect']['to'],
             platform_setup.config['connect']['port'],
             network_monitor_timeout=self.NETWORK_MONITOR_TIMEOUT,
