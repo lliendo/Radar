@@ -132,6 +132,9 @@ class Check(Switch):
         checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
         return [self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)]
 
+    def _split_args(self):
+        return split_args(self.args)
+
     def _call_popen(self):
         absolute_path = self._build_absolute_path()
 
@@ -143,7 +146,7 @@ class Check(Switch):
             ))
 
         try:
-            return Popen(absolute_path + split_args(self.args), stdout=PIPE).communicate()[0]
+            return Popen(absolute_path + self._split_args(), stdout=PIPE).communicate()[0]
         except OSError, e:
             raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path[len(absolute_path) - 1], e))
 
@@ -238,6 +241,9 @@ class WindowsCheck(Check):
 
     def _owned_by_stated_user(self, executable):
         return self._owned_by_user(executable[len(executable) - 1])
+
+    def _split_args(self):
+        return split_args(self.args, posix=False)
 
 
 class CheckGroup(Switch):
