@@ -92,7 +92,7 @@ class CheckManager(Thread):
             self._log_incoming_message(message_type, message)
             action = self._message_actions[message_type]
             action(message)
-        except KeyError:
+        except (KeyError, ValueError):
             self._logger.log('Error - Unknown message id {:}. Message : {:}.'.format(message_type, message))
         except CheckError, e:
             self._logger.log(e)
