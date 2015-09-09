@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from mock import patch, Mock, MagicMock, ANY
+from mock import Mock, ANY
 from nose.tools import raises
 from radar.check import CheckError
 from radar.check_manager import CheckManager
@@ -30,36 +30,29 @@ from radar.protocol import Message
 
 class TestCheckManager(TestCase):
     def setUp(self):
-        self.logger_mock = Mock()
-        self.logger_mock.log = MagicMock()
-        self.platform_setup_mock = Mock()
-        self.platform_setup_mock.logger = self.logger_mock
-        self.platform_setup_mock.config = MagicMock()
+        self.platform_setup = Mock()
+        self.platform_setup.config = {
+            'connect': {
+                'to': ANY,
+                'port': ANY,
+            }
+        }
 
     def test_process_message_fails_due_to_invalid_message_type(self):
-        invalid_message_type = max(Message.TYPE.values()) + 1
-        check_manager = CheckManager(self.platform_setup_mock, Mock(), Mock())
-        check_manager._process_message(invalid_message_type, ANY)
-        self.logger_mock.log.assert_called_with(ANY)
+        check_manager = CheckManager(self.platform_setup, Mock(), Mock())
+        check_manager._logger = Mock()
+        check_manager._process_message(max(Message.TYPE.values()) + 1, [{}])
+        check_manager._logger.log.assert_called_with(ANY)
 
     def test_process_message_fails_due_to_invalid_check_sent_from_server(self):
-        check_manager = CheckManager(self.platform_setup_mock, Mock(), Mock())
+        check_manager = CheckManager(self.platform_setup, Mock(), Mock())
+        check_manager._logger = Mock()
         check_manager._process_message(Message.TYPE['CHECK'], [{}])
-        self.logger_mock.log.assert_called_with(ANY)
-
-    @patch.object(CheckManager, '_on_check')
-    def test_on_check_is_called(self, check_manager_mock):
-        check_manager = CheckManager(self.platform_setup_mock, Mock(), Mock())
-        check_manager._process_message(Message.TYPE['CHECK'], ANY)
-        check_manager_mock.assert_called_with(Message.TYPE['CHECK'], ANY)
-
-    @patch.object(CheckManager, '_on_test')
-    def test_on_test_is_called(self, check_manager_mock):
-        check_manager = CheckManager(self.platform_setup_mock, Mock(), Mock())
-        check_manager._process_message(Message.TYPE['TEST'], ANY)
-        check_manager_mock.assert_called_with(Message.TYPE['TEST'], ANY)
+        # TODO: Fix to assert a CheckError instance is passed to 'log'. Why does this fail ?
+        # check_manager._logger.log.assert_called_with(CheckError('Error - Server sent empty or invalid check.'))
+        check_manager._logger.log.assert_called_with(ANY)
 
     @raises(CheckError)
     def test_build_checks_raises_check_error(self):
-        check_manager = CheckManager(self.platform_setup_mock, Mock(), Mock())
+        check_manager = CheckManager(self.platform_setup, Mock(), Mock())
         check_manager._build_checks([{}])
