@@ -107,9 +107,12 @@ class Server(object):
 
     def disconnect(self, client):
         self.network_monitor.on_disconnect(client)
-        self.on_disconnect(client)
         self._clients.remove(client)
         client.disconnect()
+
+    def _on_disconnect(self, client):
+        self.on_disconnect(client)
+        self.disconnect(client)
 
     def on_disconnect(self, client):
         pass
@@ -130,22 +133,18 @@ class Server(object):
     def on_receive(self, client):
         pass
 
+    def _on_receive_error(self, client, error):
+        self.on_receive_error(client, error)
+        self.disconnect(client)
+
+    def _on_send_error(self, client, error):
+        self.on_send_error(client, error)
+        self.disconnect(client)
+
     def on_shutdown(self):
         [c.disconnect() for c in self._clients]
         self.socket.close()
         self.socket = None
-
-    def is_stopped(self):
-        return False
-
-    def is_listening(self):
-        return self.socket is not None
-
-    def on_receive_error(self, client, error):
-        self.remove_client(client)
-
-    def on_send_error(self, client, error):
-        self.remove_client(client)
 
     def _listen(self, address, port):
         try:
@@ -179,13 +178,19 @@ class Server(object):
             try:
                 self.on_receive(c)
             except ClientReceiveError, error:
-                self.on_receive_error(c, error)
+                self._on_receive_error(c, error)
             except ClientSendError, error:
-                self.on_send_error(c, error)
+                self._on_send_error(c, error)
             except ClientDisconnected:
-                self.disconnect(c)
+                self._on_disconnect(c)
             except ClientAbortError:
                 self._on_abort(c)
+
+    def is_stopped(self):
+        return False
+
+    def is_listening(self):
+        return self.socket is not None
 
     def run(self):
         while not self.is_stopped():
