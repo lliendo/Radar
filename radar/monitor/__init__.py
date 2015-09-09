@@ -100,7 +100,7 @@ class Monitor(Switch):
 
     def poll(self, message_type):
         message = reduce(lambda l, m: l + m, [c.to_check_dict() for c in self.checks if c.enabled])
-        [self._poll_client(c, message_type, message) for c in self.active_clients]
+        [self._poll_client(c['client'], message_type, message) for c in self.active_clients]
 
         return message
 
