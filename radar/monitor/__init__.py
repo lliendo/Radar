@@ -24,6 +24,7 @@ from json import dumps as serialize_json
 from copy import deepcopy
 from functools import reduce
 from ..misc import Switch
+from ..network.client import ClientSendError
 
 
 class MonitorError(Exception):
@@ -90,9 +91,16 @@ class Monitor(Switch):
 
         return updated
 
+    def _poll_client(self, client, message_type, message):
+        try:
+            client.send_message(message_type, serialize_json(message))
+        except ClientSendError:
+            # TODO: We should log this error.
+            pass
+
     def poll(self, message_type):
         message = reduce(lambda l, m: l + m, [c.to_check_dict() for c in self.checks if c.enabled])
-        [c['client'].send_message(message_type, serialize_json(message)) for c in self.active_clients]
+        [self._poll_client(c, message_type, message) for c in self.active_clients]
 
         return message
 
