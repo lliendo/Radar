@@ -33,6 +33,10 @@ class CheckError(Exception):
     pass
 
 
+class CheckGroupError(Exception):
+    pass
+
+
 class Check(Switch):
 
     STATUS = {
@@ -251,7 +255,7 @@ class CheckGroup(Switch):
         super(CheckGroup, self).__init__(enabled=enabled)
 
         if not name or not checks:
-            raise CheckError('Error - Missing name and/or checks from check group definition.')
+            raise CheckGroupError('Error - Missing name and/or checks from check group definition.')
 
         self.name = name
         self.checks = set(checks)
