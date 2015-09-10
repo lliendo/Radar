@@ -27,8 +27,8 @@ from os.path import join as join_path
 from stat import S_ISREG
 from copy import deepcopy
 from . import ConfigBuilder, ConfigError
-from ..check import Check, CheckGroup
-from ..contact import Contact, ContactGroup, ContactError
+from ..check import Check, CheckGroup, CheckError, CheckGroupError
+from ..contact import Contact, ContactGroup, ContactError, ContactGroupError
 from ..monitor import Monitor
 from ..misc import Address, AddressRange, AddressError, SequentialIdGenerator
 from ..class_loader import ClassLoader
@@ -40,7 +40,7 @@ class ContactBuilder(ConfigBuilder):
     TAG = 'contact'
 
     def _build_contact(self, contact):
-        return Contact(enabled=contact[self.TAG].get('enabled', True), **contact[self.TAG])
+        return Contact(enabled=contact[ContactBuilder.TAG].get('enabled', True), **contact[ContactBuilder.TAG])
 
     def _build_contacts(self, contacts):
         return set([self._build_contact(c) for c in contacts])
@@ -48,8 +48,8 @@ class ContactBuilder(ConfigBuilder):
     def build(self):
         try:
             return list(self._build_contacts(self._filter_config(self.TAG)))
-        except KeyError, e:
-            raise ConfigError('Error - Missing \'{:}\' while creating contact from \'{:}\'.'.format(e.args[0], self.path))
+        except ContactError, e:
+            raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
 class ContactGroupBuilder(ContactBuilder):
@@ -67,7 +67,7 @@ class ContactGroupBuilder(ContactBuilder):
 
     def _build_contact(self, contact, defined_contacts):
         try:
-            contact = Contact(enabled=contact['contact'].get('enabled', True), **contact['contact'])
+            contact = super(ContactGroupBuilder, self)._build_contact(contact)
         except ContactError:
             contact = self._copy_contact(contact['contact']['name'], defined_contacts)
 
@@ -77,7 +77,7 @@ class ContactGroupBuilder(ContactBuilder):
         return [self._build_contact(c, defined_contacts) for c in contacts]
 
     def _build_contact_group(self, contact_group, defined_contacts):
-        contact_group = contact_group[self.TAG]
+        contact_group = contact_group[ContactGroupBuilder.TAG]
 
         return ContactGroup(
             name=contact_group['name'],
@@ -90,9 +90,9 @@ class ContactGroupBuilder(ContactBuilder):
 
     def build(self, defined_contacts):
         try:
-            return list(self._build_contact_groups(self._filter_config(self.TAG), defined_contacts))
-        except KeyError, e:
-            raise ConfigError('Error - Missing \'{:}\' while creating contact group from \'{:}\'.'.format(e.args[0], self.path))
+            return list(self._build_contact_groups(self._filter_config(ContactGroupBuilder.TAG), defined_contacts))
+        except ContactGroupError, e:
+            raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
 class CheckBuilder(ConfigBuilder):
@@ -100,16 +100,16 @@ class CheckBuilder(ConfigBuilder):
     TAG = 'check'
 
     def _build_check(self, check):
-        return Check(enabled=check.get('enabled', True), **check[self.TAG])
+        return Check(enabled=check.get('enabled', True), **check[CheckBuilder.TAG])
 
     def _build_checks(self, checks):
         return set([self._build_check(c) for c in checks])
 
     def build(self):
         try:
-            return list(self._build_checks(self._filter_config(self.TAG)))
-        except KeyError, e:
-            raise ConfigError('Error - Missing \'{:}\' while creating check from {:}.'.format(e.args[0], self.path))
+            return list(self._build_checks(self._filter_config(CheckBuilder.TAG)))
+        except CheckError, e:
+            raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
 class CheckGroupBuilder(CheckBuilder):
@@ -121,14 +121,14 @@ class CheckGroupBuilder(CheckBuilder):
             check = deepcopy([c for c in defined_checks if c.name == check_name].pop())
             check.id = SequentialIdGenerator().generate()
         except IndexError:
-            raise ConfigError('Error - Check \'{:}\' does not exist.'.format(contact_name))
+            raise ConfigError('Error - Check \'{:}\' does not exist.'.format(check_name))
 
         return check
 
     def _build_check(self, check, defined_checks):
         try:
-            check = Check(enabled=check['check'].get('enabled', True), **check['check'])
-        except ContactError:
+            check = super(CheckGroupBuilder, self)._build_check(check)
+        except CheckError:
             check = self._copy_check(check['check']['name'], defined_checks)
 
         return check
@@ -137,7 +137,7 @@ class CheckGroupBuilder(CheckBuilder):
         return [self._build_check(c, defined_checks) for c in checks]
 
     def _build_check_group(self, check_group, defined_checks):
-        check_group = check_group[self.TAG]
+        check_group = check_group[CheckGroupBuilder.TAG]
 
         return CheckGroup(
             name=check_group['name'],
@@ -150,9 +150,9 @@ class CheckGroupBuilder(CheckBuilder):
 
     def build(self, defined_checks):
         try:
-            return list(self._build_check_groups(self._filter_config(self.TAG), defined_checks))
-        except KeyError, e:
-            raise ConfigError('Error - Missing \'{:}\' while creating check group from {:}.'.format(e.args[0], self.path))
+            return list(self._build_check_groups(self._filter_config(CheckGroupBuilder.TAG), defined_checks))
+        except CheckGroupError, e:
+            raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
 class MonitorBuilder(ConfigBuilder):
