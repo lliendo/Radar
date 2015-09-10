@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from radar.check import Check, CheckGroup, CheckError
+from radar.check import Check, CheckGroup, CheckGroupError
 
 
 class TestCheckGroup(TestCase):
@@ -94,12 +94,12 @@ class TestCheckGroup(TestCase):
         self.assertEqual(len(set([CheckGroup(name='check group 1', checks=[check, another_check]), CheckGroup(name='check group 1', checks=[check, another_check])])), 1)
         self.assertEqual(len(set([CheckGroup(name='check group 1', checks=[check]), CheckGroup(name='check group 2', checks=[another_check])])), 2)
 
-    @raises(CheckError)
+    @raises(CheckGroupError)
     def test_check_group_raises_exception_due_to_missing_id(self):
         check_group = CheckGroup(checks=[Check(name='check', path='check.py')])
         check_group.update_status({'status': Check.STATUS['OK']})
 
-    @raises(CheckError)
+    @raises(CheckGroupError)
     def test_check_group_raises_exception_due_to_missing_status(self):
         check = Check(name='check', path='check.py')
         check_group = CheckGroup(checks=[check])
