@@ -21,8 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
-from yaml import safe_load
-from yaml.error import YAMLError
+from yaml import safe_load, YAMLError
 from ..logger import RadarLogger
 
 
