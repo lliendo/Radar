@@ -28,6 +28,10 @@ class ContactError(Exception):
     pass
 
 
+class ContactGroupError(Exception):
+    pass
+
+
 class Contact(Switch):
     def __init__(self, id=None, name='', email='', phone='', enabled=True):
         super(Contact, self).__init__(id=id, enabled=enabled)
@@ -58,7 +62,7 @@ class ContactGroup(Switch):
         super(ContactGroup, self).__init__(enabled=enabled)
 
         if not name or not contacts:
-            raise ContactError('Error - Missing name and/or contacts from contact group definition.')
+            raise ContactGroupError('Error - Missing name and/or contacts from contact group definition.')
 
         self.name = name
         self.contacts = set(contacts)
