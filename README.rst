@@ -37,7 +37,8 @@ Now change to the project's documentation directory and run make html :
 
 
 Sphinx will output the generated documentation to the '_build' directory. To read
-the generated docs open up a browser and then load the index.html file.
+the generated docs open up a browser and then load the index.html file. Currently
+documentation is only available in English and Spanish languages.
 
 If you think that documentation is incomplete or not clear enough, please let
 me know.
@@ -99,9 +100,9 @@ Radar is distributed under the LGPL v3 license.
 Contact
 -------
 
-If you find this software useful you can drop me a line. Bug reporting,
-suggestions, missing documentation and critics (both positive and negative)
-of any kind are always welcome !
+If you find this software useful you can drop me a line. Bug reporting, suggestions,
+missing documentation and critics (both positive and negative) of any kind are
+always welcome !
 
 
 Authors
