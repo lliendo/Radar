@@ -2,9 +2,9 @@ Installation
 ============
 
     At the moment Radar is only available from its source code from Github.
-    As the project evolves it will be eventually added to `pip <https://pip.pypa.io/en/stable/>`_.
+    As the project evolves it will be eventually added to `PyPI <https://pypi.python.org/pypi>`_.
 
-    Pip packages will be delivered when the project is assured to be stable.
+    PyPI packages will be delivered when the project is assured to be stable.
     Current Radar's status is ALPHA.
 
     To install Radar from Github (you will need `GIT <https://git-scm.com/>`_ installed on your system)
@@ -68,7 +68,8 @@ Radar setup
             radar-server-config
 
     This script will ask you for some initial values. For every option you can
-    leave its default value by pressing Enter.
+    leave its default (these values are shown in squared brackets) value by pressing
+    Enter.
 
     To configure the client run :
 
