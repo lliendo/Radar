@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from json import dumps as serialize_json
 from copy import deepcopy
 from functools import reduce
-from ..misc import Switch
+from ..misc import Switchable
 from ..network.client import ClientSendError
 
 
@@ -31,7 +31,7 @@ class MonitorError(Exception):
     pass
 
 
-class Monitor(Switch):
+class Monitor(Switchable):
     def __init__(self, name='', addresses=[], checks=[], contacts=[], enabled=True):
         super(Monitor, self).__init__(enabled=enabled)
         self.name = name

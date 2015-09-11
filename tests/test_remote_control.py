@@ -21,17 +21,17 @@ Copyright 2015 Lucas Liendo.
 
 
 from unittest import TestCase
-from radar.misc import Switch
+from radar.misc import Switchable
 
 
-class DummySwitch(Switch):
+class DummySwitch(Switchable):
     def __init__(self):
         self.some_attribute = 'a'
         self.some_other_attribute = 1
         super(DummySwitch, self).__init__()
 
 
-class TestSwitch(TestCase):
+class TestSwitchable(TestCase):
     def setUp(self):
         self.remote_control = DummySwitch()
 

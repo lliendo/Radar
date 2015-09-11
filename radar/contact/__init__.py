@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from functools import reduce
-from ..misc import Switch
+from ..misc import Switchable
 
 
 class ContactError(Exception):
@@ -32,7 +32,7 @@ class ContactGroupError(Exception):
     pass
 
 
-class Contact(Switch):
+class Contact(Switchable):
     def __init__(self, id=None, name='', email='', phone='', enabled=True):
         super(Contact, self).__init__(id=id, enabled=enabled)
 
@@ -57,7 +57,7 @@ class Contact(Switch):
         return hash(self.name) ^ hash(self.email) ^ hash(self.phone)
 
 
-class ContactGroup(Switch):
+class ContactGroup(Switchable):
     def __init__(self, name='', contacts=[], enabled=True):
         super(ContactGroup, self).__init__(enabled=enabled)
 

@@ -26,7 +26,7 @@ from os import stat
 from os.path import join as join_path, isabs as is_absolute_path
 from shlex import split as split_args
 from subprocess import Popen, PIPE
-from ..misc import Switch
+from ..misc import Switchable
 
 
 class CheckError(Exception):
@@ -37,7 +37,7 @@ class CheckGroupError(Exception):
     pass
 
 
-class Check(Switch):
+class Check(Switchable):
 
     STATUS = {
         'ERROR': -1,
@@ -250,7 +250,7 @@ class WindowsCheck(Check):
         return split_args(self.args, posix=False)
 
 
-class CheckGroup(Switch):
+class CheckGroup(Switchable):
     def __init__(self, name='', checks=[], enabled=True):
         super(CheckGroup, self).__init__(enabled=enabled)
 

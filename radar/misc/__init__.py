@@ -121,7 +121,9 @@ class SequentialIdGenerator(object):
         return id
 
 
-class Switch(object):
+# Mixin used heavily on server side. It provides a unique id and a silly
+# enable/disable behaviour.
+class Switchable(object):
 
     __metaclass__ = ABCMeta
 
