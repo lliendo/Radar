@@ -6,6 +6,7 @@ dist
 *.swp
 *.old.py
 *.ropeproject
+*.mo
 config_files
 config_test
 clean
