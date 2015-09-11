@@ -6,7 +6,8 @@ Minimum requiremients
     in the project, so you don't need to install them manually.
 
     If you have successfully installed the Python interpreter then is highly
-    probable that Radar will run without any platform specific issues.
+    probable that Radar will run without any platform specific issues. Radar does
+    not depend on any external framework.
 
     Radar (both client and server) should run at least on the following
     platforms without problems :
