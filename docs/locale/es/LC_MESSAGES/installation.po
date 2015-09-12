@@ -1,0 +1,136 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Radar 0.0.1b\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-11 17:19-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../installation.rst:2
+msgid "Installation"
+msgstr "Instalación"
+
+#: ../../installation.rst:4
+msgid ""
+"At the moment Radar is only available from its source code from Github. As "
+"the project evolves it will be eventually added to `PyPI "
+"<https://pypi.python.org/pypi>`_."
+msgstr ""
+"Por el momento Radar esta solamente disponible desde su código fuente en Github. "
+"Eventualmente el proyecto evolucionará y será incorporado a `PyPI <https://pypi.python.org/pypi>`_"
+
+#: ../../installation.rst:7
+msgid ""
+"PyPI packages will be delivered when the project is assured to be stable. "
+"Current Radar's status is ALPHA."
+msgstr ""
+"El proyecto se distribuirá a PyPI una vez que se entre en un estado estable. "
+"Actualmente Radar se encuentra en estado ALFA."
+
+#: ../../installation.rst:10
+msgid ""
+"To install Radar from Github (you will need `GIT <https://git-scm.com/>`_ "
+"installed on your system) open a terminal or command prompt and run :"
+msgstr ""
+"Para instalar Radar desde Github (necesitarás tener instalado `GIT <https://git-scm.com/>`_ en tu sistema) "
+"abre una consola y ejecuta :"
+
+#: ../../installation.rst:21
+msgid "Checking the installation"
+msgstr "Verificando la instalación"
+
+#: ../../installation.rst:23
+msgid ""
+"You can check that Radar was successfully installed by running from the "
+"command line :"
+msgstr ""
+"Para verificar si Radar se ha instalado correctamente puedes ejecutar los siguientes "
+"comandos desde la consola :"
+
+#: ../../installation.rst:31
+msgid ""
+"This will display the current version of Radar (client and server) installed"
+" on your system. If you see these versions then you got both client and "
+"server successfully installed, otherwise something went wrong."
+msgstr ""
+"Esto mostrará la versión actual de Radar (cliente y servidor) instalada en tu sistema. "
+"Si logras ver estas versiones entonces Radar ha sido instalado exitosamente."
+
+#: ../../installation.rst:35
+msgid ""
+"By default Radar expects to find configuration files in well-defined places."
+" These directories are platform dependant (you can check these defaults from"
+" the platform defaults section of this document)."
+msgstr ""
+"Por defecto Radar espera encontrar archivos de configuración en lugares predeterminados. "
+"Estos directorios son dependientes de la plataforma en donde Radar se encuentra "
+"instalado (puedes verificar estos directorios en la sección 'valores por defecto' "
+"de este documento)."
+
+#: ../../installation.rst:39
+msgid ""
+"It is a good practice to use these default directories. Of course if don't "
+"want to use those locations you can change them from the main configuration "
+"file."
+msgstr ""
+"Es una buena práctica utilizar estos directorios predeterminados. Por supuesto si "
+"no quieres hacer uso de estas ubicaciones puedes cambiarlas desde el archivo de "
+"configuración principal."
+
+#: ../../installation.rst:43
+msgid ""
+"Radar only takes its main configuration file to be able to run. If you want "
+"to override the default main configuration file path you can invoke Radar "
+"this way :"
+msgstr ""
+"Radar unicamente utiliza un archivo de configuración principal para comenzar su "
+"ejecución. Si quieres indicar un archivo de configuración principal alternativo, "
+"puedes invocar a Radar de la siguiente manera :"
+
+#: ../../installation.rst:52
+msgid "The -c option specifies an alternate main configuration file."
+msgstr "La opcion -c permite especificar un archivo de configuración principal diferente."
+
+#: ../../installation.rst:56
+msgid "Radar setup"
+msgstr "Configuración inicial"
+
+#: ../../installation.rst:58
+msgid ""
+"Before you start configuring Radar I recommend you to read the documentation"
+" as some options may not make full sense. If you've already read the docs "
+"then go ahead and start configuring Radar."
+msgstr ""
+"Antes de comenzar a configurar Radar te recomiendo leer toda la documentación ya "
+"que podrías no entender cada una de las opciones disponibles presentadas por "
+"el script de configuración. Si ya has leido la documentación entonces continua "
+"con los siguientes pasos."
+
+#: ../../installation.rst:62
+msgid ""
+"Radar comes with two useful scripts to help you configure it the first time."
+msgstr ""
+"Radar viene con dos scripts para ayudarte a configurarlo la primera vez."
+
+#: ../../installation.rst:64
+msgid "To configure the server just run :"
+msgstr "Para configurar el servidor ejecuta :"
+
+#: ../../installation.rst:70
+msgid ""
+"This script will ask you for some initial values. For every option you can "
+"leave its default (these values are shown in squared brackets) value by "
+"pressing Enter."
+msgstr ""
+"Este script te preguntará por algunos valores iniciales. Por cada opción puedes "
+"utilizar su valor por defecto (estos valores se encuentran presentados entre "
+"corchetes) presionando Enter."
+
+#: ../../installation.rst:74
+msgid "To configure the client run :"
+msgstr "Para configurar el cliente ejecuta :"

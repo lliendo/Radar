@@ -1,0 +1,68 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Radar 0.0.1b\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-11 17:19-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../minimum-requirements.rst:2
+msgid "Minimum requiremients"
+msgstr "Requerimientos mínimos"
+
+#: ../../minimum-requirements.rst:4
+msgid ""
+"In order to run, Radar needs the `Python <https://www.python.org/>`_ "
+"interpreter (at least version 2.7) and a few dependencies. These "
+"dependencies are already defined in the project, so you don't need to "
+"install them manually."
+msgstr ""
+"Para poder funcionar Radar necesita del intérprete de `Python <https://www.python.org/>`_ (como mínimo su versión 2.7) "
+"y algunas dependencias. Estas dependencias ya se encuentran definidas en el proyecto por "
+"lo que no necesitas instalarlas manualmente."
+
+#: ../../minimum-requirements.rst:8
+msgid ""
+"If you have successfully installed the Python interpreter then is highly "
+"probable that Radar will run without any platform specific issues. Radar "
+"does not depend on any external framework."
+msgstr ""
+"Si has logrado instalar el intérprete de Python sin inconvenientes es altamente "
+"probable que Radar funcione sin problemas."
+
+#: ../../minimum-requirements.rst:12
+msgid ""
+"Radar (both client and server) should run at least on the following "
+"platforms without problems :"
+msgstr ""
+"Tanto el cliente de Radar como el servidor deberían correr al menos en las siguientes "
+"plataformas :"
+
+#: ../../minimum-requirements.rst:15
+msgid "GNU/Linux."
+msgstr ""
+
+#: ../../minimum-requirements.rst:16
+msgid "FreeBSD."
+msgstr ""
+
+#: ../../minimum-requirements.rst:17
+msgid "NetBSD."
+msgstr ""
+
+#: ../../minimum-requirements.rst:18
+msgid "OpenBSD."
+msgstr ""
+
+#: ../../minimum-requirements.rst:19
+msgid "Microsoft Windows."
+msgstr ""
+
+#: ../../minimum-requirements.rst:20
+msgid "Darwin."
+msgstr ""

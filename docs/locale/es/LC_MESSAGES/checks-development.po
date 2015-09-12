@@ -1,0 +1,176 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Radar 0.0.1b\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-11 17:19-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../checks-development.rst:2
+msgid "Checks development"
+msgstr ""
+
+#: ../../checks-development.rst:4
+msgid ""
+"In this section we will explain how checks should be developed and how Radar"
+" runs them. As stated before checks can be programmed in your favourite "
+"language."
+msgstr ""
+
+#: ../../checks-development.rst:10
+msgid "Introduction"
+msgstr ""
+
+#: ../../checks-development.rst:12
+msgid ""
+"Checks are the way Radar monitors any given resource. Radar only cares how "
+"you return the output of your checks, it will expect a valid `JSON "
+"<https://en.wikipedia.org/wiki/JSON>`_ containing one or more of the "
+"following fields :"
+msgstr ""
+
+#: ../../checks-development.rst:16
+msgid ""
+"status : This field is mandatory. It must be equal to any of the following "
+"string values : OK, WARNING, SEVERE or ERROR."
+msgstr ""
+
+#: ../../checks-development.rst:19
+msgid ""
+"details : This is an optional field. You can add details about how your "
+"check performed. Radar expects this value to be a string."
+msgstr ""
+
+#: ../../checks-development.rst:22
+msgid ""
+"data : This is an optional field. You can put here any data related to your "
+"check. Radar does not expect any particular format for this field."
+msgstr ""
+
+#: ../../checks-development.rst:25
+msgid ""
+"So, let's assume you have an uptime check. So the minimum output for this "
+"check would be the following JSON :"
+msgstr ""
+
+#: ../../checks-development.rst:32
+msgid ""
+"Radar is case insensitive when it reads a check's output so it does not care"
+" how you name the fields (as long as you include them Radar won't complain),"
+" so this JSON is also valid :"
+msgstr ""
+
+#: ../../checks-development.rst:40
+msgid ""
+"Any other combination of upper and lower characters is also valid. Now "
+"suppose you want to be more verbose on this check, then you might want to "
+"add some details :"
+msgstr ""
+
+#: ../../checks-development.rst:51
+msgid ""
+"Details will be stored (along with status and data) in their respective "
+"checks on the server side, and all your plugins will have visibility on "
+"these fields. Now, let's assume that your check also returns data to be "
+"processed by any of the plugins on the server side, so your JSON might look "
+"something like this :"
+msgstr ""
+
+#: ../../checks-development.rst:68
+msgid ""
+"As mentioned before, there is no specific format that you have to comply on "
+"the data field, is completly up to you how to lay it out. You can include as"
+" much data as you want and in any desired way."
+msgstr ""
+
+#: ../../checks-development.rst:74
+msgid "Guidelines"
+msgstr ""
+
+#: ../../checks-development.rst:76
+msgid ""
+"Currently Radar checks are executed sequentially, that is one after the "
+"other (this is expected to change on a future release), so some care must be"
+" taken when developing them. Here are some tips and advices on how to write "
+"good checks :"
+msgstr ""
+
+#: ../../checks-development.rst:81
+msgid ""
+"The order of the checks execution is irrelevant. That means that check Y "
+"must not depend on previous execution of check X."
+msgstr ""
+
+#: ../../checks-development.rst:84
+msgid ""
+"Checks should check one and only one resource. If you're checking the load "
+"average, then just check that and not other things like free memory or disk "
+"usage. For those write 2 other checks."
+msgstr ""
+
+#: ../../checks-development.rst:88
+msgid ""
+"Checks should run as fast as possible or fail quickly. As checks run "
+"sequentially if one check lasts 10 seconds to complete, then subsecuent "
+"checks will begin executing after 10 seconds."
+msgstr ""
+
+#: ../../checks-development.rst:92
+msgid ""
+"Always fail fast if the resource you're checking is not available for any "
+"reason. For example if you're checking the status of your favourite SQL "
+"engine and for whatever reason is not running or does not allow you to get "
+"its status, then return an ERROR status explaining the reason and don't keep"
+" retrying to get its status over and over again."
+msgstr ""
+
+#: ../../checks-development.rst:98
+msgid ""
+"Checks should be platform independent. It is nice to just write a check once"
+" and then have it running on as many platforms as possible. This promotes "
+"reusability."
+msgstr ""
+
+#: ../../checks-development.rst:102
+msgid ""
+"Test your checks ! You're encouraged to write unit tests on all of your "
+"checks. This way you make sure that checks behave and fail as expected."
+msgstr ""
+
+#: ../../checks-development.rst:107
+msgid "Examples"
+msgstr ""
+
+#: ../../checks-development.rst:109
+msgid ""
+"If you're looking for some real examples you can take a look at this "
+"repository. In there you'll will find some basic but useful checks (written "
+"in Python) that allows you to monitor :"
+msgstr ""
+
+#: ../../checks-development.rst:113
+msgid "Disk usage."
+msgstr ""
+
+#: ../../checks-development.rst:114
+msgid "Ram usage."
+msgstr ""
+
+#: ../../checks-development.rst:115
+msgid "Uptime."
+msgstr ""
+
+#: ../../checks-development.rst:116
+msgid "Process status."
+msgstr ""
+
+#: ../../checks-development.rst:118
+msgid ""
+"They have been designed to run on as many platforms as possible. They rely "
+"on the excellent `psutil <https://github.com/giampaolo/psutil>`_ module."
+msgstr ""

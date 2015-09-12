@@ -1,0 +1,58 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Radar 0.0.1b\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-11 17:19-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../platform-defaults.rst:2
+msgid "Platform defaults"
+msgstr "Valores por defecto"
+
+#: ../../platform-defaults.rst:4
+msgid ""
+"Radar supports all platforms where the Python interpreter is able to run. "
+"However, Radar internally makes distinction between UNIX alike OSes and "
+"Microsoft Windows platforms."
+msgstr ""
+"Radar soporta todas aquellas plataformas donde es posible ejecutar el intérprete "
+"de Python. Sin embargo, Radar internamente distingue entre sistemas UNIX y "
+"plataformas Microsoft Windows."
+
+#: ../../platform-defaults.rst:10
+msgid "UNIX OSes"
+msgstr "Sistemas UNIX"
+
+#: ../../platform-defaults.rst:12
+msgid "UNIX OSes have these default values :"
+msgstr "Los sistemas UNIX poseen estos valores por defecto :"
+
+#: ../../platform-defaults.rst:14
+msgid "Radar server (/etc/radar/server/main.yml) :"
+msgstr "Servidor (/etc/radar/server/main.yml) :"
+
+#: ../../platform-defaults.rst:39
+msgid "Radar client (/etc/radar/client/main.yml) :"
+msgstr "Cliente (/etc/radar/client/main.yml) :"
+
+#: ../../platform-defaults.rst:63
+msgid "Windows platforms"
+msgstr "Plataformas Windows"
+
+#: ../../platform-defaults.rst:65
+msgid "Windows platforms have the following default values :"
+msgstr "Las plataformas Windows poseen los siguientes valores por defecto :"
+
+#: ../../platform-defaults.rst:67
+msgid "Radar server (C:\\\\Program Files\\\\Radar\\\\Server\\\\Config\\\\main.yml) :"
+msgstr "Servidor (C:\\Program Files\\Radar\\Server\\Config\\main.yml) :"
+
+#: ../../platform-defaults.rst:87
+msgid "Radar client (C:\\\\Program Files\\\\Radar\\\\Client\\\\Config\\\\main.yml) :"
+msgstr "Cliente (C:\\Program Files\\Radar\\Client\\Config\\main.yml) :"
