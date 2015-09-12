@@ -26,7 +26,4 @@ from radar.launcher.client import RadarClientLauncher
 
 
 if __name__ == '__main__':
-    try:
-        RadarClientLauncher().run()
-    except Exception, e:
-        print e
+    RadarClientLauncher().run()

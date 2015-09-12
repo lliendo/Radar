@@ -62,8 +62,11 @@ class RadarClientLauncher(RadarLauncher):
             super(RadarClientLauncher, self)._join_threads()
 
     def run(self):
-        self._platform_setup.logger.log('Starting Radar client.')
-        self._start_threads(self._threads[:1])
-        self._join_threads()
-        self._platform_setup.logger.log('Shutting down Radar client.')
-        self._platform_setup.tear_down(self)
+        try:
+            self._platform_setup.logger.log('Starting Radar client.')
+            self._start_threads(self._threads[:1])
+            self._join_threads()
+            self._platform_setup.logger.log('Shutting down Radar client.')
+            self._platform_setup.tear_down(self)
+        except Exception, e:
+            self._platform_setup.logger.log('Error - RadarClientLauncher raised an error. Details : {:}.'.format(e))
