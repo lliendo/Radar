@@ -10,3 +10,4 @@ dist
 config_files
 config_test
 clean
+push-master
