@@ -62,4 +62,10 @@ setup(
         'Topic :: System :: Monitoring',
         'Topic :: System :: Networking :: Monitoring',
     ],
+    scripts=[
+        'radar-client.py',
+        'radar-client-config.py',
+        'radar-server.py',
+        'radar-server-config.py',
+    ],
 )
