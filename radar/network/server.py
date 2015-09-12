@@ -23,12 +23,12 @@ Copyright 2015 Lucas Liendo.
 from abc import ABCMeta, abstractmethod
 from platform import system as platform_name
 from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR, SOMAXCONN, error as SocketError
-from ..monitor.select_monitor import SelectMonitor
-from ..monitor.poll_monitor import PollMonitor
-from ..monitor.epoll_monitor import EPollMonitor
-from ..monitor.kqueue_monitor import KQueueMonitor
-from ..monitor.iocp_monitor import IOCPMonitor
-from ..client import ClientReceiveError, ClientSendError, ClientDisconnected, ClientAbortError, Client as BaseClient
+from monitor.select_monitor import SelectMonitor
+from monitor.poll_monitor import PollMonitor
+from monitor.epoll_monitor import EPollMonitor
+from monitor.kqueue_monitor import KQueueMonitor
+from monitor.iocp_monitor import IOCPMonitor
+from client import ClientReceiveError, ClientSendError, ClientDisconnected, ClientAbortError, Client as BaseClient
 
 
 class ServerListenError(Exception):
