@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../../checks-development.rst:2
 msgid "Checks development"
-msgstr ""
+msgstr "Desarrollo de chequeos"
 
 #: ../../checks-development.rst:4
 msgid ""
@@ -21,10 +21,13 @@ msgid ""
 " runs them. As stated before checks can be programmed in your favourite "
 "language."
 msgstr ""
+"En esta sección explicaremos como se deben desarrollar los chequeos y como Radar "
+"los ejecuta. Como ha sido mencionado anteriormente, los chequeos pueden escribirse "
+"en tu lenguaje de programación favorito."
 
 #: ../../checks-development.rst:10
 msgid "Introduction"
-msgstr ""
+msgstr "Introducción"
 
 #: ../../checks-development.rst:12
 msgid ""
@@ -33,30 +36,43 @@ msgid ""
 "<https://en.wikipedia.org/wiki/JSON>`_ containing one or more of the "
 "following fields :"
 msgstr ""
+"La forma que Radar monitorea cualquier recurso es a traves de chequeos. Radar "
+"solo se preocupa por el string que devuelve un chequeo a la salida estandar. "
+"Radar espera que devuelvas un `JSON <https://en.wikipedia.org/wiki/JSON>`_ que "
+"contenga uno o más de los siguientes campos :"
 
 #: ../../checks-development.rst:16
 msgid ""
 "status : This field is mandatory. It must be equal to any of the following "
 "string values : OK, WARNING, SEVERE or ERROR."
 msgstr ""
+"status : Este campo es obligatorio. Debe ser igual a alguno de los siguientes "
+"strings : OK, WARNING, SEVERE o ERROR. "
 
 #: ../../checks-development.rst:19
 msgid ""
 "details : This is an optional field. You can add details about how your "
 "check performed. Radar expects this value to be a string."
 msgstr ""
+"details : Este es un campo opcional. Puedes añadir información detallada acerca "
+"de tu chequeo. Radar espera que este campo sea un string. "
 
 #: ../../checks-development.rst:22
 msgid ""
 "data : This is an optional field. You can put here any data related to your "
 "check. Radar does not expect any particular format for this field."
 msgstr ""
+"data : Este es un campo opcional. Puedes agregar aquí cualquier conjunto de datos "
+"relacionado con tu chequeo. Radar no espera que cumplas con un formato particular."
 
 #: ../../checks-development.rst:25
 msgid ""
 "So, let's assume you have an uptime check. So the minimum output for this "
 "check would be the following JSON :"
 msgstr ""
+"Asumamos que tienes un chequeo que te devuelve la cantidad de tiempo que tu "
+"sistema ha estado encendido. La mínima salida que este chequeo debe devolver "
+"es el siguiente JSON :"
 
 #: ../../checks-development.rst:32
 msgid ""
@@ -64,6 +80,10 @@ msgid ""
 " how you name the fields (as long as you include them Radar won't complain),"
 " so this JSON is also valid :"
 msgstr ""
+"Radar no hace distinción de mayúsculas o minúsculas al leer la salida estandar "
+"de un chequeo, puedes nombrar los campos como desees (siempre y cuando tengan "
+"el mismo nombre que los mencionados más arriba). En ese caso este JSON también "
+"es válido :"
 
 #: ../../checks-development.rst:40
 msgid ""
@@ -71,6 +91,9 @@ msgid ""
 "suppose you want to be more verbose on this check, then you might want to "
 "add some details :"
 msgstr ""
+"Cualquier otra combinación de mayúsculas y minúsculas también será válida. "
+"Ahora supone que quieres ser un poco más detallado, podrías entonces agregar "
+"más información en el campo details : "
 
 #: ../../checks-development.rst:51
 msgid ""
@@ -80,6 +103,10 @@ msgid ""
 "processed by any of the plugins on the server side, so your JSON might look "
 "something like this :"
 msgstr ""
+"El campo details (en realidad todos los campos utilizados) serán almacenados en "
+"el lado del servidor y todos tus plugins que hayas definido tendrán total "
+"visibilidad sobre estos campos. Ahora también supongamos que deseas incluir datos "
+"para que los mismos sean procesados por algún plugin del lado del servidor :"
 
 #: ../../checks-development.rst:68
 msgid ""
@@ -87,10 +114,13 @@ msgid ""
 "the data field, is completly up to you how to lay it out. You can include as"
 " much data as you want and in any desired way."
 msgstr ""
+"Como hemos comentado previamente, no hay un formato específico que debas cumplir "
+"sobre el campo data, puedes organizarlo completamente a tu manera. Puedes incluir "
+"tantos datos como desees y organizarlos de cualquier forma."
 
 #: ../../checks-development.rst:74
 msgid "Guidelines"
-msgstr ""
+msgstr "Consejos"
 
 #: ../../checks-development.rst:76
 msgid ""
@@ -99,12 +129,18 @@ msgid ""
 " taken when developing them. Here are some tips and advices on how to write "
 "good checks :"
 msgstr ""
+"Actualmente Radar ejecuta todos sus chequeos de manera secuencial, esto es uno "
+"detrás de otro (esto cambiará en algún release futuro), asi que debes tener un "
+"poco de cuidado al desarrollarlos. Aquí te damos algunos consejos de como escribir "
+"chequeos :"
 
 #: ../../checks-development.rst:81
 msgid ""
 "The order of the checks execution is irrelevant. That means that check Y "
 "must not depend on previous execution of check X."
 msgstr ""
+"El orden de ejecución de los chequeos es irrelevante. Esto significa que un "
+"chequeo Y no debe depender de la ejecución anterior de un chequeo X. "
 
 #: ../../checks-development.rst:84
 msgid ""
@@ -112,6 +148,10 @@ msgid ""
 "average, then just check that and not other things like free memory or disk "
 "usage. For those write 2 other checks."
 msgstr ""
+"Los chequeos deben analizar un y solo un recurso. Si estas verificando la carga "
+"promedio de tu sistema, entonces solo verifica ese recurso y no otros como por "
+"ejemplo memoria disponible o utilización de disco. Para estos dos últimos "
+"escribe otros dos chequeos adicionales."
 
 #: ../../checks-development.rst:88
 msgid ""
@@ -119,6 +159,10 @@ msgid ""
 "sequentially if one check lasts 10 seconds to complete, then subsecuent "
 "checks will begin executing after 10 seconds."
 msgstr ""
+"Los chequeos deben ejecutarse lo más rapido posible o fallar rapidamente. "
+"Como los chequeos se ejecutan de forma secuencial si un chequeo tarda 10 segundos "
+"en completarse, entonces los chequeos subsiguientes comenzarán a ejecutarse luego "
+"de 10 segundos."
 
 #: ../../checks-development.rst:92
 msgid ""
@@ -128,6 +172,11 @@ msgid ""
 "its status, then return an ERROR status explaining the reason and don't keep"
 " retrying to get its status over and over again."
 msgstr ""
+"Siempre en caso de error falla rapidamente si el recurso que estas verificando "
+"no esta disponible por cualquier razón. Por ejemplo, si estas verificando el "
+"estado de tu motor SQL favorito y por alguna razón no se encuentra corriendo "
+"o no te permite obtener su estado, entonces devuelve un estado ERROR explicando "
+"la razón por la cual ha fallado y no reintentes obtener su estado una y otra vez."
 
 #: ../../checks-development.rst:98
 msgid ""
@@ -135,16 +184,22 @@ msgid ""
 " and then have it running on as many platforms as possible. This promotes "
 "reusability."
 msgstr ""
+"Los chequeos deberían ser independientes de la plataforma. Esta bueno escribir "
+"una única vez un chequeo y luego tenerlo disponible en la mayor cantidad de "
+"plataformas posible. Esto promueve la reusabilidad."
 
 #: ../../checks-development.rst:102
 msgid ""
 "Test your checks ! You're encouraged to write unit tests on all of your "
 "checks. This way you make sure that checks behave and fail as expected."
 msgstr ""
+"¡Escribe tests sobre tus chequeos! Te aliento a que escribas tests unitarios "
+"para tus chequeos. De esta manera te aseguras de que los mismos se comportan "
+"de la manera en que tu esperas que lo hagan."
 
 #: ../../checks-development.rst:107
 msgid "Examples"
-msgstr ""
+msgstr "Ejemplos"
 
 #: ../../checks-development.rst:109
 msgid ""
@@ -152,25 +207,30 @@ msgid ""
 "repository. In there you'll will find some basic but useful checks (written "
 "in Python) that allows you to monitor :"
 msgstr ""
+"Si estas buscando algunos ejemplos reales, puedes echar un vistazo al siguiente "
+"repositorio : . Ahi encontrarás algunos chequeos básicos (escritos en Python) "
+"que te permitirán monitorear :"
 
 #: ../../checks-development.rst:113
 msgid "Disk usage."
-msgstr ""
+msgstr "Utilizacion de disco"
 
 #: ../../checks-development.rst:114
 msgid "Ram usage."
-msgstr ""
+msgstr "Utilizacion de memoria"
 
 #: ../../checks-development.rst:115
 msgid "Uptime."
-msgstr ""
+msgstr "Tiempo de encendido."
 
 #: ../../checks-development.rst:116
 msgid "Process status."
-msgstr ""
+msgstr "Estado de proceso."
 
 #: ../../checks-development.rst:118
 msgid ""
 "They have been designed to run on as many platforms as possible. They rely "
 "on the excellent `psutil <https://github.com/giampaolo/psutil>`_ module."
 msgstr ""
+"Fueron diseñados para correr en tantas plataformas como sea posible. Se basan "
+"en el excelente módulo psutil."
