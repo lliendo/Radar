@@ -1,6 +1,5 @@
-
-Radar Monitoring System
-=======================
+Radar
+=====
 
 Radar is general purpose monitoring system. It aims to be simple and extendable.
 It uses arbitrary check execution and server side plugins to provide flexibility.
@@ -14,6 +13,21 @@ Status
 Radar is currently in ALPHA status, however its foundations are complete.
 You can take a look at the TODO.rst to have an idea what features are going to
 (or might) be implemented in the future.
+
+
+Installation
+------------
+
+Currently the only way to install Radar is through its source code (PyPI packages
+are not yet available, mainly because the project is in ALPHA status).
+
+Clone this repository to a temporary directory using GIT, and run  :
+
+.. code-block:: bash
+
+    git clone https://github.com/lliendo/Radar.git
+    cd Radar
+    python setup.py install
 
 
 Documentation
@@ -51,25 +65,6 @@ Radar should run without any problems in any platform where the Python interpret
 is supported.
 
 
-Installation
-------------
-
-Always the latest release is available from PyPI. To install simply run :
-
-.. code-block:: bash
-
-    pip install radar-monitoring-system
-
-
-If you wish however to use the latest version from this repository :
-
-.. code-block:: bash
-
-    git clone https://github.com/lliendo/Radar.git
-    cd Radar
-    python setup.py install
-
-
 Development
 -----------
 
@@ -81,20 +76,26 @@ Radar is designed to be both simple and easy to use and understand.
 Tests
 -----
 
-Radar uses `Tox <https://...>` to run its tests. To run the Radar's tests install
-Tox and then run :
+Radar-Checks uses `Nose <https://nose.readthedocs.org/en/latest/>`_ to run its tests.
+To install Nose, from the command line run :
+
+.. code-block:: bash
+    
+    pip install nose
+
+To run the tests, clone the this repository and run Nose.
 
 .. code-block:: bash
 
     git clone https://github.com/lliendo/Radar.git
-    cd Radar
-    tox
+    cd Radar-Checks
+    nosetests
 
 
 License
 -------
 
-Radar is distributed under the LGPL v3 license.
+Radar is distributed under the `GNU LGPLv3 <https://www.gnu.org/licenses/lgpl.txt>`_ license.
 
 
 Contact
@@ -108,4 +109,4 @@ always welcome !
 Authors
 -------
 
-    * Lucas Liendo.
+* Lucas Liendo.
