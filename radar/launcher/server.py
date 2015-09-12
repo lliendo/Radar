@@ -63,8 +63,11 @@ class RadarServerLauncher(RadarLauncher):
             super(RadarServerLauncher, self)._join_threads()
 
     def run(self):
-        self._platform_setup.logger.log('Starting Radar server.')
-        self._start_threads(self._threads[:1])
-        self._join_threads()
-        self._platform_setup.logger.log('Shutting down Radar server.')
-        self._platform_setup.tear_down(self)
+        try:
+            self._platform_setup.logger.log('Starting Radar server.')
+            self._start_threads(self._threads[:1])
+            self._join_threads()
+            self._platform_setup.logger.log('Shutting down Radar server.')
+            self._platform_setup.tear_down(self)
+        except Exception, e:
+            self._platform_setup.logger.log('Error - RadarServerLauncher raised an error. Details : {:}.'.format(e))
