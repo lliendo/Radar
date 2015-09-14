@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../../plugins-development.rst:2
 msgid "Plugins development"
-msgstr ""
+msgstr "Desarrollo de plugins"
 
 #: ../../plugins-development.rst:4
 msgid ""
@@ -22,6 +22,10 @@ msgid ""
 "this part of Radar so you can easily write a plugin. You will need to at "
 "least understand a little of Python and object oriented programming."
 msgstr ""
+"Vamos ahora a describir el desarrollo de plugins. Aúnque creas que esta puede "
+"ser una tarea compleja, un gran esfuerzo ha sido puesto en el diseño de esta "
+"parte de Radar para que puedas facilmente escribir plugins. Deberás tener "
+"un conocimiento mínimo de Python y de programación orientada a objetos."
 
 #: ../../plugins-development.rst:10
 msgid ""
@@ -29,10 +33,13 @@ msgid ""
 "keep reading and decide by yourself if writing a Radar plugin is a difficult"
 " task."
 msgstr ""
+"Aún si consideras que no tienes mucho conocimiento de Python o programación "
+"orientada a objetos te recomiendo que continues leyendo y decidas por tu mismo "
+"si escribir un plugin es una tarea difícil."
 
 #: ../../plugins-development.rst:16
 msgid "Introduction"
-msgstr ""
+msgstr "Introducción"
 
 #: ../../plugins-development.rst:18
 msgid ""
@@ -43,6 +50,12 @@ msgid ""
 "without problems then it proceeds to configure it. After it has been "
 "configured it is appended to a set of plugins."
 msgstr ""
+"Cuando arrancas Radar todos los plugins son instanciados, esto es, por cada uno de "
+"los plugins que Radar encuentra en su directorio de plugins intenta crear un "
+"objeto. Este no es cualquier objeto, tiene que cumplir de alguna manera con lo "
+"que Radar espera que sea un plugin válido. Si Radar lograr instanciar un cierto "
+"plugin sin problemas entonces procederá a configurarlo. Luego que ha sido "
+"configurado se lo agrega a un set de plugins."
 
 #: ../../plugins-development.rst:25
 msgid ""
@@ -53,6 +66,12 @@ msgid ""
 "regained by Radar. This process repeats indefinitely until of course you "
 "shut down Radar."
 msgstr ""
+"Cuando el servidor recibe una respuesta a un chequeo cada plugin es secuencialmente "
+"invocado y se le pasa cierta información. Eso es todo lo que Radar hace, de ahí "
+"en más (cuando tu plugin recibe una respuesta a un chequeo) tu tienes control "
+"parcial sobre lo que se realiza. Cuando todos los plugins terminan de procesar "
+"una respuesta, el control del flujo de ejecucion vuelve a ser administrado "
+"por Radar. Este proceso se repite indefinidamente hasta que apagues a Radar. "
 
 #: ../../plugins-development.rst:31
 msgid ""
@@ -60,14 +79,17 @@ msgid ""
 "look at how a very minimal plugin is written and what considerations should "
 "be taken at development time."
 msgstr ""
+"Hemos descripto como Radar procesa sus plugins. A continuación veremos a modo "
+"de ejemplo como se escribe un plugin mínimo y que consideraciones debemos tener "
+"en cuenta al desarrarlo."
 
 #: ../../plugins-development.rst:35
 msgid "Let's take a look at a minimal plugin and describe the key points."
-msgstr ""
+msgstr "Veamos un plugin a modo de ejemplo y describamos sus puntos clave."
 
 #: ../../plugins-development.rst:37
 msgid "Take a look a this piece of Python code :"
-msgstr ""
+msgstr "Mira este fragmento de código Python :"
 
 #: ../../plugins-development.rst:57
 msgid ""
@@ -77,6 +99,10 @@ msgid ""
 "new plugin and inheriting from that class. This is achieved in the first two"
 " lines of the above example."
 msgstr ""
+"Como hemos explicado antes un plugin de Radar debe cumplir con ciertos requerimientos. "
+"En primer lugar todo plugin debe heredar de la clase ServerPlugin. Esto se "
+"realiza primero importando la clase ServerPlugin y luego creando una nueva clase "
+"que herede de la misma. Esto se hace en las primeras 2 lineas de código."
 
 #: ../../plugins-development.rst:63
 msgid ""
@@ -86,6 +112,12 @@ msgid ""
 "you only need to overwrite the PLUGIN_VERSION class attribute with the "
 "desired value. In this exaple we only defined the plugin name."
 msgstr ""
+"Cada plugin debe tener un nombre. Esto lo hacemos definiendo un nombre para el "
+"atributo de clase PLUGIN_NAME. Cada plugin es unívocamente identificado por su "
+"nombre y su versión. Si no especificas una version entonces toma un valor de "
+"0.0.1 por defecto. Para definir una versión solamente debes sobreescribir el "
+"atributo de clase PLUGIN_VERSION con el valor que desees. En nuestro ejemplo "
+"solamente hemos definido el nombre del plugin."
 
 #: ../../plugins-development.rst:69
 msgid ""
@@ -93,6 +125,9 @@ msgid ""
 "when the plugin is initialized, so if you want to define any instance "
 "attributes or acquire resources, this is one place to do that."
 msgstr ""
+"El ejemplo nos muestra tres métodos. El método on_start() es invocado por Radar "
+"cuando el plugin es inicializado, asi que si deseas definir cualquier atributo "
+"de instancia o tomar algún recurso, este es un lugar para hacer eso."
 
 #: ../../plugins-development.rst:73
 msgid ""
@@ -100,6 +135,9 @@ msgid ""
 "this method's purpose is to gracefully release any resources that you might "
 "have acquired during the life of the plugin."
 msgstr ""
+"De manera similar el método on_shutdown() es invocado cuando Radar es apagado. "
+"El propósito de este método es liberar adecuadamente cualquier recurso que "
+"pudieras haber adquirido durante su ejecución."
 
 #: ../../plugins-development.rst:77
 msgid ""
@@ -107,18 +145,25 @@ msgid ""
 "action takes place and is your entry point to perform any useful work. For "
 "every reply that the Radar server receives you'll get :"
 msgstr ""
+"Nos queda solamente un método : on_check_reply(). Aqué es donde la accion toma "
+"lugar y es tu punto de entrada para realizar cualquier cosa. Por cada respuesta "
+"que el servidor recibe obtendrás :"
 
 #: ../../plugins-development.rst:81
 msgid ""
 "address : The ip address of the Radar client that sent the check reply. This"
 " is a string value"
 msgstr ""
+"address : Esta es la dirección IP del cliente Radar que envió la respuesta a "
+"un chequeo. Este valor es un string."
 
 #: ../../plugins-development.rst:84
 msgid ""
 "port : The tcp port of the Radar client that sent the check reply. This is "
 "an integer value."
 msgstr ""
+"port : El puerto TCP del cliente Radar que envió la respuesta. Este es un valor "
+"integer."
 
 #: ../../plugins-development.rst:87
 msgid ""
@@ -126,6 +171,10 @@ msgid ""
 "server. This list will always respond to a given monitor, that means that "
 "the list of checks you got belongs to one and only one monitor."
 msgstr ""
+"checks : Esta es una lista Python que contiene todos los objetos Checks que "
+"fueron actualizados por el servidor. Esta lista siempre esta asociada a un monitor "
+"particular, esto significa que la lista de chequeos hace referencia a un y "
+"solo un monitor."
 
 #: ../../plugins-development.rst:91
 msgid ""
@@ -133,6 +182,9 @@ msgid ""
 " the replied checks. This list will always respond to a given monitor, that "
 "means that the list of contacts you got belongs to one and only one monitor."
 msgstr ""
+"contacts : Esta es una lista Python que contiene todos los objetos Contacts "
+"relacionados a la respuesta de uno o más chequeos. Esta lista siempre esta "
+"asociada a un y solo un monitor."
 
 #: ../../plugins-development.rst:96
 msgid ""
@@ -140,6 +192,9 @@ msgid ""
 "things to the Radar log file using the log() method. A Radar plugin is just "
 "a Python class where you can code anything you want."
 msgstr ""
+"En este ejemplo mínimo basicamente no estamos haciendo nada, solamente registrando "
+"algunas cosas en el log de Radar utilizando el metodo log(). Un plugin de Radar "
+"es tan solo una clase Python en donde puedes hacer lo que quieras."
 
 #: ../../plugins-development.rst:100
 msgid ""
@@ -151,6 +206,13 @@ msgid ""
 "modify the database parameters directly from the plugin code. Radar plugins "
 "come with a YAML mapper for free."
 msgstr ""
+"¿Todo esto es lo que necesitas para desarrollar un plugin?. En principio si, pero "
+"hay una característica adicional que puede ser de mucha utilidad en algunos casos. "
+"Digamos por ejemplo que deseas permitir a tus usuarios configurar tu plugin, "
+"esto es, permitirles modificar ciertos parámetros del plugin que has desarrollado. "
+"Si has escrito por ejemplo un plugin que se conecta a una base de datos, no es "
+"una buena practica que modifiques estos parámetros directamente desde el código "
+"fuente del plugin. Los plugins de Radar viene con un mapper YAML gratis."
 
 #: ../../plugins-development.rst:108
 msgid ""
@@ -160,6 +222,11 @@ msgid ""
 "retrieve them from a dictionary. The only requirement is that this file must"
 " be in your plugin directory !"
 msgstr ""
+"¿Que es lo que hace? Muy sencillo : Dado un archivo YAML, lo mapeará a un diccionario "
+"Python. De esta manera tu solamente tienes que especificar el nombre del archivo "
+"de configuración de tu plugin, setear ciertos parametros en dicho archivo y luego "
+"leerlos de un diccionario. ¡El único requerimiento es que este archivo debe estar "
+"el el directorio de tu plugin!"
 
 #: ../../plugins-development.rst:114
 msgid ""
@@ -167,14 +234,18 @@ msgid ""
 "configuration filename and that's it. How do you read those values ? Easy "
 "again, just access the config dictionary. Let's see an example."
 msgstr ""
+"Para utilizar esta funcionalidad solamente setea el atributo de clase "
+"PLUGIN_CONFIG_FILE con el nombre del archivo de configuración. ¿Como lees "
+"entonces estos valores?. Fácil, simplemente accedes al diccionario config. "
+"Veamos un ejemplo."
 
 #: ../../plugins-development.rst:118
 msgid "Given this YAML file (called dummy.yml) :"
-msgstr ""
+msgstr "Dado este archivo YAML (llamemoslo dummy.yml) :"
 
 #: ../../plugins-development.rst:127
 msgid "Now we have an different version of the dummy plugin :"
-msgstr ""
+msgstr "Ahora tenemos nuestro nuevo plugin :"
 
 #: ../../plugins-development.rst:157
 msgid ""
@@ -184,12 +255,19 @@ msgid ""
 "method. Note the use of the get_path() static method to properly reference "
 "the YAML file."
 msgstr ""
+"¡Este sigue siendo un ejemplo inútil! Sin embargo ten en cuenta que he seteado "
+"PLUGIN_CONFIG_FILE y que contiene el nombre del archivo YAML (dummy.yml en este "
+"caso) y que utilizo los valores que fueron leidos de ese archivo en el método "
+"_connect(). Nota el uso del método estático get_patch() para referenciar "
+"apropiadamente el archivo YAML."
 
 #: ../../plugins-development.rst:163
 msgid ""
 "Before we end up this section you may be wondering : How should I use the "
 "checks and contacts lists in the on_check_reply() method ?"
 msgstr ""
+"Antes de finalizar esta sección seguramente te estarás preguntando ¿Como debo "
+"utilizar las listas de chequeos y contactos en el metodo on_check_reply()?"
 
 #: ../../plugins-development.rst:166
 msgid ""
@@ -198,6 +276,10 @@ msgid ""
 " a list that contains contact objects and another list that contains check "
 "objects."
 msgstr ""
+"Radar (internamente) tiene entre varias de sus abstracciones dos que utilizarás "
+"directamente en cualquier plugin : Contact y Check. Cada vez que obtienes una "
+"respuesta de algún cliente recibes una lista que contiene contactos y otra lista "
+"que contiene chequeos."
 
 #: ../../plugins-development.rst:170
 msgid ""
@@ -206,16 +288,24 @@ msgid ""
 "optionally a phone number. The following piece of code shows how to read any"
 " useful value (both from a contact and a check) :"
 msgstr ""
+"Tanto los objetos Contact como Check contienen ciertos atributos que puedes "
+"inspeccionar para hacer lo que necesites. Por ejemplo : cada objeto contacto "
+"tiene un nombre, un email y opcionalmente un número telefónico. El siguiente "
+"fragmento de código muestra como leer cualquier atributo (ya sea un contacto "
+"o un chequeo) :"
 
 #: ../../plugins-development.rst:196
 msgid "Guidelines"
-msgstr ""
+msgstr "Consejos"
 
 #: ../../plugins-development.rst:198
 msgid ""
 "All of the considerations taken to develop checks also apply to plugins. So "
 "if in doubt review those guidelines in the checks development section."
 msgstr ""
+"Todas las consideraciones que se han tomado para desarrollar chequeos también "
+"se aplican a plugins. Si estas con alguna dudas puedes volver a revisar la "
+"sección de desarrollo de chequeos."
 
 #: ../../plugins-development.rst:201
 msgid ""
@@ -225,22 +315,30 @@ msgid ""
 "allowed to code in as many different directory/files inside the plugin "
 "directory as you want."
 msgstr ""
+"Ten en cuenta que Radar espera encontrar una única clase plugin por cada directorio "
+"de plugin. Es un requerimiento que esta clase se encuentre en el archivo __init__.py "
+"dentro del directorio del plugin. Dejando de lado esta limitación, puedes escribir "
+"código en tantos archivos/directorio dentro del directorio del plugin como desees."
 
 #: ../../plugins-development.rst:207
 msgid ""
 "For example assuming that you wrote a plugin called A-Plugin then, you could"
 " have the following file hierarchy :"
 msgstr ""
+"Por ejemplo, asumiendo que has escrito un plugin llamado A-Plugin entonces "
+"podrías tener la siguiente jerarquía de directorios : "
 
 #: ../../plugins-development.rst:222
 msgid ""
 "Then .../A-Plugin/__init__.py file must contain exactly one class that "
 "inherits from the ServerPlugin class."
 msgstr ""
+"El archivo .../A-Plugin/__init__.py debe contener exactamente una sola clase "
+"que herede de la clase ServerPlugin."
 
 #: ../../plugins-development.rst:227
 msgid "Example"
-msgstr ""
+msgstr "Ejemplo"
 
 #: ../../plugins-development.rst:229
 msgid ""
@@ -249,3 +347,7 @@ msgid ""
 "This plugin will notify its contacts when a check has any of its status "
 "(current or previous) distinct from OK."
 msgstr ""
+"Si todavía quieres ver un ejemplo mas elaborado (algo un poco mas útil, ¿no?) "
+"puedes echar un vistazo a un plugin notificador de correo aquí. Este plugin "
+"notificará a sus contactos cuando un chequeo tiene alguno de sus estados "
+"diferente a OK."
