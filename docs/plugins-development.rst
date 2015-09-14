@@ -54,10 +54,10 @@ Take a look a this piece of Python code :
             self.log('Shutting down.')
 
 
-As explained before a Radar plugin needs to comply with certain requirements.
+As explained before, a Radar plugin needs to comply with certain requirements.
 In first place every plugin must inherit from the ServerPlugin class.
 You achieve that by importing the ServerPlugin class and creating a new
-plugin and inheriting from that class. This is achieved in the first two
+class and inheriting from ServerPlugin. This is achieved in the first two
 lines of the above example.
 
 Every plugin must have a name. We define this in the PLUGIN_NAME class attribute.
@@ -74,14 +74,14 @@ In a similar way the on_shutdown() method is called when Radar is shutdown,
 this method's purpose is to gracefully release any resources that you might
 have acquired during the life of the plugin.
 
-We have only one remaining method: on_check_reply(). Yes, this is where the
+We have only one remaining method: on_check_reply(). This is where the
 action takes place and is your entry point to perform any useful work.
 For every reply that the Radar server receives you'll get :
 
-* address : The ip address of the Radar client that sent the check reply.
+* address : The IP address of the Radar client that sent the check reply.
   This is a string value
 
-* port : The tcp port of the Radar client that sent the check reply.
+* port : The TCP port of the Radar client that sent the check reply.
   This is an integer value.
 
 * checks : A Python list containing Check objects that were updated by
