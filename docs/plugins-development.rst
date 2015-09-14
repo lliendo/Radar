@@ -227,6 +227,6 @@ Example
 -------
 
 If you still want to see a more elaborated example (actually something
-useful, right ?) then you can take a look to an email notifier plugin here.
+useful, right ?) then you can take a look to an email notifier plugin `here <https://github.com/lliendo/Radar-Plugins>`_.
 This plugin will notify its contacts when a check has any of its status
 (current or previous) distinct from OK.
