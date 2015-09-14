@@ -7,6 +7,8 @@ dist
 *.old.py
 *.ropeproject
 *.mo
+docs/_build
+docs/update-es-docs
 config_files
 config_test
 clean
