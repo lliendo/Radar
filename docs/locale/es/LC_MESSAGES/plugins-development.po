@@ -72,7 +72,7 @@ msgstr ""
 " Radar hace, de ahí en más (cuando tu plugin recibe una respuesta a un "
 "chequeo) tu tienes control parcial sobre lo que se realiza. Cuando todos los"
 " plugins terminan de procesar una respuesta, el control del flujo de "
-"ejecucion vuelve a ser administrado por Radar. Este proceso se repite "
+"ejecución vuelve a ser administrado por Radar. Este proceso se repite "
 "indefinidamente hasta que apagues a Radar. "
 
 #: ../../plugins-development.rst:31
@@ -83,7 +83,7 @@ msgid ""
 msgstr ""
 "Hemos descripto como Radar procesa sus plugins. A continuación veremos a "
 "modo de ejemplo como se escribe un plugin mínimo y que consideraciones "
-"debemos tener en cuenta al desarrarlo."
+"debemos tener en cuenta al desarrollarlo."
 
 #: ../../plugins-development.rst:35
 msgid "Let's take a look at a minimal plugin and describe the key points."
