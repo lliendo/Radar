@@ -1,101 +1,101 @@
 Platform defaults
 =================
 
-    Radar supports all platforms where the Python interpreter is able to run.
-    However, Radar internally makes distinction between UNIX alike OSes and
-    Microsoft Windows platforms.
+Radar supports all platforms where the Python interpreter is able to run.
+However, Radar internally makes distinction between UNIX alike OSes and
+Microsoft Windows platforms.
 
 
 UNIX OSes
 ---------
 
-    UNIX OSes have these default values :
+UNIX OSes have these default values :
 
-    Radar server (/etc/radar/server/main.yml) :
+Radar server (/etc/radar/server/main.yml) :
 
-        .. code-block:: yaml
+.. code-block:: yaml
 
-            listen:
-                address: localhost
-                port: 3333
+    listen:
+        address: localhost
+        port: 3333
 
-            run as:
-                user: radar
-                group: radar
+    run as:
+        user: radar
+        group: radar
 
-            log:
-                to: /var/log/radar-server.log
-                size: 100
-                rotations: 5
+    log:
+        to: /var/log/radar-server.log
+        size: 100
+        rotations: 5
 
-            pid file: /var/run/radar-server.pid
-            polling time: 300
-            checks: /etc/radar/server/config/checks
-            contacts: /etc/radar/server/config/contacts
-            monitors: /etc/radar/server/config/monitors
-            plugins: /usr/local/radar/server/plugins
+    pid file: /var/run/radar-server.pid
+    polling time: 300
+    checks: /etc/radar/server/config/checks
+    contacts: /etc/radar/server/config/contacts
+    monitors: /etc/radar/server/config/monitors
+    plugins: /usr/local/radar/server/plugins
 
 
-    Radar client (/etc/radar/client/main.yml) :
+Radar client (/etc/radar/client/main.yml) :
 
-        .. code-block:: yaml
+.. code-block:: yaml
 
-            connect:
-                to: localhost
-                port: 3333
+    connect:
+        to: localhost
+        port: 3333
 
-            run as:
-                user: radar
-                group: radar
+    run as:
+        user: radar
+        group: radar
 
-            log:
-                to: /var/log/radar-client.log
-                size: 100
-                rotations: 5
+    log:
+        to: /var/log/radar-client.log
+        size: 100
+        rotations: 5
 
-            pid file: /var/run/radar-client.pid
-            checks: /usr/local/radar/client/checks
-            enforce ownership: True
-            reconnect: True
+    pid file: /var/run/radar-client.pid
+    checks: /usr/local/radar/client/checks
+    enforce ownership: True
+    reconnect: True
 
 
 Windows platforms
 -----------------
 
-    Windows platforms have the following default values :
+Windows platforms have the following default values :
 
-    Radar server (C:\\Program Files\\Radar\\Server\\Config\\main.yml) :
+Radar server (C:\\Program Files\\Radar\\Server\\Config\\main.yml) :
 
-        .. code-block:: yaml
+.. code-block:: yaml
 
-            listen:
-                address: localhost
-                port: 3333
+    listen:
+        address: localhost
+        port: 3333
 
-            log:
-                to: C:\Program Files\Radar\Log\radar-server.log
-                size: 100
-                rotations: 5
+    log:
+        to: C:\Program Files\Radar\Log\radar-server.log
+        size: 100
+        rotations: 5
 
-            polling time: 300
-            checks: C:\Program Files\Radar\Server\Config\Checks
-            contacts: C:\Program Files\Radar\Server\Config\Contacts
-            monitors: C:\Program Files\Radar\Server\Config\Monitors
-            plugins: C:\Program Files\Radar\Server\Config\Plugins
+    polling time: 300
+    checks: C:\Program Files\Radar\Server\Config\Checks
+    contacts: C:\Program Files\Radar\Server\Config\Contacts
+    monitors: C:\Program Files\Radar\Server\Config\Monitors
+    plugins: C:\Program Files\Radar\Server\Config\Plugins
 
 
-    Radar client (C:\\Program Files\\Radar\\Client\\Config\\main.yml) :
+Radar client (C:\\Program Files\\Radar\\Client\\Config\\main.yml) :
 
-        .. code-block:: yaml
+.. code-block:: yaml
 
-            connect:
-                to: localhost
-                port: 3333
+    connect:
+        to: localhost
+        port: 3333
 
-            log:
-                to: C:\Program Files\Radar\Log\radar-client.log
-                size: 100
-                rotations: 5
+    log:
+        to: C:\Program Files\Radar\Log\radar-client.log
+        size: 100
+        rotations: 5
 
-            checks: C:\Program Files\Radar\Client\Config\Checks
-            reconnect: True
+    checks: C:\Program Files\Radar\Client\Config\Checks
+    reconnect: True
