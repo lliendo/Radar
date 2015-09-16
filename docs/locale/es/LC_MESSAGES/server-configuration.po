@@ -151,7 +151,7 @@ msgstr ""
 "directorios donde buscar : chequeos, contactos, monitores y plugins. "
 "Radar no impone ninguna restricción acerca de la disposición jerárquica en dichos "
 "directorios. Esto significa que tienes total libertad de colocar archivos de "
-"configuración en cualquier archivo bajo cualquier directorio que has definido. "
+"configuración en cualquier archivo bajo cualquier directorio que hayas definido. "
 "El único requerimiento que debes satisfacer es que no esta permitido mezclar por "
 "ejemplo contactos o grupos de contactos con otros componentes como chequeos o grupos "
 "de chequeos. Cada directorio esta diseñado para contener elementos específicos. "
@@ -165,7 +165,7 @@ msgid ""
 "are the ones that are platform dependant."
 msgstr ""
 "Miremos ahora un ejemplo de un archivo de configuración principal mínimo. "
-"Cada platforma posee una configuración por defecto y las únicas opciones que son "
+"Cada plataforma posee una configuración por defecto y las únicas opciones que son "
 "diferentes entre una y otra son aquellas que dependen de la plataforma."
 
 #: ../../server-configuration.rst:101
@@ -236,7 +236,7 @@ msgid ""
 "different ways, let's see the first one :"
 msgstr ""
 "Continuemos ahora con la definición de grupos de chequeos. Los mismos pueden "
-"ser definidos de dos maneras distintas, comenzemos con la primera : "
+"ser definidos de dos maneras distintas, comencemos con la primera : "
 
 #: ../../server-configuration.rst:149
 msgid ""
@@ -281,7 +281,7 @@ msgstr ""
 
 #: ../../server-configuration.rst:193 ../../server-configuration.rst:288
 msgid "Here's a fragment of how a real configuration might look like :"
-msgstr ""
+msgstr "Aquí tienes un fragmento de una configuración real a modo de ejemplo :"
 
 #: ../../server-configuration.rst:224
 msgid ""
@@ -289,7 +289,7 @@ msgid ""
 "configuration) :"
 msgstr ""
 "Algunas consideraciones generales al definir chequeos (estas consideraciones en "
-"realidad se aplican a toda la configuración en general)."
+"realidad se aplican a toda la configuración en general) :"
 
 #: ../../server-configuration.rst:227
 msgid ""
@@ -344,7 +344,7 @@ msgid ""
 "contacts and contact groups is exactly the same !"
 msgstr ""
 "Si has comprendido como se definen los chequeos y los grupos de chequeos "
-"entonces, ¡La configuración de contactos y grupos de contactos es exactamente análoga!"
+"entonces, ¡la configuración de contactos y grupos de contactos es exactamente análoga!"
 
 #: ../../server-configuration.rst:251
 msgid "Here's an example of a contact definition :"
@@ -422,7 +422,7 @@ msgid ""
 msgstr ""
 "Una vez que has logrado definir contactos y chequeos (o solamente chequeos) el "
 "último paso es definir monitores. Los monitores son instrucciones que permiten "
-"indicarle a Radar que hosts monitorear, que chequear y a quien notificar. "
+"indicarle a Radar que hosts monitorear, que chequear y a quién notificar. "
 
 #: ../../server-configuration.rst:318
 msgid "Let's walk through a real example :"
@@ -523,7 +523,7 @@ msgstr ""
 "pero algunos plugins puede que lo hagan. "
 "Cada vez que un cliente Radar responde al servidor esta información es transferida "
 "a todos los plugins definidos en el servidor. Si tienes por ejemplo un plugin que "
-"notifica a tus contactos mediante correo electronico, entonces es muy probable que "
+"notifica a tus contactos mediante correo electrónico, entonces es muy probable que "
 "dicho plugin inspeccione el estado actual y anterior de un chequeo para determinar "
 "si debe notificar a un grupo de contactos. "
 
@@ -534,7 +534,7 @@ msgid ""
 " it should be designed)."
 msgstr ""
 "No te preocupes si no quieres escribir un plugin de Radar (no necesitas hacerlo, "
-"aunque te motivo a que al menos comprendas como un plugin funciona y como debe "
+"aunque te recomiendo a que al menos comprendas como un plugin funciona y como debe "
 "ser diseñado). "
 
 #: ../../server-configuration.rst:380
@@ -560,8 +560,8 @@ msgid ""
 "going to describe how to write a plugin but how to install them."
 msgstr ""
 "Radar no provee ninguna funcionalidad interna para realizar este tipo de cosas "
-"porque no es su responsabilidad. Por el momento no describiremos como desarrollar"
-"un plugin pero si como instalar uno."
+"porque no es su responsabilidad. Por el momento no describiremos como desarrollar "
+"un plugin pero si como instalarlos."
 
 #: ../../server-configuration.rst:391
 msgid ""

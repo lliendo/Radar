@@ -51,8 +51,8 @@ msgstr "Las plataformas Windows poseen los siguientes valores por defecto :"
 
 #: ../../platform-defaults.rst:67
 msgid "Radar server (C:\\\\Program Files\\\\Radar\\\\Server\\\\Config\\\\main.yml) :"
-msgstr "Servidor (C:\\Program Files\\Radar\\Server\\Config\\main.yml) :"
+msgstr "Servidor (C:\\\\Program Files\\\\Radar\\\\Server\\\\Config\\\\main.yml) :"
 
 #: ../../platform-defaults.rst:87
 msgid "Radar client (C:\\\\Program Files\\\\Radar\\\\Client\\\\Config\\\\main.yml) :"
-msgstr "Cliente (C:\\Program Files\\Radar\\Client\\Config\\main.yml) :"
+msgstr "Cliente (C:\\\\Program Files\\\\Radar\\\\Client\\\\Config\\\\main.yml) :"

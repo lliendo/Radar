@@ -13,7 +13,7 @@ msgstr ""
 
 #: ../../index.rst:7
 msgid "Welcome to Radar !"
-msgstr "Bienvenido a Radar !"
+msgstr "¡Bienvenido a Radar!"
 
 #: ../../index.rst:9
 msgid ""
@@ -42,7 +42,7 @@ msgid ""
 "interested in."
 msgstr ""
 "La capacidad de monitoreo de Radar esta determinada por lo que el usuario desee "
-"moitorear. Esto significa que puedes escribir chequeos en tu lenguaje de programación "
+"monitorear. Esto significa que puedes escribir chequeos en tu lenguaje de programación "
 "favorito y monitorear practicamente cualquier recurso."
 
 #: ../../index.rst:23
