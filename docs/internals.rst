@@ -302,3 +302,12 @@ Class diagrams
 Sometimes class diagrams help you see the big picture of a design and also
 act as useful documentation. Here are some diagrams that may help you to
 to understand what words make cumbersome to describe.
+
+The diagrams contains the most relevant classes of both Radar server and client.
+Only the most important methods of every class are mentioned.
+You should follow these diagrams along with the code to have detailed
+comprehension about what's happening on a certain part of the project.
+
+Radar client :
+
+Radar server :
