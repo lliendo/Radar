@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from copy import deepcopy
 from ..config.server import ServerConfig
-from . import UnixSetup
+from . import UnixSetup, WindowsSetup
 
 
 class SetupError(Exception):
@@ -63,7 +63,7 @@ class UnixServerSetup(ServerConfig, UnixSetup):
         super(UnixServerSetup, self).tear_down()
 
 
-class WindowsServerSetup(ServerConfig):
+class WindowsServerSetup(ServerConfig, WindowsSetup):
 
     BASE_PATH = 'C:\\Program Files\\Radar\\Server'
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
@@ -91,6 +91,7 @@ class WindowsServerSetup(ServerConfig):
     def configure(self, launcher):
         super(WindowsServerSetup, self).configure()
         self._configure_plugins()
+        self._install_signal_handlers(launcher)
         self._disable_enforce_ownership()
 
     def tear_down(self, launcher):

@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from copy import deepcopy
 from ..config.client import ClientConfig
-from . import UnixSetup
+from . import UnixSetup, WindowsSetup
 
 
 class UnixClientSetup(ClientConfig, UnixSetup):
@@ -48,7 +48,7 @@ class UnixClientSetup(ClientConfig, UnixSetup):
         super(UnixClientSetup, self).tear_down()
 
 
-class WindowsClientSetup(ClientConfig):
+class WindowsClientSetup(ClientConfig, WindowsSetup):
 
     BASE_PATH = 'C:\\Program Files\\Radar\\Client'
     PLATFORM_CONFIG_PATH = BASE_PATH + '\\Config'
@@ -66,4 +66,5 @@ class WindowsClientSetup(ClientConfig):
 
     def configure(self, launcher):
         super(WindowsClientSetup, self).configure()
+        self._install_signal_handlers(launcher)
         self._disable_enforce_ownership()

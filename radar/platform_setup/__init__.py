@@ -85,3 +85,12 @@ class UnixSetup(object):
             remove(pidfile)
         except OSError, e:
             raise UnixSetupError(('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.').format(pidfile, e))
+
+
+class WindowsSetup(object):
+
+    __metaclass__ = ABCMeta
+
+    def _install_signal_handlers(self, launcher):
+        signal(SIGTERM, launcher.stop)
+        signal(SIGINT, launcher.stop)
