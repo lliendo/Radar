@@ -29,6 +29,8 @@ def radar_dependencies():
         'nose==1.3.7',
         'pyyaml==3.11',
         'mock==1.3.0',
+        'sphinx==1.3.1',
+        'sphinx-intl==0.9.5',
     ]
 
     if platform_name() == 'Windows':
