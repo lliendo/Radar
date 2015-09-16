@@ -136,7 +136,8 @@ class RadarServerPoller(Thread):
         return self.stop_event.is_set()
 
 
-class RadarServerRC(Thread):
+# TODO: Implement me !
+class RadarServerConsole(Thread):
     def __init__(self, client_manager, platform_setup, stop_event=None):
         Thread.__init__(self)
         self._client_manager = client_manager
