@@ -20,7 +20,8 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from abc import ABCMeta, abstractmethod
+from errno import EINTR
+from abc import ABCMeta
 from platform import system as platform_name
 from argparse import ArgumentParser
 
@@ -97,6 +98,21 @@ class RadarLauncher(object):
     def stop(self, *args):
         [t.stop_event.set() for t in self._threads]
 
-    @abstractmethod
+    # Let's try to re-join the threads one more time for graceful termination.
+    def _resume_interrupted_call(self, error):
+        if error.errno != EINTR:
+            raise error
+
+        self._join_threads()
+
     def run(self):
-        pass
+        try:
+            self._platform_setup.logger.log('Starting {:}.'.format(self.PROGRAM_NAME))
+            self._start_and_join_threads()
+        except IOError, e:
+            self._resume_interrupted_call(e)
+        except Exception, e:
+            self._platform_setup.logger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, e))
+        finally:
+            self._platform_setup.logger.log('Shutting down {:}.'.format(self.PROGRAM_NAME))
+            self._platform_setup.tear_down(self)
