@@ -471,7 +471,7 @@ msgstr "PAYLOAD SIZE"
 msgid "PAYLOAD"
 msgstr "PAYLOAD"
 
-#: ../../internals.rst:263
+#: ../../internals.rst:262
 msgid ""
 "TYPE (1 byte) : Current message types are TEST, TEST REPLY, CHECK and CHECK "
 "REPLY."
@@ -479,15 +479,15 @@ msgstr ""
 "TYPE (1 byte) : Los tipos actuales de mensajes son TEST, TEST REPLY, CHECK y"
 " CHECK REPLY. "
 
-#: ../../internals.rst:266
+#: ../../internals.rst:265
 msgid "OPTIONS (1 byte) : Current options are NONE and COMPRESS."
 msgstr "OPTIONS (1 byte) : Las opciones actuales son NONE y COMPRESS."
 
-#: ../../internals.rst:268
+#: ../../internals.rst:267
 msgid "PAYLOAD SIZE (2 bytes) : Indicates the size (in bytes) of the payload."
 msgstr "PAYLOAD SIZE (2 bytes) : Indica el tamaño (en bytes) del payload."
 
-#: ../../internals.rst:270
+#: ../../internals.rst:269
 msgid ""
 "PAYLOAD (variable) : N bytes make up the payload. The payload's maximum size"
 " is 64 KiB."
@@ -495,7 +495,7 @@ msgstr ""
 "PAYLOAD (variable) : Formada por N bytes. El tamaño máximo del payload es de"
 " 64 KiB. "
 
-#: ../../internals.rst:273
+#: ../../internals.rst:272
 msgid ""
 "Every time the poller needs to query its clients a CHECK message is built "
 "and broadcasted to all clients that are managed by any monitor. When the "
@@ -511,7 +511,7 @@ msgstr ""
 " de tipo CHECK REPLY con los resultados es contruido y enviado de vuelta al "
 "servidor. "
 
-#: ../../internals.rst:279
+#: ../../internals.rst:278
 msgid ""
 "The TEST and TEST REPLY messages are not yet implemented (just defined). The"
 " idea is to have a user-controlled way to explicitly force the run of "
@@ -532,7 +532,7 @@ msgstr ""
 "implementada en un próximo release en conjunto con una pequeña consola de "
 "administración que le permita al usuario un mejor control del servidor. "
 
-#: ../../internals.rst:287
+#: ../../internals.rst:286
 msgid ""
 "The payload is always a JSON. The decision behind using JSON is that "
 "provides flexibility and an easy way to validate and convert data that comes"
@@ -548,7 +548,7 @@ msgstr ""
 "también tiene desventajas : más bytes son enviados por la red y un overhead "
 "adicional es agregado cada vez que serializamos y deserializamos un JSON."
 
-#: ../../internals.rst:295
+#: ../../internals.rst:294
 msgid ""
 "Currently messages are not being compressed at all. This feature makes sense"
 " only if the client replies a message longer than 64 KiB. This feature will "
@@ -558,11 +558,11 @@ msgstr ""
 "tiene sentido si la respuesta de un cliente supera los 64 KiB. Esto será "
 "definitivamente implementado en un próximo release. "
 
-#: ../../internals.rst:301
+#: ../../internals.rst:300
 msgid "Class diagrams"
 msgstr "Diagramas de clase"
 
-#: ../../internals.rst:303
+#: ../../internals.rst:302
 msgid ""
 "Sometimes class diagrams help you see the big picture of a design and also "
 "act as useful documentation. Here are some diagrams that may help you to to "

@@ -43,7 +43,7 @@ msgid ""
 msgstr ""
 "La capacidad de monitoreo de Radar esta determinada por lo que el usuario desee "
 "monitorear. Esto significa que puedes escribir chequeos en tu lenguaje de programación "
-"favorito y monitorear practicamente cualquier recurso."
+"favorito y monitorear prácticamente cualquier recurso."
 
 #: ../../index.rst:23
 msgid "Contents"
