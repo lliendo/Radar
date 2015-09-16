@@ -49,7 +49,6 @@ class RadarServer(Server, Thread):
         )
         self._client_manager = client_manager
         self._logger = platform_setup.logger
-        self._plugins = platform_setup.plugins
         self._queue = queue
         self.stop_event = stop_event or Event()
 
@@ -157,9 +156,9 @@ class RadarServerConsole(Thread):
     def list(self, ids=[]):
         pass
 
+    def is_stopped(self):
+        return self.stop_event.is_set()
+
     def run(self):
         while not self.is_stopped():
             pass
-
-    def is_stopped(self):
-        return self.stop_event.is_set()
