@@ -255,9 +255,9 @@ Network protocol
 Radar client and server use TCP for all of its communications. Here is the 
 network protocol that is used by Radar :
 
-+------+---------+--------------+---------+
-| TYPE | OPTIONS | PAYLOAD SIZE | PAYLOAD |
-+------+---------+--------------+---------+
+    +------+---------+--------------+---------+
+    | TYPE | OPTIONS | PAYLOAD SIZE | PAYLOAD |
+    +------+---------+--------------+---------+
 
 * TYPE (1 byte) : Current message types are TEST, TEST REPLY, CHECK
   and CHECK REPLY.
