@@ -3,7 +3,7 @@ Radar
 
 Radar is general purpose monitoring system. It aims to be simple and extendable.
 It uses arbitrary check execution and server side plugins to provide flexibility.
-It is entirely written in the Python programming language and is distributed
+It is entirely written in the `Python <https://www.python.org/>`_ programming language and is distributed
 under the LGPL v3 license.
 
 
@@ -21,7 +21,8 @@ Installation
 Currently the only way to install Radar is through its source code (PyPI packages
 are not yet available, mainly because the project is in ALPHA status).
 
-Clone this repository to a temporary directory using GIT, and run  :
+Clone this repository to a temporary directory using `GIT <https://git-scm.com/>`_ (or alternatively download
+as .zip), and run  :
 
 .. code-block:: bash
 
@@ -35,27 +36,67 @@ Documentation
 
 You can read how to setup and use Radar (both client and server) from `here <https://...>`.
 You can also generate the documentation of the project by yourself using `Sphinx <http://sphinx-doc.org/>`.
-You will have to install Sphinx in first place :
+
+Radar does not include Sphinx in its dependencies so to generate the documentation
+you will first need to install it :
 
 .. code-block:: bash
 
-    pip install sphinx
+    pip install sphinx 
 
-
-Now change to the project's documentation directory and run make html :
+Now from the project's main directory run :
 
 .. code-block:: bash
 
     cd Radar/docs
     make html
 
+If you're using Windows platforms, run :
 
-Sphinx will output the generated documentation to the '_build' directory. To read
-the generated docs open up a browser and then load the index.html file. Currently
-documentation is only available in English and Spanish languages.
+.. code-block:: bash
+
+    cd Radar/docs
+    make.bat html
+
+Sphinx will output the generated documentation to the 'docs/_build' directory.
+To read the generated docs open up a browser and then load the index.html file.
+Currently documentation is available in the following languages :
+
+* English
+* Spanish
+
+To generate the spanish version of the documentation you will need to install 
+additionally sphinx-intl :
+
+.. code-block:: bash
+
+    pip install sphinx-intl
+
+Then run the following commands :
+
+.. code-block:: bash
+
+    cd Radar/docs
+    make gettext
+    sphinx-intl update -p _build/locale -l es
+    sphinx-intl build
+    make -e SPHINXOPTS="-D language='es'" html
+
+On Windows platforms run :
+
+.. code-block:: bash
+
+    cd Radar/docs
+    make.bat gettext
+    sphinx-intl update -p _build/locale -l es
+    sphinx-intl build
+    make.bat -e SPHINXOPTS="-D language='es'" html
+
+Once again, Sphinx will output the generated documentation to the 'docs/_build'
+directory.
 
 If you think that documentation is incomplete or not clear enough, please let
-me know.
+me know !
 
 
 Supported platforms
