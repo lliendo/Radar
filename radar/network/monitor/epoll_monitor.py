@@ -29,7 +29,7 @@ class EPollMonitor(NetworkMonitor):
             global epoll, EPOLLIN
             from select import epoll, EPOLLIN
         except ImportError:
-            raise NetworkMonitorError('EPollMonitor')
+            raise NetworkMonitorError(cls.__name__)
 
         return super(EPollMonitor, cls).__new__(cls, *args, **kwargs)
 

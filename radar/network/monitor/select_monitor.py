@@ -29,7 +29,7 @@ class SelectMonitor(NetworkMonitor):
             global select
             from select import select
         except ImportError:
-            raise NetworkMonitorError('SelectMonitor')
+            raise NetworkMonitorError(cls.__name__)
 
         return super(SelectMonitor, cls).__new__(cls, *args, **kwargs)
 

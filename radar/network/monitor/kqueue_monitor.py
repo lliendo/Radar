@@ -29,7 +29,7 @@ class KQueueMonitor(NetworkMonitor):
             global kqueue, kevent, KQ_EV_ENABLE, KQ_FILTER_READ, KQ_EV_ADD, KQ_EV_DELETE
             from select import kqueue, kevent, KQ_EV_ENABLE, KQ_FILTER_READ, KQ_EV_ADD, KQ_EV_DELETE
         except ImportError:
-            raise NetworkMonitorError('KQueueMonitor')
+            raise NetworkMonitorError(cls.__name__)
 
         return super(KQueueMonitor, cls).__new__(cls, *args, **kwargs)
 

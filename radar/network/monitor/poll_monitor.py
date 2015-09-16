@@ -29,7 +29,7 @@ class PollMonitor(NetworkMonitor):
             global poll, POLLIN
             from select import poll, POLLIN
         except ImportError:
-            raise NetworkMonitorError('PollMonitor')
+            raise NetworkMonitorError(cls.__name__)
 
         return super(PollMonitor, cls).__new__(cls, *args, **kwargs)
 
