@@ -53,21 +53,13 @@ class RadarServerLauncher(RadarLauncher):
             PluginManager(self._platform_setup, queue, stop_event=stop_event),
         ]
 
-    def _join_threads(self):
+    def _start_and_join_threads(self):
+        self._start_threads(self._threads[:1])
+
         while self._threads[0].is_alive() and not self._threads[0].is_listening():
             self._threads[0].join(self.THREAD_POLLING_TIME)
 
         # Only spawn remaining threads if the server is listening.
         if self._threads[0].is_alive():
             self._start_threads(self._threads[1:])
-            super(RadarServerLauncher, self)._join_threads()
-
-    def run(self):
-        try:
-            self._platform_setup.logger.log('Starting Radar server.')
-            self._start_threads(self._threads[:1])
             self._join_threads()
-            self._platform_setup.logger.log('Shutting down Radar server.')
-            self._platform_setup.tear_down(self)
-        except Exception, e:
-            self._platform_setup.logger.log('Error - RadarServerLauncher raised an error. Details : {:}.'.format(e))

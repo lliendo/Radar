@@ -41,7 +41,8 @@ class RadarClientLauncher(RadarLauncher):
         super(RadarClientLauncher, self).__init__()
         self._threads = self._build_threads()
 
-    # TODO: Better names for queues?
+    # TODO: Need better queue names (or maybe use a custom bidirectional alternative
+    # such as a Channel abstraction).
     def _build_threads(self):
         queue_a, queue_b = Queue(), Queue()
         stop_event = Event()
@@ -51,7 +52,9 @@ class RadarClientLauncher(RadarLauncher):
             CheckManager(self._platform_setup, queue_b, queue_a, stop_event=stop_event),
         ]
 
-    def _join_threads(self):
+    def _start_and_join_threads(self):
+        self._start_threads(self._threads[:1])
+
         while self._threads[0].is_alive() and not self._threads[0].is_connected():
             self._threads[0].join(self.THREAD_POLLING_TIME)
 
@@ -59,14 +62,4 @@ class RadarClientLauncher(RadarLauncher):
         # client is trying to reconnect.
         if self._threads[0].is_alive():
             self._start_threads(self._threads[1:])
-            super(RadarClientLauncher, self)._join_threads()
-
-    def run(self):
-        try:
-            self._platform_setup.logger.log('Starting Radar client.')
-            self._start_threads(self._threads[:1])
             self._join_threads()
-            self._platform_setup.logger.log('Shutting down Radar client.')
-            self._platform_setup.tear_down(self)
-        except Exception, e:
-            self._platform_setup.logger.log('Error - RadarClientLauncher raised an error. Details : {:}.'.format(e))
