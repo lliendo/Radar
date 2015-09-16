@@ -25,8 +25,8 @@ Once you get the Radar server up and running any number of clients may connect
 and after a user-defined interval they will be constantly polled.
 The following diagram shows the big picture how Radar operates :
 
-.. image:: _static/radar-overview.svg
-    :target: _static/radar-overview.svg
+.. image:: _static/images/radar-overview.svg
+    :target: _static/images/radar-overview.svg
 
 
 So what can you really do with Radar ? Here are some ideas :

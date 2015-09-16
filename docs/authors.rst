@@ -8,4 +8,4 @@ Authors
       with this project in any way let me know !
 
 
-.. |ar-flag| image:: _static/ar-flag.png
+.. |ar-flag| image:: _static/images/ar-flag.png
