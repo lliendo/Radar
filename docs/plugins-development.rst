@@ -79,7 +79,7 @@ action takes place and is your entry point to perform any useful work.
 For every reply that the Radar server receives you'll get :
 
 * address : The IP address of the Radar client that sent the check reply.
-  This is a string value
+  This is a string value.
 
 * port : The TCP port of the Radar client that sent the check reply.
   This is an integer value.
@@ -163,11 +163,11 @@ the YAML file.
 Before we end up this section you may be wondering : How should I use the
 checks and contacts lists in the on_check_reply() method ?
 
-Radar has (internally) among many abstractions have two that you will use directly
+Radar has (internally) among many abstractions two that you will use directly
 in any plugin : Contact and Check. Whenever you get a reply you get a list
 that contains contact objects and another list that contains check objects.
 
-Contact and check objects have some attributes that you can read to
+Contact and Check objects have some attributes that you can read to
 perform some work. For example : every contact object contains a name,
 an email an optionally a phone number. The following piece of code
 shows how to read any useful value (both from a contact and a check) :
@@ -190,6 +190,10 @@ shows how to read any useful value (both from a contact and a check) :
         data = check[0].data
         current_status = check[0].current_status
         previous_status = check[0].previous_status
+
+Note that in the above example we're only inspecting the first contact and
+check. Remember that you always receive two lists, so you'll probably need to
+iterate them in order to achieve your plugin's task.
 
 
 Guidelines

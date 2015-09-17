@@ -28,7 +28,7 @@ option (this time we will setup a Windows Radar client) :
     enforce ownership: False
     reconnect: False
 
-* connect : This option tells Radar client where the Radar server's address.
+* connect : This option tells the Radar client where the Radar server's address.
   By default it tries to connect to localhost port 3333.
 
 * run as : On UNIX platforms this option tells Radar the effective user

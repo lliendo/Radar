@@ -11,14 +11,14 @@ detail because that would take a huge amount of time and you'll get bored.
 Instead I've decided to describe few things as possible and try to reflect
 why a decision was taken that way. Also consider that as everybody I make
 mistakes and no perfect software design exists and Radar is way way long
-of achieving that.
+to achieve that.
 
 
 Overview
 --------
 
 Radar is designed to be a small tool, its core isn't intended to grow
-indefinetly besides some currently feature lacking. The reason behind
+indefinetly besides some currently lacking features. The reason behind
 this is that a tool that is small and controlled in its size and its
 objectives is easier to understand and does its work better than an
 all-problem-solving solution.
@@ -37,9 +37,9 @@ and each method solves a concrete piece of that task.
 The result is that you won't find complex or twisted code and reading any
 piece of code and get the idea of what is doing should take little time.
 The code mostly lacks of comments, the reason for this is that the code
-intends to be self-describing (care has been taken to make classes and
-methods describe and reflect their intentions). Radar tries to stick to
-this rule.
+intends to be self-describing (care has been taken to make classes, methods,
+attributes and variables describe and reflect their intentions). Radar tries
+to stick to this rule.
 
 
 Project layout
@@ -132,8 +132,8 @@ different the way they handle network sockets.
 The network module also provides some network monitors that are platform
 dependant. Before Radar server goes into operational mode it tries to select
 the best multiplex i/o method available. In any case if the platform can't
-be detected or an efficient multiplexing method cannot be found Radar will
-fall back to the SelectMonitor (which relies on the select system call).
+be detected or an efficient multiplexing method cannot be found Radar 
+falls back to the SelectMonitor (which relies on the select system call).
 The currently supported multiplexing strategies are : select, poll, epoll
 and kqueue.
 
@@ -184,7 +184,7 @@ This is the simplest thread. Every N seconds it simply asks the ClientManager
 to poll all of its monitors. The existence of this thread is that it makes
 sense to have a different abstraction that decides when its time to poll
 the clients. If this work would have been done in the RadarServer we would
-be mixing asynchronus (network activity) and synchronus (wait a certain amount
+be mixing asynchronous (network activity) and synchronous (wait a certain amount
 of time) events making the overall design more complex to both understand
 and work with.
 
@@ -201,7 +201,7 @@ queue, when it does it disassembles all parameters and performs object id
 dereferencing of two lists that contain the affected checks and the
 related contacts. This dereferencing is possible because threads share the
 same address space. This solution seems more elegant and effective than
-re-instantiating those objects from their values.
+re-instantiating those objects from their states.
 After this pre-processing every plugin's run method is called with appropiate
 arguments. If a plugin does not work properly all exceptions are caught and
 registered in the Radar's log file.

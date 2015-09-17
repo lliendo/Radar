@@ -46,7 +46,7 @@ option :
     plugins: /tmp/radar/server/plugins
 
 
-* listen : The listen options specifies the address and port number where
+* listen : The listen options specifies the address and port number where the
   Radar server is going to listen for new clients. At the moment only IPv4
   addresses are supported. The default values are to listen on localhost
   and port 3333.
@@ -55,7 +55,7 @@ option :
   and group that the process should run as. This is a basic security
   consideration to allow Radar to run with an unprivileged user. The
   specified user should not be a able to login to the system.
-  The default user and group is radar. This option does not apply to MS
+  The default user and group is radar. This option does not apply to
   Windows platforms.
 
 * polling time : This tells Radar the frequency of the execution of checks.
@@ -74,7 +74,7 @@ option :
 
 * pid file : On UNIX platforms this file holds the PID of the Radar
   process. When Radar starts it will record its pidfile here and when
-  it shuts down this file is deleted. Pid files are not recorded on MS Windows
+  it shuts down this file is deleted. Pid files are not recorded on Windows
   platforms.
 
 * checks, contacts, monitors, plugins : All these set of options tell
@@ -146,7 +146,7 @@ different ways, let's see the first one :
                 path: PATH TO CHECK
                 args: CHECK ARGUMENTS
 
-You define a check group by giving that group a name and a group of checks
+You define a check group by giving that group a name and a set of checks
 that make up that group. This allows you to reference a check group later on
 when you define monitors. Check groups are useful because you define only
 once a group and then use it in any number of monitors.
@@ -392,7 +392,7 @@ As described previously there is one plugin directory defined in the main
 configuration file. This directory holds all the plugins managed by Radar.
 How is the layout of this directory ? If you've read previous sections
 you noticed that you have full freedom to layout monitors, checks and contacts
-directories. This is not the case for of plugins directory.
+directories. This is not the case of the plugins directory.
 
 Let's assume that your plugins directory is : /tmp/Radar/server/plugins.
 Then you have a bunch of plugins you want install. Simply copy all of them

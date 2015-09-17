@@ -1,7 +1,7 @@
 Installation
 ============
 
-At the moment Radar is only available from its source code from Github.
+At the moment Radar is only available from its source code from `Github <https://github.com/lliendo/Radar>`_.
 As the project evolves it will be eventually added to `PyPI <https://pypi.python.org/pypi>`_.
 
 PyPI packages will be delivered when the project is assured to be stable.

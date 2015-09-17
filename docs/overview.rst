@@ -47,7 +47,7 @@ So what can you really do with Radar ? Here are some ideas :
   are exceeded.
 
 Any of these ideas requires that you write a plugin for it, Radar does not
-include any built-in functinality and these tasks are delegated to plugins.
-You can take a look how to develop checks and plugins on the following
+include any built-in functionality and these tasks are delegated to plugins.
+You can take a look at how to develop checks and plugins on the following
 sections of this document. Don't panic ! A lot of effort has been put to make
 these tasks as simple as possible, so keep reading the docs.
