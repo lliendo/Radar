@@ -68,3 +68,6 @@ class WindowsClientSetup(ClientConfig, WindowsSetup):
         super(WindowsClientSetup, self).configure()
         self._install_signal_handlers(launcher)
         self._disable_enforce_ownership()
+
+    def tear_down(self, launcher):
+        super(WindowsClientSetup, self).tear_down()
