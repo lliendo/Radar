@@ -115,4 +115,4 @@ class RadarLauncher(object):
             self._platform_setup.logger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, e))
         finally:
             self._platform_setup.logger.log('Shutting down {:}.'.format(self.PROGRAM_NAME))
-            self._platform_setup.tear_down(self)
+            self._platform_setup.tear_down()

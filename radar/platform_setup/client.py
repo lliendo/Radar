@@ -43,7 +43,7 @@ class UnixClientSetup(ClientConfig, UnixSetup):
         self._install_signal_handlers(launcher)
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
-    def tear_down(self, launcher):
+    def tear_down(self):
         self._delete_pid_file(self.config['pid file'])
         super(UnixClientSetup, self).tear_down()
 
@@ -68,6 +68,3 @@ class WindowsClientSetup(ClientConfig, WindowsSetup):
         super(WindowsClientSetup, self).configure()
         self._install_signal_handlers(launcher)
         self._disable_enforce_ownership()
-
-    def tear_down(self, launcher):
-        super(WindowsClientSetup, self).tear_down()
