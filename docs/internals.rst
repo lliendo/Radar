@@ -310,4 +310,38 @@ comprehension about what's happening on a certain part of the project.
 
 Radar client :
 
+    +----------------+
+    |  RadarClient   |
+    +================+
+    | |radar-client| |
+    +----------------+
+
+
 Radar server :
+
+    +-----------+-----------------+
+    | Monitor   | ServerConfig    |
+    +===========+=================+
+    | |monitor| | |server-config| |
+    +-----------+-----------------+
+
+
+.. Radar client class-diagrams.
+
+.. |radar-client| image:: _static/class-diagrams/radar-client.svg
+    :target: _static/class-diagrams/radar-client.svg
+    :width: 30%
+    :align: middle
+
+
+.. Radar serverclass-diagrams.
+
+.. |monitor| image:: _static/class-diagrams/monitor.svg
+    :target: _static/class-diagrams/monitor.svg
+    :width: 60%
+    :align: middle
+
+.. |server-config| image:: _static/class-diagrams/server-config.svg
+    :target: _static/class-diagrams/server-config.svg
+    :width: 60%
+    :align: middle

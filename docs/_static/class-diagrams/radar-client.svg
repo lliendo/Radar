@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="51cm" height="31cm" viewBox="-141 59 1008 618" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="320" y="200" width="143.25" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="200" width="143.25" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="391.625" y="219">CheckManager</text>
+    <rect style="fill: #ffffff" x="320" y="228" width="143.25" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="228" width="143.25" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="242">+input_queue</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="258">+output_queue</text>
+    <rect style="fill: #ffffff" x="320" y="264" width="143.25" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="264" width="143.25" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="278">+run()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="580" y="180" width="104.35" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="580" y="180" width="104.35" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="632.175" y="199">UnixCheck</text>
+    <rect style="fill: #ffffff" x="580" y="208" width="104.35" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="580" y="208" width="104.35" height="8"/>
+    <rect style="fill: #ffffff" x="580" y="216" width="104.35" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="580" y="216" width="104.35" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="583" y="230">+run()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="580" y="260" width="145.45" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="580" y="260" width="145.45" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="652.725" y="279">WindowsCheck</text>
+    <rect style="fill: #ffffff" x="580" y="288" width="145.45" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="580" y="288" width="145.45" height="8"/>
+    <rect style="fill: #ffffff" x="580" y="296" width="145.45" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="580" y="296" width="145.45" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="583" y="310">+run()</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="488.422,238 528.625,238 528.625,194 580,194 "/>
+    <polygon style="fill: #ffffff" points="463.25,238 477.25,233.2 491.25,238 477.25,242.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="463.25,238 477.25,233.2 491.25,238 477.25,242.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="530.625" y="212"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="495.25" y="234"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="576" y="190"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="488.422,238 528.625,238 528.625,274 580,274 "/>
+    <polygon style="fill: #ffffff" points="463.25,238 477.25,233.2 491.25,238 477.25,242.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="463.25,238 477.25,233.2 491.25,238 477.25,242.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="530.625" y="252"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="495.25" y="234"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="576" y="270"/>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="200,60 475.5,60 487.5,72 487.5,174 200,174 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="200,60 475.5,60 487.5,72 487.5,174 200,174 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="475.5,60 475.5,72 487.5,72 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="207" y="84.9">
+      <tspan x="207" y="84.9">A CheckManager does not really</tspan>
+      <tspan x="207" y="100.9">"have" any checks. It just creates</tspan>
+      <tspan x="207" y="116.9">them on demand when a CHECK message</tspan>
+      <tspan x="207" y="132.9">type arrives.</tspan>
+      <tspan x="207" y="148.9">The action takes place in the</tspan>
+      <tspan x="207" y="164.9">_on_check() method.</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="320" y="560" width="115.9" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="560" width="115.9" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="377.95" y="579">RadarClient</text>
+    <rect style="fill: #ffffff" x="320" y="588" width="115.9" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="588" width="115.9" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="602">+input_queue</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="618">+output_queue</text>
+    <rect style="fill: #ffffff" x="320" y="624" width="115.9" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="624" width="115.9" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="638">+run()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="654">+connect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="670">+on_receive()</text>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="540,80 854,80 866,92 866,146 540,146 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="540,80 854,80 866,92 866,146 540,146 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="854,80 854,92 866,92 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="547" y="104.9">
+      <tspan x="547" y="104.9">The CheckManager also knows if it</tspan>
+      <tspan x="547" y="120.9">has to instantiate a Unix or Windows</tspan>
+      <tspan x="547" y="136.9">check depending on the running platform.</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-20" y="320" width="210.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-20" y="320" width="210.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="85.1" y="339">RadarClientLauncher</text>
+    <rect style="fill: #ffffff" x="-20" y="348" width="210.2" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-20" y="348" width="210.2" height="8"/>
+    <rect style="fill: #ffffff" x="-20" y="356" width="210.2" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-20" y="356" width="210.2" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-17" y="370">+_build_threads()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-17" y="386">+_start_and_join_threads()</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="215.372,334 262.1,334 262.1,238 320,238 "/>
+    <polygon style="fill: #ffffff" points="190.2,334 204.2,329.2 218.2,334 204.2,338.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="190.2,334 204.2,329.2 218.2,334 204.2,338.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="264.1" y="282"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="222.2" y="330"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="316" y="234"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="215.372,334 262.1,334 262.1,598 320,598 "/>
+    <polygon style="fill: #ffffff" points="190.2,334 204.2,329.2 218.2,334 204.2,338.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="190.2,334 204.2,329.2 218.2,334 204.2,338.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="264.1" y="462"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="222.2" y="330"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="316" y="594"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="11.5" y="180.5" width="146.7" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="11.5" y="180.5" width="146.7" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="84.85" y="199.5">RadarLauncher</text>
+    <rect style="fill: #ffffff" x="11.5" y="208.5" width="146.7" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="11.5" y="208.5" width="146.7" height="8"/>
+    <rect style="fill: #ffffff" x="11.5" y="216.5" width="146.7" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="11.5" y="216.5" width="146.7" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="14.5" y="230.5">+run()</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="84.85,254.736 84.85,286.25 85.1,286.25 85.1,320 "/>
+    <polygon style="fill: #ffffff" points="92.85,254.736 84.85,238.736 76.85,254.736 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="92.85,254.736 84.85,238.736 76.85,254.736 "/>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="-140,420 197.1,420 209.1,432 209.1,550 -140,550 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-140,420 197.1,420 209.1,432 209.1,550 -140,550 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="197.1,420 197.1,432 209.1,432 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-133" y="444.9">
+      <tspan x="-133" y="444.9">The RadarClientLauncher is the entry point</tspan>
+      <tspan x="-133" y="460.9">of the Radar client, it :</tspan>
+      <tspan x="-133" y="476.9"></tspan>
+      <tspan x="-133" y="492.9"> - Builds shared queues and a shared</tspan>
+      <tspan x="-133" y="508.9">   thread event CheckManager &amp; RadarClient.</tspan>
+      <tspan x="-133" y="524.9"> - Spawns both threads through its run()</tspan>
+      <tspan x="-133" y="540.9">   method.</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="302.536" y="434.736" width="150.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="302.536" y="434.736" width="150.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="377.586" y="453.736">RadarClientLite</text>
+    <rect style="fill: #ffffff" x="302.536" y="462.736" width="150.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="302.536" y="462.736" width="150.1" height="8"/>
+    <rect style="fill: #ffffff" x="302.536" y="470.736" width="150.1" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="302.536" y="470.736" width="150.1" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="305.536" y="484.736">+send_message()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="305.536" y="500.736">+receive_message()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="346.306" y="332.086" width="62.65" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="346.306" y="332.086" width="62.65" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="377.631" y="351.086">Client</text>
+    <rect style="fill: #ffffff" x="346.306" y="360.086" width="62.65" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="346.306" y="360.086" width="62.65" height="8"/>
+    <rect style="fill: #ffffff" x="346.306" y="368.086" width="62.65" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="346.306" y="368.086" width="62.65" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="377.586,524.972 377.586,541.368 377.95,541.368 377.95,560 "/>
+    <polygon style="fill: #ffffff" points="385.586,524.972 377.586,508.972 369.586,524.972 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="385.586,524.972 377.586,508.972 369.586,524.972 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="377.631,394.322 377.631,413.411 377.586,413.411 377.586,434.736 "/>
+    <polygon style="fill: #ffffff" points="385.631,394.322 377.631,378.322 369.631,394.322 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="385.631,394.322 377.631,378.322 369.631,394.322 "/>
+  </g>
+</svg>

@@ -58,9 +58,9 @@ If you're using Windows platforms, run :
     cd Radar/docs
     make.bat html
 
-Sphinx will output the generated documentation to the 'docs/_build' directory.
+Sphinx will output the generated documentation to the 'docs/_build/html' directory.
 To read the generated docs open up a browser and then load the index.html file.
-Currently documentation is available in the following languages :
+Currently the documentation is available in the following languages :
 
 * English
 * Spanish

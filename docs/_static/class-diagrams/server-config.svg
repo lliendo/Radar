@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="64cm" height="30cm" viewBox="-421 99 1261 588" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="20" y="100" width="132.25" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="20" y="100" width="132.25" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="86.125" y="119">ConfigBuilder</text>
+    <rect style="fill: #ffffff" x="20" y="128" width="132.25" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="20" y="128" width="132.25" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="23" y="142">+path</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="23" y="158">+config</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="23" y="174">+logger</text>
+    <rect style="fill: #ffffff" x="20" y="180" width="132.25" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="20" y="180" width="132.25" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="23" y="194">+build()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="14" y="320" width="144.55" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="14" y="320" width="144.55" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="86.275" y="339">ContactBuilder</text>
+    <rect style="fill: #ffffff" x="14" y="348" width="144.55" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="14" y="348" width="144.55" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="17" y="362">+TAG</text>
+    <rect style="fill: #ffffff" x="14" y="368" width="144.55" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="14" y="368" width="144.55" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="17" y="382">+build()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-240" y="320" width="145.15" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-240" y="320" width="145.15" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="-167.425" y="339">MonitorBuilder</text>
+    <rect style="fill: #ffffff" x="-240" y="348" width="145.15" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-240" y="348" width="145.15" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-237" y="362">+TAG</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-237" y="378">+checks</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-237" y="394">+contacts</text>
+    <rect style="fill: #ffffff" x="-240" y="400" width="145.15" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-240" y="400" width="145.15" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-237" y="414">+build()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="520" y="320" width="148.6" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="520" y="320" width="148.6" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="594.3" y="339">ServerConfig</text>
+    <rect style="fill: #ffffff" x="520" y="348" width="148.6" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="520" y="348" width="148.6" height="52"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="523" y="362">+DEFAULT_CONFIG</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="523" y="378">+monitors</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="523" y="394">+plugins</text>
+    <rect style="fill: #ffffff" x="520" y="400" width="148.6" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="520" y="400" width="148.6" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="523" y="414">+build()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="523" y="430">+_build_monitors()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="523" y="446">+_build_checks()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="523" y="462">+_build_contacts()</text>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="520,500 826.3,500 838.3,512 838.3,646 520,646 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="520,500 826.3,500 838.3,512 838.3,646 520,646 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="826.3,500 826.3,512 838.3,512 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="527" y="524.9">
+      <tspan x="527" y="524.9">ServerConfig :</tspan>
+      <tspan x="527" y="540.9"></tspan>
+      <tspan x="527" y="556.9"> - Triggers whole server configuration.</tspan>
+      <tspan x="527" y="572.9"> - Holds a default configuration.</tspan>
+      <tspan x="527" y="588.9"></tspan>
+      <tspan x="527" y="604.9">Also note that ServerConfig is not</tspan>
+      <tspan x="527" y="620.9">directly used (as is abstract).</tspan>
+      <tspan x="527" y="636.9">It is used as a mixin by PlatformSetup.</tspan>
+    </text>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="200,100 521.7,100 533.7,112 533.7,198 200,198 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="200,100 521.7,100 533.7,112 533.7,198 200,198 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="521.7,100 521.7,112 533.7,112 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="207" y="124.9">
+      <tspan x="207" y="124.9">ConfigBuilder is responsible for :</tspan>
+      <tspan x="207" y="140.9"></tspan>
+      <tspan x="207" y="156.9"> - Reading &amp; parsing YAML files.</tspan>
+      <tspan x="207" y="172.9"> - Merging default &amp; user defined config.</tspan>
+      <tspan x="207" y="188.9"> - Configuring logger.</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-14" y="440" width="199.45" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-14" y="440" width="199.45" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="85.725" y="459">ContactGroupBuilder</text>
+    <rect style="fill: #ffffff" x="-14" y="468" width="199.45" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-14" y="468" width="199.45" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-11" y="482">+TAG</text>
+    <rect style="fill: #ffffff" x="-14" y="488" width="199.45" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="-14" y="488" width="199.45" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-11" y="502">+build()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="300" y="320" width="128.95" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="300" y="320" width="128.95" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="364.475" y="339">CheckBuilder</text>
+    <rect style="fill: #ffffff" x="300" y="348" width="128.95" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="300" y="348" width="128.95" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="303" y="362">+TAG</text>
+    <rect style="fill: #ffffff" x="300" y="368" width="128.95" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="300" y="368" width="128.95" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="303" y="382">+build()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="273" y="440" width="183.85" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="273" y="440" width="183.85" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="364.925" y="459">CheckGroupBuilder</text>
+    <rect style="fill: #ffffff" x="273" y="468" width="183.85" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="273" y="468" width="183.85" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="276" y="482">+TAG</text>
+    <rect style="fill: #ffffff" x="273" y="488" width="183.85" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="273" y="488" width="183.85" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="276" y="502">+build()</text>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="-80,540 234,540 246,552 246,686 -80,686 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-80,540 234,540 246,552 246,686 -80,686 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="234,540 234,552 246,552 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-73" y="564.9">
+      <tspan x="-73" y="564.9">Each of these classes has :</tspan>
+      <tspan x="-73" y="580.9"></tspan>
+      <tspan x="-73" y="596.9"> - A TAG class attribute that indicates</tspan>
+      <tspan x="-73" y="612.9">   the expected YAML element to process.</tspan>
+      <tspan x="-73" y="628.9"> - A build() method that triggers</tspan>
+      <tspan x="-73" y="644.9">   construction. Every build method</tspan>
+      <tspan x="-73" y="660.9">   returns a list containing the</tspan>
+      <tspan x="-73" y="676.9">   constructed objects.</tspan>
+    </text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="86.275,406.236 86.275,422 85.725,422 85.725,440 "/>
+    <polygon style="fill: #ffffff" points="94.275,406.236 86.275,390.236 78.275,406.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="94.275,406.236 86.275,390.236 78.275,406.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="86.125,218.236 86.125,268 364.475,268 364.475,320 "/>
+    <polygon style="fill: #ffffff" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="86.125,218.236 86.125,268 86.275,268 86.275,320 "/>
+    <polygon style="fill: #ffffff" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="86.125,218.236 86.125,268 -167.425,268 -167.425,320 "/>
+    <polygon style="fill: #ffffff" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="364.475,406.236 364.475,422 364.925,422 364.925,440 "/>
+    <polygon style="fill: #ffffff" points="372.475,406.236 364.475,390.236 356.475,406.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="372.475,406.236 364.475,390.236 356.475,406.236 "/>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="-420,220 -229.2,220 -217.2,232 -217.2,302 -420,302 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="-420,220 -229.2,220 -217.2,232 -217.2,302 -420,302 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="-229.2,220 -229.2,232 -217.2,232 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="-413" y="244.9">
+      <tspan x="-413" y="244.9">Note that MonitorBuilder</tspan>
+      <tspan x="-413" y="260.9">takes checks &amp; contacts</tspan>
+      <tspan x="-413" y="276.9">in order to construct</tspan>
+      <tspan x="-413" y="292.9">monitors.</tspan>
+    </text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="86.125,218.236 86.125,268 594.3,268 594.3,320 "/>
+    <polygon style="fill: #ffffff" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="94.125,218.236 86.125,202.236 78.125,218.236 "/>
+  </g>
+</svg>
