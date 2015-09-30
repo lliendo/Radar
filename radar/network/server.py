@@ -27,7 +27,6 @@ from monitor.select_monitor import SelectMonitor
 from monitor.poll_monitor import PollMonitor
 from monitor.epoll_monitor import EPollMonitor
 from monitor.kqueue_monitor import KQueueMonitor
-from monitor.iocp_monitor import IOCPMonitor
 from client import ClientReceiveError, ClientSendError, ClientDisconnected, ClientAbortError, Client as BaseClient
 
 
@@ -133,10 +132,14 @@ class Server(object):
     def on_receive(self, client):
         pass
 
+    def on_receive_error(self, client, error):
+        pass
+
     def _on_receive_error(self, client, error):
         self.on_receive_error(client, error)
         self.disconnect(client)
 
+    # In case the user of this class decides to perform a send just after reception.
     def _on_send_error(self, client, error):
         self.on_send_error(client, error)
         self.disconnect(client)
