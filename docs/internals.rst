@@ -310,14 +310,22 @@ comprehension about what's happening on a certain part of the project.
 
 Radar client :
 
-    +----------------+
-    |  RadarClient   |
-    +================+
-    | |radar-client| |
-    +----------------+
+    +----------------+-------------------------+
+    |  RadarClient   | RadarClientLauncher     |
+    +================+=========================+
+    | |radar-client| | |radar-client-launcher| |
+    +----------------+-------------------------+
 
 
 Radar server :
+
+    +----------------+----------+
+    | RadarServer    | Server   |
+    +================+==========+
+    | |radar-server| | |server| |
+    +----------------+----------+
+
+| 
 
     +-----------+-----------------+
     | Monitor   | ServerConfig    |
@@ -326,15 +334,35 @@ Radar server :
     +-----------+-----------------+
 
 
+Notes :
+
+ * RadarServerLauncher is analogous to RadarClientLauncher.
+
+
 .. Radar client class-diagrams.
 
 .. |radar-client| image:: _static/class-diagrams/radar-client.svg
     :target: _static/class-diagrams/radar-client.svg
-    :width: 30%
+    :width: 60%
+    :align: middle
+
+.. |radar-client-launcher| image:: _static/class-diagrams/radar-client-launcher.svg
+    :target: _static/class-diagrams/radar-client-launcher.svg
+    :width: 60%
     :align: middle
 
 
-.. Radar serverclass-diagrams.
+.. Radar server class-diagrams.
+
+.. |radar-server| image:: _static/class-diagrams/radar-server.svg
+    :target: _static/class-diagrams/radar-server.svg
+    :width: 60%
+    :align: middle
+
+.. |server| image:: _static/class-diagrams/server.svg
+    :target: _static/class-diagrams/server.svg
+    :width: 60%
+    :align: middle
 
 .. |monitor| image:: _static/class-diagrams/monitor.svg
     :target: _static/class-diagrams/monitor.svg

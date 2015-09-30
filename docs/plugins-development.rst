@@ -29,8 +29,8 @@ When all plugins finish processing a certain reply full control is regained
 by Radar. This process repeats indefinitely until of course you shut down Radar.
 
 We've just described how Radar processes plugins. We're now going to take
-a look at how a very minimal plugin is written and what considerations
-should be taken at development time.
+a look at how a minimal plugin is written and what considerations should be
+taken at development time.
 
 Let's take a look at a minimal plugin and describe the key points.
 

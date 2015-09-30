@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="42cm" height="31cm" viewBox="399 39 836 604" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="400" y="180" width="187.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="400" y="180" width="187.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="493.55" y="199">Server</text>
+    <rect style="fill: #ffffff" x="400" y="208" width="187.1" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="400" y="208" width="187.1" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="222">+AVAILABLE_PLATFORMS</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="238">+Client</text>
+    <rect style="fill: #ffffff" x="400" y="244" width="187.1" height="100"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="400" y="244" width="187.1" height="100"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="258">+_listen()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="274">+_accept()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="290">+_serve_ready_clients()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="306">+_on_ACTION()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="322">+on_receive()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="403" y="338">+run()</text>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="400,40 637,40 649,52 649,138 400,138 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="400,40 637,40 649,52 649,138 400,138 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="637,40 637,52 649,52 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="407" y="64.9">
+      <tspan x="407" y="64.9">Note that on_ACTION on the</tspan>
+      <tspan x="407" y="80.9">Server diagram refers to a</tspan>
+      <tspan x="407" y="96.9">set of methods.</tspan>
+      <tspan x="407" y="112.9">Check the server.py file under</tspan>
+      <tspan x="407" y="128.9">the network module.</tspan>
+    </text>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="900,180 1221.7,180 1233.7,192 1233.7,294 900,294 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="900,180 1221.7,180 1233.7,192 1233.7,294 900,294 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="1221.7,180 1221.7,192 1233.7,192 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="907" y="204.9">
+      <tspan x="907" y="204.9">The Server class works tightly with</tspan>
+      <tspan x="907" y="220.9">a Client class and with a NetworkMonitor.</tspan>
+      <tspan x="907" y="236.9">Every extended Server class must set</tspan>
+      <tspan x="907" y="252.9">its Client class attribute (this is</tspan>
+      <tspan x="907" y="268.9">because internally the Server handles</tspan>
+      <tspan x="907" y="284.9">a set of clients).</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="700" y="180" width="156.6" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="700" y="180" width="156.6" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="778.3" y="199">NetworkMonitor</text>
+    <rect style="fill: #ffffff" x="700" y="208" width="156.6" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="700" y="208" width="156.6" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="703" y="222">+server</text>
+    <rect style="fill: #ffffff" x="700" y="228" width="156.6" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="700" y="228" width="156.6" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="703" y="242">+_watch()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="703" y="258">+on_connect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="703" y="274">+on_disconnect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="703" y="290">+watch()</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="612.272,194 660,194 660,194 700,194 "/>
+    <polygon style="fill: #ffffff" points="587.1,194 601.1,189.2 615.1,194 601.1,198.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="587.1,194 601.1,189.2 615.1,194 601.1,198.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="660" y="190"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="619.1" y="190"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="696" y="190"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="980" y="420" width="136.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="980" y="420" width="136.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1048.1" y="439">SelectMonitor</text>
+    <rect style="fill: #ffffff" x="980" y="448" width="136.2" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="980" y="448" width="136.2" height="8"/>
+    <rect style="fill: #ffffff" x="980" y="456" width="136.2" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="980" y="456" width="136.2" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="983" y="470">+watch()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="620" y="420" width="133.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="620" y="420" width="133.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="686.6" y="439">EPollMonitor</text>
+    <rect style="fill: #ffffff" x="620" y="448" width="133.2" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="620" y="448" width="133.2" height="8"/>
+    <rect style="fill: #ffffff" x="620" y="456" width="133.2" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="620" y="456" width="133.2" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="623" y="470">+_register()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="623" y="486">+on_connect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="623" y="502">+on_disconnect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="623" y="518">+watch()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="800" y="420" width="133.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="420" width="133.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="866.6" y="439">PollMonitor</text>
+    <rect style="fill: #ffffff" x="800" y="448" width="133.2" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="448" width="133.2" height="8"/>
+    <rect style="fill: #ffffff" x="800" y="456" width="133.2" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="800" y="456" width="133.2" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="803" y="470">+_register()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="803" y="486">+on_connect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="803" y="502">+on_disconnect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="803" y="518">+watch()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="420" y="420" width="150.85" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="420" y="420" width="150.85" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="495.425" y="439">KQueueMonitor</text>
+    <rect style="fill: #ffffff" x="420" y="448" width="150.85" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="420" y="448" width="150.85" height="8"/>
+    <rect style="fill: #ffffff" x="420" y="456" width="150.85" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="420" y="456" width="150.85" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="423" y="470">+_register()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="423" y="486">+on_connect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="423" y="502">+on_disconnect()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="423" y="518">+watch()</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="778.3,314.236 778.3,366 495.425,366 495.425,420 "/>
+    <polygon style="fill: #ffffff" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="778.3,314.236 778.3,366 686.6,366 686.6,420 "/>
+    <polygon style="fill: #ffffff" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="778.3,314.236 778.3,366 866.6,366 866.6,420 "/>
+    <polygon style="fill: #ffffff" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="778.3,314.236 778.3,366 1048.1,366 1048.1,420 "/>
+    <polygon style="fill: #ffffff" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="786.3,314.236 778.3,298.236 770.3,314.236 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="674.828,218 640,218 640,218 587.1,218 "/>
+    <polygon style="fill: #ffffff" points="700,218 686,222.8 672,218 686,213.2 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="700,218 686,222.8 672,218 686,213.2 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="640" y="214"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="668" y="214"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="591.1" y="214"/>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="620,560 895.5,560 907.5,572 907.5,642 620,642 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="620,560 895.5,560 907.5,572 907.5,642 620,642 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="895.5,560 895.5,572 907.5,572 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="627" y="584.9">
+      <tspan x="627" y="584.9">When any activity happens on a</tspan>
+      <tspan x="627" y="600.9">file descriptor a monitor reacts</tspan>
+      <tspan x="627" y="616.9">notifying the proper action through</tspan>
+      <tspan x="627" y="632.9">any of the on_ACTION methods.</tspan>
+    </text>
+  </g>
+</svg>

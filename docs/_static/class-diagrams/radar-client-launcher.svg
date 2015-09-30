@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="52cm" height="21cm" viewBox="199 95 1027 404" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="200" y="280" width="210.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="200" y="280" width="210.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="305.1" y="299">RadarClientLauncher</text>
+    <rect style="fill: #ffffff" x="200" y="308" width="210.2" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="200" y="308" width="210.2" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="203" y="322">+AVAILABLE_PLATFORMS</text>
+    <rect style="fill: #ffffff" x="200" y="328" width="210.2" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="200" y="328" width="210.2" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="203" y="342">+_build_threads()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="203" y="358">+_start_and_join_threads()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="232" y="100" width="146.7" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="232" y="100" width="146.7" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="305.35" y="119">RadarLauncher</text>
+    <rect style="fill: #ffffff" x="232" y="128" width="146.7" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="232" y="128" width="146.7" height="8"/>
+    <rect style="fill: #ffffff" x="232" y="136" width="146.7" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="232" y="136" width="146.7" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="235" y="150">+run()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="235" y="166">+stop()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="235" y="182">+_start_threads()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="235" y="198">+_join_threads()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="582" y="280" width="171.7" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="582" y="280" width="171.7" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="667.85" y="299">UnixClientSetup</text>
+    <rect style="fill: #ffffff" x="582" y="308" width="171.7" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="582" y="308" width="171.7" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="585" y="322">+BASE_PATH</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="585" y="338">+PLATFORM_CONFIG_PATH</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="585" y="354">+MAIN_CONFIG_PATH</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="585" y="370">+PLATFORM_CONFIG</text>
+    <rect style="fill: #ffffff" x="582" y="376" width="171.7" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="582" y="376" width="171.7" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="585" y="390">+configure()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="795" y="280" width="196.8" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="795" y="280" width="196.8" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="893.4" y="299">WindowsClientSetup</text>
+    <rect style="fill: #ffffff" x="795" y="308" width="196.8" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="795" y="308" width="196.8" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="798" y="322">+BASE_PATH</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="798" y="338">+PLATFORM_CONFIG_PATH</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="798" y="354">+MAIN_CONFIG_PATH</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="798" y="370">+PLATFORM_CONFIG</text>
+    <rect style="fill: #ffffff" x="795" y="376" width="196.8" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="795" y="376" width="196.8" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="798" y="390">+configure()</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="435.372,294 520,294 520,420 893.4,420 893.4,396 "/>
+    <polygon style="fill: #ffffff" points="410.2,294 424.2,289.2 438.2,294 424.2,298.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="410.2,294 424.2,289.2 438.2,294 424.2,298.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="706.7" y="416"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="442.2" y="290"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="897.4" y="408"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="435.372,294 425.2,294 581,294 582,294 "/>
+    <polygon style="fill: #ffffff" points="410.2,294 424.2,289.2 438.2,294 424.2,298.8 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="410.2,294 424.2,289.2 438.2,294 424.2,298.8 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="503.1" y="290"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="442.2" y="290"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="578" y="290"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="305.35,222.236 305.35,250 305.1,250 305.1,280 "/>
+    <polygon style="fill: #ffffff" points="313.35,222.236 305.35,206.236 297.35,222.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="313.35,222.236 305.35,206.236 297.35,222.236 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="720" y="132" width="125.5" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="720" y="132" width="125.5" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="782.75" y="151">ClientConfig</text>
+    <rect style="fill: #ffffff" x="720" y="160" width="125.5" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="720" y="160" width="125.5" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="723" y="174">+DEFAULT_CONFIG</text>
+    <rect style="fill: #ffffff" x="720" y="180" width="125.5" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="720" y="180" width="125.5" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="723" y="194">+build()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="900" y="143" width="217.9" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="900" y="143" width="217.9" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="1008.95" y="162">WindowsSetup</text>
+    <rect style="fill: #ffffff" x="900" y="171" width="217.9" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="900" y="171" width="217.9" height="8"/>
+    <rect style="fill: #ffffff" x="900" y="179" width="217.9" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="900" y="179" width="217.9" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="903" y="193">+_install_signal_handlers()</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="440" y="96.25" width="217.9" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="440" y="96.25" width="217.9" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:italic;font-weight:700" x="548.95" y="115.25">UnixSetup</text>
+    <rect style="fill: #ffffff" x="440" y="124.25" width="217.9" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="440" y="124.25" width="217.9" height="8"/>
+    <rect style="fill: #ffffff" x="440" y="132.25" width="217.9" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="440" y="132.25" width="217.9" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="443" y="146.25">+_write_pid_file()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="443" y="162.25">+_install_signal_handlers()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="443" y="178.25">+_switch_process_owner()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="443" y="194.25">+_delete_pid_file()</text>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="1160,140 1212.2,140 1224.2,152 1224.2,174 1160,174 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1160,140 1212.2,140 1224.2,152 1224.2,174 1160,174 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="1212.2,140 1212.2,152 1224.2,152 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1167" y="164.9">
+      <tspan x="1167" y="164.9">Mixins</tspan>
+    </text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="750.25,217.736 750.25,248 667.85,248 667.85,280 "/>
+    <polygon style="fill: #ffffff" points="758.25,217.736 750.25,201.736 742.25,217.736 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="758.25,217.736 750.25,201.736 742.25,217.736 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="810.5,217.495 810.5,247.46 893.4,247.46 893.4,280 "/>
+    <polygon style="fill: #ffffff" points="818.5,217.495 810.5,201.495 802.5,217.495 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="818.5,217.495 810.5,201.495 802.5,217.495 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="548.95,218.486 548.95,248.125 667.85,248.125 667.85,280 "/>
+    <polygon style="fill: #ffffff" points="556.95,218.486 548.95,202.486 540.95,218.486 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="556.95,218.486 548.95,202.486 540.95,218.486 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1008.95,217.236 1008.95,247.5 893.4,247.5 893.4,280 "/>
+    <polygon style="fill: #ffffff" points="1016.95,217.236 1008.95,201.236 1000.95,217.236 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1016.95,217.236 1008.95,201.236 1000.95,217.236 "/>
+  </g>
+  <g>
+    <polygon style="fill: #ffff00" points="200,400 444.7,400 456.7,412 456.7,498 200,498 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="200,400 444.7,400 456.7,412 456.7,498 200,498 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #000000" points="444.7,400 444.7,412 456.7,412 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="207" y="424.9">
+      <tspan x="207" y="424.9">RadarClientLauncher will</tspan>
+      <tspan x="207" y="440.9">instantiate only one of the</tspan>
+      <tspan x="207" y="456.9">setups (either Unix or Windows)</tspan>
+      <tspan x="207" y="472.9">depending on the platform where</tspan>
+      <tspan x="207" y="488.9">Radar runs.</tspan>
+    </text>
+  </g>
+</svg>
