@@ -21,33 +21,47 @@ along with Radar. If not, see <http://www.gnu.org/licenses/>.
 Copyright 2015 Lucas Liendo.
 """
 
-from collections import OrderedDict
 from os.path import dirname
 from . import InitialSetup
-from ..platform_setup.client import LinuxClientSetup, WindowsClientSetup
+from ..platform_setup.client import UnixClientSetup, WindowsClientSetup
 
 
 class ClientInitialSetup(InitialSetup):
 
     AVAILABLE_PLATFORMS = {
-        'Linux': LinuxClientSetup,
+        'UNIX': UnixClientSetup,
         'Windows': WindowsClientSetup,
     }
 
-    TEMPLATES_PATH = dirname(__file__) + '/templates'
+    def _get_config_dict(self):
+        return {
+            'connect': {
+                'to': 'Server address ? [{:}] ',
+                'port': 'Server port ? [{:}] ',
+            },
 
-    # This is ugly.
-    def _get_default_configuration(self):
-        return OrderedDict([
-            ('address', ('Connect address ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['connect']['to'])),
-            ('port', ('Port to connect to ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['connect']['port'])),
-            ('user', ('User to run Radar client as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['user'])),
-            ('group', ('Group to run Radar client as ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['run as']['group'])),
-            ('enforce ownership', ('Enforce check ownership ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['enforce ownership'])),
-            ('reconnect', ('Reconnect automatically to server ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['reconnect'])),
-            ('platform config', ('Config directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG_PATH)),
-            ('main config', ('Main config file path ? [{:}] ', self.PlatformSetup.MAIN_CONFIG_PATH)),
-            ('checks', ('Checks directory path ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['checks'])),
-            ('pid file', ('Pid file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['pid file'])),
-            ('log file', ('Log file ? [{:}] ', self.PlatformSetup.PLATFORM_CONFIG['log file'])),
-        ])
+            'run as': {
+                'user': 'User to run Radar client as ? [{:}] ',
+                'group': 'Group to run Radar client as ? [{:}] ',
+            },
+
+            'log': {
+                'to': 'Log file ? [{:}] ',
+                'size': 'Log max size ? [{:}] ',
+                'rotations': 'Log max rotations ? [{:}] ',
+            },
+
+            'enforce ownership': 'Enforce check ownership ? [{:}] ',
+            'reconnect': 'Reconnect automatically to server ? [{:}] ',
+            'pid file': 'Pid file ? [{:}] ',
+            'checks': 'Checks directory ? [{:}] ',
+        }
+
+    def _create_directories(self, config):
+        directories = [
+            dirname(config['log']['to']),
+            dirname(config['pid file']),
+            config['checks'],
+        ]
+
+        [self._create_directory(d) for d in directories]
