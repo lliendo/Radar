@@ -20,11 +20,14 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from abc import ABCMeta, abstractmethod
-from platform import system as platform_name
+from abc import ABCMeta
+from functools import reduce
+from os.path import dirname
 from os import chmod, makedirs
 from errno import EEXIST
 from stat import S_IRUSR, S_IWUSR, S_IXUSR
+from yaml import dump as dump_yaml
+from ..platform_setup import Platform
 
 
 class InitialSetupError(Exception):
@@ -36,75 +39,85 @@ class InitialSetup(object):
     __metaclass__ = ABCMeta
 
     def __init__(self):
-        self.platform_name = platform_name()
         self.PlatformSetup = self._get_platform_setup()
 
     def _get_platform_setup(self):
+        platform = Platform.get_platform_type()
+
         try:
-            PlatformSetup = self.AVAILABLE_PLATFORMS[self.platform_name]
-            print '\nDetected platform : {:}\n'.format(self.platform_name)
+            PlatformSetup = self.AVAILABLE_PLATFORMS[platform]
+            print '\nDetected platform : {:}\n'.format(platform)
         except KeyError:
-            raise InitialSetupError('Error - Platform {:} is not currently supported.'.format(self.platform_name))
+            raise InitialSetupError('Error - Platform {:} is not currently supported.'.format(platform))
 
         return PlatformSetup
 
-    def _configure(self, configuration):
-        for k, (message, path) in configuration.iteritems():
-            path = raw_input(message.format(path)) or path
-            configuration[k] = (message, path)
+    def _read_config(self, config):
+        for path in self._traverse(self.PlatformSetup.PLATFORM_CONFIG):
+            console_message = self._read_dict_path(config, path)
+            default_value = self._read_dict_path(self.PlatformSetup.PLATFORM_CONFIG, path)
+            self._write_dict_path(config, path, raw_input(console_message.format(default_value)) or default_value)
 
-        return configuration
+        return config
 
-    @abstractmethod
-    def _get_default_configuration(self):
-        pass
+    # Generates all paths to all values of a nested dictionary.
+    def _traverse(self, d, path=None):
+        if not path:
+            path = []
+
+        if isinstance(d, dict):
+            for x in d.keys():
+                local_path = path[:]
+                local_path.append(x)
+
+                for b in self._traverse(d[x], local_path):
+                    yield b
+        else:
+            yield path
+
+    # Given a path of keys access the dictionary applying all those keys recursively.
+    def _read_dict_path(self, d, path):
+        return reduce(lambda d, k: d[k], path, d)
+
+    # Given a path to a nested dictionary, updates a value.
+    def _write_dict_path(self, d, path, value):
+        self._read_dict_path(d, path[:-1])[path[-1]] = value
 
     def _create_directory(self, path):
         try:
             makedirs(path)
+            chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
         except OSError, e:
             if (e.errno != EEXIST):
                 raise InitialSetupError('Error - Couldn\'t create : \'{:}\'. Details : {:}.'.format(path, e))
-
-        try:
-            chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
         except Exception, e:
             raise InitialSetupError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, e))
 
-    def _create_directories(self, configuration, directory_keys=[]):
-        [self._create_directory(path) for k, (_, path) in configuration.iteritems() if k in directory_keys]
+    def _create_directories(self, config):
+        pass
 
-    def _read_template(self, path):
-        with open(path, 'r') as fd:
-            return fd.read()
+    def _save_yaml(self, config):
+        console_message = 'Path to main config ? [{:}] '.format(self.PlatformSetup.MAIN_CONFIG_PATH)
+        main_config_path = raw_input(console_message) or self.PlatformSetup.MAIN_CONFIG_PATH
+        self._create_directory(dirname(main_config_path))
 
-    def _render_template(self, template, configuration):
-        return template.format(*[v for _, (_, v) in configuration.iteritems()])
-
-    def _save_template(self, template, path):
-        with open(path, 'a') as fd:
-            fd.write(template)
-
-        try:
-            chmod(path, S_IRUSR | S_IWUSR)
-        except Exception, e:
-            raise InitialSetupError('Error - Couldn\'t change permission of : \'{:}\' file. Details : {:}.'.format(path, e))
+        with open(main_config_path, 'w') as fd:
+            fd.write(dump_yaml(config, default_flow_style=False, indent=4, line_break='\n\n'))
 
     def _print_header(self):
-        print 'Press enter for default value or input a custom one :'
-        print '-----------------------------------------------------\n'
+        print 'Press enter for default values or input a custom one :'
+        print '------------------------------------------------------\n'
 
     def _run(self, template_name):
         self._print_header()
-        configuration = self._configure(self._get_default_configuration())
-        self._create_directories(configuration, directory_keys=['platform config', 'checks', 'contacts', 'monitors', 'plugins'])
-        template = self._read_template(self.TEMPLATES_PATH + '/{:}'.format(template_name))
-        self._save_template(self._render_template(template, configuration), configuration['main config'][1])
+        config = self._read_config(self._get_config_dict())
+        self._create_directories(config)
+        self._save_yaml(config)
 
     def run(self, template_name=''):
         try:
             self._run(template_name)
-            print 'Done !'
+            print '\nDone !\n'
         except KeyboardInterrupt:
             print '\n\nAborting configuration...'
         except Exception, e:
