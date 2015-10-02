@@ -76,3 +76,8 @@ To configure the client run :
 .. code-block:: bash
 
     radar-client-config
+
+After you run those scripts the main configuration file gets generated in the
+path that you chose. Note that the resulting YAML file may not look as tidy
+as the ones presented in the rest of documentation. This is because the PyYAML
+library does not care about new lines and does not handle element ordering.
