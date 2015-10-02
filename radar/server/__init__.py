@@ -139,21 +139,26 @@ class RadarServerPoller(Thread):
 class RadarServerConsole(Thread):
     def __init__(self, client_manager, platform_setup, stop_event=None):
         Thread.__init__(self)
+        self._actions = {
+            'list': self._list,
+            'enable': self._enable,
+            'disable': self._disable,
+            'test': self._test,
+        }
         self._client_manager = client_manager
         self._logger = platform_setup.logger
-        self._token = platform_setup.token
         self.stop_event = stop_event or Event()
 
-    def enable(self, ids=[]):
+    def _enable(self, ids=[]):
         pass
 
-    def disable(self, ids=[]):
+    def _disable(self, ids=[]):
         pass
 
-    def test(self, ids=[]):
+    def _test(self, ids=[]):
         pass
 
-    def list(self, ids=[]):
+    def _list(self, ids=[]):
         pass
 
     def is_stopped(self):
