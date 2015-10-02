@@ -590,6 +590,62 @@ msgstr ""
 msgid "Radar client :"
 msgstr "Cliente :"
 
-#: ../../internals.rst:313
+#: ../../internals.rst:320
 msgid "Radar server :"
 msgstr "Servidor :"
+
+#: ../../internals.rst:314
+msgid "RadarClient"
+msgstr ""
+
+#: ../../internals.rst:314
+msgid "RadarClientLauncher"
+msgstr ""
+
+#: ../../internals.rst:316
+msgid "|radar-client|"
+msgstr ""
+
+#: ../../internals.rst:316
+msgid "|radar-client-launcher|"
+msgstr ""
+
+#: ../../internals.rst:323
+msgid "RadarServer"
+msgstr ""
+
+#: ../../internals.rst:323
+msgid "Server"
+msgstr ""
+
+#: ../../internals.rst:325
+msgid "|radar-server|"
+msgstr ""
+
+#: ../../internals.rst:325
+msgid "|server|"
+msgstr ""
+
+#: ../../internals.rst:331
+msgid "Monitor"
+msgstr ""
+
+#: ../../internals.rst:331
+msgid "ServerConfig"
+msgstr ""
+
+#: ../../internals.rst:333
+msgid "|monitor|"
+msgstr ""
+
+#: ../../internals.rst:333
+msgid "|server-config|"
+msgstr ""
+
+#: ../../internals.rst:337
+msgid "Notes :"
+msgstr ""
+
+#: ../../internals.rst:339
+msgid "RadarServerLauncher is analogous to RadarClientLauncher."
+msgstr "RadarServerLauncher es análoga a RadarClientLauncher."

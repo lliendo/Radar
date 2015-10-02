@@ -22,8 +22,8 @@ msgid ""
 "eventually added to `PyPI <https://pypi.python.org/pypi>`_."
 msgstr ""
 "Por el momento Radar esta solamente disponible desde su código fuente en "
-"`Github <https://github.com/lliendo/Radar>`_. Eventualmente el proyecto evolucionará y será incorporado a `PyPI "
-"<https://pypi.python.org/pypi>`_."
+"`Github <https://github.com/lliendo/Radar>`_. Eventualmente el proyecto "
+"evolucionará y será incorporado a `PyPI <https://pypi.python.org/pypi>`_."
 
 #: ../../installation.rst:7
 msgid ""
@@ -138,3 +138,17 @@ msgstr ""
 #: ../../installation.rst:74
 msgid "To configure the client run :"
 msgstr "Para configurar el cliente ejecuta :"
+
+#: ../../installation.rst:80
+msgid ""
+"After you run those scripts the main configuration file gets generated in "
+"the path that you chose. Note that the resulting YAML file may not look as "
+"tidy as the ones presented in the rest of documentation. This is because the"
+" PyYAML library does not care about new lines and does not handle element "
+"ordering."
+msgstr ""
+"Luego de que hayas ejecutado estos scripts la configuración principal queda "
+"almacenada en el archivo que hayas elegido. Ten en cuenta que el archivo YAML "
+"generado no se ve tan ordenado como el que se muestra en la documantación. "
+"Esto se debe a que la biblioteca PyYAML no se encarga de agregar saltos de línea "
+"entre diferentes elementos y tampoco permite definir el orden de los elementos. "
