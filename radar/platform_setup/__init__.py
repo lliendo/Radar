@@ -24,11 +24,27 @@ from abc import ABCMeta
 from os import getpid, remove, mkdir
 from os.path import dirname, isfile as file_exists
 from signal import signal, SIGTERM, SIGINT
+from platform import system as platform_name
 from errno import EEXIST
 
 
 class UnixSetupError(Exception):
     pass
+
+
+class Platform(object):
+
+    __metaclass__ = ABCMeta
+
+    @staticmethod
+    def get_platform_type():
+        unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
+        platform = platform_name()
+        return 'UNIX' if platform in unixes else platform
+
+    @staticmethod
+    def get_os_type():
+        pass
 
 
 class UnixSetup(object):
