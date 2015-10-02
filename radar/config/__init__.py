@@ -57,7 +57,7 @@ class ConfigBuilder(object):
 
         return destination
 
-    # This is ugly.
+    # TODO: This is ugly and not woking properly !
     def _lower_config_keys(self, config):
         if type(config) == list:
             return [self._lower_config_keys(d) for d in config]
