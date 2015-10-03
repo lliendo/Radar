@@ -7,14 +7,6 @@ It is entirely written in the `Python <https://www.python.org/>`_ programming la
 under the LGPL v3 license.
 
 
-Status
-------
-
-Radar is currently in ALPHA status, however its foundations are complete.
-You can take a look at the TODO.rst to have an idea what features are going to
-(or might) be implemented in the future.
-
-
 Installation
 ------------
 
@@ -34,7 +26,7 @@ as .zip), and run  :
 Documentation
 -------------
 
-You can read how to setup and use Radar (both client and server) from `here <https://...>`.
+You can read how to setup and use Radar (both client and server) from `here <http://radar-monitoring.readthedocs.org/en/latest/>`.
 You can also generate the documentation of the project by yourself using `Sphinx <http://sphinx-doc.org/>`.
 
 Radar does not include Sphinx in its dependencies so to generate the documentation
@@ -62,8 +54,8 @@ Sphinx will output the generated documentation to the 'docs/_build/html' directo
 To read the generated docs open up a browser and then load the index.html file.
 Currently the documentation is available in the following languages :
 
-* English
-* Spanish
+* English.
+* Spanish.
 
 To generate the spanish version of the documentation you will need to install 
 additionally sphinx-intl :
@@ -97,6 +89,14 @@ directory.
 
 If you think that documentation is incomplete or not clear enough, please let
 me know !
+
+
+Status
+------
+
+Radar is currently in ALPHA status, however its foundations are complete.
+You can take a look at the TODO.rst to have an idea what features are going to
+(or might) be implemented in the future.
 
 
 Supported platforms
@@ -137,6 +137,12 @@ License
 -------
 
 Radar is distributed under the `GNU LGPLv3 <https://www.gnu.org/licenses/lgpl.txt>`_ license.
+
+
+Acknowledgments
+---------------
+
+* To `Ricardo Maia <https://openclipart.org/user-detail/ricardomaia>`_ for its wonderful Openclipart logo !
 
 
 Contact

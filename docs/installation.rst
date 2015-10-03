@@ -16,6 +16,14 @@ open a terminal or command prompt and run :
     cd Radar
     python setup.py install
 
+Alternatively you can download Radar as a `.zip <https://github.com/lliendo/Radar/archive/master.zip>`_ file, extract it and then run :
+
+.. code-block:: bash
+
+    python setup.py install
+
+from the project's root directory.
+
 
 Checking the installation
 -------------------------
