@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from platform import system as platform_name
 
 
@@ -41,7 +41,7 @@ setup(
     name='Radar-Monitoring-System',
     description='An extendable and generic monitoring system.',
     version='0.0.1a',
-    packages=['radar'],
+    packages=find_packages(exclude=['docs', 'tests']),
     author='Lucas Liendo',
     author_email='mindmaster@gmail.com',
     keywords='monitor monitoring system administration',
