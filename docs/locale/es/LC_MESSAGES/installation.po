@@ -41,11 +41,24 @@ msgstr ""
 "Para instalar Radar desde Github (necesitarás tener instalado `GIT <https"
 "://git-scm.com/>`_ en tu sistema) abre una consola y ejecuta :"
 
-#: ../../installation.rst:21
+#: ../../installation.rst:19
+msgid ""
+"Alternatively you can download Radar as a `.zip "
+"<https://github.com/lliendo/Radar/archive/master.zip>`_ file, extract it and"
+" then run :"
+msgstr ""
+"Alternativamente puedes descargar todo el proyecto en un `.zip <https://github.com/lliendo/Radar/archive/master.zip>`_, "
+"descomprimirlo y luego ejecutar : "
+
+#: ../../installation.rst:25
+msgid "from the project's root directory."
+msgstr "desde el directorio principal del proyecto."
+
+#: ../../installation.rst:29
 msgid "Checking the installation"
 msgstr "Verificando la instalación"
 
-#: ../../installation.rst:23
+#: ../../installation.rst:31
 msgid ""
 "You can check that Radar was successfully installed by running from the "
 "command line :"
@@ -53,7 +66,7 @@ msgstr ""
 "Para verificar si Radar se ha instalado correctamente puedes ejecutar los "
 "siguientes comandos desde la consola :"
 
-#: ../../installation.rst:31
+#: ../../installation.rst:39
 msgid ""
 "This will display the current version of Radar (client and server) installed"
 " on your system. If you see these versions then you got both client and "
@@ -63,7 +76,7 @@ msgstr ""
 "tu sistema. Si logras ver estas versiones entonces Radar ha sido instalado "
 "exitosamente."
 
-#: ../../installation.rst:35
+#: ../../installation.rst:43
 msgid ""
 "By default Radar expects to find configuration files in well-defined places."
 " These directories are platform dependant (you can check these defaults from"
@@ -74,7 +87,7 @@ msgstr ""
 "donde Radar se encuentra instalado (puedes verificar estos directorios en la"
 " sección 'valores por defecto' de este documento)."
 
-#: ../../installation.rst:39
+#: ../../installation.rst:47
 msgid ""
 "It is a good practice to use these default directories. Of course if don't "
 "want to use those locations you can change them from the main configuration "
@@ -84,7 +97,7 @@ msgstr ""
 "supuesto si no quieres hacer uso de estas ubicaciones puedes cambiarlas "
 "desde el archivo de configuración principal."
 
-#: ../../installation.rst:43
+#: ../../installation.rst:51
 msgid ""
 "Radar only takes its main configuration file to be able to run. If you want "
 "to override the default main configuration file path you can invoke Radar "
@@ -94,17 +107,17 @@ msgstr ""
 " su ejecución. Si quieres indicar un archivo de configuración principal "
 "alternativo, puedes invocar a Radar de la siguiente manera :"
 
-#: ../../installation.rst:52
+#: ../../installation.rst:60
 msgid "The -c option specifies an alternate main configuration file."
 msgstr ""
 "La opcion -c permite especificar un archivo de configuración principal "
 "diferente."
 
-#: ../../installation.rst:56
+#: ../../installation.rst:64
 msgid "Radar setup"
 msgstr "Configuración inicial"
 
-#: ../../installation.rst:58
+#: ../../installation.rst:66
 msgid ""
 "Before you start configuring Radar I recommend you to read the documentation"
 " as some options may not make full sense. If you've already read the docs "
@@ -115,17 +128,17 @@ msgstr ""
 "disponibles presentadas por el script de configuración. Si ya has leido la "
 "documentación entonces continua con los siguientes pasos."
 
-#: ../../installation.rst:62
+#: ../../installation.rst:70
 msgid ""
 "Radar comes with two useful scripts to help you configure it the first time."
 msgstr ""
 "Radar viene con dos scripts para ayudarte a configurarlo la primera vez."
 
-#: ../../installation.rst:64
+#: ../../installation.rst:72
 msgid "To configure the server just run :"
 msgstr "Para configurar el servidor ejecuta :"
 
-#: ../../installation.rst:70
+#: ../../installation.rst:78
 msgid ""
 "This script will ask you for some initial values. For every option you can "
 "leave its default (these values are shown in squared brackets) value by "
@@ -135,11 +148,11 @@ msgstr ""
 "puedes utilizar su valor por defecto (estos valores se encuentran entre "
 "corchetes) presionando Enter."
 
-#: ../../installation.rst:74
+#: ../../installation.rst:82
 msgid "To configure the client run :"
 msgstr "Para configurar el cliente ejecuta :"
 
-#: ../../installation.rst:80
+#: ../../installation.rst:88
 msgid ""
 "After you run those scripts the main configuration file gets generated in "
 "the path that you chose. Note that the resulting YAML file may not look as "
@@ -148,7 +161,8 @@ msgid ""
 "ordering."
 msgstr ""
 "Luego de que hayas ejecutado estos scripts la configuración principal queda "
-"almacenada en el archivo que hayas elegido. Ten en cuenta que el archivo YAML "
-"generado no se ve tan ordenado como el que se muestra en la documantación. "
-"Esto se debe a que la biblioteca PyYAML no se encarga de agregar saltos de línea "
-"entre diferentes elementos y tampoco permite definir el orden de los elementos. "
+"almacenada en el archivo que hayas elegido. Ten en cuenta que el archivo "
+"YAML generado no se ve tan ordenado como el que se muestra en la "
+"documantación. Esto se debe a que la biblioteca PyYAML no se encarga de "
+"agregar saltos de línea entre diferentes elementos y tampoco permite definir"
+" el orden de los elementos. "

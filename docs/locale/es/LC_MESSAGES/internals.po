@@ -644,8 +644,8 @@ msgstr ""
 
 #: ../../internals.rst:337
 msgid "Notes :"
-msgstr ""
+msgstr "Notas :"
 
 #: ../../internals.rst:339
 msgid "RadarServerLauncher is analogous to RadarClientLauncher."
-msgstr "RadarServerLauncher es análoga a RadarClientLauncher."
+msgstr "La clase RadarServerLauncher es análoga a RadarClientLauncher."
