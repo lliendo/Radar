@@ -15,24 +15,6 @@ msgstr ""
 msgid "Platform defaults"
 msgstr "Valores por defecto"
 
-#: ../../platform-defaults.rst:4
-msgid ""
-"Radar supports all platforms where the Python interpreter is able to run. "
-"However, Radar internally makes distinction between UNIX alike OSes and "
-"Microsoft Windows platforms."
-msgstr ""
-"Radar soporta todas aquellas plataformas donde es posible ejecutar el intérprete "
-"de Python. Sin embargo, Radar internamente distingue entre sistemas UNIX y "
-"plataformas Microsoft Windows."
-
-#: ../../platform-defaults.rst:10
-msgid "UNIX OSes"
-msgstr "Sistemas UNIX"
-
-#: ../../platform-defaults.rst:12
-msgid "UNIX OSes have these default values :"
-msgstr "Los sistemas UNIX poseen estos valores por defecto :"
-
 #: ../../platform-defaults.rst:14
 msgid "Radar server (/etc/radar/server/main.yml) :"
 msgstr "Servidor (/etc/radar/server/main.yml) :"
@@ -56,3 +38,21 @@ msgstr "Servidor (C:\\\\Program Files\\\\Radar\\\\Server\\\\Config\\\\main.yml) 
 #: ../../platform-defaults.rst:87
 msgid "Radar client (C:\\\\Program Files\\\\Radar\\\\Client\\\\Config\\\\main.yml) :"
 msgstr "Cliente (C:\\\\Program Files\\\\Radar\\\\Client\\\\Config\\\\main.yml) :"
+
+#: ../../platform-defaults.rst:4
+msgid ""
+"Radar supports all platforms where the Python interpreter is able to run. "
+"However, Radar internally makes a distinction between UNIX like OS's and "
+"Microsoft Windows platforms."
+msgstr ""
+"Radar soporta todas aquellas plataformas donde es posible ejecutar el "
+"intérprete de Python. Sin embargo, Radar internamente distingue entre "
+"sistemas UNIX y plataformas Microsoft Windows."
+
+#: ../../platform-defaults.rst:10
+msgid "UNIX OS's"
+msgstr "Sistemas UNIX"
+
+#: ../../platform-defaults.rst:12
+msgid "UNIX OS's have these default values :"
+msgstr "Los sistemas UNIX poseen estos valores por defecto :"

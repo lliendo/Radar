@@ -22,9 +22,10 @@ msgid ""
 "dependencies are already defined in the project, so you don't need to "
 "install them manually."
 msgstr ""
-"Para poder funcionar Radar necesita del intérprete de `Python <https://www.python.org/>`_ (como mínimo su versión 2.7) "
-"y algunas dependencias. Estas dependencias ya se encuentran definidas en el proyecto por "
-"lo que no necesitas instalarlas manualmente."
+"Para poder funcionar Radar necesita del intérprete de `Python "
+"<https://www.python.org/>`_ (como mínimo su versión 2.7) y algunas "
+"dependencias. Estas dependencias ya se encuentran definidas en el proyecto "
+"por lo que no necesitas instalarlas manualmente."
 
 #: ../../minimum-requirements.rst:8
 msgid ""
@@ -32,37 +33,29 @@ msgid ""
 "probable that Radar will run without any platform specific issues. Radar "
 "does not depend on any external framework."
 msgstr ""
-"Si has logrado instalar el intérprete de Python sin inconvenientes es altamente "
-"probable que Radar funcione sin problemas."
+"Si has logrado instalar el intérprete de Python sin inconvenientes es "
+"altamente probable que Radar funcione sin problemas."
 
 #: ../../minimum-requirements.rst:12
 msgid ""
 "Radar (both client and server) should run at least on the following "
 "platforms without problems :"
 msgstr ""
-"Tanto el cliente de Radar como el servidor deberían correr al menos en las siguientes "
-"plataformas :"
+"Tanto el cliente de Radar como el servidor deberían correr al menos en las "
+"siguientes plataformas :"
 
 #: ../../minimum-requirements.rst:15
 msgid "GNU/Linux."
 msgstr ""
 
-#: ../../minimum-requirements.rst:16
-msgid "FreeBSD."
-msgstr ""
-
 #: ../../minimum-requirements.rst:17
-msgid "NetBSD."
-msgstr ""
-
-#: ../../minimum-requirements.rst:18
-msgid "OpenBSD."
-msgstr ""
-
-#: ../../minimum-requirements.rst:19
 msgid "Microsoft Windows."
 msgstr ""
 
-#: ../../minimum-requirements.rst:20
-msgid "Darwin."
+#: ../../minimum-requirements.rst:16
+msgid "BSD's."
+msgstr ""
+
+#: ../../minimum-requirements.rst:18
+msgid "Darwin / OSX."
 msgstr ""
