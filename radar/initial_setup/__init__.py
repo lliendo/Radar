@@ -53,15 +53,15 @@ class InitialSetup(object):
         return PlatformSetup
 
     def _read_config(self, config):
-        for path in self._traverse(self.PlatformSetup.PLATFORM_CONFIG):
+        for path in self._generate_dict_paths(self.PlatformSetup.PLATFORM_CONFIG):
             console_message = self._read_dict_path(config, path)
             default_value = self._read_dict_path(self.PlatformSetup.PLATFORM_CONFIG, path)
-            self._write_dict_path(config, path, raw_input(console_message.format(default_value)) or default_value)
+            self._write_to_dict_path(config, path, raw_input(console_message.format(default_value)) or default_value)
 
         return config
 
-    # Generates all paths to all values of a nested dictionary.
-    def _traverse(self, d, path=None):
+    # Generates all paths to all values of a arbitrary nested dictionary.
+    def _generate_dict_paths(self, d, path=None):
         if not path:
             path = []
 
@@ -70,7 +70,7 @@ class InitialSetup(object):
                 local_path = path[:]
                 local_path.append(x)
 
-                for b in self._traverse(d[x], local_path):
+                for b in self._generate_dict_paths(d[x], local_path):
                     yield b
         else:
             yield path
@@ -79,8 +79,8 @@ class InitialSetup(object):
     def _read_dict_path(self, d, path):
         return reduce(lambda d, k: d[k], path, d)
 
-    # Given a path to a nested dictionary, updates a value.
-    def _write_dict_path(self, d, path, value):
+    # Given a path to an arbitrary nested dictionary, updates a value.
+    def _write_to_dict_path(self, d, path, value):
         self._read_dict_path(d, path[:-1])[path[-1]] = value
 
     def _create_directory(self, path):
