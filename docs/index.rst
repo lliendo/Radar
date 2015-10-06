@@ -35,4 +35,5 @@ Contents
     internals
     limitations
     license
+    acknowledgments
     authors
