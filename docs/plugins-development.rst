@@ -169,7 +169,7 @@ that contains contact objects and another list that contains check objects.
 
 Contact and Check objects have some attributes that you can read to
 perform some work. For example : every contact object contains a name,
-an email an optionally a phone number. The following piece of code
+an email and optionally a phone number. The following piece of code
 shows how to read any useful value (both from a contact and a check) :
 
 .. code-block:: python
@@ -192,7 +192,7 @@ shows how to read any useful value (both from a contact and a check) :
         previous_status = check[0].previous_status
 
 Note that in the above example we're only inspecting the first contact and
-check. Remember that you always receive two lists, so you'll probably need to
+check. Remember that you always receive two lists, so you may need to
 iterate them in order to achieve your plugin's task.
 
 
@@ -230,7 +230,7 @@ from the ServerPlugin class.
 Example
 -------
 
-If you still want to see a more elaborated example (actually something
+If you still want to see a more elaborate example (actually something
 useful, right ?) then you can take a look to an email notifier plugin `here <https://github.com/lliendo/Radar-Plugins>`_.
 This plugin will notify its contacts when a check has any of its status
 (current or previous) distinct from OK.

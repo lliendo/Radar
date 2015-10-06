@@ -12,7 +12,7 @@ You're going to read a long document where the most important concepts
 of Radar are described. Take a cup of your favourite beverage and read it
 carefully. Once you read it you will find that configuring Radar is easy.
 Try not to skip any sections because every part of it has something to say.
-By the end of this document you'll have a solid knowledge on how to configure
+By the end of this document you'll have solid knowledge on how to configure
 Radar and not going into trouble on the way.
 
 
@@ -46,7 +46,7 @@ option :
     plugins: /tmp/radar/server/plugins
 
 
-* listen : The listen options specifies the address and port number where the
+* listen : The listen options specifies the address and port number where
   Radar server is going to listen for new clients. At the moment only IPv4
   addresses are supported. The default values are to listen on localhost
   and port 3333.
@@ -79,7 +79,7 @@ option :
 
 * checks, contacts, monitors, plugins : All these set of options tell
   Radar where to look for checks, contacts, monitors and plugins.
-  They're just directory names. Radar does not impose you any layout on those
+  They're just directory names. Radar does not impose on you any layout on these
   directories. This means that you are free to put configurations on any
   file on any directory below the ones you defined.
   The only requirement is that you are not allowed to mix for example
@@ -169,7 +169,7 @@ Let's now take a look at a second way of defining a check group :
 In this example we've defined a check first and referenced it later from a
 check group. This is perfectly valid and is actually a very convenient way to
 define check groups. Why ? Let's suppose that you have two or more check
-groups that are very similar but some of them performs additionally other
+groups that are very similar but some of them perform additionally other
 checks, then by defining checks individually and referencing them allows
 you to define checks once and use them in as many groups as you want making
 the overall configuration shorter and easier to understand.
@@ -305,7 +305,7 @@ Here's a fragment of how a real configuration might look like :
 There is one little difference between checks and contacts definitions. In
 some scenarios it might not be needed to notify any contact at all, so Radar
 allows you to leave contacts empty, in other words defining contacts and
-contact groups is completly optional.
+contact groups is completely optional.
 
 
 Monitors configuration
@@ -339,7 +339,7 @@ Disk usage and to notify Sysadmins. So to define monitors you basically have :
   a single host by its IPv4 (this if the preferred way) or by its
   hostname. The last way to define hosts is using an IPv4 range. This is
   useful for example if you want to run the same checks on a set of hosts.
-  Ranges are specified by its start, a hypen and its end ip. The initial
+  Ranges are specified by its start, a hyphen and its end ip. The initial
   and ending hosts are included in the range.
 
 * watch : This is a list of checks or check groups to be run on the monitored
@@ -392,7 +392,7 @@ As described previously there is one plugin directory defined in the main
 configuration file. This directory holds all the plugins managed by Radar.
 How is the layout of this directory ? If you've read previous sections
 you noticed that you have full freedom to layout monitors, checks and contacts
-directories. This is not the case of the plugins directory.
+directories. This is not the case for the plugins directory.
 
 Let's assume that your plugins directory is : /tmp/Radar/server/plugins.
 Then you have a bunch of plugins you want install. Simply copy all of them

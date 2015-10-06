@@ -2,14 +2,14 @@ Platform defaults
 =================
 
 Radar supports all platforms where the Python interpreter is able to run.
-However, Radar internally makes distinction between UNIX alike OSes and
+However, Radar internally makes a distinction between UNIX like OS's and
 Microsoft Windows platforms.
 
 
-UNIX OSes
+UNIX OS's
 ---------
 
-UNIX OSes have these default values :
+UNIX OS's have these default values :
 
 Radar server (/etc/radar/server/main.yml) :
 

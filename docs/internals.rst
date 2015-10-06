@@ -2,23 +2,23 @@ Radar internals
 ===============
 
 Radar has been carefully designed to its keep base code clean and
-understandable, so everyone can take a look at its internals (and hope
-someone play with the code).
+understandable, so everyone can take a look at its internals (and hopefully
+play with the code).
 
 This section of the documentation tries to expose the main ideas that were
 implemented to make this project possible. We'll not describe every single
 detail because that would take a huge amount of time and you'll get bored.
 Instead I've decided to describe few things as possible and try to reflect
-why a decision was taken that way. Also consider that as everybody I make
-mistakes and no perfect software design exists and Radar is way way long
-to achieve that.
+why a decision was taken that way. Also consider that like everybody else, I make
+mistakes and no perfect software design exists and Radar is a long way
+from achieving that.
 
 
 Overview
 --------
 
 Radar is designed to be a small tool, its core isn't intended to grow
-indefinetly besides some currently lacking features. The reason behind
+indefinitely besides some currently lacking features. The reason behind
 this is that a tool that is small and controlled in its size and its
 objectives is easier to understand and does its work better than an
 all-problem-solving solution.
@@ -28,7 +28,7 @@ reason why you might not find as many features as other solutions may offer.
 
 Radar makes use of object oriented programming, every component is modeled
 using a class. Some few classes make use of mixins and all errors are
-handled through exceptions. Radar also makes heavy use of comprehension lists
+handled through exceptions. Radar also makes heavy use of list comprehensions
 across the project.
 
 If you take a fast look to the code you'll realize that almost every method
@@ -36,10 +36,10 @@ is only a few lines long. Every class is intended to perform a specific task
 and each method solves a concrete piece of that task.
 The result is that you won't find complex or twisted code and reading any
 piece of code and get the idea of what is doing should take little time.
-The code mostly lacks of comments, the reason for this is that the code
-intends to be self-describing (care has been taken to make classes, methods,
-attributes and variables describe and reflect their intentions). Radar tries
-to stick to this rule.
+The code mostly lacks comments, the reason for this is that the code
+intends to be self-describing (care has been taken to make classes and
+methods describe and reflect their intentions). Radar tries to stick to
+this rule.
 
 
 Project layout
@@ -102,7 +102,7 @@ Initialization
 Both Radar client and server go through almost the same steps before going
 into operational mode. When Radar (client or server) is fired up it 
 instantiates a launcher (RadarClientLauncher for the client and
-RadarServerLauncher for the server) and inmediatly calls its run() method.
+RadarServerLauncher for the server) and immediately calls its run() method.
 
 From that point a three phase initialization takes place :
 
@@ -114,7 +114,7 @@ From that point a three phase initialization takes place :
 3. Finally threads are launched.
 
 After all threads are successfully launched client and server break away and
-start performing completly different tasks.
+start performing completely different tasks.
 
 
 Operational overview
@@ -124,22 +124,22 @@ Both Radar client and server operate in an event triggered fashion and make
 use of threads to distribute the workload.
 If you look at the code of the RadarServer and RadarClient classes you'll
 find methods called 'on_something'. Every time a network event occurs it is
-reflected in any of those methods. The heart of Radar are two abstract
+reflected in any of those methods. The heart of Radar is two abstract
 classes : Client and Server which can be found under the network module.
 The Client and Server classes operate in a very similar way despite being
-different the way they handle network sockets.
+different from the way they handle network sockets.
 
 The network module also provides some network monitors that are platform
-dependant. Before Radar server goes into operational mode it tries to select
+dependent. Before Radar server goes into operational mode it tries to select
 the best multiplex i/o method available. In any case if the platform can't
-be detected or an efficient multiplexing method cannot be found Radar 
-falls back to the SelectMonitor (which relies on the select system call).
+be detected or an efficient multiplexing method cannot be found Radar will
+fall back to the SelectMonitor (which relies on the select system call).
 The currently supported multiplexing strategies are : select, poll, epoll
 and kqueue.
 
 Radar's client and server also operate in a non-blocking way. Its main threads
 loops are iterated constantly every 200 milliseconds. This prevents any
-single client from blocking the server indefinetly due to a malformed or
+single client from blocking the server indefinitely due to a malformed or
 incomplete network message. Also this mechanism is used as an easy workaround
 to gracefully terminate threads : one thread Event is shared among all defined
 threads, when this thread event is stopped the condition of the loop does
@@ -149,7 +149,7 @@ not hold and the threads successfully end.
 Server operation
 ----------------
 
-The main work of the server is splitted across three main threads :
+The main work of the server is split across three main threads :
 
 * RadarServer.
 * RadarServerPoller.
@@ -226,7 +226,7 @@ to be executed, the other is used to read the results of those executions.
 
 In case the Radar client is unable to connect to the Radar server it will
 wait a certain amount of time and try to reconnect again. This is repeated
-indefinetly if the reconnect option is set to True. It will try to connect
+indefinitely if the reconnect option is set to True. It will try to connect
 after 5, 15 and 60 seconds (cyclically). This option is useful because after
 updating the Radar's server configuration you need to restart it and all
 connections are lost. Radar currently does not provide a reload mechanism.
@@ -235,8 +235,8 @@ connections are lost. Radar currently does not provide a reload mechanism.
 CheckManager :
 
 Whenever a CHECK message is received by the RadarClient thread and after
-little processing is inmediatly sent to the CheckManager. When the check
-information is received the CheckManager proceed to instantiate a bunch
+little processing is immediately sent to the CheckManager. When the check
+information is received the CheckManager proceeds to instantiate a bunch
 of Checks (depending on the platform running it may instantiate a UnixCheck
 or a WindowsCheck) and finally executes them sequentially.
 Every check's output is collected and verified (the CheckManager makes sure
@@ -305,8 +305,8 @@ to understand what words make cumbersome to describe.
 
 The diagrams contains the most relevant classes of both Radar server and client.
 Only the most important methods of every class are mentioned.
-You should follow these diagrams along with the code to have detailed
-comprehension about what's happening on a certain part of the project.
+You should follow these diagrams along with the code to have a detailed
+understanding about what's happening on a certain part of the project.
 
 Radar client :
 

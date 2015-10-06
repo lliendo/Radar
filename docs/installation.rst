@@ -41,10 +41,10 @@ installed on your system. If you see these versions then you got both
 client and server successfully installed, otherwise something went wrong.
 
 By default Radar expects to find configuration files in well-defined places.
-These directories are platform dependant (you can check these defaults from
+These directories are platform dependent (you can check these defaults from
 the platform defaults section of this document).
 
-It is a good practice to use these default directories. Of course if don't
+It is a good practice to use these default directories. Of course if you don't
 want to use those locations you can change them from the main configuration
 file.
 
@@ -89,3 +89,7 @@ After you run those scripts the main configuration file gets generated in the
 path that you chose. Note that the resulting YAML file may not look as tidy
 as the ones presented in the rest of documentation. This is because the PyYAML
 library does not care about new lines and does not handle element ordering.
+Something similar happens on the order in which the options are scanned from
+the console.
+You can run these scripts as many times as you want but be aware that if you
+point to the same output files they'll be completely overwritten.

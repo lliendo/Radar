@@ -28,8 +28,9 @@ option (this time we will setup a Windows Radar client) :
     enforce ownership: False
     reconnect: False
 
-* connect : This option tells the Radar client where the Radar server's address.
-  By default it tries to connect to localhost port 3333.
+* connect : This option tells Radar client where to connect to.
+  At the moment only IPv4 addresses are supported. By default it tries to connect
+  to localhost port 3333.
 
 * run as : On UNIX platforms this option tells Radar the effective user
   and group that the process should run as. This is a basic security
@@ -54,7 +55,7 @@ option (this time we will setup a Windows Radar client) :
 * checks : This is the location where all your checks are stored. Every time
   a Radar client receives a CHECK message from the server all checks are
   first looked up here if a relative path was given, otherwise it will be
-  looked it up by its absolute path. You can lay out this directory as you wish.
+  looked up by its absolute path. You can lay out this directory as you wish.
 
 * enforce ownership : On UNIX platforms if this option is True then every
   time the Radar client has to execute a check it will first verify that

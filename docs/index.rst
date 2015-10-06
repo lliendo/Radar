@@ -7,12 +7,11 @@ Welcome to Radar !
 ==================
 
 Radar is a simple and easy to use monitoring tool designed with flexibility
-and extendability in mind. 
+and extensibility in mind. 
 
-It mainly aims to be an easy to use tool, all configuration is handled
-through YAML files and almost all options are set by default for you,
-this means that a typical installation runs out of the box with
-minimum intervention.
+It mainly aims for ease of use, all configuration is handled
+through YAML files and nearly all options are set by default.
+A typical installation runs out of the box with minimum intervention.
 
 What Radar is capable to monitor is really up to you. You can write
 checks in your favourite programming language to monitor anything

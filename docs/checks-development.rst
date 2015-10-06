@@ -66,7 +66,7 @@ look something like this :
     }
 
 As mentioned before, there is no specific format that you have to comply
-on the data field, is completly up to you how to lay it out. You can include
+on the data field, is completely up to you how to lay it out. You can include
 as much data as you want and in any desired way.
 
 

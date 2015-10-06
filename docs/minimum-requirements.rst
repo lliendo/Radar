@@ -13,8 +13,6 @@ Radar (both client and server) should run at least on the following
 platforms without problems :
 
 * GNU/Linux.
-* FreeBSD.
-* NetBSD.
-* OpenBSD.
+* BSD's.
 * Microsoft Windows.
-* Darwin.
+* Darwin / OSX.
