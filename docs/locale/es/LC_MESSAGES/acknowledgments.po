@@ -1,0 +1,27 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Radar 0.0.1b\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-06 17:27-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../acknowledgments.rst:2
+msgid "Acknowledgements"
+msgstr "Agradecimientos"
+
+#: ../../acknowledgments.rst:4
+msgid ""
+"To `Ricardo Maia <https://openclipart.org/user-detail/ricardomaia>`_ for its"
+" wonderful Radar Openclipart logo."
+msgstr ""
+"A `Ricardo Maia <https://openclipart.org/user-detail/ricardomaia>`_ for su fabuloso logo utilizado en este proyecto. "
+
+#: ../../acknowledgments.rst:5
+msgid "To John Curley for reviewing the english version of the documentation."
+msgstr "A John Curley por haber revisado y corregido la versión en inglés de la documentación."
