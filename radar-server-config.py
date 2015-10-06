@@ -27,6 +27,6 @@ from radar.initial_setup.server import ServerInitialSetup
 
 if __name__ == '__main__':
     try:
-        ServerInitialSetup().run(template_name='radar-server.templ')
+        ServerInitialSetup().run()
     except Exception, e:
         print e

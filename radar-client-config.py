@@ -27,6 +27,6 @@ from radar.initial_setup.client import ClientInitialSetup
 
 if __name__ == '__main__':
     try:
-        ClientInitialSetup().run(template_name='radar-client.templ')
+        ClientInitialSetup().run()
     except Exception, e:
         print e
