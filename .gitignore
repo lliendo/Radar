@@ -4,12 +4,11 @@ build
 dist
 *.pyc
 *.swp
-*.old.py
 *.ropeproject
 *.mo
 docs/_build
 docs/update-es-docs
-config_files
-config_test
+configuration
 clean
 push-master
+push-github-master
