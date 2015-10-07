@@ -226,7 +226,7 @@ class ServerConfig(ConfigBuilder):
 
     def __init__(self, path=None):
         super(ServerConfig, self).__init__(path or self.MAIN_CONFIG_PATH)
-        self._set_default_config()
+        self.merge_config(self.PLATFORM_CONFIG)
         self.monitors = []
         self.plugins = []
 

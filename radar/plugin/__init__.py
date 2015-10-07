@@ -50,7 +50,7 @@ class ServerPlugin(ConfigBuilder, Switchable):
 
         try:
             ConfigBuilder.__init__(self, self.PLUGIN_CONFIG_FILE)
-            self._set_default_config()
+            self.merge_config(self.DEFAULT_CONFIG)
         except ConfigError:
             self.config = self.DEFAULT_CONFIG
 
