@@ -22,9 +22,9 @@ Copyright 2015 Lucas Liendo.
 
 from Queue import Empty as EmptyQueue
 from threading import Thread, Event
-from platform import system as platform_name
-from ..check import Check, UnixCheck, WindowsCheck, CheckError
+from ..check import UnixCheck, WindowsCheck, CheckError
 from ..protocol import Message
+from ..platform_setup import Platform
 
 
 class CheckManagerError(Exception):
@@ -52,13 +52,8 @@ class CheckManager(Thread):
             Message.TYPE['TEST']: self._on_test,
         }
 
-    def _get_platform_name(self):
-        unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
-        platform = platform_name()
-        return 'UNIX' if platform in unixes else platform
-
     def _get_platform_check_class(self):
-        platform = self._get_platform_name()
+        platform = Platform.get_platform_type()
 
         try:
             return self.AVAILABLE_PLATFORMS[platform]

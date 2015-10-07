@@ -22,8 +22,8 @@ Copyright 2015 Lucas Liendo.
 
 from errno import EINTR
 from abc import ABCMeta
-from platform import system as platform_name
 from argparse import ArgumentParser
+from ..platform_setup import Platform
 
 
 class CLIError(Exception):
@@ -68,15 +68,10 @@ class RadarLauncher(object):
         self._platform_setup = self._setup_platform(cli.main_config)
 
     def _get_default_main_config_path(self):
-        return self.AVAILABLE_PLATFORMS[self._get_platform_name()].MAIN_CONFIG_PATH
-
-    def _get_platform_name(self):
-        unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
-        platform = platform_name()
-        return 'UNIX' if platform in unixes else platform
+        return self.AVAILABLE_PLATFORMS[Platform.get_platform_type()].MAIN_CONFIG_PATH
 
     def _setup_platform(self, path):
-        platform = self._get_platform_name()
+        platform = Platform.get_platform_type()
 
         try:
             PlatformSetup = self.AVAILABLE_PLATFORMS[platform]
