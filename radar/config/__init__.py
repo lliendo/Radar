@@ -41,9 +41,10 @@ class ConfigBuilder(object):
         self.config = self._lower_config_keys(self._read_config(path) or {})
         self.logger = None
 
-    def _set_default_config(self):
+    # Merges the current config with a default config.
+    def merge_config(self, default_config):
         try:
-            self.config = self._merge_options(self.config, self.PLATFORM_CONFIG)
+            self.config = self._merge_options(self.config, default_config)
         except AttributeError:
             raise ConfigError('Error - Wrong Radar main config format.')
 
