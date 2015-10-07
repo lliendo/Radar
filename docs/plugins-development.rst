@@ -125,7 +125,7 @@ configuration filename and that's it. How do you read those values ?
 Easy again, just access the config dictionary. Let's see an example.
 Suppose you want to proxy every reply to another service using a UDP socket.
 
-Given this YAML file (called proxy.yml) :
+Given this YAML file (called udp-proxy.yml) :
 
 .. code-block:: yaml
 
@@ -146,13 +146,13 @@ Let's adjust our initial example :
     class ProxyPlugin(ServerPlugin):
 
         PLUGIN_NAME = 'Proxy plugin'
-        PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'proxy.yml')
+        PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'udp-proxy.yml')
 
         def _create_socket(self):
             fd = None
 
             try:
-                fd = socket.socket(AF_INET, SOCK_DGRAM)
+                fd = socket(AF_INET, SOCK_DGRAM)
             except Exception, e:
                 self.log('Error - Couldn\'t create UDP socket. Details : {:}.', e)
 
@@ -164,7 +164,7 @@ Let's adjust our initial example :
         def on_start(self):
             self._fd = self._create_socket()
 
-        def _proxy_reply(self, address, checks, contacts):
+        def _forward(self, address, checks, contacts):
             serialized = {
                 'address': address,
                 'checks': checks,
@@ -175,7 +175,7 @@ Let's adjust our initial example :
 
         def on_check_reply(self, address, port, checks, contacts):
             try:
-                self._proxy_reply(address, checks, contacts)    
+                self._forward(address, checks, contacts)    
             except Exception, e:
                 self.log('Error - Couldn\'t send data. Details : {:}.'.format(e))
 
@@ -185,12 +185,12 @@ Let's adjust our initial example :
 
 Ok, now we have a useful plugin. Every time we receive a reply we simply forward
 it using a UDP socket. Note in this example that I've set the PLUGIN_CONFIG_FILE
-to hold the filename of the YAML (proxy.yml in this case) and that I use the
-values that were read from that file in the _proxy_reply() method. Also note the
+to hold the filename of the YAML (udp-proxy.yml in this case) and that I use the
+values that were read from that file in the _forward() method. Also note the
 use of the get_path() static method to properly reference the YAML file.
 
 To get this example running follow the same steps we described for the dummy plugin
-and also create a file named proxy.yml that contains the YAML commented above.
+and also create a file named udp-proxy.yml that contains the YAML commented above.
 Don't forget to put this file inside the same directory where __init__.py is.
 
 If you want to see these replies you'll probably need a tool like `netcat <http://nc110.sourceforge.net/>`_.
@@ -199,6 +199,7 @@ If you indeed have netcat installed on your system then open up a console and ru
 .. code-block:: python
 
     nc -ul localhost 2000
+
 
 The above command will capture and display UDP datagrams destined for localhost port 2000.
 
@@ -216,26 +217,60 @@ shows how to read any useful value (both from a contact and a check) :
 
 .. code-block:: python
 
-    def on_check_reply(self, address, port, checks, contacts):
-        """ Accesing properties of a check and contact object """
+    from radar.plugin import ServerPlugin
 
-        """ Contact properties. """
-        contact_name = contacts[0].name
-        email = contacts[0].email
-        phone = contacts[0].phone
 
-        """ Check properties. """
-        check_name = check[0].name
-        path = check[0].path
-        args = check[0].args
-        details = check[0].details
-        data = check[0].data
-        current_status = check[0].current_status
-        previous_status = check[0].previous_status
+    class YourPlugin(ServerPlugin):
+
+        PLUGIN_NAME = 'Your plugin'
+
+        def on_check_reply(self, address, port, checks, contacts):
+            """ Accesing properties of a check and contact object """
+
+            """ Contact properties. """
+            contact_name = contacts[0].name
+            email = contacts[0].email
+            phone = contacts[0].phone
+
+            """ Check properties. """
+            check_name = check[0].name
+            path = check[0].path
+            args = check[0].args
+            details = check[0].details
+            data = check[0].data
+            current_status = check[0].current_status
+            previous_status = check[0].previous_status
+
 
 Note that in the above example we're only inspecting the first contact and
 check. Remember that you always receive two lists, so you may need to
 iterate them in order to achieve your plugin's task.
+
+One last thing. If you inspect the current_status and the previous_status attributes 
+of a check you'll notice that both of them are integers. If you need to convert those
+values to their respective names, here's how to do that :
+
+.. code-block:: python
+
+    from radar.plugin import ServerPlugin
+    from radar.check import Check
+
+
+    class YourPlugin(ServerPlugin):
+
+        PLUGIN_NAME = 'Your plugin'
+
+        def on_check_reply(self, address, port, checks, contacts):
+            """ Converting check reply status values to string codes. """
+
+            current_status = Check.get_status(check[0].current_status)
+            previous_status = Check.get_status(check[0].previous_status)
+
+
+The conversion is done using the static Check.get_status() method. Note that
+I've also imported the Check class in the second line of the example. Now
+current_status and previous_status hold any of the valid string codes that a
+check can return (OK, WARINING, SEVERE or ERROR).
 
 
 Guidelines
@@ -258,6 +293,7 @@ could have the following file hierarchy :
     /ProxyPlugin
         /__init__.py
         /proxy.yml
+
 
 If your ProxyPlugin also depended on more modules then you could had :
 
