@@ -26,7 +26,4 @@ from radar.initial_setup.client import ClientInitialSetup
 
 
 if __name__ == '__main__':
-    try:
-        ClientInitialSetup().run()
-    except Exception, e:
-        print e
+    ClientInitialSetup().run()
