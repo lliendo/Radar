@@ -14,7 +14,7 @@ Currently the only way to install Radar is through its source code (PyPI package
 are not yet available, mainly because the project is in ALPHA status).
 
 Clone this repository to a temporary directory using `GIT <https://git-scm.com/>`_ (or alternatively download
-as .zip), and run  :
+as `.zip <https://github.com/lliendo/Radar/archive/master.zip>`_), and run  :
 
 .. code-block:: bash
 
@@ -57,7 +57,7 @@ Currently the documentation is available in the following languages :
 * English.
 * Spanish.
 
-To generate the spanish version of the documentation you will need to install 
+To generate non-english versions of the documentation you will need to install 
 additionally sphinx-intl :
 
 .. code-block:: bash
@@ -102,8 +102,8 @@ You can take a look at the TODO.rst to have an idea what features are going to
 Supported platforms
 -------------------
 
-Radar should run without any problems in any platform where the Python interpreter
-is supported.
+Radar should run without any problems as long as the Python interpreter on your
+platform is able to run.
 
 
 Development
@@ -111,7 +111,7 @@ Development
 
 If you're interested in how Radar works you are encouraged to take a look at
 the code, documentation about its internals can be found `here <https://...>`.
-Radar is designed to be both simple and easy to use and understand.
+Radar is aimed to be both simple and easy to use and understand.
 
 
 Tests
@@ -142,7 +142,8 @@ Radar is distributed under the `GNU LGPLv3 <https://www.gnu.org/licenses/lgpl.tx
 Acknowledgments
 ---------------
 
-* To `Ricardo Maia <https://openclipart.org/user-detail/ricardomaia>`_ for its wonderful Openclipart logo !
+* To `Ricardo Maia <https://openclipart.org/user-detail/ricardomaia>`_ for its wonderful Radar Openclipart logo.
+* To John Curley for reviewing the english version of the documentation.
 
 
 Contact
