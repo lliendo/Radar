@@ -40,6 +40,7 @@ Take a look a this piece of Python code :
 
     from radar.plugin import ServerPlugin
 
+
     class DummyPlugin(ServerPlugin):
 
         PLUGIN_NAME = 'Dummy plugin'
@@ -97,6 +98,14 @@ In this minimal example we're basically doing nothing, just recording a few
 things to the Radar log file using the log() method. A Radar plugin is just
 a Python class where you can code anything you want.
 
+If you want to verify this small plugin, then :
+
+1. Create a directory called dummy-plugin (or name it as you want).
+2. Create an __init__.py file inside this directory and copy the above code to it.
+3. Move the directory you created in step one to your Radar server's plugins directory.
+4. If Radar is already running then you'll need to restart it.
+5. Make sure you get a new entry in the log every time a check reply arrives.
+
 Is that all you need to know to develop a plugin ? Basically yes, but there
 is one more feature that can be extremely useful in some cases.
 Let's say you want to allow your users configure your plugin, that is let
@@ -114,51 +123,84 @@ must be in your plugin directory !
 To use it simply set the PLUGIN_CONFIG_FILE class attribute with the
 configuration filename and that's it. How do you read those values ?
 Easy again, just access the config dictionary. Let's see an example.
+Suppose you want to proxy every reply to another service using a UDP socket.
 
-Given this YAML file (called dummy.yml) :
+Given this YAML file (called proxy.yml) :
 
 .. code-block:: yaml
 
-    connect:
+    forward:
         to: localhost
         port: 2000
 
 
-Now we have an different version of the dummy plugin :
+Let's adjust our initial example :
 
 .. code-block:: python
 
-    from socket import create_connection
+    from socket import socket, AF_INET, SOCK_DGRAM
+    from json import dumps
     from radar.plugin import ServerPlugin
 
-    class DummyPlugin(ServerPlugin):
 
-        PLUGIN_NAME = 'Dummy plugin'
-        PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'dummy.yml')
+    class ProxyPlugin(ServerPlugin):
 
-        def _connect(self):
-            address = self.config['connect']['to']
-            port = self.config['connect']['port']
-            self._fd = create_connection((address, port))
+        PLUGIN_NAME = 'Proxy plugin'
+        PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'proxy.yml')
+
+        def _create_socket(self):
+            fd = None
+
+            try:
+                fd = socket.socket(AF_INET, SOCK_DGRAM)
+            except Exception, e:
+                self.log('Error - Couldn\'t create UDP socket. Details : {:}.', e)
+
+            return fd
 
         def _disconnect(self):
             self._fd.close()
 
         def on_start(self):
-            self._connect()
+            self._fd = self._create_socket()
+
+        def _proxy_reply(self, address, checks, contacts):
+            serialized = {
+                'address': address,
+                'checks': checks,
+                'contacts': contacts,
+            }
+
+            self._fd.sendto(dumps(serialized) + '\n', (self.config['forward']['to'], self.config['forward']['port']))
 
         def on_check_reply(self, address, port, checks, contacts):
-            """ Perform some useful work here """
+            try:
+                self._proxy_reply(address, checks, contacts)    
+            except Exception, e:
+                self.log('Error - Couldn\'t send data. Details : {:}.'.format(e))
 
         def on_shutdown(self):
             self._disconnect()
 
 
-This is still a very useless example ! However note, that I've set the
-PLUGIN_CONFIG_FILE to hold the filename of the YAML (dummy.yml in this case)
-and that I use the values that were read from that file in the _connect()
-method. Note the use of the get_path() static method to properly reference
-the YAML file.
+Ok, now we have a useful plugin. Every time we receive a reply we simply forward
+it using a UDP socket. Note in this example that I've set the PLUGIN_CONFIG_FILE
+to hold the filename of the YAML (proxy.yml in this case) and that I use the
+values that were read from that file in the _proxy_reply() method. Also note the
+use of the get_path() static method to properly reference the YAML file.
+
+To get this example running follow the same steps we described for the dummy plugin
+and also create a file named proxy.yml that contains the YAML commented above.
+Don't forget to put this file inside the same directory where __init__.py is.
+
+If you want to see these replies you'll probably need a tool like `netcat <http://nc110.sourceforge.net/>`_.
+If you indeed have netcat installed on your system then open up a console and run :
+
+.. code-block:: python
+
+    nc -ul localhost 2000
+
+The above command will capture and display UDP datagrams destined for localhost port 2000.
 
 Before we end up this section you may be wondering : How should I use the
 checks and contacts lists in the on_check_reply() method ?
@@ -208,24 +250,26 @@ __init__.py file in that directory. Despite this minor limitation you're
 allowed to code in as many different directory/files inside the plugin
 directory as you want.
 
-For example assuming that you wrote a plugin called A-Plugin then, you
+For example, assuming that you wrote the ProxyPlugin described above then, you
 could have the following file hierarchy :
 
 .. code-block:: bash
 
-    /A-Plugin
+    /ProxyPlugin
         /__init__.py
-        /a-plugin.yml
-        /local_module_a
-            /__init__.py
-            /some_file_module_a.py
-        /local_module_b
-            /__init__.py
-            /some_file_module_b.py
+        /proxy.yml
 
-Then .../A-Plugin/__init__.py file must contain exactly one class that inherits
-from the ServerPlugin class.
-        
+If your ProxyPlugin also depended on more modules then you could had :
+
+.. code-block:: bash
+
+    /ProxyPlugin
+        /__init__.py
+        /proxy.yml
+            /another_module
+                /__init__.py
+                /another_file.py
+
 
 Example
 -------
