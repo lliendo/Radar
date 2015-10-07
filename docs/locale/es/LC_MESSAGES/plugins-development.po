@@ -93,7 +93,7 @@ msgstr "Veamos un plugin a modo de ejemplo y describamos sus puntos clave."
 msgid "Take a look a this piece of Python code :"
 msgstr "Mira este fragmento de código Python :"
 
-#: ../../plugins-development.rst:57
+#: ../../plugins-development.rst:58
 msgid ""
 "As explained before, a Radar plugin needs to comply with certain "
 "requirements. In first place every plugin must inherit from the ServerPlugin"
@@ -107,7 +107,7 @@ msgstr ""
 "luego creando una nueva clase que herede de la misma. Esto se hace en las "
 "primeras dos líneas de código."
 
-#: ../../plugins-development.rst:63
+#: ../../plugins-development.rst:64
 msgid ""
 "Every plugin must have a name. We define this in the PLUGIN_NAME class "
 "attribute. Every plugin is uniquely identified by its name and a version. If"
@@ -122,7 +122,7 @@ msgstr ""
 "sobreescribir el atributo de clase PLUGIN_VERSION con el valor que desees. "
 "En nuestro ejemplo solamente hemos definido el nombre del plugin."
 
-#: ../../plugins-development.rst:69
+#: ../../plugins-development.rst:70
 msgid ""
 "The example shows three methods. The on_start() method is invoked by Radar "
 "when the plugin is initialized, so if you want to define any instance "
@@ -132,7 +132,7 @@ msgstr ""
 "Radar cuando el plugin es inicializado, así que si deseas definir cualquier "
 "atributo de instancia o tomar algún recurso, este es un lugar para hacerlo."
 
-#: ../../plugins-development.rst:73
+#: ../../plugins-development.rst:74
 msgid ""
 "In a similar way the on_shutdown() method is called when Radar is shutdown, "
 "this method's purpose is to gracefully release any resources that you might "
@@ -142,7 +142,7 @@ msgstr ""
 "apagado. El propósito de este método es liberar adecuadamente cualquier "
 "recurso que pudieras haber adquirido durante su ejecución."
 
-#: ../../plugins-development.rst:77
+#: ../../plugins-development.rst:78
 msgid ""
 "We have only one remaining method: on_check_reply(). This is where the "
 "action takes place and is your entry point to perform any useful work. For "
@@ -152,7 +152,15 @@ msgstr ""
 "toma lugar y es tu punto de entrada para realizar cualquier cosa. Por cada "
 "respuesta que el servidor recibe obtendrás :"
 
-#: ../../plugins-development.rst:84
+#: ../../plugins-development.rst:82
+msgid ""
+"address : The IP address of the Radar client that sent the check reply. This"
+" is a string value."
+msgstr ""
+"address : Esta es la dirección IP del cliente Radar que envió la respuesta a"
+" un chequeo. Este valor es un string."
+
+#: ../../plugins-development.rst:85
 msgid ""
 "port : The TCP port of the Radar client that sent the check reply. This is "
 "an integer value."
@@ -160,7 +168,7 @@ msgstr ""
 "port : El puerto TCP del cliente Radar que envió la respuesta. Este es un "
 "valor integer."
 
-#: ../../plugins-development.rst:87
+#: ../../plugins-development.rst:88
 msgid ""
 "checks : A Python list containing Check objects that were updated by the "
 "server. This list will always respond to a given monitor, that means that "
@@ -171,7 +179,7 @@ msgstr ""
 "monitor particular, esto significa que la lista de chequeos hace referencia "
 "a un y solo un monitor."
 
-#: ../../plugins-development.rst:91
+#: ../../plugins-development.rst:92
 msgid ""
 "contacts : A Python list containing Contact objects that were related due to"
 " the replied checks. This list will always respond to a given monitor, that "
@@ -181,7 +189,7 @@ msgstr ""
 "relacionados a la respuesta de uno o más chequeos. Esta lista siempre esta "
 "asociada a un y solo un monitor."
 
-#: ../../plugins-development.rst:96
+#: ../../plugins-development.rst:97
 msgid ""
 "In this minimal example we're basically doing nothing, just recording a few "
 "things to the Radar log file using the log() method. A Radar plugin is just "
@@ -192,7 +200,42 @@ msgstr ""
 "plugin de Radar es tan solo una clase Python en donde puedes hacer lo que "
 "quieras."
 
-#: ../../plugins-development.rst:100
+#: ../../plugins-development.rst:101
+msgid "If you want to verify this small plugin, then :"
+msgstr "Si quieres verificar el funcionamiento de este plugin :"
+
+#: ../../plugins-development.rst:103
+msgid "Create a directory called dummy-plugin (or name it as you want)."
+msgstr "Crea un directorio llamado dummy-plugin (o nombralo como desees)"
+
+#: ../../plugins-development.rst:104
+msgid ""
+"Create an __init__.py file inside this directory and copy the above code to "
+"it."
+msgstr ""
+"Crea un archivo __init__.py dentro de este directorio y copia el contenido "
+"del código fuente en el."
+
+#: ../../plugins-development.rst:105
+msgid ""
+"Move the directory you created in step one to your Radar server's plugins "
+"directory."
+msgstr ""
+"Mueve el directorio que has creado en el primer paso al directorio de plugins "
+"del servidor Radar."
+
+#: ../../plugins-development.rst:106
+msgid "If Radar is already running then you'll need to restart it."
+msgstr "Si Radar ya se encuentra ejecutando, necesitarás reiniciarlo."
+
+#: ../../plugins-development.rst:107
+msgid ""
+"Make sure you get a new entry in the log every time a check reply arrives."
+msgstr ""
+"Asegurate de que se escribe una nueva entrada al log cada vez que una respuesta "
+"de algún cliente es recibida."
+
+#: ../../plugins-development.rst:109
 msgid ""
 "Is that all you need to know to develop a plugin ? Basically yes, but there "
 "is one more feature that can be extremely useful in some cases. Let's say "
@@ -211,7 +254,7 @@ msgstr ""
 "parámetros directamente desde el código fuente del plugin. Los plugins de "
 "Radar incluyen con un mapper YAML."
 
-#: ../../plugins-development.rst:108
+#: ../../plugins-development.rst:117
 msgid ""
 "What does it do ? Very simple : given a YAML filename it will map it to a "
 "Python dictionary. This way you only specify the filename of your "
@@ -225,40 +268,75 @@ msgstr ""
 "en dicho archivo y luego leerlos de un diccionario. ¡El único requerimiento "
 "es que este archivo debe estar el el directorio de tu plugin!"
 
-#: ../../plugins-development.rst:114
+#: ../../plugins-development.rst:123
 msgid ""
 "To use it simply set the PLUGIN_CONFIG_FILE class attribute with the "
 "configuration filename and that's it. How do you read those values ? Easy "
-"again, just access the config dictionary. Let's see an example."
+"again, just access the config dictionary. Let's see an example. Suppose you "
+"want to proxy every reply to another service using a UDP socket."
 msgstr ""
 "Para utilizar esta funcionalidad, setea el atributo de clase "
 "PLUGIN_CONFIG_FILE con el nombre del archivo de configuración. ¿Como lees "
 "entonces estos valores?. Fácil, simplemente accedes al diccionario config. "
-"Veamos un ejemplo."
+"Veamos un ejemplo. Suponte que quieres reenviar cada respuesta que recibes "
+"mediante un socket UDP."
 
-#: ../../plugins-development.rst:118
-msgid "Given this YAML file (called dummy.yml) :"
-msgstr "Dado este archivo YAML (llamemoslo dummy.yml) :"
+#: ../../plugins-development.rst:128
+msgid "Given this YAML file (called proxy.yml) :"
+msgstr "Dado este archivo YAML (llamado proxy.yml) :"
 
-#: ../../plugins-development.rst:127
-msgid "Now we have an different version of the dummy plugin :"
-msgstr "Ahora tenemos nuestro nuevo plugin :"
+#: ../../plugins-development.rst:137
+msgid "Let's adjust our initial example :"
+msgstr "Reajustemos nuestro ejemplo inicial :"
 
-#: ../../plugins-development.rst:157
+#: ../../plugins-development.rst:186
 msgid ""
-"This is still a very useless example ! However note, that I've set the "
-"PLUGIN_CONFIG_FILE to hold the filename of the YAML (dummy.yml in this case)"
-" and that I use the values that were read from that file in the _connect() "
-"method. Note the use of the get_path() static method to properly reference "
-"the YAML file."
+"Ok, now we have a useful plugin. Every time we receive a reply we simply "
+"forward it using a UDP socket. Note in this example that I've set the "
+"PLUGIN_CONFIG_FILE to hold the filename of the YAML (proxy.yml in this case)"
+" and that I use the values that were read from that file in the "
+"_proxy_reply() method. Also note the use of the get_path() static method to "
+"properly reference the YAML file."
 msgstr ""
-"¡Este sigue siendo un ejemplo inútil! Sin embargo ten en cuenta que he "
-"seteado PLUGIN_CONFIG_FILE y que contiene el nombre del archivo YAML "
-"(dummy.yml en este caso) y que utilizo los valores que fueron leidos de ese "
-"archivo en el método _connect(). No olvides el uso del método estático "
-"get_path() para referenciar apropiadamente el archivo YAML."
+"Bueno, ahora tenemos un plugin más útil. Cada vez que recibimos una respuesta "
+"simplemete la reenviamos utilizando un socket UDP. En este nuevo ejemplo puedes "
+"notar que he seteado el atributo de clase PLUGIN_CONFIG_FILE y que contiene el "
+"nombre del archivo YAML (proxy.yml en este caso) y que utilizo los valores que "
+"fueron leidos de ese archivo en el método _proxy_reply(). No olvides el uso del "
+"método estático get_path() para referenciar apropiadamente el archivo YAML de "
+"configuración."
 
-#: ../../plugins-development.rst:163
+#: ../../plugins-development.rst:192
+msgid ""
+"To get this example running follow the same steps we described for the dummy"
+" plugin and also create a file named proxy.yml that contains the YAML "
+"commented above. Don't forget to put this file inside the same directory "
+"where __init__.py is."
+msgstr ""
+"Para probar este ejemplo sigue los mismos pasos que hemos hecho para probar "
+"el primer plugin, también crea el archivo proxy.yml y agregar el contenido del "
+"YAML que hemos descripto más arriba. No te olvides de colocar este archivo "
+"dentro del mismo directorio donde se encuentra el archivo __init__.py"
+
+#: ../../plugins-development.rst:196
+msgid ""
+"If you want to see these replies you'll probably need a tool like `netcat "
+"<http://nc110.sourceforge.net/>`_. If you indeed have netcat installed on "
+"your system then open up a console and run :"
+msgstr ""
+"Si quieres ver los mensajes UDP que genera este plugin probablemente necesites "
+"de una herramienta como `netcat <http://nc110.sourceforge.net/>`_. Si ya la tienes "
+"instalada entonces abre una consola y ejecuta :"
+
+#: ../../plugins-development.rst:203
+msgid ""
+"The above command will capture and display UDP datagrams destined for "
+"localhost port 2000."
+msgstr ""
+"Este comando capturará y mostrará todos los datagramas UDP que tienen como "
+"destino a localhost y puerto 2000."
+
+#: ../../plugins-development.rst:205
 msgid ""
 "Before we end up this section you may be wondering : How should I use the "
 "checks and contacts lists in the on_check_reply() method ?"
@@ -267,11 +345,47 @@ msgstr ""
 "debo utilizar las listas de chequeos y contactos en el método "
 "on_check_reply()?"
 
-#: ../../plugins-development.rst:200
+#: ../../plugins-development.rst:208
+msgid ""
+"Radar has (internally) among many abstractions two that you will use "
+"directly in any plugin : Contact and Check. Whenever you get a reply you get"
+" a list that contains contact objects and another list that contains check "
+"objects."
+msgstr ""
+"Radar (internamente) tiene entre varias de sus abstracciones dos que "
+"utilizarás directamente en cualquier plugin : Contact y Check. Cada vez que "
+"obtienes una respuesta de algún cliente recibes una lista que contiene "
+"contactos y otra lista que contiene chequeos."
+
+#: ../../plugins-development.rst:212
+msgid ""
+"Contact and Check objects have some attributes that you can read to perform "
+"some work. For example : every contact object contains a name, an email and "
+"optionally a phone number. The following piece of code shows how to read any"
+" useful value (both from a contact and a check) :"
+msgstr ""
+"Tanto los objetos Contact como Check contienen ciertos atributos que puedes "
+"inspeccionar para hacer lo que necesites. Por ejemplo : cada objeto contacto"
+" tiene un nombre, un email y opcionalmente un número telefónico. El "
+"siguiente fragmento de código muestra como leer cualquier atributo (ya sea "
+"un contacto o un chequeo) :"
+
+#: ../../plugins-development.rst:236
+msgid ""
+"Note that in the above example we're only inspecting the first contact and "
+"check. Remember that you always receive two lists, so you may need to "
+"iterate them in order to achieve your plugin's task."
+msgstr ""
+"Ten en cuenta que en el ejemplo de arriba solamente estamos inspeccionando "
+"el primer contacto y chequeo. Recuerda que siempre recibes dos listas, así "
+"que probablemente necesites iterarlas para alcanzar la tarea que tu plugin "
+"se propone realizar."
+
+#: ../../plugins-development.rst:242
 msgid "Guidelines"
 msgstr "Consejos"
 
-#: ../../plugins-development.rst:202
+#: ../../plugins-development.rst:244
 msgid ""
 "All of the considerations taken to develop checks also apply to plugins. So "
 "if in doubt review those guidelines in the checks development section."
@@ -280,7 +394,7 @@ msgstr ""
 "también se aplican a plugins. Si estas con alguna dudas puedes volver a "
 "revisar la sección de desarrollo de chequeos."
 
-#: ../../plugins-development.rst:205
+#: ../../plugins-development.rst:247
 msgid ""
 "Also note that Radar expects to find a unique plugin class per plugin "
 "directory. It is a requirement that this class to be present only in the "
@@ -294,62 +408,24 @@ msgstr ""
 "limitación, puedes escribir código en tantos archivos/directorios dentro del"
 " directorio del plugin como desees."
 
-#: ../../plugins-development.rst:211
+#: ../../plugins-development.rst:253
 msgid ""
-"For example assuming that you wrote a plugin called A-Plugin then, you could"
-" have the following file hierarchy :"
+"For example, assuming that you wrote the ProxyPlugin described above then, "
+"you could have the following file hierarchy :"
 msgstr ""
-"Por ejemplo, asumiendo que has escrito un plugin llamado A-Plugin entonces "
-"podrías tener la siguiente jerarquía de directorios : "
+"Asumiendo que has escrito el ProxyPlugin que comentamos arriba, entonces tendrías "
+"la siguiente jerarquía de archivos :"
 
-#: ../../plugins-development.rst:226
-msgid ""
-"Then .../A-Plugin/__init__.py file must contain exactly one class that "
-"inherits from the ServerPlugin class."
+#: ../../plugins-development.rst:262
+msgid "If your ProxyPlugin also depended on more modules then you could had :"
 msgstr ""
-"El archivo .../A-Plugin/__init__.py debe contener exactamente una sola clase"
-" que herede de la clase ServerPlugin."
+"Si adicionalmente este ProxyPlugin dependiera de otros modulos, tendrías :"
 
-#: ../../plugins-development.rst:231
+#: ../../plugins-development.rst:275
 msgid "Example"
 msgstr "Ejemplo"
 
-#: ../../plugins-development.rst:81
-msgid ""
-"address : The IP address of the Radar client that sent the check reply. This"
-" is a string value."
-msgstr ""
-"address : Esta es la dirección IP del cliente Radar que envió la respuesta a"
-" un chequeo. Este valor es un string."
-
-#: ../../plugins-development.rst:166
-msgid ""
-"Radar has (internally) among many abstractions two that you will use "
-"directly in any plugin : Contact and Check. Whenever you get a reply you get"
-" a list that contains contact objects and another list that contains check "
-"objects."
-msgstr ""
-"Radar (internamente) tiene entre varias de sus abstracciones dos que "
-"utilizarás directamente en cualquier plugin : Contact y Check. Cada vez que "
-"obtienes una respuesta de algún cliente recibes una lista que contiene "
-"contactos y otra lista que contiene chequeos."
-
-#: ../../plugins-development.rst:170
-msgid ""
-"Contact and Check objects have some attributes that you can read to perform "
-"some work. For example : every contact object contains a name, an email and "
-"optionally a phone number. The following piece of code shows how to read any"
-" useful value (both from a contact and a check) :"
-msgstr ""
-
-#: ../../plugins-development.rst:194
-msgid ""
-"Note that in the above example we're only inspecting the first contact and "
-"check. Remember that you always receive two lists, so you may need to "
-"iterate them in order to achieve your plugin's task."
-msgstr ""
-
-#: ../../plugins-development.rst:233
+#: ../../plugins-development.rst:277
 msgid ""
 "If you still want to see a more elaborate example (actually something "
 "useful, right ?) then you can take a look to an email notifier plugin `here "
@@ -357,37 +433,7 @@ msgid ""
 "contacts when a check has any of its status (current or previous) distinct "
 "from OK."
 msgstr ""
-
-#~ msgid ""
-#~ "If you still want to see a more elaborated example (actually something "
-#~ "useful, right ?) then you can take a look to an email notifier plugin `here "
-#~ "<https://github.com/lliendo/Radar-Plugins>`_. This plugin will notify its "
-#~ "contacts when a check has any of its status (current or previous) distinct "
-#~ "from OK."
-#~ msgstr ""
-#~ "Si todavía quieres ver un ejemplo más elaborado (algo un poco más útil, "
-#~ "¿no?) puedes echar un vistazo a un plugin notificador de correo `aquí "
-#~ "<https://github.com/lliendo/Radar-Plugins>`_. Este plugin notificará a sus "
-#~ "contactos cuando un chequeo tiene alguno de sus estados diferente a OK."
-
-#~ msgid ""
-#~ "Contact and Check objects have some attributes that you can read to perform "
-#~ "some work. For example : every contact object contains a name, an email an "
-#~ "optionally a phone number. The following piece of code shows how to read any"
-#~ " useful value (both from a contact and a check) :"
-#~ msgstr ""
-#~ "Tanto los objetos Contact como Check contienen ciertos atributos que puedes "
-#~ "inspeccionar para hacer lo que necesites. Por ejemplo : cada objeto contacto"
-#~ " tiene un nombre, un email y opcionalmente un número telefónico. El "
-#~ "siguiente fragmento de código muestra como leer cualquier atributo (ya sea "
-#~ "un contacto o un chequeo) :"
-
-#~ msgid ""
-#~ "Note that in the above example we're only inspecting the first contact and "
-#~ "check. Remember that you always receive two lists, so you'll probably need "
-#~ "to iterate them in order to achieve your plugin's task."
-#~ msgstr ""
-#~ "Ten en cuenta que en el ejemplo de arriba solamente estamos inspeccionando "
-#~ "el primer contacto y chequeo. Recuerda que siempre recibes dos listas, así "
-#~ "que probablemente necesites iterarlas para alcanzar la tarea que tu plugin "
-#~ "se propone realizar."
+"Si todavía quieres ver un ejemplo más elaborado (algo un poco más útil, "
+"¿no?) puedes echar un vistazo a un plugin notificador de correo `aquí "
+"<https://github.com/lliendo/Radar-Plugins>`_. Este plugin notificará a sus "
+"contactos cuando un chequeo tiene alguno de sus estados diferente a OK."

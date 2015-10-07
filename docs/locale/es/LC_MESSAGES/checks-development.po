@@ -36,7 +36,7 @@ msgid ""
 "<https://en.wikipedia.org/wiki/JSON>`_ containing one or more of the "
 "following fields :"
 msgstr ""
-"La forma que Radar monitorea cualquier recurso es a traves de chequeos. "
+"La forma en que Radar monitorea cualquier recurso es a traves de chequeos. "
 "Radar solo se preocupa por el string que devuelve un chequeo a la salida "
 "estándar. Radar espera que devuelvas un `JSON "
 "<https://en.wikipedia.org/wiki/JSON>`_ que contenga uno o más de los "
@@ -219,11 +219,11 @@ msgstr ""
 
 #: ../../checks-development.rst:113
 msgid "Disk usage."
-msgstr "Utilizacion de disco"
+msgstr "Utilización de disco"
 
 #: ../../checks-development.rst:114
 msgid "Ram usage."
-msgstr "Utilizacion de memoria"
+msgstr "Utilización de memoria"
 
 #: ../../checks-development.rst:115
 msgid "Uptime."
