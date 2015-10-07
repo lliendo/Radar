@@ -72,9 +72,10 @@ class ServerPlugin(ConfigBuilder, Switchable):
             self.logger.log('Unknown message id \'{:}\'.'.format(message_type))
 
     def log(self, message):
-        self.logger.log('Plugin {:} v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
+        self.logger.log('Plugin \'{:}\' v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
 
     def configure(self, logger):
+        logger.log('Loading plugin : \'{:}\' v{:}.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION))
         self.logger = logger
         self.on_start()
 
