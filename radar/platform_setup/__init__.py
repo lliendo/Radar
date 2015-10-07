@@ -36,6 +36,12 @@ class Platform(object):
 
     __metaclass__ = ABCMeta
 
+    SUPPORTED_OS_TYPES = [
+        'BSD',
+        'Linux',
+        'Windows'
+    ]
+
     @staticmethod
     def get_platform_type():
         unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
@@ -44,7 +50,10 @@ class Platform(object):
 
     @staticmethod
     def get_os_type():
-        pass
+        bsds = ['Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
+        platform = platform_name()
+        platform = 'BSD' if platform in bsds else platform
+        return 'Unknown' if platform not in Platform.SUPPORTED_OS_TYPES else platform
 
 
 class UnixSetup(object):
