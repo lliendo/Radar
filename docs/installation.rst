@@ -33,8 +33,8 @@ command line :
 
 .. code-block:: bash
 
-    radar-client -v
-    radar-server -v
+    radar-client.py -v
+    radar-server.py -v
 
 This will display the current version of Radar (client and server)
 installed on your system. If you see these versions then you got both
@@ -54,8 +54,8 @@ invoke Radar this way :
 
 .. code-block:: bash
 
-    radar-client -c PATH_TO_MAIN_CONFIGURATION_FILE
-    radar-server -c PATH_TO_MAIN_CONFIGURATION_FILE
+    radar-client.py -c PATH_TO_MAIN_CONFIGURATION_FILE
+    radar-server.py -c PATH_TO_MAIN_CONFIGURATION_FILE
 
 The -c option specifies an alternate main configuration file.
 
@@ -73,7 +73,7 @@ To configure the server just run :
 
 .. code-block:: bash
 
-    radar-server-config
+    radar-server-config.py
 
 This script will ask you for some initial values. For every option you can
 leave its default (these values are shown in squared brackets) value by pressing
@@ -83,7 +83,7 @@ To configure the client run :
 
 .. code-block:: bash
 
-    radar-client-config
+    radar-client-config.py
 
 After you run those scripts the main configuration file gets generated in the
 path that you chose. Note that the resulting YAML file may not look as tidy
