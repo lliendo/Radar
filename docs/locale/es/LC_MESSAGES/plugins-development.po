@@ -303,8 +303,7 @@ msgstr ""
 "los valores que fueron leidos de ese archivo en el método _forward(). "
 "También utilizo el método to_dict() para convertir un objeto check o contact "
 "en un diccionario Python (esto es necesario para poder enviar los datos a través "
-"del socket)."
-"Por último y no menos importante, fijate que hago uso del método estático "
+"del socket). Por último y no menos importante, fijate que hago uso del método estático "
 "get_path() para referenciar apropiadamente el archivo YAML de configuración."
 
 #: ../../plugins-development.rst:199
