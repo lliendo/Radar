@@ -145,49 +145,52 @@ Let's adjust our initial example :
 
     class ProxyPlugin(ServerPlugin):
 
-        PLUGIN_NAME = 'Proxy plugin'
-        PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'udp-proxy.yml')
+            PLUGIN_NAME = 'Proxy plugin'
+            PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'udp-proxy.yml')
 
-        def _create_socket(self):
-            fd = None
+            def _create_socket(self):
+                fd = None
 
-            try:
-                fd = socket(AF_INET, SOCK_DGRAM)
-            except Exception, e:
-                self.log('Error - Couldn\'t create UDP socket. Details : {:}.', e)
+                try:
+                    fd = socket(AF_INET, SOCK_DGRAM)
+                except Exception, e:
+                    self.log('Error - Couldn\'t create UDP socket. Details : {:}.', e)
 
-            return fd
+                return fd
 
-        def _disconnect(self):
-            self._fd.close()
+            def _disconnect(self):
+                self._fd.close()
 
-        def on_start(self):
-            self._fd = self._create_socket()
+            def on_start(self):
+                self._fd = self._create_socket()
 
-        def _forward(self, address, checks, contacts):
-            serialized = {
-                'address': address,
-                'checks': checks,
-                'contacts': contacts,
-            }
+            def _forward(self, address, checks, contacts):
+                serialized = {
+                    'address': address,
+                    'checks': [c.to_dict() for c in checks],
+                    'contacts': [c.to_dict() for c in contacts],
+                }
 
-            self._fd.sendto(dumps(serialized) + '\n', (self.config['forward']['to'], self.config['forward']['port']))
+                self._fd.sendto(dumps(serialized) + '\n', (self.config['forward']['to'], self.config['forward']['port']))
 
-        def on_check_reply(self, address, port, checks, contacts):
-            try:
-                self._forward(address, checks, contacts)    
-            except Exception, e:
-                self.log('Error - Couldn\'t send data. Details : {:}.'.format(e))
+            def on_check_reply(self, address, port, checks, contacts):
+                try:
+                    self._forward(address, checks, contacts)
+                except Exception, e:
+                    self.log('Error - Couldn\'t send data. Details : {:}.'.format(e))
 
-        def on_shutdown(self):
-            self._disconnect()
+            def on_shutdown(self):
+                self._disconnect()
 
 
 Ok, now we have a useful plugin. Every time we receive a reply we simply forward
 it using a UDP socket. Note in this example that I've set the PLUGIN_CONFIG_FILE
 to hold the filename of the YAML (udp-proxy.yml in this case) and that I use the
 values that were read from that file in the _forward() method. Also note the
-use of the get_path() static method to properly reference the YAML file.
+use of the get_path() static method to properly reference the YAML file and that
+I convert every check and contact to a dictionary before serializing and sending
+the data. The to_dict() method dumps every relevant attribute of each object to
+a Python dictionary.
 
 To get this example running follow the same steps we described for the dummy plugin
 and also create a file named udp-proxy.yml that contains the YAML commented above.
