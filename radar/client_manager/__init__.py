@@ -49,15 +49,16 @@ class ClientManager(object):
     def poll(self, message_type=Message.TYPE['CHECK']):
         [m.poll(message_type) for m in self._monitors if m.enabled]
 
-    def _log_action(self, client, message_type, check):
+    def _log_reply(self, client, message_type, check):
         check['status'] = Check.get_status(check['status'])
         self._logger.log('{:} from {:}:{:} -> {:}'.format(
             Message.get_type(message_type), client.address, client.port,
             check)
         )
+        check['status'] = Check.STATUS[check['status']]
 
     def _log_incoming_message(self, client, message_type, message):
-        [self._log_action(client, message_type, check) for check in message]
+        [self._log_reply(client, message_type, check) for check in message]
 
     def _on_check_reply(self, client, message_type, message):
         self._log_incoming_message(client, message_type, message)
