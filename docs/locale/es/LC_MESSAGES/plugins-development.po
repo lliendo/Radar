@@ -285,7 +285,29 @@ msgstr ""
 msgid "Let's adjust our initial example :"
 msgstr "Reajustemos nuestro ejemplo inicial :"
 
-#: ../../plugins-development.rst:196
+#: ../../plugins-development.rst:186
+msgid ""
+"Ok, now we have a useful plugin. Every time we receive a reply we simply "
+"forward it using a UDP socket. Note in this example that I've set the "
+"PLUGIN_CONFIG_FILE to hold the filename of the YAML (udp-proxy.yml in this "
+"case) and that I use the values that were read from that file in the "
+"_forward() method. Also note the use of the get_path() static method to "
+"properly reference the YAML file and that I convert every check and contact "
+"to a dictionary before serializing and sending the data. The to_dict() "
+"method dumps every relevant attribute of each object to a Python dictionary."
+msgstr ""
+"Ahora tenemos un plugin más útil. Cada vez que recibimos una respuesta "
+"simplemete la reenviamos utilizando un socket UDP. En este nuevo ejemplo "
+"puedes notar que he seteado el atributo de clase PLUGIN_CONFIG_FILE con "
+"el nombre del archivo YAML (proxy.yml en este caso) y que utilizo "
+"los valores que fueron leidos de ese archivo en el método _forward(). "
+"También utilizo el método to_dict() para convertir un objeto check o contact "
+"en un diccionario Python (esto es necesario para poder enviar los datos a través "
+"del socket)."
+"Por último y no menos importante, fijate que hago uso del método estático "
+"get_path() para referenciar apropiadamente el archivo YAML de configuración."
+
+#: ../../plugins-development.rst:199
 msgid ""
 "If you want to see these replies you'll probably need a tool like `netcat "
 "<http://nc110.sourceforge.net/>`_. If you indeed have netcat installed on "
@@ -295,7 +317,7 @@ msgstr ""
 "necesites de una herramienta como `netcat <http://nc110.sourceforge.net/>`_."
 " Si ya la tienes instalada entonces abre una consola y ejecuta :"
 
-#: ../../plugins-development.rst:204
+#: ../../plugins-development.rst:207
 msgid ""
 "The above command will capture and display UDP datagrams destined for "
 "localhost port 2000."
@@ -303,7 +325,7 @@ msgstr ""
 "Este comando capturará y mostrará todos los datagramas UDP que tienen como "
 "destino a localhost y puerto 2000."
 
-#: ../../plugins-development.rst:206
+#: ../../plugins-development.rst:209
 msgid ""
 "Before we end up this section you may be wondering : How should I use the "
 "checks and contacts lists in the on_check_reply() method ?"
@@ -312,7 +334,7 @@ msgstr ""
 "debo utilizar las listas de chequeos y contactos en el método "
 "on_check_reply()?"
 
-#: ../../plugins-development.rst:209
+#: ../../plugins-development.rst:212
 msgid ""
 "Radar has (internally) among many abstractions two that you will use "
 "directly in any plugin : Contact and Check. Whenever you get a reply you get"
@@ -324,7 +346,7 @@ msgstr ""
 "obtienes una respuesta de algún cliente recibes una lista que contiene "
 "contactos y otra lista que contiene chequeos."
 
-#: ../../plugins-development.rst:213
+#: ../../plugins-development.rst:216
 msgid ""
 "Contact and Check objects have some attributes that you can read to perform "
 "some work. For example : every contact object contains a name, an email and "
@@ -337,7 +359,7 @@ msgstr ""
 "siguiente fragmento de código muestra como leer cualquier atributo (ya sea "
 "un contacto o un chequeo) :"
 
-#: ../../plugins-development.rst:245
+#: ../../plugins-development.rst:248
 msgid ""
 "Note that in the above example we're only inspecting the first contact and "
 "check. Remember that you always receive two lists, so you may need to "
@@ -348,11 +370,11 @@ msgstr ""
 "que probablemente necesites iterarlas para alcanzar la tarea que tu plugin "
 "se propone realizar."
 
-#: ../../plugins-development.rst:277
+#: ../../plugins-development.rst:280
 msgid "Guidelines"
 msgstr "Consejos"
 
-#: ../../plugins-development.rst:279
+#: ../../plugins-development.rst:282
 msgid ""
 "All of the considerations taken to develop checks also apply to plugins. So "
 "if in doubt review those guidelines in the checks development section."
@@ -361,7 +383,7 @@ msgstr ""
 "también se aplican a plugins. Si estas con alguna dudas puedes volver a "
 "revisar la sección de desarrollo de chequeos."
 
-#: ../../plugins-development.rst:282
+#: ../../plugins-development.rst:285
 msgid ""
 "Also note that Radar expects to find a unique plugin class per plugin "
 "directory. It is a requirement that this class to be present only in the "
@@ -375,7 +397,7 @@ msgstr ""
 "limitación, puedes escribir código en tantos archivos/directorios dentro del"
 " directorio del plugin como desees."
 
-#: ../../plugins-development.rst:288
+#: ../../plugins-development.rst:291
 msgid ""
 "For example, assuming that you wrote the ProxyPlugin described above then, "
 "you could have the following file hierarchy :"
@@ -383,16 +405,16 @@ msgstr ""
 "Asumiendo que has escrito el ProxyPlugin que comentamos arriba, entonces "
 "tendrías la siguiente jerarquía de archivos :"
 
-#: ../../plugins-development.rst:298
+#: ../../plugins-development.rst:301
 msgid "If your ProxyPlugin also depended on more modules then you could had :"
 msgstr ""
 "Si adicionalmente este ProxyPlugin dependiera de otros modulos, tendrías :"
 
-#: ../../plugins-development.rst:311
+#: ../../plugins-development.rst:314
 msgid "Example"
 msgstr "Ejemplo"
 
-#: ../../plugins-development.rst:313
+#: ../../plugins-development.rst:316
 msgid ""
 "If you still want to see a more elaborate example (actually something "
 "useful, right ?) then you can take a look to an email notifier plugin `here "
@@ -409,23 +431,7 @@ msgstr ""
 msgid "Given this YAML file (called udp-proxy.yml) :"
 msgstr "Dado este archivo YAML (udp-proxy.yml) :"
 
-#: ../../plugins-development.rst:186
-msgid ""
-"Ok, now we have a useful plugin. Every time we receive a reply we simply "
-"forward it using a UDP socket. Note in this example that I've set the "
-"PLUGIN_CONFIG_FILE to hold the filename of the YAML (udp-proxy.yml in this "
-"case) and that I use the values that were read from that file in the "
-"_forward() method. Also note the use of the get_path() static method to "
-"properly reference the YAML file."
-msgstr ""
-"Ahora tenemos un plugin más útil. Cada vez que recibimos una respuesta simplemete "
-"la reenviamos utilizando un socket UDP. En este nuevo ejemplo puedes notar que he "
-"seteado el atributo de clase PLUGIN_CONFIG_FILE y que contiene el nombre del archivo "
-"YAML (proxy.yml en este caso) y que utilizo los valores que fueron leidos de ese "
-"archivo en el método _forward(). No olvides el uso del método estático "
-"get_path() para referenciar apropiadamente el archivo YAML de configuración."
-
-#: ../../plugins-development.rst:192
+#: ../../plugins-development.rst:195
 msgid ""
 "To get this example running follow the same steps we described for the dummy"
 " plugin and also create a file named udp-proxy.yml that contains the YAML "
@@ -433,30 +439,32 @@ msgid ""
 "where __init__.py is."
 msgstr ""
 "Para probar este ejemplo sigue los mismos pasos que hemos hecho para probar "
-"el primer plugin, también crea el archivo udp-proxy.yml y agrega el contenido "
-"del YAML que hemos descripto más arriba. No te olvides de colocar este "
-"archivo dentro del mismo directorio donde se encuentra el archivo "
+"el primer plugin, también crea el archivo udp-proxy.yml y agrega el "
+"contenido del YAML que hemos descripto más arriba. No te olvides de colocar "
+"este archivo dentro del mismo directorio donde se encuentra el archivo "
 "__init__.py"
 
-#: ../../plugins-development.rst:249
+#: ../../plugins-development.rst:252
 msgid ""
 "One last thing. If you inspect the current_status and the previous_status "
 "attributes of a check you'll notice that both of them are integers. If you "
 "need to convert those values to their respective names, here's how to do "
 "that :"
 msgstr ""
-"Una última cosa. Si inspeccionas los atributos previous_status y current_status "
-"de un chequeo te darás cuenta de que ambos contienen un valor númerico. Si necesitas "
-"convertir estos valores a sus respectivos nombres esta es la manera de hacerlo : "
+"Una última cosa. Si inspeccionas los atributos previous_status y "
+"current_status de un chequeo te darás cuenta de que ambos contienen un valor"
+" númerico. Si necesitas convertir estos valores a sus respectivos nombres "
+"esta es la manera de hacerlo : "
 
-#: ../../plugins-development.rst:270
+#: ../../plugins-development.rst:273
 msgid ""
 "The conversion is done using the static Check.get_status() method. Note that"
 " I've also imported the Check class in the second line of the example. Now "
 "current_status and previous_status hold any of the valid string codes that a"
 " check can return (OK, WARINING, SEVERE or ERROR)."
 msgstr ""
-"Esta conversión se hace utilizando el método estático Check.get_status(). Ten en "
-"cuenta que también he importado la clase Check en la segunda línea del ejemplo. "
-"Ahora las variables current_status y previous_status contienen alguno de los "
-"posibles códigos que un chequeo puede devolver (OK, WARINING, SEVERE or ERROR)."
+"Esta conversión se hace utilizando el método estático Check.get_status(). "
+"Ten en cuenta que también he importado la clase Check en la segunda línea "
+"del ejemplo. Ahora las variables current_status y previous_status contienen "
+"alguno de los posibles códigos que un chequeo puede devolver (OK, WARINING, "
+"SEVERE or ERROR)."
