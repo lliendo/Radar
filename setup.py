@@ -41,7 +41,7 @@ setup(
     name='Radar-Monitoring-System',
     description='An extendable and generic monitoring system.',
     version='0.0.1a',
-    packages=find_packages(exclude=['docs', 'tests']),
+    packages=find_packages(exclude=['docs', 'tests', 'scripts']),
     author='Lucas Liendo',
     author_email='mindmaster@gmail.com',
     keywords='monitor monitoring system administration',
@@ -63,9 +63,9 @@ setup(
         'Topic :: System :: Networking :: Monitoring',
     ],
     scripts=[
-        'radar-client.py',
-        'radar-client-config.py',
-        'radar-server.py',
-        'radar-server-config.py',
+        'scripts/radar-client.py',
+        'scripts/radar-client-config.py',
+        'scripts/radar-server.py',
+        'scripts/radar-server-config.py',
     ],
 )
