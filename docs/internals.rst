@@ -53,10 +53,11 @@ Radar has the following project structure :
         /docs                # Includes project's documentation in reStructuredText.
                              # Sphinx is used for documentation generation.
 
+        /scripts             # Launch scripts of Radar server and client.
+                             # Configuration scripts for Radar server and client.
+
         /tests               # Project's tests.
 
-        /templates           # Radar client and server templates used as
-                             # initial configurations after install.
         /radar
             /check           # Check and CheckGroup abstractions.
             /check_manager   # CheckManager governs check execution.
