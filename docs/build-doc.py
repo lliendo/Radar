@@ -22,6 +22,8 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from shlex import split as split_args
+from subprocess import call
 from argparse import ArgumentParser
 
 
@@ -41,17 +43,14 @@ class DocBuilder(object):
         return parser
 
     def _build_default_lang_docs(self):
-        print 'building {:}'.format(self.DEFAULT_LANG)
-
-        # make html
+        call(['make', 'html'])
 
     def _build_non_default_lang_docs(self, lang):
         print 'building {:}'.format(lang)
-
-        # make gettext
-        # sphinx-intl update -p _build/locale -l es
-        # sphinx-intl build
-        # make -e SPHINXOPTS="-D language='es'" html
+        call(['make', 'gettext'])
+        call(['sphinx-intl'] + split_args('update -p _build/locale -l {:}'.format(lang)))
+        call(['sphinx-intl', 'build'])
+        call(['make'] + split_args("-e SPHINXOPTS=\"-D language='{:}'\" html".format(lang)))
 
     def _build_docs(self, lang):
         if lang not in self.SUPPORTED_LANGS:
