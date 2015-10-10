@@ -7,7 +7,6 @@ dist
 *.ropeproject
 *.mo
 docs/_build
-docs/update-es-docs
 configuration
 clean
 push-master
