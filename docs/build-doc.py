@@ -22,6 +22,9 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from os import listdir, unlink
+from os.path import isfile, isdir
+from shutil import rmtree
 from shlex import split as split_args
 from subprocess import call
 from argparse import ArgumentParser
@@ -50,6 +53,16 @@ class DocBuilder(object):
 
         return parser
 
+    def _clean_directory(self, f):
+        if isfile(f):
+            unlink(f)
+        elif isdir(f):
+            rmtree(f)
+
+    def _clean_build(self):
+        build_dir = '_build'
+        [self._clean_directory('{:}/{:}'.format(build_dir, f)) for f in listdir(build_dir)]
+
     def _build_default_lang_docs(self):
         call(split_args('sphinx-build -b html -d {:} . {:}'.format(
             self.SPHINX_DIRS['build']['doctrees'], self.SPHINX_DIRS['build']['html'])))
@@ -64,6 +77,8 @@ class DocBuilder(object):
     def _build_docs(self, lang):
         if lang not in self.SUPPORTED_LANGS:
             raise DocBuilderError('Error - Language \'{:}\' is not currently supported.'.format(lang))
+
+        self._clean_build()
 
         if lang == self.DEFAULT_LANG:
             self._build_default_lang_docs()
