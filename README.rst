@@ -41,14 +41,7 @@ Now from the project's main directory run :
 .. code-block:: bash
 
     cd Radar/docs
-    make html
-
-If you're using Windows platforms, run :
-
-.. code-block:: bash
-
-    cd Radar/docs
-    make.bat html
+    build-doc.py
 
 Sphinx will output the generated documentation to the 'docs/_build/html' directory.
 To read the generated docs open up a browser and then load the index.html file.
@@ -57,8 +50,8 @@ Currently the documentation is available in the following languages :
 * English.
 * Spanish.
 
-To generate non-english versions of the documentation you will need to install 
-additionally sphinx-intl :
+To generate non-english versions (currently only spanish is available) of the
+documentation you will need to install additionally sphinx-intl :
 
 .. code-block:: bash
 
@@ -69,20 +62,7 @@ Then run the following commands :
 .. code-block:: bash
 
     cd Radar/docs
-    make gettext
-    sphinx-intl update -p _build/locale -l es
-    sphinx-intl build
-    make -e SPHINXOPTS="-D language='es'" html
-
-On Windows platforms run :
-
-.. code-block:: bash
-
-    cd Radar/docs
-    make.bat gettext
-    sphinx-intl update -p _build/locale -l es
-    sphinx-intl build
-    make.bat -e SPHINXOPTS="-D language='es'" html
+    build-doc.py -l es
 
 Once again, Sphinx will output the generated documentation to the 'docs/_build'
 directory.
@@ -144,14 +124,6 @@ Acknowledgments
 
 * To `Ricardo Maia <https://openclipart.org/user-detail/ricardomaia>`_ for its wonderful Radar Openclipart logo.
 * To John Curley for reviewing the english version of the documentation.
-
-
-Contact
--------
-
-If you find this software useful you can drop me a line. Bug reporting, suggestions,
-missing documentation and critics (both positive and negative) of any kind are
-always welcome !
 
 
 Authors
