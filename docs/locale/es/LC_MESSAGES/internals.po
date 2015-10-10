@@ -110,11 +110,11 @@ msgstr "Organización del proyecto"
 msgid "Radar has the following project structure :"
 msgstr "Radar posee la siguiente estructura :"
 
-#: ../../internals.rst:100
+#: ../../internals.rst:101
 msgid "Initialization"
 msgstr "Inicialización"
 
-#: ../../internals.rst:102
+#: ../../internals.rst:103
 msgid ""
 "Both Radar client and server go through almost the same steps before going "
 "into operational mode. When Radar (client or server) is fired up it "
@@ -126,12 +126,12 @@ msgstr ""
 "arrancado instancia un lanzador (RadarClientLauncher en el cliente y "
 "RadarServerLauncher en el servidor) e inmediatamente invoca al método run()."
 
-#: ../../internals.rst:107
+#: ../../internals.rst:108
 msgid "From that point a three phase initialization takes place :"
 msgstr ""
 "De ahí en adelante una fase de inicializacion de tres etapas toma lugar :"
 
-#: ../../internals.rst:109
+#: ../../internals.rst:110
 msgid ""
 "First the command line is processed. This is done in the RadarLauncher "
 "class. After this, objects and configurations are read from the main "
@@ -142,17 +142,17 @@ msgstr ""
 "clase RadarLauncher. Luego de esto, otras configuraciones son procesadas y "
 "varios objetos son creados (en el caso del servidor). "
 
-#: ../../internals.rst:113
+#: ../../internals.rst:114
 msgid "Client and server proceed to define, create and configure threads."
 msgstr ""
 "Tanto el cliente como el servidor definen, crean y configuran algunos "
 "threads."
 
-#: ../../internals.rst:114
+#: ../../internals.rst:115
 msgid "Finally threads are launched."
 msgstr "Se ejecutan cada uno de los threads."
 
-#: ../../internals.rst:116
+#: ../../internals.rst:117
 msgid ""
 "After all threads are successfully launched client and server break away and"
 " start performing completely different tasks."
@@ -160,11 +160,11 @@ msgstr ""
 "Una vez que se han ejecutado los threads, cliente y servidor dejan de tener "
 "similitud y comienzan a realizar tareas completamente distintas."
 
-#: ../../internals.rst:121
+#: ../../internals.rst:122
 msgid "Operational overview"
 msgstr "Funcionamiento general"
 
-#: ../../internals.rst:123
+#: ../../internals.rst:124
 msgid ""
 "Both Radar client and server operate in an event triggered fashion and make "
 "use of threads to distribute the workload. If you look at the code of the "
@@ -183,7 +183,7 @@ msgstr ""
 "que se encuentran en el módulo network. El cliente y servidor operan de "
 "manera muy similar a pesar de manejar sockets de manera diferente."
 
-#: ../../internals.rst:132
+#: ../../internals.rst:133
 msgid ""
 "The network module also provides some network monitors that are platform "
 "dependent. Before Radar server goes into operational mode it tries to select"
@@ -202,7 +202,7 @@ msgstr ""
 "de multiplexing de los cuales Radar dispone actualmente son : select, poll, "
 "epoll y kqueue."
 
-#: ../../internals.rst:140
+#: ../../internals.rst:141
 msgid ""
 "Radar's client and server also operate in a non-blocking way. Its main "
 "threads loops are iterated constantly every 200 milliseconds. This prevents "
@@ -221,31 +221,31 @@ msgstr ""
 "es detenido la condición de looping deja de cumplirse y los threads terminan"
 " exitosamente."
 
-#: ../../internals.rst:150
+#: ../../internals.rst:151
 msgid "Server operation"
 msgstr "Funcionamiento del servidor"
 
-#: ../../internals.rst:152
+#: ../../internals.rst:153
 msgid "The main work of the server is split across three main threads :"
 msgstr "El servidor distribuye el trabajo en tres threads principales :"
 
-#: ../../internals.rst:154
+#: ../../internals.rst:155
 msgid "RadarServer."
 msgstr "RadarServer."
 
-#: ../../internals.rst:155
+#: ../../internals.rst:156
 msgid "RadarServerPoller."
 msgstr "RadarServerPoller."
 
-#: ../../internals.rst:156
+#: ../../internals.rst:157
 msgid "PluginManager."
 msgstr "PluginManager."
 
-#: ../../internals.rst:159
+#: ../../internals.rst:160
 msgid "RadarServer :"
 msgstr "RadarServer :"
 
-#: ../../internals.rst:161
+#: ../../internals.rst:162
 msgid ""
 "This thread is responsible for accepting clients and receiving replies from "
 "them. A client is only accepted if it is defined in at least one monitor and"
@@ -255,7 +255,7 @@ msgstr ""
 "mismos. Un cliente es solo aceptado si fue definido en al menos un monitor y"
 " no esta duplicado (esto es, si el cliente no se encuentra ya conectado)."
 
-#: ../../internals.rst:165
+#: ../../internals.rst:166
 msgid ""
 "Once a client is accepted it is registered within the ClientManager. The "
 "ClientManager acts as proxy that talks directly to all defined monitors. "
@@ -272,7 +272,7 @@ msgstr ""
 "almancena con una instancia de dicho cliente. Esta copia es necesaria ya que"
 " más de un cliente puede coincidir con un mismo monitor. "
 
-#: ../../internals.rst:172
+#: ../../internals.rst:173
 msgid ""
 "The reverse process applies when a client disconnects, the RadarServer "
 "unregisters that client and the connection is closed."
@@ -280,7 +280,7 @@ msgstr ""
 "El proceso inverso se da cuando un cliente se desconecta, RadarServer borra "
 "el cliente y su conexión se cierra."
 
-#: ../../internals.rst:175
+#: ../../internals.rst:176
 msgid ""
 "When a client sends a reply is it also initially processed by the "
 "ClientManager. The reason for this is that we need to get a list of checks "
@@ -294,11 +294,11 @@ msgstr ""
 " objetos (chequeos y contactos) son más tarde transferidas al PluginManager "
 "para que puedan procesarse por algún plugin."
 
-#: ../../internals.rst:181
+#: ../../internals.rst:182
 msgid "RadarServerPoller :"
 msgstr "RadarServerPoller :"
 
-#: ../../internals.rst:183
+#: ../../internals.rst:184
 msgid ""
 "This is the simplest thread. Every N seconds it simply asks the "
 "ClientManager to poll all of its monitors. The existence of this thread is "
@@ -317,11 +317,11 @@ msgstr ""
 "tiempo) llevandonos a un diseño más rebuscado tanto para trabajar como para "
 "comprender."
 
-#: ../../internals.rst:192
+#: ../../internals.rst:193
 msgid "PluginManager :"
 msgstr "PluginManager :"
 
-#: ../../internals.rst:194
+#: ../../internals.rst:195
 msgid ""
 "As its name indicates, this is the place where all plugins are executed and "
 "controlled. Whenever the RadarServer receives a reply from a client and "
@@ -353,27 +353,27 @@ msgstr ""
 "apropiados. En caso de que un plugin no funcione correctamente todas sus "
 "excepciones son atrapadas y volcadas al archivo de log de Radar."
 
-#: ../../internals.rst:211
+#: ../../internals.rst:212
 msgid "Client operation"
 msgstr "Funcionamiento del cliente"
 
-#: ../../internals.rst:213
+#: ../../internals.rst:214
 msgid "The client relies on two threads :"
 msgstr "El cliente se basa en dos threads :"
 
-#: ../../internals.rst:215
+#: ../../internals.rst:216
 msgid "RadarClient."
 msgstr "RadarClient."
 
-#: ../../internals.rst:216
+#: ../../internals.rst:217
 msgid "CheckManager."
 msgstr "CheckManager."
 
-#: ../../internals.rst:218
+#: ../../internals.rst:219
 msgid "RadarClient :"
 msgstr "RadarClient :"
 
-#: ../../internals.rst:220
+#: ../../internals.rst:221
 msgid ""
 "This thread is responsible for receiving and replying messages from the "
 "Radar server. For every message received the message is desearialized and "
@@ -389,7 +389,7 @@ msgstr ""
 "threads. Una cola es utilizada para escribir los chequeos que se necesitan "
 "ejecutar, la otra es usada para leer los resultados de dichas ejecuciones."
 
-#: ../../internals.rst:227
+#: ../../internals.rst:228
 msgid ""
 "In case the Radar client is unable to connect to the Radar server it will "
 "wait a certain amount of time and try to reconnect again. This is repeated "
@@ -406,11 +406,11 @@ msgstr ""
 "reconfigurado es necesario reiniciarlo y todas las conexiones actuales se "
 "pierden. Radar no provee un mecanismo de recarga de configuración."
 
-#: ../../internals.rst:235
+#: ../../internals.rst:236
 msgid "CheckManager :"
 msgstr "CheckManager :"
 
-#: ../../internals.rst:237
+#: ../../internals.rst:238
 msgid ""
 "Whenever a CHECK message is received by the RadarClient thread and after "
 "little processing is immediately sent to the CheckManager. When the check "
@@ -433,7 +433,7 @@ msgstr ""
 "que no son relevantes (solo se quedará con los campos status, details y data"
 " del JSON devuelto por el chequeo). "
 
-#: ../../internals.rst:247
+#: ../../internals.rst:248
 msgid ""
 "Once the outputs have been collected they're sent back to the RadarClient "
 "through the other queue and RadarClient sends those results back to the "
@@ -443,11 +443,11 @@ msgstr ""
 " RadarClient mediante la otra cola y RadarClient enviará estos resultados de"
 " vuelta al servidor. "
 
-#: ../../internals.rst:253
+#: ../../internals.rst:254
 msgid "Network protocol"
 msgstr "Protocolo de red"
 
-#: ../../internals.rst:255
+#: ../../internals.rst:256
 msgid ""
 "Radar client and server use TCP for all of its communications. Here is the "
 "network protocol that is used by Radar :"
@@ -455,23 +455,23 @@ msgstr ""
 "El cliente y servidor de Radar utilizan TCP para todas sus comunicaciones. "
 "Este el protocolo de red que usa Radar : "
 
-#: ../../internals.rst:259
+#: ../../internals.rst:260
 msgid "TYPE"
 msgstr "TYPE"
 
-#: ../../internals.rst:259
+#: ../../internals.rst:260
 msgid "OPTIONS"
 msgstr "OPTIONS"
 
-#: ../../internals.rst:259
+#: ../../internals.rst:260
 msgid "PAYLOAD SIZE"
 msgstr "PAYLOAD SIZE"
 
-#: ../../internals.rst:259
+#: ../../internals.rst:260
 msgid "PAYLOAD"
 msgstr "PAYLOAD"
 
-#: ../../internals.rst:262
+#: ../../internals.rst:263
 msgid ""
 "TYPE (1 byte) : Current message types are TEST, TEST REPLY, CHECK and CHECK "
 "REPLY."
@@ -479,15 +479,15 @@ msgstr ""
 "TYPE (1 byte) : Los tipos actuales de mensajes son TEST, TEST REPLY, CHECK y"
 " CHECK REPLY. "
 
-#: ../../internals.rst:265
+#: ../../internals.rst:266
 msgid "OPTIONS (1 byte) : Current options are NONE and COMPRESS."
 msgstr "OPTIONS (1 byte) : Las opciones actuales son NONE y COMPRESS."
 
-#: ../../internals.rst:267
+#: ../../internals.rst:268
 msgid "PAYLOAD SIZE (2 bytes) : Indicates the size (in bytes) of the payload."
 msgstr "PAYLOAD SIZE (2 bytes) : Indica el tamaño (en bytes) del payload."
 
-#: ../../internals.rst:269
+#: ../../internals.rst:270
 msgid ""
 "PAYLOAD (variable) : N bytes make up the payload. The payload's maximum size"
 " is 64 KiB."
@@ -495,7 +495,7 @@ msgstr ""
 "PAYLOAD (variable) : Formada por N bytes. El tamaño máximo del payload es de"
 " 64 KiB. "
 
-#: ../../internals.rst:272
+#: ../../internals.rst:273
 msgid ""
 "Every time the poller needs to query its clients a CHECK message is built "
 "and broadcasted to all clients that are managed by any monitor. When the "
@@ -511,7 +511,7 @@ msgstr ""
 " de tipo CHECK REPLY con los resultados es contruido y enviado de vuelta al "
 "servidor. "
 
-#: ../../internals.rst:278
+#: ../../internals.rst:279
 msgid ""
 "The TEST and TEST REPLY messages are not yet implemented (just defined). The"
 " idea is to have a user-controlled way to explicitly force the run of "
@@ -532,7 +532,7 @@ msgstr ""
 "implementada en un próximo release en conjunto con una pequeña consola de "
 "administración que le permita al usuario un mejor control del servidor. "
 
-#: ../../internals.rst:286
+#: ../../internals.rst:287
 msgid ""
 "The payload is always a JSON. The decision behind using JSON is that "
 "provides flexibility and an easy way to validate and convert data that comes"
@@ -548,7 +548,7 @@ msgstr ""
 "también tiene desventajas : más bytes son enviados por la red y un overhead "
 "adicional es agregado cada vez que serializamos y deserializamos un JSON."
 
-#: ../../internals.rst:294
+#: ../../internals.rst:295
 msgid ""
 "Currently messages are not being compressed at all. This feature makes sense"
 " only if the client replies a message longer than 64 KiB. This feature will "
@@ -558,11 +558,11 @@ msgstr ""
 "tiene sentido si la respuesta de un cliente supera los 64 KiB. Esto será "
 "definitivamente implementado en un próximo release. "
 
-#: ../../internals.rst:300
+#: ../../internals.rst:301
 msgid "Class diagrams"
 msgstr "Diagramas de clase"
 
-#: ../../internals.rst:302
+#: ../../internals.rst:303
 msgid ""
 "Sometimes class diagrams help you see the big picture of a design and also "
 "act as useful documentation. Here are some diagrams that may help you to to "
@@ -573,7 +573,7 @@ msgstr ""
 "diagramas que pueden ayudarte a entender un poco mejor lo que las palabras a"
 " veces no logran describir adecuadamente. "
 
-#: ../../internals.rst:306
+#: ../../internals.rst:307
 msgid ""
 "The diagrams contains the most relevant classes of both Radar server and "
 "client. Only the most important methods of every class are mentioned. You "
@@ -585,66 +585,66 @@ msgstr ""
 "la lectura de estos diagramas con el código fuente para entender "
 "detalladamente lo que sucede en cierta parte del proyecto."
 
-#: ../../internals.rst:311
+#: ../../internals.rst:312
 msgid "Radar client :"
 msgstr "Cliente :"
 
-#: ../../internals.rst:320
+#: ../../internals.rst:321
 msgid "Radar server :"
 msgstr "Servidor :"
 
-#: ../../internals.rst:314
+#: ../../internals.rst:315
 msgid "RadarClient"
 msgstr ""
 
-#: ../../internals.rst:314
+#: ../../internals.rst:315
 msgid "RadarClientLauncher"
 msgstr ""
 
-#: ../../internals.rst:316
+#: ../../internals.rst:317
 msgid "|radar-client|"
 msgstr ""
 
-#: ../../internals.rst:316
+#: ../../internals.rst:317
 msgid "|radar-client-launcher|"
 msgstr ""
 
-#: ../../internals.rst:323
+#: ../../internals.rst:324
 msgid "RadarServer"
 msgstr ""
 
-#: ../../internals.rst:323
+#: ../../internals.rst:324
 msgid "Server"
 msgstr ""
 
-#: ../../internals.rst:325
+#: ../../internals.rst:326
 msgid "|radar-server|"
 msgstr ""
 
-#: ../../internals.rst:325
+#: ../../internals.rst:326
 msgid "|server|"
 msgstr ""
 
-#: ../../internals.rst:331
+#: ../../internals.rst:332
 msgid "Monitor"
 msgstr ""
 
-#: ../../internals.rst:331
+#: ../../internals.rst:332
 msgid "ServerConfig"
 msgstr ""
 
-#: ../../internals.rst:333
+#: ../../internals.rst:334
 msgid "|monitor|"
 msgstr ""
 
-#: ../../internals.rst:333
+#: ../../internals.rst:334
 msgid "|server-config|"
 msgstr ""
 
-#: ../../internals.rst:337
+#: ../../internals.rst:338
 msgid "Notes :"
 msgstr "Notas :"
 
-#: ../../internals.rst:339
+#: ../../internals.rst:340
 msgid "RadarServerLauncher is analogous to RadarClientLauncher."
 msgstr "La clase RadarServerLauncher es análoga a RadarClientLauncher."
