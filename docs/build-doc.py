@@ -36,6 +36,12 @@ class DocBuilder(object):
     DEFAULT_LANG = 'en'
     SUPPORTED_LANGS = [DEFAULT_LANG, 'es']
 
+    SPHINX_DIRS = {
+        'output': '_build/html',
+        'locale_outout': '_build/locale',
+        'doctree_output': '_build/doctrees',
+    }
+
     def _build_parser(self):
         parser = ArgumentParser()
         parser.add_argument('-l', '--language', dest='lang', action='store', default=self.DEFAULT_LANG, required=False)
@@ -43,18 +49,17 @@ class DocBuilder(object):
         return parser
 
     def _build_default_lang_docs(self):
-        call(['make', 'html'])
+        call(split_args('sphinx-build -b html -d _build/doctrees . _build/html'))
 
     def _build_non_default_lang_docs(self, lang):
-        print 'building {:}'.format(lang)
-        call(['make', 'gettext'])
-        call(['sphinx-intl'] + split_args('update -p _build/locale -l {:}'.format(lang)))
-        call(['sphinx-intl', 'build'])
-        call(['make'] + split_args("-e SPHINXOPTS=\"-D language='{:}'\" html".format(lang)))
+        call(split_args('sphinx-build -b gettext . _build/locale'))
+        call(split_args('sphinx-intl update -p _build/locale -l {:}'.format(lang)))
+        call(split_args('sphinx-intl build'))
+        call(split_args('sphinx-build -b html -d _build/doctrees -D language=\'{:}\' . _build/html'.format(lang)))
 
     def _build_docs(self, lang):
         if lang not in self.SUPPORTED_LANGS:
-            raise DocBuilderError('Error - Language {:} is not supported.'.format(lang))
+            raise DocBuilderError('Error - Language \'{:}\' is not currently supported.'.format(lang))
 
         if lang == self.DEFAULT_LANG:
             self._build_default_lang_docs()
