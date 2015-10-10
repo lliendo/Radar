@@ -37,9 +37,11 @@ class DocBuilder(object):
     SUPPORTED_LANGS = [DEFAULT_LANG, 'es']
 
     SPHINX_DIRS = {
-        'output': '_build/html',
-        'locale_outout': '_build/locale',
-        'doctree_output': '_build/doctrees',
+        'build': {
+            'html': '_build/html',
+            'locale': '_build/locale',
+            'doctrees': '_build/doctrees',
+        }
     }
 
     def _build_parser(self):
@@ -49,13 +51,16 @@ class DocBuilder(object):
         return parser
 
     def _build_default_lang_docs(self):
-        call(split_args('sphinx-build -b html -d _build/doctrees . _build/html'))
+        call(split_args('sphinx-build -b html -d {:} . {:}'.format(
+            self.SPHINX_DIRS['build']['doctrees'], self.SPHINX_DIRS['build']['html'])))
 
     def _build_non_default_lang_docs(self, lang):
-        call(split_args('sphinx-build -b gettext . _build/locale'))
-        call(split_args('sphinx-intl update -p _build/locale -l {:}'.format(lang)))
+        import ipdb;ipdb.set_trace()
+        call(split_args('sphinx-build -b gettext . {:}'.format(self.SPHINX_DIRS['build']['locale'])))
+        call(split_args('sphinx-intl update -p {:} -l {:}'.format(self.SPHINX_DIRS['build']['locale'], lang)))
         call(split_args('sphinx-intl build'))
-        call(split_args('sphinx-build -b html -d _build/doctrees -D language=\'{:}\' . _build/html'.format(lang)))
+        call(split_args('sphinx-build -b html -d {:} -D language=\'{:}\' . {:}'.format(
+            self.SPHINX_DIRS['build']['doctrees'], lang, self.SPHINX_DIRS['build']['html'])))
 
     def _build_docs(self, lang):
         if lang not in self.SUPPORTED_LANGS:
