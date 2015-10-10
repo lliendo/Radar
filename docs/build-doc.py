@@ -55,7 +55,6 @@ class DocBuilder(object):
             self.SPHINX_DIRS['build']['doctrees'], self.SPHINX_DIRS['build']['html'])))
 
     def _build_non_default_lang_docs(self, lang):
-        import ipdb;ipdb.set_trace()
         call(split_args('sphinx-build -b gettext . {:}'.format(self.SPHINX_DIRS['build']['locale'])))
         call(split_args('sphinx-intl update -p {:} -l {:}'.format(self.SPHINX_DIRS['build']['locale'], lang)))
         call(split_args('sphinx-intl build'))
