@@ -32,6 +32,4 @@ about its current status :
 These limitations are intended be overcomed as the project evolves. Currently
 Radar's status is ALPHA and proper and expected behaviour needs to be assured
 before moving to further features. Also minor changes can be expected at
-this stage. If you would like to contribute (drop me a line) with any of the
-above tasks you're more than welcome. As you can see a lot of work needs
-to be done. Check out also the TODO located in the project's main directory.
+this stage.
