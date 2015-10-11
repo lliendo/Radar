@@ -59,9 +59,9 @@ class Check(Switchable):
         self.args = args
         self.details = details
         self.data = data
-        self._platform_setup = platform_setup
         self.current_status = self.STATUS['UNKNOWN']
         self.previous_status = self.STATUS['UNKNOWN']
+        self._platform_setup = platform_setup
 
     def _update_matches(self, check_status):
         return (self.id == check_status['id']) and (check_status['status'] in self.STATUS.values()) and \
@@ -134,7 +134,7 @@ class Check(Switchable):
 
     def _build_absolute_path(self):
         checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
-        return [self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)]
+        return self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)
 
     def _split_args(self):
         return split_args(self.args)
@@ -144,15 +144,15 @@ class Check(Switchable):
 
         if self._platform_setup.config['enforce ownership'] and not self._owned_by_stated_user(absolute_path):
             raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
-                absolute_path[len(absolute_path) - 1],
+                absolute_path,
                 self._platform_setup.config['run as']['user'],
                 self._platform_setup.config['run as']['group']
             ))
 
         try:
-            return Popen(absolute_path + self._split_args(), stdout=PIPE).communicate()[0]
+            return Popen([absolute_path] + self._split_args(), stdout=PIPE).communicate()[0]
         except OSError, e:
-            raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path[len(absolute_path) - 1], e))
+            raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
 
     def run(self):
         try:
@@ -189,7 +189,7 @@ class UnixCheck(Check):
         user = self._platform_setup.config['run as']['user']
 
         try:
-            return getpwnam(user).pw_uid == stat(filename)['st_uid']
+            return getpwnam(user).pw_uid == stat(filename).st_uid
         except KeyError:
             raise CheckError('Error - User : \'{:}\' doesn\'t exist.'.format(user))
 
@@ -197,7 +197,7 @@ class UnixCheck(Check):
         group = self._platform_setup.config['run as']['group']
 
         try:
-            return getpwnam(group).pw_gid == stat(filename)['st_gid']
+            return getpwnam(group).pw_gid == stat(filename).st_gid
         except KeyError:
             raise CheckError('Error - Group : \'{:}\' doesn\'t exist.'.format(group))
 
@@ -226,7 +226,7 @@ class WindowsCheck(Check):
     # If the file isn't just executable we need to know who interprets this filetype,
     # otherwise popen fails.
     def _build_absolute_path(self):
-        absolute_path = super(WindowsCheck, self)._build_absolute_path().pop()
+        absolute_path = super(WindowsCheck, self)._build_absolute_path()
         _, interpreter = self._find_interpreter(absolute_path)
         executable = [interpreter, absolute_path]
 
