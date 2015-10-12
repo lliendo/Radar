@@ -71,12 +71,15 @@ class RadarClient(RadarClientLite, Thread):
         self._delays.append(self._delays[0])
         self._delays.pop(0)
 
-    # If we get disconnected relatively fast (under CONNECT_DISCONNECT_INTERVAL)
-    # then we should give up connecting at all.
+    # If we get disconnected relatively fast (under the CONNECT_DISCONNECT_INTERVAL threshold)
+    # then we should give up connecting at all. When server goes down the 'else' prevents
+    # instant reconnection giving it time to fully shutdown its listen socket.
     def _should_give_up_reconnect(self):
         if time() - self._connect_timestamp < self.CONNECT_DISCONNECT_INTERVAL:
             self.stop_event.set()
             self._logger.log('Error - Radar client seems not to be allowed to connect to Radar server.')
+        else:
+            self.stop_event.wait(self.CONNECT_DISCONNECT_INTERVAL)
 
     def on_connect(self):
         self._logger.log('Connected to {:}:{:}.'.format(self.address, self.port))
@@ -91,7 +94,8 @@ class RadarClient(RadarClientLite, Thread):
             try:
                 super(RadarClient, self).connect()
             except Exception, e:
-                self._logger.log('Error - Can\'t connect to {:}:{:}. Details: {:}.'.format(self.address, self.port, e))
+                self._logger.log('Error - Can\'t connect to {:}:{:}. Falling back {:}s. Details: {:}.'.format(
+                    self.address, self.port, self._delays[0], e))
 
                 if self._reconnect:
                     self._sleep()
