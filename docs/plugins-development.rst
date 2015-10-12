@@ -199,9 +199,9 @@ Don't forget to put this file inside the same directory where __init__.py is.
 If you want to see these replies you'll probably need a tool like `netcat <http://nc110.sourceforge.net/>`_.
 If you indeed have netcat installed on your system then open up a console and run :
 
-.. code-block:: python
+.. code-block:: bash
 
-    nc -ul localhost 2000
+    nc -ul 127.0.0.1 2000
 
 
 The above command will capture and display UDP datagrams destined for localhost port 2000.
