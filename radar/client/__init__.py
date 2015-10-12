@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from time import time
 from threading import Thread, Event
 from json import loads as deserialize_json, dumps as serialize_json
 from Queue import Empty as EmptyQueue
@@ -45,6 +46,7 @@ class RadarClientLite(Client):
 class RadarClient(RadarClientLite, Thread):
 
     NETWORK_MONITOR_TIMEOUT = 0.2
+    CONNECT_DISCONNECT_INTERVAL = 0.5
     RECONNECT_DELAYS = [5, 15, 60]
 
     def __init__(self, platform_setup, input_queue, output_queue, stop_event=None):
@@ -61,6 +63,7 @@ class RadarClient(RadarClientLite, Thread):
         self._input_queue = input_queue
         self._output_queue = output_queue
         self._delays = self.RECONNECT_DELAYS
+        self._connect_timestamp = 0
         self.stop_event = stop_event or Event()
 
     def _sleep(self):
@@ -68,11 +71,20 @@ class RadarClient(RadarClientLite, Thread):
         self._delays.append(self._delays[0])
         self._delays.pop(0)
 
+    # If we get disconnected relatively fast (under CONNECT_DISCONNECT_INTERVAL)
+    # then we should give up connecting at all.
+    def _should_give_up_reconnect(self):
+        if time() - self._connect_timestamp < self.CONNECT_DISCONNECT_INTERVAL:
+            self.stop_event.set()
+            self._logger.log('Error - Radar client seems not to be allowed to connect to Radar server.')
+
     def on_connect(self):
         self._logger.log('Connected to {:}:{:}.'.format(self.address, self.port))
+        self._connect_timestamp = time()
 
     def on_disconnect(self):
         self._logger.log('Disconnected from {:}:{:}.'.format(self.address, self.port))
+        self._should_give_up_reconnect()
 
     def connect(self):
         while not self.is_stopped() and not self.is_connected():
