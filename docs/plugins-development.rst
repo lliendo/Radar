@@ -25,7 +25,7 @@ configured it is appended to a set of plugins.
 When the server receives a check reply every plugin is sequentially invoked
 passing it some information. That's all Radar does, from that point (when
 your plugin receives a check reply) you have partial control on what is done.
-When all plugins finish processing a certain reply full control is regained
+When all plugins finish processing a certain reply, full control is regained
 by Radar. This process repeats indefinitely until of course you shut down Radar.
 
 We've just described how Radar processes plugins. We're now going to take
@@ -145,42 +145,48 @@ Let's adjust our initial example :
 
     class ProxyPlugin(ServerPlugin):
 
-            PLUGIN_NAME = 'Proxy plugin'
-            PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'udp-proxy.yml')
+        PLUGIN_NAME = 'Proxy plugin'
+        PLUGIN_CONFIG_FILE = ServerPlugin.get_path(__file__, 'udp-proxy.yml')
+        DEFAULT_CONFIG = {
+            'forward': {
+                'to': 127.0.0.1,
+                'port': 2000,
+            }
+        }
 
-            def _create_socket(self):
-                fd = None
+        def _create_socket(self):
+            fd = None
 
-                try:
-                    fd = socket(AF_INET, SOCK_DGRAM)
-                except Exception, e:
-                    self.log('Error - Couldn\'t create UDP socket. Details : {:}.', e)
+            try:
+                fd = socket(AF_INET, SOCK_DGRAM)
+            except Exception, e:
+                self.log('Error - Couldn\'t create UDP socket. Details : {:}.', e)
 
-                return fd
+            return fd
 
-            def _disconnect(self):
-                self._fd.close()
+        def _disconnect(self):
+            self._fd.close()
 
-            def on_start(self):
-                self._fd = self._create_socket()
+        def on_start(self):
+            self._fd = self._create_socket()
 
-            def _forward(self, address, checks, contacts):
-                serialized = {
-                    'address': address,
-                    'checks': [c.to_dict() for c in checks],
-                    'contacts': [c.to_dict() for c in contacts],
-                }
+        def _forward(self, address, checks, contacts):
+            serialized = {
+                'address': address,
+                'checks': [c.to_dict() for c in checks],
+                'contacts': [c.to_dict() for c in contacts],
+            }
 
-                self._fd.sendto(dumps(serialized) + '\n', (self.config['forward']['to'], self.config['forward']['port']))
+            self._fd.sendto(dumps(serialized) + '\n', (self.config['forward']['to'], self.config['forward']['port']))
 
-            def on_check_reply(self, address, port, checks, contacts):
-                try:
-                    self._forward(address, checks, contacts)
-                except Exception, e:
-                    self.log('Error - Couldn\'t send data. Details : {:}.'.format(e))
+        def on_check_reply(self, address, port, checks, contacts):
+            try:
+                self._forward(address, checks, contacts)
+            except Exception, e:
+                self.log('Error - Couldn\'t send data. Details : {:}.'.format(e))
 
-            def on_shutdown(self):
-                self._disconnect()
+        def on_shutdown(self):
+            self._disconnect()
 
 
 Ok, now we have a useful plugin. Every time we receive a reply we simply forward
@@ -192,12 +198,20 @@ I convert every check and contact to a dictionary before serializing and sending
 the data. The to_dict() method dumps every relevant attribute of each object to
 a Python dictionary.
 
-To get this example running follow the same steps we described for the dummy plugin
+Now take a look at the DEFAULT_CONFIG class attribute. This class attribute allows
+you to set default values for your plugin configuration provided that a user does
+not set a certain parameter. Radar (internally) will merge the values read from
+the file and those found in the DEFAULT_CONFIG class attribute. Setting this
+dictionary is completly optional. This can be very useful for example if a user
+forgets to create a configuration file for your plugin, by using a default config
+you make sure that at least your plugin won't fail due to a missing configuration.
+
+To get this example running follow the same steps we described for the DummyPlugin
 and also create a file named udp-proxy.yml that contains the YAML commented above.
 Don't forget to put this file inside the same directory where __init__.py is.
 
-If you want to see these replies you'll probably need a tool like `netcat <http://nc110.sourceforge.net/>`_.
-If you indeed have netcat installed on your system then open up a console and run :
+If you want to see these replies you'll probably need a tool like `Netcat <http://nc110.sourceforge.net/>`_.
+If you indeed have Netcat installed on your system then open up a console and run :
 
 .. code-block:: bash
 
@@ -223,9 +237,9 @@ shows how to read any useful value (both from a contact and a check) :
     from radar.plugin import ServerPlugin
 
 
-    class YourPlugin(ServerPlugin):
+    class TestPlugin(ServerPlugin):
 
-        PLUGIN_NAME = 'Your plugin'
+        PLUGIN_NAME = 'Test plugin'
 
         def on_check_reply(self, address, port, checks, contacts):
             """ Accesing properties of a check and contact object """
@@ -245,9 +259,9 @@ shows how to read any useful value (both from a contact and a check) :
             previous_status = check[0].previous_status
 
 
-Note that in the above example we're only inspecting the first contact and
-check. Remember that you always receive two lists, so you may need to
-iterate them in order to achieve your plugin's task.
+Note that in the above example we're only inspecting the first contact and check.
+Remember that you always receive two lists, so you may need to iterate them in
+order to achieve your plugin's task.
 
 One last thing. If you inspect the current_status and the previous_status attributes 
 of a check you'll notice that both of them are integers. If you need to convert those
@@ -259,9 +273,9 @@ values to their respective names, here's how to do that :
     from radar.check import Check
 
 
-    class YourPlugin(ServerPlugin):
+    class TestPlugin(ServerPlugin):
 
-        PLUGIN_NAME = 'Your plugin'
+        PLUGIN_NAME = 'Test plugin'
 
         def on_check_reply(self, address, port, checks, contacts):
             """ Converting check reply status values to string codes. """
@@ -282,11 +296,10 @@ Guidelines
 All of the considerations taken to develop checks also apply to plugins.
 So if in doubt review those guidelines in the checks development section.
 
-Also note that Radar expects to find a unique plugin class per plugin
-directory. It is a requirement that this class to be present only in the
-__init__.py file in that directory. Despite this minor limitation you're
-allowed to code in as many different directory/files inside the plugin
-directory as you want.
+Also note that Radar expects to find a unique plugin class per plugin directory.
+It is a requirement that this class to be present only in the __init__.py file in
+that directory. Despite this minor limitation you're allowed to code in as many
+different directory/files inside the plugin directory as you want.
 
 For example, assuming that you wrote the ProxyPlugin described above then, you
 could have the following file hierarchy :
@@ -313,7 +326,7 @@ If your ProxyPlugin also depended on more modules then you could had :
 Example
 -------
 
-If you still want to see a more elaborate example (actually something
-useful, right ?) then you can take a look to an email notifier plugin `here <https://github.com/lliendo/Radar-Plugins>`_.
+If you still want to see a more elaborate example (actually something useful, right ?)
+then you can take a look to an email notifier plugin `here <https://github.com/lliendo/Radar-Plugins>`_.
 This plugin will notify its contacts when a check has any of its status
 (current or previous) distinct from OK.
