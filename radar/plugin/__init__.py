@@ -65,11 +65,8 @@ class ServerPlugin(ConfigBuilder, Switchable):
         return join_path(dirname(source_filename), config_filename)
 
     def run(self, address, port, message_type, checks, contacts):
-        try:
-            action = self._message_actions[message_type]
-            action(address, port, checks, contacts)
-        except KeyError:
-            self.logger.log('Unknown message id \'{:}\'.'.format(message_type))
+        action = self._message_actions[message_type]
+        action(address, port, checks, contacts)
 
     def log(self, message):
         self.logger.log('Plugin \'{:}\' v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
