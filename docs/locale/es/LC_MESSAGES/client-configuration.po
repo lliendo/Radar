@@ -113,16 +113,17 @@ msgid ""
 " the Radar client has to execute a check it will first verify that the user "
 "and group of any check matches the one defined in the run as option. If the "
 "user and group does not match and error is generated and the check won't "
-"run. By default this option is set to True."
+"run. On Windows platforms it will only check for the user. By default this "
+"option is set to True."
 msgstr ""
 "enforce ownership : En las plataformas Unix si esta opción esta con un valor"
 " True entonces cada vez que el cliente necesite ejecutar un chequeo primero "
 "verificará que el usuario y grupo del chequeo coincida con el que se ha "
 "definido en la opcion 'run as'. Si el usuario y grupo no coinciden se genera"
-" un error y el chequeo no es ejecutado. Por defecto esta opción tiene el "
-"valor True. "
+" un error y el chequeo no es ejecutado. En plataformas Windows solo se verificará "
+"el usuario. Por defecto esta opción tiene el valor True. "
 
-#: ../../client-configuration.rst:66
+#: ../../client-configuration.rst:67
 msgid ""
 "reconnect : This option specifies the behaviour of the client when a Radar "
 "server goes down. If set to True and if the Radar server stops working the "
@@ -134,7 +135,7 @@ msgstr ""
 " servidor se desconecta, el cliente intentará reconectarse al servidor. Por "
 "defecto esta opción tiene un valor True."
 
-#: ../../client-configuration.rst:71
+#: ../../client-configuration.rst:72
 msgid ""
 "As usual you can leave out almost every option to its default value. A "
 "minimum Radar client configuration file might look like this :"
@@ -143,7 +144,7 @@ msgstr ""
 "tomarán sus valores por defecto. A continuación podrás ver un archivo de "
 "configuración mínimo :"
 
-#: ../../client-configuration.rst:79
+#: ../../client-configuration.rst:80
 msgid ""
 "All remaining options take default values. Check these defaults on the "
 "platform defaults section."
