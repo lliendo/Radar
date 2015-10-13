@@ -82,18 +82,15 @@ msgstr ""
 
 #: ../../server-configuration.rst:54
 msgid ""
-"run as : On UNIX platforms this option tells Radar the effective user and "
+"run as : On Unix platforms this option tells Radar the effective user and "
 "group that the process should run as. This is a basic security consideration"
 " to allow Radar to run with an unprivileged user. The specified user should "
 "not be a able to login to the system. The default user and group is radar. "
 "This option does not apply to Windows platforms."
 msgstr ""
-"run as : En plataformas UNIX esta opción permite indicarle a Radar el "
-"usuario y grupo efectivo con el cual debe correr. Esta es una consideración "
-"básica de seguridad para permitir a Radar ejecutarse con un usuario sin "
-"privilegios. Este usuario no debería poder ingresar al sistema. Por defecto "
-"tanto el usuario como el grupo utilizado es radar. Esta opción no esta "
-"actualmente disponible en plataformas Windows."
+"pid file : En plataformas Unix este archivo contiene el PID del proceso "
+"Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
+"ejecución es eliminado. Este archivo no es generado en plataformas Windows."
 
 #: ../../server-configuration.rst:61
 msgid ""
@@ -131,13 +128,16 @@ msgstr ""
 
 #: ../../server-configuration.rst:75
 msgid ""
-"pid file : On UNIX platforms this file holds the PID of the Radar process. "
+"pid file : On Unix platforms this file holds the PID of the Radar process. "
 "When Radar starts it will record its pidfile here and when it shuts down "
 "this file is deleted. Pid files are not recorded on Windows platforms."
 msgstr ""
-"pid file : En plataformas UNIX este archivo contiene el PID del proceso "
-"Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
-"ejecución es eliminado. Este archivo no es generado en plataformas Windows."
+"run as : En plataformas Unix esta opción permite indicarle a Radar el "
+"usuario y grupo efectivo con el cual debe correr. Esta es una consideración "
+"básica de seguridad para permitir a Radar ejecutarse con un usuario sin "
+"privilegios. Este usuario no debería poder ingresar al sistema. Por defecto "
+"tanto el usuario como el grupo utilizado es radar. Esta opción no esta "
+"actualmente disponible en plataformas Windows."
 
 #: ../../server-configuration.rst:80
 msgid ""
@@ -150,8 +150,8 @@ msgid ""
 " components such as checks or check groups. Every directory is designed to "
 "contain specific elements. These set of directories are platform dependant."
 msgstr ""
-"checks, contacts, monitors, plugins : Todas estas cuatro opciones indican a"
-" Radar directorios donde buscar : chequeos, contactos, monitores y plugins. "
+"checks, contacts, monitors, plugins : Todas estas cuatro opciones indican a "
+"Radar directorios donde buscar : chequeos, contactos, monitores y plugins. "
 "Radar no impone ninguna restricción acerca de la disposición jerárquica en "
 "dichos directorios. Esto significa que tienes total libertad de colocar "
 "archivos de configuración en cualquier archivo bajo cualquier directorio que"
@@ -407,7 +407,7 @@ msgstr ""
 " prevalece : puedes componer grupos de contactos como desees y referenciar "
 "contactos desde cualquier grupo de contactos. "
 
-#: ../../server-configuration.rst:305
+#: ../../server-configuration.rst:303
 msgid ""
 "There is one little difference between checks and contacts definitions. In "
 "some scenarios it might not be needed to notify any contact at all, so Radar"
@@ -421,11 +421,11 @@ msgstr ""
 "la definición tanto de contactos como grupos de contactos es completamente "
 "opcional. "
 
-#: ../../server-configuration.rst:312
+#: ../../server-configuration.rst:310
 msgid "Monitors configuration"
 msgstr "Configuración de monitores"
 
-#: ../../server-configuration.rst:314
+#: ../../server-configuration.rst:312
 msgid ""
 "Once you have defined all your contacts and checks the last step is to "
 "define monitors. Monitors are the way to tell Radar which hosts to watch, "
@@ -436,11 +436,11 @@ msgstr ""
 "permiten indicarle a Radar que hosts monitorear, que chequear y a quién "
 "notificar. "
 
-#: ../../server-configuration.rst:318
+#: ../../server-configuration.rst:316
 msgid "Let's walk through a real example :"
 msgstr "Veamos el siguiente ejemplo :"
 
-#: ../../server-configuration.rst:327
+#: ../../server-configuration.rst:325
 msgid ""
 "The above example is telling Radar to monitor localhost and all hosts that "
 "are in the 192.168.0.101 - 192.168.0.200 range and to check for Basic "
@@ -451,9 +451,9 @@ msgstr ""
 "todos los hosts que se encuentran en el rango de direcciones ip "
 "192.168.0.101 y 192.168.0.200, que verifique (es decir que chequee) Basic "
 "health y Disk usage y que notifique a Sysadmins. Entonces para definir "
-"monitores basicamente tienes :"
+"monitores básicamente tienes :"
 
-#: ../../server-configuration.rst:338
+#: ../../server-configuration.rst:336
 msgid ""
 "hosts : There are three different way to specify hosts. You can specify a "
 "single host by its IPv4 (this if the preferred way) or by its hostname. The "
@@ -470,7 +470,7 @@ msgstr ""
 "guión y una dirección final. Los extremos de dicho rango estan incluidos. "
 "Debes referenciar al menos un host."
 
-#: ../../server-configuration.rst:345
+#: ../../server-configuration.rst:343
 msgid ""
 "watch : This is a list of checks or check groups to be run on the monitored "
 "hosts. You only need to reference previously defined checks or check group "
@@ -481,7 +481,7 @@ msgstr ""
 "chequeo o grupo de chequeo. Debes al menos referenciar un chequeo o grupo de"
 " chequeos."
 
-#: ../../server-configuration.rst:349
+#: ../../server-configuration.rst:347
 msgid ""
 "notify : Same as above but for contacts. You need to reference a list of "
 "previously defined contacts or contact groups."
@@ -491,7 +491,7 @@ msgstr ""
 " que es opcional definir contactos y grupos de contactos por lo cual esta "
 "definición es también opcional. "
 
-#: ../../server-configuration.rst:352
+#: ../../server-configuration.rst:350
 msgid ""
 "Note that the hosts, watch and notify parameters are defined within squared "
 "brackets. Don't forget this when defining monitors ! This is the only place "
@@ -501,7 +501,7 @@ msgstr ""
 "han sido definidos entre corchetes []. ¡No olvides esto al definir "
 "monitores!. Este es el único lugar donde utilizamos una lista YAML. "
 
-#: ../../server-configuration.rst:356
+#: ../../server-configuration.rst:354
 msgid ""
 "You can include as many monitors as you want on each file. There are no "
 "restrictions. You need to be careful when you reference checks and contacts "
@@ -514,7 +514,7 @@ msgid ""
 msgstr ""
 "Puedes incluir tantos monitores como desees en cada archivo, no hay "
 "restricciones. Debes tener cuidado al referenciar chequeos o contactos en la"
-" definición de monitores ya que Radar no validará si estos existen.Esto "
+" definición de monitores ya que Radar no validará si estos existen. Esto "
 "significa que si haces referencia a un contacto, grupo de contacto, chequeo "
 "o grupo de chequeo y no existe, Radar no se quejará al respecto. Ten también"
 " en cuenta que todas las definiciones son sensibles a mayúsculas, minúsculas"
@@ -522,7 +522,7 @@ msgstr ""
 "utilizar siempre la misma regla al realizar definiciones, por ejemplo puedes"
 " definir siempre todo en minúsculas, usar camel case, etc. "
 
-#: ../../server-configuration.rst:366
+#: ../../server-configuration.rst:364
 msgid ""
 "You may be wondering under which conditions Radar knows if it should notify "
 "its contacts. The Radar core does not handle (and does not care) this, but "
@@ -532,7 +532,7 @@ msgid ""
 "probably inspect the current and previous status of a check to decide if it "
 "should notify the affected contacts."
 msgstr ""
-"Debes estar preguntandote bajo que condiciones Radar determina si debe "
+"Debes estar preguntándote bajo que condiciones Radar determina si debe "
 "notificar a sus contactos. El núcleo de Radar no maneja (de hecho ni "
 "siquiera le importa) esto, pero algunos plugins puede que lo hagan. Cada vez"
 " que un cliente Radar responde al servidor esta información es transferida a"
@@ -541,7 +541,7 @@ msgstr ""
 "probable que dicho plugin inspeccione el estado actual y anterior de un "
 "chequeo para determinar si debe notificar a un grupo de contactos. "
 
-#: ../../server-configuration.rst:374
+#: ../../server-configuration.rst:372
 msgid ""
 "Don't worry if you don't want to write a Radar plugin (you don't have to, "
 "although you're encouraged to at least understand how a plugin works and how"
@@ -551,11 +551,11 @@ msgstr ""
 "hacerlo, aunque te recomiendo a que al menos comprendas como un plugin "
 "funciona y como debe ser diseñado). "
 
-#: ../../server-configuration.rst:380
+#: ../../server-configuration.rst:378
 msgid "Plugins configuration"
 msgstr "Configuración de plugins"
 
-#: ../../server-configuration.rst:382
+#: ../../server-configuration.rst:380
 msgid ""
 "Radar server relies on plugins to perform certain actions. For example "
 "assume that you want to notify your contacts by SMS and you also want to be "
@@ -567,7 +567,7 @@ msgstr ""
 "resultados de ciertos chequeos en una base de datos relacional los plugins "
 "ofrecen un mecanismo para lograr esto."
 
-#: ../../server-configuration.rst:387
+#: ../../server-configuration.rst:385
 msgid ""
 "Radar does not provide any built-in mechanisms to do these kind of things "
 "because that responsability is left to plugins. For the moment we're not "
@@ -577,7 +577,7 @@ msgstr ""
 "cosas porque no es su responsabilidad. Por el momento no describiremos como "
 "desarrollar un plugin pero si como instalarlos."
 
-#: ../../server-configuration.rst:391
+#: ../../server-configuration.rst:389
 msgid ""
 "As described previously there is one plugin directory defined in the main "
 "configuration file. This directory holds all the plugins managed by Radar. "
@@ -593,7 +593,7 @@ msgstr ""
 "cuanto a su organización jerárquica se refiere. Este no es el caso del "
 "directorio de plugins. "
 
-#: ../../server-configuration.rst:397
+#: ../../server-configuration.rst:395
 msgid ""
 "Let's assume that your plugins directory is : /tmp/Radar/server/plugins. "
 "Then you have a bunch of plugins you want install. Simply copy all of them "
@@ -604,11 +604,11 @@ msgstr ""
 "instalar. Para instalarlos simplemente debemos copiarlos a dicho directorio."
 " "
 
-#: ../../server-configuration.rst:401
+#: ../../server-configuration.rst:399
 msgid "The layout of the plugins directory might look something like this :"
 msgstr "La organización de directorio de plugins se asemejaría a :"
 
-#: ../../server-configuration.rst:413
+#: ../../server-configuration.rst:411
 msgid ""
 "Every plugin must be contained within one directory below the defined "
 "plugins directory. Some plugins might contain configurations as well (from "
