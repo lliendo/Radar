@@ -64,7 +64,7 @@ class ClientManager(object):
         self._log_incoming_message(client, message_type, message)
         return self._update_checks(client, message)
 
-    # TODO: Yes, is the same as above ! This implementation may change in the future.
+    # Yes, is the same as above ! This implementation may change in the future.
     def _on_test_reply(self, client, message_type, message):
         return self._on_check_reply(client, message_type, message)
 

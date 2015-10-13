@@ -69,7 +69,7 @@ class CheckManager(Thread):
     def _on_check(self, message):
         self._run_checks(self._build_checks(message))
 
-    # TODO: Yes, is the same as above ! This implementation may change in the future.
+    # Yes, is the same as above ! This implementation may change in the future.
     def _on_test(self, message):
         self._on_check(message)
 
