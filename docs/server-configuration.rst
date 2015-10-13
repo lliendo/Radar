@@ -51,7 +51,7 @@ option :
   addresses are supported. The default values are to listen on localhost
   and port 3333.
 
-* run as : On UNIX platforms this option tells Radar the effective user
+* run as : On Unix platforms this option tells Radar the effective user
   and group that the process should run as. This is a basic security
   consideration to allow Radar to run with an unprivileged user. The
   specified user should not be a able to login to the system.
@@ -72,7 +72,7 @@ option :
   up) and new logs are written to a new file. By default Radar sets a maximum 
   of 100 MiB for the log file and rotates it at most 5 times.
 
-* pid file : On UNIX platforms this file holds the PID of the Radar
+* pid file : On Unix platforms this file holds the PID of the Radar
   process. When Radar starts it will record its pidfile here and when
   it shuts down this file is deleted. Pid files are not recorded on Windows
   platforms.
@@ -298,9 +298,7 @@ Here's a fragment of how a real configuration might look like :
             - contact:
                 name: Javier Liendo
                 email: javier@invader
-            - contact:
-                name: Lucas Liendo
-                email: lucas@invader
+
 
 There is one little difference between checks and contacts definitions. In
 some scenarios it might not be needed to notify any contact at all, so Radar

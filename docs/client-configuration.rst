@@ -32,7 +32,7 @@ option (this time we will setup a Windows Radar client) :
   At the moment only IPv4 addresses are supported. By default it tries to connect
   to localhost port 3333.
 
-* run as : On UNIX platforms this option tells Radar the effective user
+* run as : On Unix platforms this option tells Radar the effective user
   and group that the process should run as. This is a basic security
   consideration to allow Radar to run with an unprivileged user. The
   specified user should not be a able to login to the system.
@@ -47,7 +47,7 @@ option (this time we will setup a Windows Radar client) :
   up) and new logs are written to a new file. By default Radar sets a maximum 
   of 100 MiB for the log file and rotates it at most 5 times.
 
-* pid file : On UNIX platforms this file holds the PID of the Radar
+* pid file : On Unix platforms this file holds the PID of the Radar
   process. When Radar starts it will record its pidfile here and when
   it shuts down this file is deleted. Pid files are not recorded on Windows
   platforms.
@@ -57,7 +57,7 @@ option (this time we will setup a Windows Radar client) :
   first looked up here if a relative path was given, otherwise it will be
   looked up by its absolute path. You can lay out this directory as you wish.
 
-* enforce ownership : On UNIX platforms if this option is True then every
+* enforce ownership : On Unix platforms if this option is True then every
   time the Radar client has to execute a check it will first verify that
   the user and group of any check matches the one defined in the run as
   option. If the user and group does not match and error is generated and
