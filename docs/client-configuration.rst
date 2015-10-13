@@ -61,7 +61,8 @@ option (this time we will setup a Windows Radar client) :
   time the Radar client has to execute a check it will first verify that
   the user and group of any check matches the one defined in the run as
   option. If the user and group does not match and error is generated and
-  the check won't run. By default this option is set to True.
+  the check won't run. On Windows platforms it will only check for the user.
+  By default this option is set to True.
 
 * reconnect : This option specifies the behaviour of the client when a Radar
   server goes down. If set to True and if the Radar server stops working
