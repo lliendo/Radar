@@ -83,16 +83,10 @@ class WindowsServerSetup(ServerConfig, WindowsSetup):
     def _shutdown_plugins(self):
         [p.on_shutdown() for p in self.plugins]
 
-    # TODO : Enforce ownership is not currently available on Windows platforms.
-    # Try to make this option available.
-    def _disable_enforce_ownership(self):
-        self.config['enforce ownership'] = False
-
     def configure(self, launcher):
         super(WindowsServerSetup, self).configure()
         self._configure_plugins()
         self._install_signal_handlers(launcher)
-        self._disable_enforce_ownership()
 
     def tear_down(self):
         self._shutdown_plugins()
