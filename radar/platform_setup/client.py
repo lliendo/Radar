@@ -59,12 +59,6 @@ class WindowsClientSetup(ClientConfig, WindowsSetup):
     })
     PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\radar-client.log'
 
-    # TODO : Enforce ownership is not currently available on Windows platforms.
-    # Try to make this option available.
-    def _disable_enforce_ownership(self):
-        self.config['enforce ownership'] = False
-
     def configure(self, launcher):
         super(WindowsClientSetup, self).configure()
         self._install_signal_handlers(launcher)
-        self._disable_enforce_ownership()
