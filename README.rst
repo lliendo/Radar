@@ -1,3 +1,12 @@
+.. image:: https://codeclimate.com/github/lliendo/Radar/badges/gpa.svg
+   :target: https://codeclimate.com/github/lliendo/Radar
+   :alt: Code Climate
+
+
+.. image:: https://api.travis-ci.org/lliendo/Radar.svg?branch=master
+    :alt: Travis CI
+
+
 Radar
 =====
 
