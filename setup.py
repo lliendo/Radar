@@ -43,7 +43,7 @@ setup(
     version='0.0.1a',
     packages=find_packages(exclude=['docs', 'tests', 'scripts']),
     author='Lucas Liendo',
-    author_email='mindmaster@gmail.com',
+    author_email='liendolucas84@gmail.com',
     keywords='monitor monitoring system administration',
     license='LGPLv3',
     zip_safe=False,
