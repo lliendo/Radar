@@ -90,7 +90,7 @@ Development
 -----------
 
 If you're interested in how Radar works you are encouraged to take a look at
-the code, documentation about its internals can be found `here <https://...>`.
+the code, documentation about its internal ideas can be found `here <http://radar-monitoring.readthedocs.org/en/latest/>`.
 Radar is aimed to be both simple and easy to use and understand.
 
 
