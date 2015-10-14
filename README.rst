@@ -26,8 +26,8 @@ as `.zip <https://github.com/lliendo/Radar/archive/master.zip>`_), and run  :
 Documentation
 -------------
 
-You can read how to setup and use Radar (both client and server) from `here <http://radar-monitoring.readthedocs.org/en/latest/>`.
-You can also generate the documentation of the project by yourself using `Sphinx <http://sphinx-doc.org/>`.
+You can read how to setup and use Radar (both client and server) from `here <http://radar-monitoring.readthedocs.org/en/latest/>`_.
+You can also generate the documentation of the project by yourself using `Sphinx <http://sphinx-doc.org/>`_.
 
 Radar does not include Sphinx in its dependencies so to generate the documentation
 you will first need to install it :
@@ -90,7 +90,7 @@ Development
 -----------
 
 If you're interested in how Radar works you are encouraged to take a look at
-the code, documentation about its internal ideas can be found `here <http://radar-monitoring.readthedocs.org/en/latest/>`.
+the code, documentation about its internal ideas can be found `here <http://radar-monitoring.readthedocs.org/en/latest/>`_.
 Radar is aimed to be both simple and easy to use and understand.
 
 
