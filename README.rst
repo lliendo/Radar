@@ -4,6 +4,7 @@
 
 
 .. image:: https://api.travis-ci.org/lliendo/Radar.svg?branch=master
+    :target: https://travis-ci.org/lliendo/Radar
     :alt: Travis CI
 
 
