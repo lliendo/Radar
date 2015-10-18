@@ -310,8 +310,8 @@ could have the following file hierarchy :
 .. code-block:: bash
 
     /ProxyPlugin
-        /__init__.py
-        /proxy.yml
+    ├── /__init__.py
+    └── /proxy.yml
 
 
 If your ProxyPlugin also depended on more modules then you could had :
@@ -319,11 +319,11 @@ If your ProxyPlugin also depended on more modules then you could had :
 .. code-block:: bash
 
     /ProxyPlugin
-        /__init__.py
-        /proxy.yml
-            /another_module
-                /__init__.py
-                /another_file.py
+    ├── /__init__.py
+    ├── /proxy.yml
+    └── /some_module
+        ├── /__init__.py
+        └── /other_file.py
 
 
 Example

@@ -401,12 +401,12 @@ The layout of the plugins directory might look something like this :
 .. code-block:: bash
 
     /tmp/Radar/server/plugins
-        /some-plugin
-            /__init__.py
-        /another-plugin
-            /__init__.py
-            /another-plugin.yml
-        ...
+    ├── /some-plugin
+    │   └── /__init__.py
+    ├── /another-plugin
+    │   ├── /__init__.py
+    │   └── /other_file.py
+    └── ...
 
 Every plugin must be contained within one directory below the defined
 plugins directory. Some plugins might contain configurations as well (from
