@@ -28,6 +28,7 @@ from shutil import rmtree
 from shlex import split as split_args
 from subprocess import call
 from argparse import ArgumentParser
+from errno import ENOENT
 
 
 class DocBuilderError(Exception):
@@ -61,7 +62,12 @@ class DocBuilder(object):
 
     def _clean_build(self):
         build_dir = '_build'
-        [self._clean_directory('{:}/{:}'.format(build_dir, f)) for f in listdir(build_dir)]
+
+        try:
+            [self._clean_directory('{:}/{:}'.format(build_dir, f)) for f in listdir(build_dir)]
+        except OSError, e:
+            if e.errno == ENOENT:
+                pass
 
     def _build_default_lang_docs(self):
         call(split_args('sphinx-build -b html -d {:} . {:}'.format(
