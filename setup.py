@@ -32,7 +32,7 @@ def radar_dependencies():
     ]
 
     if platform_name() == 'Windows':
-        dependencies.append('pywin32==219')
+        dependencies.append('pypiwin32==219')
 
     return dependencies
 
