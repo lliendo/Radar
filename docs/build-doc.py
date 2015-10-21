@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from os import listdir, unlink
-from os.path import isfile, isdir
+from os.path import isfile, isdir, dirname
 from shutil import rmtree
 from shlex import split as split_args
 from subprocess import call
@@ -39,7 +39,6 @@ class DocBuilder(object):
 
     DEFAULT_LANG = 'en'
     SUPPORTED_LANGS = [DEFAULT_LANG, 'es']
-
     SPHINX_DIRS = {
         'build': {
             'html': '_build/html',
@@ -61,13 +60,13 @@ class DocBuilder(object):
             rmtree(f)
 
     def _clean_build(self):
-        build_dir = '_build'
+        build_dir = dirname(self.SPHINX_DIRS['build']['html'])
 
         try:
             [self._clean_directory('{:}/{:}'.format(build_dir, f)) for f in listdir(build_dir)]
         except OSError, e:
-            if e.errno == ENOENT:
-                pass
+            if e.errno != ENOENT:
+                raise e
 
     def _build_default_lang_docs(self):
         call(split_args('sphinx-build -b html -d {:} . {:}'.format(
