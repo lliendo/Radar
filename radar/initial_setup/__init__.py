@@ -53,7 +53,7 @@ class InitialSetup(object):
         return user_setup(), platform_setup
 
     def _read_config(self, config):
-        for path in self._generate_dict_paths(self.PlatformSetup.PLATFORM_CONFIG):
+        for path in self._generate_dict_paths(config):
             console_message = self._read_dict_path(config, path)
             default_value = self._read_dict_path(self.PlatformSetup.PLATFORM_CONFIG, path)
             self._write_to_dict_path(config, path, raw_input(console_message.format(default_value)) or default_value)
