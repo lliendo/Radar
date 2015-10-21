@@ -21,28 +21,53 @@ along with Radar. If not, see <http://www.gnu.org/licenses/>.
 Copyright 2015 Lucas Liendo.
 """
 
+
+from abc import ABCMeta
 from os.path import dirname
 from . import InitialSetup
 from ..platform_setup.client import UnixClientSetup, WindowsClientSetup
 
 
-class ClientInitialSetup(InitialSetup):
-
-    AVAILABLE_PLATFORMS = {
-        'UNIX': UnixClientSetup,
-        'Windows': WindowsClientSetup,
-    }
-
+class UnixClientInitialSetup(object):
     def _get_config_dict(self):
         return {
-            'connect': {
-                'to': 'Server address ? [{:}] ',
-                'port': 'Server port ? [{:}] ',
-            },
-
             'run as': {
                 'user': 'User to run Radar client as ? [{:}] ',
                 'group': 'Group to run Radar client as ? [{:}] ',
+            },
+
+            'pid file': 'Pid file ? [{:}] ',
+        }
+
+    def _get_directories(self, config):
+        return [
+            dirname(config['pid file']),
+        ]
+
+
+# As there are no Windows platform specific options, the class is empty.
+class WindowsClientInitialSetup(object):
+    def _get_config_dict(self):
+        return {}
+
+    def _get_directories(self, config):
+        return []
+
+
+class ClientInitialSetup(InitialSetup):
+
+    __metaclass__ = ABCMeta
+
+    AVAILABLE_PLATFORMS = {
+        'UNIX': (UnixClientInitialSetup, UnixClientSetup),
+        'Windows': (WindowsClientInitialSetup, WindowsClientSetup),
+    }
+
+    def _build_config_dict(self):
+        config = {
+            'connect': {
+                'to': 'Server address ? [{:}] ',
+                'port': 'Server port ? [{:}] ',
             },
 
             'log': {
@@ -53,15 +78,17 @@ class ClientInitialSetup(InitialSetup):
 
             'enforce ownership': 'Enforce check ownership ? [{:}] ',
             'reconnect': 'Reconnect automatically to server ? [{:}] ',
-            'pid file': 'Pid file ? [{:}] ',
             'checks': 'Checks directory ? [{:}] ',
         }
+
+        config.update(self.user_setup._get_config_dict())
+
+        return config
 
     def _create_directories(self, config):
         directories = [
             dirname(config['log']['to']),
-            dirname(config['pid file']),
             config['checks'],
         ]
 
-        [self._create_directory(d) for d in directories]
+        [self._create_directory(d) for d in directories + self.user_setup._get_directories(config)]

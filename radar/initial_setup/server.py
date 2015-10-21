@@ -22,28 +22,52 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from abc import ABCMeta
 from os.path import dirname
 from . import InitialSetup
 from ..platform_setup.server import UnixServerSetup, WindowsServerSetup
 
 
-class ServerInitialSetup(InitialSetup):
-
-    AVAILABLE_PLATFORMS = {
-        'UNIX': UnixServerSetup,
-        'Windows': WindowsServerSetup,
-    }
-
+class UnixServerInitialSetup(object):
     def _get_config_dict(self):
         return {
-            'listen': {
-                'address': 'Listen address ? [{:}] ',
-                'port': 'Listen on ? [{:}] ',
-            },
-
             'run as': {
                 'user': 'User to run Radar server as ? [{:}] ',
                 'group': 'Group to run Radar server as ? [{:}] ',
+            },
+
+            'pid file': 'Pid file ? [{:}] ',
+        }
+
+    def _get_directories(self, config):
+        return [
+            dirname(config['pid file']),
+        ]
+
+
+# As there are no Windows platform specific options, the class is empty.
+class WindowsServerInitialSetup(object):
+    def _get_config_dict(self):
+        return {}
+
+    def _get_directories(self, config):
+        return []
+
+
+class ServerInitialSetup(InitialSetup):
+
+    __metaclass__ = ABCMeta
+
+    AVAILABLE_PLATFORMS = {
+        'UNIX': (UnixServerInitialSetup, UnixServerSetup),
+        'Windows': (WindowsServerInitialSetup, WindowsServerSetup),
+    }
+
+    def _build_config_dict(self):
+        config = {
+            'listen': {
+                'address': 'Listen address ? [{:}] ',
+                'port': 'Listen on ? [{:}] ',
             },
 
             'log': {
@@ -53,21 +77,23 @@ class ServerInitialSetup(InitialSetup):
             },
 
             'polling time': 'Polling time ? [{:}] ',
-            'pid file': 'Pid file ? [{:}] ',
             'checks': 'Checks directory ? [{:}] ',
             'monitors': 'Monitors directory ? [{:}] ',
             'contacts': 'Contacts directory ? [{:}] ',
             'plugins': 'Plugins directory ? [{:}] ',
         }
 
+        config.update(self.user_setup._get_config_dict())
+
+        return config
+
     def _create_directories(self, config):
         directories = [
             dirname(config['log']['to']),
-            dirname(config['pid file']),
             config['checks'],
             config['monitors'],
             config['contacts'],
             config['plugins'],
         ]
 
-        [self._create_directory(d) for d in directories]
+        [self._create_directory(d) for d in directories + self.user_setup._get_directories(config)]

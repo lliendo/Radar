@@ -39,18 +39,18 @@ class InitialSetup(object):
     __metaclass__ = ABCMeta
 
     def __init__(self):
-        self.PlatformSetup = self._get_platform_setup()
+        self.user_setup, self.PlatformSetup = self._get_setup()
 
-    def _get_platform_setup(self):
+    def _get_setup(self):
         platform = Platform.get_platform_type()
 
         try:
-            PlatformSetup = self.AVAILABLE_PLATFORMS[platform]
+            user_setup, platform_setup = self.AVAILABLE_PLATFORMS[platform]
             print '\nDetected platform : {:}\n'.format(platform)
         except KeyError:
             raise InitialSetupError('Error - Platform {:} is not currently supported.'.format(platform))
 
-        return PlatformSetup
+        return user_setup(), platform_setup
 
     def _read_config(self, config):
         for path in self._generate_dict_paths(self.PlatformSetup.PLATFORM_CONFIG):
@@ -60,7 +60,7 @@ class InitialSetup(object):
 
         return config
 
-    # Generates all paths to all values of a arbitrary nested dictionary.
+    # Generates all paths to all values of an arbitrary nested dictionary.
     def _generate_dict_paths(self, d, path=None):
         if not path:
             path = []
@@ -93,9 +93,6 @@ class InitialSetup(object):
         except Exception, e:
             raise InitialSetupError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, e))
 
-    def _create_directories(self, config):
-        pass
-
     def _save_yaml(self, config):
         console_message = 'Path to main config ? [{:}] '.format(self.PlatformSetup.MAIN_CONFIG_PATH)
         main_config_path = raw_input(console_message) or self.PlatformSetup.MAIN_CONFIG_PATH
@@ -108,15 +105,15 @@ class InitialSetup(object):
         print 'Press enter for default values or input a custom one :'
         print '------------------------------------------------------\n'
 
-    def _run(self, template_name):
+    def _run(self):
         self._print_header()
-        config = self._read_config(self._get_config_dict())
+        config = self._read_config(self._build_config_dict())
         self._create_directories(config)
         self._save_yaml(config)
 
-    def run(self, template_name=''):
+    def run(self):
         try:
-            self._run(template_name)
+            self._run()
             print '\nDone !\n'
         except KeyboardInterrupt:
             print '\n\nAborting configuration...'
