@@ -11,10 +11,10 @@
 Radar
 =====
 
-Radar is general purpose monitoring system. It aims to be simple and extendable.
+Radar is a general purpose monitoring system. It aims to be simple and extendable.
 It uses arbitrary check execution and server side plugins to provide flexibility.
 It is entirely written in the `Python <https://www.python.org/>`_ programming language and is distributed
-under the LGPL v3 license.
+under the GNU LGPLv3 license.
 
 
 Installation
@@ -44,7 +44,8 @@ you will first need to install it :
 
 .. code-block:: bash
 
-    pip install sphinx 
+    cd Radar
+    pip install -r docs-requirements.txt
 
 Now from the project's main directory run :
 
@@ -55,19 +56,13 @@ Now from the project's main directory run :
 
 Sphinx will output the generated documentation to the 'docs/_build/html' directory.
 To read the generated docs open up a browser and then load the index.html file.
-Currently the documentation is available in the following languages :
+The documentation is available in the following languages :
 
 * English.
 * Spanish.
 
 To generate non-english versions (currently only spanish is available) of the
-documentation you will need to install additionally sphinx-intl :
-
-.. code-block:: bash
-
-    pip install sphinx-intl
-
-Then run the following commands :
+documentation you need to run :
 
 .. code-block:: bash
 
@@ -85,8 +80,8 @@ Status
 ------
 
 Radar is currently in ALPHA status, however its foundations are complete.
-You can take a look at the TODO.rst to have an idea what features are going to
-(or might) be implemented in the future.
+You can take a look at the 'Limitations' section of the documentation to have
+an idea what features are going to (or might) be implemented in the future.
 
 
 Supported platforms
