@@ -86,7 +86,10 @@ class ContactGroupBuilder(ContactBuilder):
         )
 
     def _build_contact_groups(self, contact_groups, defined_contacts):
-        return set([self._build_contact_group(cg, defined_contacts) for cg in contact_groups])
+        try:
+            return set([self._build_contact_group(cg, defined_contacts) for cg in contact_groups])
+        except TypeError:
+            raise ConfigError('Error - Invalid contact group format.')
 
     def build(self, defined_contacts):
         try:
@@ -146,7 +149,10 @@ class CheckGroupBuilder(CheckBuilder):
         )
 
     def _build_check_groups(self, check_groups, defined_checks):
-        return set([self._build_check_group(cg, defined_checks) for cg in check_groups])
+        try:
+            return set([self._build_check_group(cg, defined_checks) for cg in check_groups])
+        except TypeError:
+            raise ConfigError('Error - Invalid check group format.')
 
     def build(self, defined_checks):
         try:
@@ -159,11 +165,6 @@ class MonitorBuilder(ConfigBuilder):
 
     TAG = 'monitor'
 
-    def __init__(self, path, checks, contacts):
-        super(MonitorBuilder, self).__init__(path)
-        self.checks = checks
-        self.contacts = contacts
-
     def _build_address(self, address):
         for A in [Address, AddressRange]:
             try:
@@ -173,24 +174,24 @@ class MonitorBuilder(ConfigBuilder):
 
         raise error
 
-    def _build_monitor(self, monitor):
+    def _build_monitor(self, monitor, checks, contacts):
         monitor = monitor[self.TAG]
 
         return Monitor(
             name=monitor.get('name', ''),
             addresses=[self._build_address(address) for address in monitor['hosts']],
-            checks=[c for c in self.checks if c.name in monitor['watch']],
-            contacts=[c for c in self.contacts if c.name in monitor['notify']],
+            checks=[c for c in checks if c.name in monitor['watch']],
+            contacts=[c for c in contacts if c.name in monitor['notify']],
             enabled=monitor.get('enabled', True)
         )
 
-    def _build_monitors(self, monitors):
-        return set([self._build_monitor(m) for m in monitors])
+    def _build_monitors(self, monitors, checks, contacts):
+        return set([self._build_monitor(m, checks, contacts) for m in monitors])
 
-    def build(self):
+    def build(self, checks, contacts):
         try:
             monitors_config = self._filter_config(self.TAG)
-            monitors = list(self._build_monitors(monitors_config))
+            monitors = list(self._build_monitors(monitors_config, checks, contacts))
         except KeyError, e:
             raise ConfigError('Error - Missing \'{:}\' while creating monitor from {:}.'.format(e.args[0], self.path))
         except TypeError, e:
@@ -234,12 +235,15 @@ class ServerConfig(ConfigBuilder):
         files = [join_path(root, f) for root, _, files in walk(path) for f in files]
         return [f for f in files if S_ISREG(stat(f).st_mode)]
 
+    def _build_and_reduce(self, Builder, files, builder_args=[]):
+        return reduce(lambda l, m: l + m, [Builder(f).build(*builder_args) for f in files])
+
     def _build_contacts(self):
         files = self._search_files(self.config['contacts'])
 
         try:
-            contacts = reduce(lambda l, m: l + m, [ContactBuilder(f).build() for f in files])
-            contact_groups = reduce(lambda l, m: l + m, [ContactGroupBuilder(f).build(contacts) for f in files])
+            contacts = self._build_and_reduce(ContactBuilder, files)
+            contact_groups = self._build_and_reduce(ContactGroupBuilder, files, builder_args=[contacts])
         except TypeError:
             return []
 
@@ -249,18 +253,18 @@ class ServerConfig(ConfigBuilder):
         files = self._search_files(self.config['checks'])
 
         try:
-            checks = reduce(lambda l, m: l + m, [CheckBuilder(f).build() for f in files])
-            check_groups = reduce(lambda l, m: l + m, [CheckGroupBuilder(f).build(checks) for f in files])
+            checks = self._build_and_reduce(CheckBuilder, files)
+            check_groups = self._build_and_reduce(CheckGroupBuilder, files, builder_args=[checks])
         except TypeError:
             raise ConfigError('Error - No defined checks could be found.')
 
         return checks + check_groups
 
-    def _build_monitors(self, contacts, checks):
+    def _build_monitors(self, checks, contacts):
         files = self._search_files(self.config['monitors'])
 
         try:
-            return reduce(lambda l, m: l + m, [MonitorBuilder(f, checks, contacts).build() for f in files])
+            return self._build_and_reduce(MonitorBuilder, files, builder_args=[checks, contacts])
         except TypeError:
             raise ConfigError('Error - No defined monitors could be found.')
 
@@ -269,6 +273,6 @@ class ServerConfig(ConfigBuilder):
         return set([P() for P in plugin_classes])
 
     def build(self):
-        self.monitors = self._build_monitors(self._build_contacts(), self._build_checks())
+        self.monitors = self._build_monitors(self._build_checks(), self._build_contacts())
         self.plugins = self._load_plugins()
         return self
