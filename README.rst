@@ -80,7 +80,7 @@ Status
 ------
 
 Radar is currently in ALPHA status, however its foundations are complete.
-You can take a look at the 'Limitations' section of the documentation to have
+You can take a look at the `limitations <http://radar-monitoring.readthedocs.org/en/latest/limitations.html>`_ section of the documentation to have
 an idea what features are going to (or might) be implemented in the future.
 
 
