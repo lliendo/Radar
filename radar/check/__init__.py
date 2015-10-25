@@ -239,7 +239,7 @@ class WindowsCheck(Check):
         try:
             security_descriptor = GetFileSecurity(filename, OWNER_SECURITY_INFORMATION)
             user, _, _ = LookupAccountSid(None, security_descriptor.GetSecurityDescriptorOwner())
-            return user == self._platform_setup['run as']['user']
+            return user == self._platform_setup.config['run as']['user']
         except MemoryError, e:
             raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(filename, e))
 
