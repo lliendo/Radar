@@ -134,23 +134,24 @@ class Check(Switchable):
 
     def _build_absolute_path(self):
         checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
-        return self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)
+        return [self.path if is_absolute_path(self.path) else join_path(checks_directory, self.path)]
 
     def _split_args(self):
         return split_args(self.args)
 
     def _call_popen(self):
         absolute_path = self._build_absolute_path()
+        filename = absolute_path[len(absolute_path) - 1]
 
-        if self._platform_setup.config['enforce ownership'] and not self._owned_by_stated_user(absolute_path):
+        if self._platform_setup.config['enforce ownership'] and not self._owned_by_stated_user(filename):
             raise CheckError('Error - \'{:}\' is not owned by user : {:} / group : {:}.'.format(
-                absolute_path,
+                filename,
                 self._platform_setup.config['run as']['user'],
                 self._platform_setup.config['run as']['group']
             ))
 
         try:
-            return Popen([absolute_path] + self._split_args(), stdout=PIPE).communicate()[0]
+            return Popen(absolute_path + self._split_args(), stdout=PIPE).communicate()[0]
         except OSError, e:
             raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
 
@@ -226,7 +227,7 @@ class WindowsCheck(Check):
     # If the file isn't just executable we need to know who interprets this filetype,
     # otherwise popen fails.
     def _build_absolute_path(self):
-        absolute_path = super(WindowsCheck, self)._build_absolute_path()
+        absolute_path = super(WindowsCheck, self)._build_absolute_path().pop()
         _, interpreter = self._find_interpreter(absolute_path)
         executable = [interpreter, absolute_path]
 
@@ -243,8 +244,8 @@ class WindowsCheck(Check):
         except MemoryError, e:
             raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(filename, e))
 
-    def _owned_by_stated_user(self, executable):
-        return self._owned_by_user(executable[len(executable) - 1])
+    def _owned_by_stated_user(self, filename):
+        return self._owned_by_user(filename)
 
     def _split_args(self):
         return split_args(self.args, posix=False)
