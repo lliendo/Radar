@@ -22,20 +22,15 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from StringIO import StringIO
-from yaml import safe_load
+from mock import patch
+from yaml import load
 from radar.config import ConfigError
 from radar.config.server import ContactBuilder
 
 
-class MockedContactBuilder(ContactBuilder):
-    def _read_config(self, path):
-        return safe_load(path)
-
-
 class TestContactBuilder(TestCase):
     def test_repeated_contacts_are_excluded(self):
-        f = StringIO("""
+        input_yaml = """
         - contact:
             name: A
             email: A
@@ -51,32 +46,28 @@ class TestContactBuilder(TestCase):
         - contact:
             name: B
             email: B
-        """)
+        """
 
-        self.assertEqual(len(MockedContactBuilder(f).build()), 2)
+        with patch.object(ContactBuilder, '_read_config', return_value=load(input_yaml)):
+            self.assertEqual(len(ContactBuilder(None).build()), 2)
 
     @raises(ConfigError)
+    def _test_raises_config_error(self, input_yaml):
+        with patch.object(ContactBuilder, '_read_config', return_value=load(input_yaml)):
+            ContactBuilder(None).build()
+
     def test_missing_name_raises_config_error(self):
-        f = StringIO("""
+        input_yaml = """
         - contact:
-            name: A
             email: A
+        """
 
-        - contact:
-            email: B
-        """)
+        self._test_raises_config_error(input_yaml)
 
-        MockedContactBuilder(f).build()
-
-    @raises(ConfigError)
     def test_missing_email_raises_config_error(self):
-        f = StringIO("""
+        input_yaml = """
         - contact:
             name: A
-            email: A
+        """
 
-        - contact:
-            name: B
-        """)
-
-        MockedContactBuilder(f).build()
+        self._test_raises_config_error(input_yaml)
