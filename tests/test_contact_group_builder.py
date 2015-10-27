@@ -66,28 +66,21 @@ class TestContactBuilder(TestCase):
             self.assertTrue(contacts[0] in contact_group[0].contacts)
             self.assertTrue(contacts[1] in contact_group[0].contacts)
 
-    def test_contacts_are_referenced(self):
+    def test_contact_is_referenced(self):
         input_yaml = """
         - contact group:
             name: A
             contacts:
                 - contact:
                     name: B
-
-                - contact:
-                    name: C
         """
 
-        contacts = [
-            Contact(name='B', email='B'),
-            Contact(name='C', email='C'),
-        ]
+        contact = Contact(name='B', email='B')
 
         with patch.object(ContactGroupBuilder, '_read_config', return_value=load(input_yaml)):
-            contact_group = ContactGroupBuilder(None).build(contacts)
-            self.assertEqual(len(contact_group[0].contacts), 2)
-            self.assertTrue(contacts[0] in contact_group[0].contacts)
-            self.assertTrue(contacts[1] in contact_group[0].contacts)
+            contact_group = ContactGroupBuilder(None).build([contact])
+            self.assertEqual(len(contact_group[0].contacts), 1)
+            self.assertTrue(contact in contact_group[0].contacts)
 
     @raises(ConfigError)
     def test_non_existent_contact_raises_config_error(self):
@@ -96,15 +89,11 @@ class TestContactBuilder(TestCase):
             name: A
             contacts:
                 - contact:
-                    name: B
-                    email: B
-
-                - contact:
                     name: C
         """
 
         with patch.object(ContactGroupBuilder, '_read_config', return_value=load(input_yaml)):
-            ContactGroupBuilder(None).build([Contact(name='B', email='B')])
+            ContactGroupBuilder(None).build([])
 
     @raises(ConfigError)
     def test_wrong_yaml_format_raises_error(self):
