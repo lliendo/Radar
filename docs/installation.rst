@@ -74,7 +74,7 @@ Unix OS
 For any of the following systems :
 
 1. Open a new console.
-2. Switch to the root user.
+2. Switch to the root user using the `su <https://en.wikipedia.org/wiki/Su_%28Unix%29>`_ command.
 
 * GNU/Linux systems typically have the 'adduser' or 'useradd' commands to create a new user :
 
