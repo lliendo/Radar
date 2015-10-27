@@ -114,11 +114,11 @@ msgstr ""
 "La opcion -c permite especificar un archivo de configuración principal "
 "diferente."
 
-#: ../../installation.rst:64
+#: ../../installation.rst:133
 msgid "Radar setup"
 msgstr "Configuración inicial"
 
-#: ../../installation.rst:66
+#: ../../installation.rst:135
 msgid ""
 "Before you start configuring Radar I recommend you to read the documentation"
 " as some options may not make full sense. If you've already read the docs "
@@ -129,17 +129,17 @@ msgstr ""
 "disponibles presentadas por el script de configuración. Si ya has leido la "
 "documentación entonces continua con los siguientes pasos."
 
-#: ../../installation.rst:70
+#: ../../installation.rst:139
 msgid ""
 "Radar comes with two useful scripts to help you configure it the first time."
 msgstr ""
 "Radar viene con dos scripts para ayudarte a configurarlo la primera vez."
 
-#: ../../installation.rst:72
+#: ../../installation.rst:141
 msgid "To configure the server just run :"
 msgstr "Para configurar el servidor ejecuta :"
 
-#: ../../installation.rst:78
+#: ../../installation.rst:147
 msgid ""
 "This script will ask you for some initial values. For every option you can "
 "leave its default (these values are shown in squared brackets) value by "
@@ -149,11 +149,11 @@ msgstr ""
 "puedes utilizar su valor por defecto (estos valores se encuentran entre "
 "corchetes) presionando Enter."
 
-#: ../../installation.rst:82
+#: ../../installation.rst:151
 msgid "To configure the client run :"
 msgstr "Para configurar el cliente ejecuta :"
 
-#: ../../installation.rst:88
+#: ../../installation.rst:157
 msgid ""
 "After you run those scripts the main configuration file gets generated in "
 "the path that you chose. Note that the resulting YAML file may not look as "
@@ -170,3 +170,124 @@ msgstr ""
 "documantación. Esto se debe a que la biblioteca PyYAML no se encarga de "
 "agregar saltos de línea entre diferentes elementos y tampoco permite definir"
 " el orden de los elementos. "
+
+#: ../../installation.rst:64
+msgid "Adding restricted account for Radar"
+msgstr "Agregando una cuenta de usuario restringida"
+
+#: ../../installation.rst:66
+msgid ""
+"As a basic security measure it is recommended to create a restricted account"
+" to be used by Radar. By default Radar assumes that the name of this account"
+" is 'radar' (but you can use whatever account you want)."
+msgstr ""
+"Como medida básica de seguridad te recomiendo crear una cuenta restrigida "
+"para Radar. Por defecto Radar asume que el nombre de dicha cuenta es 'radar'"
+" (pero puedes utilizar la cuenta que desees). "
+
+#: ../../installation.rst:72
+msgid "Unix OS"
+msgstr "Sistemas Unix"
+
+#: ../../installation.rst:74
+msgid "For any of the following systems :"
+msgstr "Para cualquiera de las siguientes plataformas :"
+
+#: ../../installation.rst:76
+msgid "Open a new console."
+msgstr "Abre una consola."
+
+#: ../../installation.rst:79
+msgid ""
+"GNU/Linux systems typically have the 'adduser' or 'useradd' commands to "
+"create a new user :"
+msgstr ""
+"Los sistemas GNU/Linux tienen típicamente el comando useradd para agregar un"
+" nuevo usuario :"
+
+#: ../../installation.rst:86
+msgid "On FreeBSD systems, run :"
+msgstr "En sistemas FreeBSD, ejecuta :"
+
+#: ../../installation.rst:94
+msgid "On OpenBSD systems, run :"
+msgstr "En sistemas OpenBSD, corre :"
+
+#: ../../installation.rst:102
+msgid ""
+"As a last step, verify that you are not allowed to login with the 'radar' "
+"user."
+msgstr "Verifica que no puedes ingresar al sistema con el usuario 'radar'."
+
+#: ../../installation.rst:106
+msgid "Windows platforms"
+msgstr "Plataformas Windows"
+
+#: ../../installation.rst:108
+msgid ""
+"On Windows platforms little more work is needed. The following steps apply "
+"for Windows 7 Professional or better :"
+msgstr ""
+"En plataformas Windows hay que realizar varios pasos. Estas instrucciones "
+"son válidas para Windows 7 Profesional o versiones posteriores : "
+
+#: ../../installation.rst:111
+msgid "Add a new user named 'radar' from Control Panel -> User Accounts."
+msgstr ""
+"Agrega un nuevo usuario 'radar' desde Panel de control -> Cuentas de "
+"usuario."
+
+#: ../../installation.rst:112
+msgid "Open GPEDIT.MSC (a.k.a. Local Group Policy Editor)."
+msgstr "Abre GPEDIT (Editor de directivas de grupo local)."
+
+#: ../../installation.rst:113
+msgid "From the left side pane navigate through :"
+msgstr "Navega el arbol del panel izquierdo :"
+
+#: ../../installation.rst:124
+msgid "On the right side pane locate the 'Deny log on locally' policy."
+msgstr ""
+"En el panel derecho encuentra la política 'Denegar el inicio de sesión "
+"local'."
+
+#: ../../installation.rst:125
+msgid "Right clic on 'Deny log on locally' and clic on Properties."
+msgstr ""
+"Haz clic derecho sobre 'Denegar el inicio de sesión local' y luego haz clic "
+"sobre Propiedades."
+
+#: ../../installation.rst:126
+msgid "Clic the 'Add User or Group' button to add the radar user account."
+msgstr "Haz clic sobre el botón 'Agregar Usuario o Grupo'."
+
+#: ../../installation.rst:127
+msgid ""
+"On the text box type in : radar. Now clic the 'Check Names' button and then "
+"clic on 'OK'."
+msgstr ""
+"En el text box tipea : radar. Ahora haz clic el boton 'Verificar nombres' y "
+"luego en 'Aceptar'."
+
+#: ../../installation.rst:128
+msgid ""
+"Repeat steps 5 and 6 but for the 'Deny log on through Remote Desktop "
+"Services' policy."
+msgstr ""
+"Repite los pasos 5 y 6 pero para la política 'Denegar inicio de sesión a "
+"traves de Servicio de Escritorio remoto'."
+
+#: ../../installation.rst:129
+msgid ""
+"Log out and verify that you are not allowed to login with the 'radar' user "
+"(locally and remotely)."
+msgstr ""
+"Verifica que no puedes ingresar al sistema con la cuenta 'radar' (tanto "
+"localmente como remotamente)."
+
+#: ../../installation.rst:77
+msgid ""
+"Switch to the root user using the `su "
+"<https://en.wikipedia.org/wiki/Su_%28Unix%29>`_ command."
+msgstr ""
+"Cambia al usuario root utilizando el comando `su <https://en.wikipedia.org/wiki/Su_%28Unix%29>`_."
