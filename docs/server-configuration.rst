@@ -329,9 +329,13 @@ Disk usage and to notify Sysadmins. So to define monitors you basically have :
 .. code-block:: yaml
 
     - monitor:
+        name: MONITOR NAME
         hosts: [HOSTNAME | IP | IP RANGE, ...]
         watch: [CHECK | CHECK GROUP, ...]
         notify: [CONTACT | CONTACT GROUP, ...]
+
+* name: Monitors are allowed to have a name. As you can see from the second last
+  example its setting is completly optional.
 
 * hosts : There are three different way to specify hosts. You can specify
   a single host by its IPv4 (this if the preferred way) or by its
