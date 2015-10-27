@@ -60,6 +60,75 @@ invoke Radar this way :
 The -c option specifies an alternate main configuration file.
 
 
+Adding restricted account for Radar
+-----------------------------------
+
+As a basic security measure it is recommended to create a restricted account to
+be used by Radar. By default Radar assumes that the name of this account is
+'radar' (but you can use whatever account you want).
+
+
+Unix OS
+~~~~~~~
+
+For any of the following systems :
+
+1. Open a new console.
+2. Switch to the root user.
+
+* GNU/Linux systems typically have the 'adduser' or 'useradd' commands to create a new user :
+
+.. code-block:: bash
+
+    useradd radar -r -s /usr/sbin/nologin -c "Radar user"
+
+
+* On FreeBSD systems, run :
+
+.. code-block:: bash
+
+    pw groupadd radar
+    pw adduser radar -g radar -d /nonexistent -s /usr/sbin/nologin -c "Radar user"
+
+
+* On OpenBSD systems, run :
+
+.. code-block:: bash
+
+    groupadd radar
+    useradd -g radar -s /sbin/nologin -c "Radar user" radar
+
+
+3. As a last step, verify that you are not allowed to login with the 'radar' user.
+
+
+Windows platforms
+~~~~~~~~~~~~~~~~~
+
+On Windows platforms little more work is needed. The following steps apply for
+Windows 7 Professional or better :
+
+1. Add a new user named 'radar' from Control Panel -> User Accounts.
+2. Open GPEDIT.MSC (a.k.a. Local Group Policy Editor).
+3. From the left side pane navigate through :
+
+.. code-block:: bash
+
+    Local Computer Policy 
+     └─ Computer Configuration
+         └─ Windows Settings 
+             └─ Security Settings 
+                 └─ Local Policies 
+                     └─ User Right Assignment
+
+4. On the right side pane locate the 'Deny log on locally' policy.
+5. Right clic on 'Deny log on locally' and clic on Properties.
+6. Clic the 'Add User or Group' button to add the radar user account.
+7. On the text box type in : radar. Now clic the 'Check Names' button and then clic on 'OK'.
+8. Repeat steps 5 and 6 but for the 'Deny log on through Remote Desktop Services' policy.
+9. Log out and verify that you are not allowed to login with the 'radar' user (locally and remotely).
+
+
 Radar setup
 -----------
 
