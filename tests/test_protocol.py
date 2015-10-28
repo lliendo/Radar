@@ -36,6 +36,9 @@ class TestRadarProtocol(TestCase):
     def _mock_receive(self, side_effect):
         self.client.receive = MagicMock(side_effect=side_effect)
 
+    def _mock_send(self, side_effect):
+        self.client.send = MagicMock(side_effect=side_effect)
+
     def _receive_header(self, message, header_format):
         try:
             message._receive_header(self.client)
@@ -94,3 +97,31 @@ class TestRadarProtocol(TestCase):
         self.assertEqual(payload, '{}')
         self.assertEqual(message.header.getvalue(), BytesIO().getvalue())
         self.assertEqual(message.payload.getvalue(), BytesIO().getvalue())
+
+    def test_fragmented_payload_reception(self):
+        message = Message()
+        self._mock_receive([
+            pack('!BBH', Message.TYPE['CHECK'], Message.OPTIONS['NONE'], 3),
+            pack('!1s', '{'),
+            pack('!1s', ' '),
+            pack('!1s', '}'),
+        ])
+
+        try:
+            message.receive(self.client)
+        except MessageNotReady:
+            pass
+
+        try:
+            message.receive(self.client)
+        except MessageNotReady:
+            pass
+
+        message_type, payload = message.receive(self.client)
+        self.assertEqual(message_type, Message.TYPE['CHECK'])
+        self.assertEqual(payload, '{ }')
+
+    def test_send(self):
+        message = Message()
+        self._mock_send([4, 1, 1])
+        self.assertEqual(message.send(self.client, Message.TYPE['CHECK'], '{}'), 6)
