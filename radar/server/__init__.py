@@ -29,7 +29,7 @@ from ..network.server import Server
 from ..protocol import MessageNotReady
 
 
-class ServerPollerError(object):
+class ServerPollerError(Exception):
     pass
 
 
