@@ -44,7 +44,7 @@ class Address(object):
             raise AddressError('Error - Invalid hostname or address : \'{:}\'.'.format(hostname))
 
     def _validate(self, address):
-        regexp = compile_re('(\d{1,3}\.){3}\d{1,3}')
+        regexp = compile_re(r'(\d{1,3}\.){3}\d{1,3}')
 
         try:
             if not regexp.match(address) or not all([int(octet) <= 255 for octet in address.split('.', 3)]):
