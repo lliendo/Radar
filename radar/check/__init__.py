@@ -125,7 +125,7 @@ class Check(Switchable):
                 'status': self.STATUS[d['status'].upper()],
                 'id': self.id,
             })
-        except ValueError, e:
+        except ValueError as e:
             raise CheckError('Error - Couldn\'t parse JSON from check output. Details : {:}'.format(e))
         except KeyError:
             raise CheckError('Error - Missing or invalid \'status\' from check output.')
@@ -152,14 +152,14 @@ class Check(Switchable):
 
         try:
             return Popen(absolute_path + self._split_args(), stdout=PIPE).communicate()[0]
-        except OSError, e:
+        except OSError as e:
             raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
 
     def run(self):
         try:
             deserialized_output = self._deserialize_output(self._call_popen())
             self.update_status(deserialized_output)
-        except CheckError, e:
+        except CheckError as e:
             self.current_status = self.STATUS['ERROR']
             self.details = str(e)
 
@@ -221,7 +221,7 @@ class WindowsCheck(Check):
     def _find_interpreter(self, filename):
         try:
             return FindExecutable(filename)
-        except FindExecutableError, e:
+        except FindExecutableError as e:
             raise CheckError('Error - Couldn\'t find executable for : {:}. Details : {:}.'.format(filename, e))
 
     # If the file isn't just executable we need to know who interprets this filetype,
@@ -241,7 +241,7 @@ class WindowsCheck(Check):
             security_descriptor = GetFileSecurity(filename, OWNER_SECURITY_INFORMATION)
             user, _, _ = LookupAccountSid(None, security_descriptor.GetSecurityDescriptorOwner())
             return user == self._platform_setup.config['run as']['user']
-        except MemoryError, e:
+        except MemoryError as e:
             raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(filename, e))
 
     def _owned_by_stated_user(self, filename):

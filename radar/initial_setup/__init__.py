@@ -87,10 +87,10 @@ class InitialSetup(object):
         try:
             makedirs(path)
             chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
-        except OSError, e:
+        except OSError as e:
             if (e.errno != EEXIST):
                 raise InitialSetupError('Error - Couldn\'t create : \'{:}\'. Details : {:}.'.format(path, e))
-        except Exception, e:
+        except Exception as e:
             raise InitialSetupError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, e))
 
     def _save_yaml(self, config):
@@ -117,5 +117,5 @@ class InitialSetup(object):
             print '\nDone !\n'
         except KeyboardInterrupt:
             print '\n\nAborting configuration...'
-        except Exception, e:
+        except Exception as e:
             print e

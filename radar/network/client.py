@@ -171,7 +171,7 @@ class Client(object):
 
         try:
             ready_fds, _, _ = select([self.socket], [], [], self.network_monitor_timeout)
-        except SelectError, e:
+        except SelectError as e:
             if not self._interrupted_by_signal(e):
                 raise e
 

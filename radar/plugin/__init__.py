@@ -134,7 +134,7 @@ class PluginManager(Thread):
     def _run_plugin(self, plugin, address, port, message_type, checks, contacts):
         try:
             plugin.run(address, port, message_type, checks, contacts)
-        except Exception, e:
+        except Exception as e:
             self._logger.log('Error - Plugin \'{:}\' version \'{:}\' raised an error. Details : {:}.'.format(
                 plugin.PLUGIN_NAME, plugin.PLUGIN_VERSION, e))
 

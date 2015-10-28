@@ -89,7 +89,7 @@ class CheckManager(Thread):
             action(message)
         except (KeyError, ValueError):
             self._logger.log('Error - Unknown message id {:}. Message : {:}.'.format(message_type, message))
-        except CheckError, e:
+        except CheckError as e:
             self._logger.log(e)
 
     def is_stopped(self):

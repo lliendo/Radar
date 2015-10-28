@@ -48,7 +48,7 @@ class ClassLoader(object):
             with open(file) as fd:
                 parsed_source = ast_parse(fd.read())
                 class_names = [n.name for n in ast_walk(parsed_source) if isinstance(n, ClassDef)]
-        except IOError, e:
+        except IOError as e:
             raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}'.format(file, e.strerror))
 
         return class_names

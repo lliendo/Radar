@@ -104,9 +104,9 @@ class RadarLauncher(object):
         try:
             self._platform_setup.logger.log('Starting {:}.'.format(self.PROGRAM_NAME))
             self._start_and_join_threads()
-        except IOError, e:
+        except IOError as e:
             self._resume_interrupted_call(e)
-        except Exception, e:
+        except Exception as e:
             self._platform_setup.logger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, e))
         finally:
             self._platform_setup.logger.log('Shutting down {:}.'.format(self.PROGRAM_NAME))

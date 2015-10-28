@@ -48,7 +48,7 @@ class ContactBuilder(ConfigBuilder):
     def build(self):
         try:
             return list(self._build_contacts(self._filter_config(self.TAG)))
-        except ContactError, e:
+        except ContactError as e:
             raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
@@ -94,7 +94,7 @@ class ContactGroupBuilder(ContactBuilder):
     def build(self, defined_contacts):
         try:
             return list(self._build_contact_groups(self._filter_config(ContactGroupBuilder.TAG), defined_contacts))
-        except ContactGroupError, e:
+        except ContactGroupError as e:
             raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
@@ -111,7 +111,7 @@ class CheckBuilder(ConfigBuilder):
     def build(self):
         try:
             return list(self._build_checks(self._filter_config(CheckBuilder.TAG)))
-        except CheckError, e:
+        except CheckError as e:
             raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
@@ -157,7 +157,7 @@ class CheckGroupBuilder(CheckBuilder):
     def build(self, defined_checks):
         try:
             return list(self._build_check_groups(self._filter_config(CheckGroupBuilder.TAG), defined_checks))
-        except CheckGroupError, e:
+        except CheckGroupError as e:
             raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
@@ -169,7 +169,7 @@ class MonitorBuilder(ConfigBuilder):
         for A in [Address, AddressRange]:
             try:
                 return A(address)
-            except AddressError, e:
+            except AddressError as e:
                 error = e
 
         raise error
@@ -192,9 +192,9 @@ class MonitorBuilder(ConfigBuilder):
         try:
             monitors_config = self._filter_config(self.TAG)
             monitors = list(self._build_monitors(monitors_config, checks, contacts))
-        except KeyError, e:
+        except KeyError as e:
             raise ConfigError('Error - Missing \'{:}\' while creating monitor from {:}.'.format(e.args[0], self.path))
-        except TypeError, e:
+        except TypeError as e:
             raise ConfigError('Error - Either hosts, checks or contacts are not a YAML list in monitor definition. File : {:}.'.format(
                 e.args[0], self.path))
 

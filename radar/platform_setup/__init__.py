@@ -74,7 +74,7 @@ class UnixSetup(object):
     def _create_dir(self, path):
         try:
             mkdir(path)
-        except OSError, e:
+        except OSError as e:
             if e.errno != EEXIST:
                 raise UnixSetupError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(
                     path, e.strerror))
@@ -88,7 +88,7 @@ class UnixSetup(object):
         try:
             with open(pidfile, 'w') as fd:
                 fd.write(str(getpid()))
-        except IOError, e:
+        except IOError as e:
             raise UnixSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
 
     def _install_signal_handlers(self, launcher):
@@ -99,7 +99,7 @@ class UnixSetup(object):
         try:
             seteuid(getpwnam(user).pw_uid)
             setegid(getgrnam(group).gr_gid)
-        except OSError, e:
+        except OSError as e:
             raise UnixSetupError('Error - Couldn\'t switch process owner \'{:}.{:}\'. Details {:}.'.format(
                 user, group, e))
         except KeyError:
@@ -108,7 +108,7 @@ class UnixSetup(object):
     def _delete_pid_file(self, pidfile):
         try:
             remove(pidfile)
-        except OSError, e:
+        except OSError as e:
             raise UnixSetupError(('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.').format(pidfile, e))
 
 

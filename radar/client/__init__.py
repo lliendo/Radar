@@ -93,7 +93,7 @@ class RadarClient(RadarClientLite, Thread):
         while not self.is_stopped() and not self.is_connected():
             try:
                 super(RadarClient, self).connect()
-            except Exception, e:
+            except Exception as e:
                 self._logger.log('Error - Can\'t connect to {:}:{:}. Falling back {:}s. Details: {:}.'.format(
                     self.address, self.port, self._delays[0], e))
 

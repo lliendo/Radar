@@ -39,7 +39,7 @@ class RadarLogger(object):
     def _create_dir(self, path):
         try:
             mkdir(dirname(path))
-        except OSError, e:
+        except OSError as e:
             if e.errno != EEXIST:
                 raise LoggerError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(path, e.strerror))
 
@@ -51,7 +51,7 @@ class RadarLogger(object):
             formatter = Formatter(fmt='%(asctime)s - %(message)s', datefmt='%b %d %H:%M:%S')
             file_handler.setFormatter(formatter)
             logger.addHandler(file_handler)
-        except Exception, e:
+        except Exception as e:
             raise LoggerError('Error - Couldn\'t configure Radar logger. Details : {:}.'.format(e))
 
         return logger

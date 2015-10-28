@@ -83,7 +83,7 @@ class RadarServer(Server, Thread):
 
         try:
             self._queue.put_nowait(queue_message)
-        except FullQueue, e:
+        except FullQueue as e:
             self._logger.log('Error - Couldn\'t write to queue. Details : {:}.'.format(e))
 
     def on_receive(self, client):
