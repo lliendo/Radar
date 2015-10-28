@@ -235,7 +235,8 @@ class ServerConfig(ConfigBuilder):
         files = [join_path(root, f) for root, _, files in walk(path) for f in files]
         return [f for f in files if S_ISREG(stat(f).st_mode)]
 
-    def _build_and_reduce(self, Builder, files, builder_args=[]):
+    def _build_and_reduce(self, Builder, files, builder_args=None):
+        builder_args = builder_args if builder_args is not None else []
         return reduce(lambda l, m: l + m, [Builder(f).build(*builder_args) for f in files])
 
     def _build_contacts(self):

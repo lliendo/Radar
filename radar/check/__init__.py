@@ -252,14 +252,14 @@ class WindowsCheck(Check):
 
 
 class CheckGroup(Switchable):
-    def __init__(self, name='', checks=[], enabled=True):
+    def __init__(self, name='', checks=None, enabled=True):
         super(CheckGroup, self).__init__(enabled=enabled)
 
         if not name or not checks:
             raise CheckGroupError('Error - Missing name and/or checks from check group definition.')
 
         self.name = name
-        self.checks = set(checks)
+        self.checks = set(checks) if checks is not None else []
 
     def update_status(self, check_status):
         return any([c.update_status(check_status) for c in self.checks])

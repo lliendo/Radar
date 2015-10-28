@@ -32,12 +32,12 @@ class MonitorError(Exception):
 
 
 class Monitor(Switchable):
-    def __init__(self, name='', addresses=[], checks=[], contacts=[], enabled=True):
+    def __init__(self, name='', addresses=None, checks=None, contacts=None, enabled=True):
         super(Monitor, self).__init__(enabled=enabled)
         self.name = name
-        self.addresses = set(addresses)
-        self.checks = set(checks)
-        self.contacts = set(contacts)
+        self.addresses = set(addresses) if addresses is not None else []
+        self.checks = set(checks) if checks is not None else []
+        self.contacts = set(contacts) if contacts is not None else []
         self.active_clients = []
         self._validate()
 

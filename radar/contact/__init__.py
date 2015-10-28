@@ -58,14 +58,14 @@ class Contact(Switchable):
 
 
 class ContactGroup(Switchable):
-    def __init__(self, name='', contacts=[], enabled=True):
+    def __init__(self, name='', contacts=None, enabled=True):
         super(ContactGroup, self).__init__(enabled=enabled)
 
         if not name or not contacts:
             raise ContactGroupError('Error - Missing name and/or contacts from contact group definition.')
 
         self.name = name
-        self.contacts = set(contacts)
+        self.contacts = set(contacts) if contacts is not None else []
 
     def to_dict(self):
         d = super(ContactGroup, self).to_dict(['id', 'name', 'enabled'])
