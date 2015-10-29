@@ -147,16 +147,16 @@ class RadarServerConsole(Thread):
         self._client_manager = client_manager
         self.stop_event = stop_event or Event()
 
-    def _enable(self, ids=[]):
+    def _enable(self, *ids):
         pass
 
-    def _disable(self, ids=[]):
+    def _disable(self, *ids):
         pass
 
-    def _test(self, ids=[]):
+    def _test(self, *ids):
         pass
 
-    def _list(self, ids=[]):
+    def _list(self, *ids):
         pass
 
     def is_stopped(self):
