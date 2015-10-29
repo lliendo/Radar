@@ -88,7 +88,7 @@ class InitialSetup(object):
             makedirs(path)
             chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
         except OSError as e:
-            if (e.errno != EEXIST):
+            if e.errno != EEXIST:
                 raise InitialSetupError('Error - Couldn\'t create : \'{:}\'. Details : {:}.'.format(path, e))
         except Exception as e:
             raise InitialSetupError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, e))
