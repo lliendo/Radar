@@ -23,6 +23,7 @@ Copyright 2015 Lucas Liendo.
 from json import dumps as serialize_json
 from copy import deepcopy
 from functools import reduce
+from ..logger import RadarLogger
 from ..misc import Switchable
 from ..network.client import ClientSendError
 
@@ -94,9 +95,8 @@ class Monitor(Switchable):
     def _poll_client(self, client, message_type, message):
         try:
             client.send_message(message_type, serialize_json(message))
-        except ClientSendError:
-            # TODO: We should log this error.
-            pass
+        except ClientSendError as e:
+            RadarLogger.log(e)
 
     def poll(self, message_type):
         message = reduce(lambda l, m: l + m, [c.to_check_dict() for c in self.checks if c.enabled])
