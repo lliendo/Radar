@@ -36,20 +36,12 @@ class TestContactBuilder(TestCase):
             email: A
 
         - contact:
-            name: B
-            email: B
-
-        - contact:
             name: A
             email: A
-
-        - contact:
-            name: B
-            email: B
         """
 
         with patch.object(ContactBuilder, '_read_config', return_value=load(input_yaml)):
-            self.assertEqual(len(ContactBuilder(None).build()), 2)
+            self.assertEqual(len(ContactBuilder(None).build()), 1)
 
     @raises(ConfigError)
     def _test_raises_config_error(self, input_yaml):

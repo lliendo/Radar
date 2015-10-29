@@ -37,23 +37,13 @@ class TestCheckBuilder(TestCase):
             args: -S 300
 
         - check:
-            name: Ram usage
-            path: ram-usage.py
-            args: -O 0,1000 -W 1000,1900
-
-        - check:
             name: Uptime
             path: uptime.py
             args: -S 300
-
-        - check:
-            name: Ram usage
-            path: ram-usage.py
-            args: -O 0,1000 -W 1000,1900
         """
 
         with patch.object(CheckBuilder, '_read_config', return_value=load(input_yaml)):
-            self.assertEqual(len(CheckBuilder(None).build()), 2)
+            self.assertEqual(len(CheckBuilder(None).build()), 1)
 
     @raises(ConfigError)
     def _test_raises_config_error(self, input_yaml):
