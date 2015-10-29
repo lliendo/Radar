@@ -24,6 +24,7 @@ from Queue import Full as FullQueue
 from datetime import datetime, timedelta
 from json import loads as deserialize_json
 from threading import Thread, Event
+from ..logger import RadarLogger
 from ..client import RadarClientLite
 from ..network.server import Server
 from ..protocol import MessageNotReady
@@ -48,7 +49,6 @@ class RadarServer(Server, Thread):
             blocking_socket=False,
         )
         self._client_manager = client_manager
-        self._logger = platform_setup.logger
         self._queue = queue
         self.stop_event = stop_event or Event()
 
@@ -56,20 +56,20 @@ class RadarServer(Server, Thread):
         return self._client_manager.matches_any_monitor(client)
 
     def on_reject(self, client):
-        self._logger.log('Client {:}:{:} is not allowed to connect or is already conected.'.format(
+        RadarLogger.log('Client {:}:{:} is not allowed to connect or is already conected.'.format(
             client.address, client.port))
 
     def on_connect(self, client):
         self._client_manager.register(client)
-        self._logger.log('Client {:}:{:} got connected.'.format(client.address, client.port))
+        RadarLogger.log('Client {:}:{:} got connected.'.format(client.address, client.port))
 
     def on_disconnect(self, client):
         self._client_manager.unregister(client)
-        self._logger.log('Client {:}:{:} got disconnected.'.format(client.address, client.port))
+        RadarLogger.log('Client {:}:{:} got disconnected.'.format(client.address, client.port))
 
     def on_abort(self, client):
         self._client_manager.unregister(client)
-        self._logger.log('Error - Client {:}:{:} sent an unknown message. Resetting connection.'.format(
+        RadarLogger.log('Error - Client {:}:{:} sent an unknown message. Resetting connection.'.format(
             client.address, client.port))
 
     def _write_queue(self, client, message_type, updated_checks):
@@ -84,7 +84,7 @@ class RadarServer(Server, Thread):
         try:
             self._queue.put_nowait(queue_message)
         except FullQueue as e:
-            self._logger.log('Error - Couldn\'t write to queue. Details : {:}.'.format(e))
+            RadarLogger.log('Error - Couldn\'t write to queue. Details : {:}.'.format(e))
 
     def on_receive(self, client):
         try:
@@ -97,7 +97,7 @@ class RadarServer(Server, Thread):
 
     def on_receive_error(self, client, error):
         self._client_manager.unregister(client)
-        self._logger.log('Error - While receiving data from client {:}:{:}. Details: {:}'.format(
+        RadarLogger.log('Error - While receiving data from client {:}:{:}. Details: {:}'.format(
             client.address, client.port, error))
 
     def is_stopped(self):
@@ -108,7 +108,6 @@ class RadarServerPoller(Thread):
     def __init__(self, client_manager, platform_setup, stop_event=None):
         Thread.__init__(self)
         self._client_manager = client_manager
-        self._logger = platform_setup.logger
         self._polling_time = self._validate(platform_setup.config['polling time'])
         self.stop_event = stop_event or Event()
 
@@ -123,7 +122,7 @@ class RadarServerPoller(Thread):
 
     def _log_next_poll(self):
         time = (datetime.now() + timedelta(0, self._polling_time)).strftime('%H:%M:%S')
-        self._logger.log('Next scheduled poll at : {:}.'.format(time))
+        RadarLogger.log('Next scheduled poll at : {:}.'.format(time))
 
     def run(self):
         while not self.is_stopped():
@@ -146,7 +145,6 @@ class RadarServerConsole(Thread):
             'test': self._test,
         }
         self._client_manager = client_manager
-        self._logger = platform_setup.logger
         self.stop_event = stop_event or Event()
 
     def _enable(self, ids=[]):

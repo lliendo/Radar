@@ -22,6 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from Queue import Empty as EmptyQueue
 from threading import Thread, Event
+from ..logger import RadarLogger
 from ..check import UnixCheck, WindowsCheck, CheckError
 from ..protocol import Message
 from ..platform_setup import Platform
@@ -42,7 +43,6 @@ class CheckManager(Thread):
     def __init__(self, platform_setup, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
         self._platform_setup = platform_setup
-        self._logger = platform_setup.logger
         self._input_queue = input_queue
         self._output_queue = output_queue
         self.stop_event = stop_event or Event()
@@ -74,7 +74,7 @@ class CheckManager(Thread):
         self._on_check(message)
 
     def _log_action(self, message_type, check):
-        self._logger.log('{:} from {:}:{:} -> {:}'.format(
+        RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
             Message.get_type(message_type), self._platform_setup.config['connect']['to'],
             self._platform_setup.config['connect']['port'], check)
         )
@@ -88,9 +88,9 @@ class CheckManager(Thread):
             action = self._message_actions[message_type]
             action(message)
         except (KeyError, ValueError):
-            self._logger.log('Error - Unknown message id {:}. Message : {:}.'.format(message_type, message))
+            RadarLogger.log('Error - Unknown message id {:}. Message : {:}.'.format(message_type, message))
         except CheckError as e:
-            self._logger.log(e)
+            RadarLogger.log(e)
 
     def is_stopped(self):
         return self.stop_event.is_set()

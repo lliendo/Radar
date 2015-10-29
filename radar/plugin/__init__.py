@@ -26,6 +26,7 @@ from ctypes import cast, py_object
 from functools import reduce
 from os.path import dirname, join as join_path
 from threading import Thread, Event
+from ..logger import RadarLogger
 from ..config import ConfigBuilder, ConfigError
 from ..misc import Switchable
 from ..protocol import Message
@@ -69,11 +70,10 @@ class ServerPlugin(ConfigBuilder, Switchable):
         action(address, port, checks, contacts)
 
     def log(self, message):
-        self.logger.log('Plugin \'{:}\' v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
+        RadarLogger.log('Plugin \'{:}\' v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
 
     def configure(self, logger):
-        logger.log('Loading plugin : \'{:}\' v{:}.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION))
-        self.logger = logger
+        RadarLogger.log('Loading plugin : \'{:}\' v{:}.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION))
         self.on_start()
 
     def on_start(self):
@@ -106,7 +106,6 @@ class PluginManager(Thread):
 
     def __init__(self, platform_setup, queue, stop_event=None):
         Thread.__init__(self)
-        self._logger = platform_setup.logger
         self._plugins = platform_setup.plugins
         self._queue = queue
         self.stop_event = stop_event or Event()
@@ -135,7 +134,7 @@ class PluginManager(Thread):
         try:
             plugin.run(address, port, message_type, checks, contacts)
         except Exception as e:
-            self._logger.log('Error - Plugin \'{:}\' version \'{:}\' raised an error. Details : {:}.'.format(
+            RadarLogger.log('Error - Plugin \'{:}\' version \'{:}\' raised an error. Details : {:}.'.format(
                 plugin.PLUGIN_NAME, plugin.PLUGIN_VERSION, e))
 
     def _run_plugins(self, queue_message):

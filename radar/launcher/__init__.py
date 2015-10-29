@@ -23,6 +23,7 @@ Copyright 2015 Lucas Liendo.
 from errno import EINTR
 from abc import ABCMeta
 from argparse import ArgumentParser
+from ..logger import RadarLogger
 from ..platform_setup import Platform
 
 
@@ -102,12 +103,12 @@ class RadarLauncher(object):
 
     def run(self):
         try:
-            self._platform_setup.logger.log('Starting {:}.'.format(self.PROGRAM_NAME))
+            RadarLogger.log('Starting {:}.'.format(self.PROGRAM_NAME))
             self._start_and_join_threads()
         except IOError as e:
             self._resume_interrupted_call(e)
         except Exception as e:
-            self._platform_setup.logger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, e))
+            RadarLogger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, e))
         finally:
-            self._platform_setup.logger.log('Shutting down {:}.'.format(self.PROGRAM_NAME))
+            RadarLogger.log('Shutting down {:}.'.format(self.PROGRAM_NAME))
             self._platform_setup.tear_down()

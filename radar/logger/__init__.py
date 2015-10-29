@@ -25,6 +25,7 @@ from logging.handlers import RotatingFileHandler
 from os.path import dirname
 from os import mkdir
 from errno import EEXIST
+from sys import stderr
 
 
 class LoggerError(Exception):
@@ -32,9 +33,13 @@ class LoggerError(Exception):
 
 
 class RadarLogger(object):
+
+    _shared_state = {'logger': None}
+
     def __init__(self, path, logger_name='radar', max_size=100, rotations=5):
+        self.__dict__ = self._shared_state
         self._create_dir(path)
-        self.logger = self._configure_logger(path, logger_name, max_size * (1024 ** 2), rotations)
+        self._shared_state['logger'] = self._configure_logger(path, logger_name, max_size * (1024 ** 2), rotations)
 
     def _create_dir(self, path):
         try:
@@ -48,16 +53,20 @@ class RadarLogger(object):
             logger = getLogger(logger_name)
             logger.setLevel(INFO)
             file_handler = RotatingFileHandler(path, maxBytes=max_size, backupCount=rotations)
-            formatter = Formatter(fmt='%(asctime)s - %(message)s', datefmt='%b %d %H:%M:%S')
-            file_handler.setFormatter(formatter)
+            file_handler.setFormatter(Formatter(fmt='%(asctime)s - %(message)s', datefmt='%b %d %H:%M:%S'))
             logger.addHandler(file_handler)
         except Exception as e:
             raise LoggerError('Error - Couldn\'t configure Radar logger. Details : {:}.'.format(e))
 
         return logger
 
-    def log(self, message):
-        self.logger.info(message)
+    @staticmethod
+    def log(message):
+        try:
+            RadarLogger._shared_state['logger'].info(message)
+        except Exception as e:
+            stderr.write('Error - Couldn\'t log to Radar logger. Details : {:}.'.format(e))
 
-    def shutdown(self):
+    @staticmethod
+    def shutdown():
         shutdown()

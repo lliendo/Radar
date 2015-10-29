@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from ..logger import RadarLogger
 from ..protocol import Message
 from ..check import Check
 
@@ -27,7 +28,6 @@ from ..check import Check
 class ClientManager(object):
     def __init__(self, server_setup):
         self._monitors = server_setup.monitors
-        self._logger = server_setup.logger
         self._message_actions = {
             Message.TYPE['CHECK REPLY']: self._on_check_reply,
             Message.TYPE['TEST REPLY']: self._on_test_reply,
@@ -51,7 +51,7 @@ class ClientManager(object):
 
     def _log_reply(self, client, message_type, check):
         check['status'] = Check.get_status(check['status'])
-        self._logger.log('{:} from {:}:{:} -> {:}'.format(
+        RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
             Message.get_type(message_type), client.address, client.port,
             check)
         )
@@ -75,6 +75,6 @@ class ClientManager(object):
             action = self._message_actions[message_type]
             updated_checks = action(client, message_type, message)
         except KeyError:
-            self._logger.log('Unknown message id \'{:}\'.'.format(message_type))
+            RadarLogger.log('Unknown message id \'{:}\'.'.format(message_type))
 
         return updated_checks

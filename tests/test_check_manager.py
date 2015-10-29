@@ -23,6 +23,7 @@ Copyright 2015 Lucas Liendo.
 from unittest import TestCase
 from mock import Mock, ANY
 from nose.tools import raises
+from radar.logger import RadarLogger
 from radar.check import CheckError
 from radar.check_manager import CheckManager
 from radar.protocol import Message
@@ -38,19 +39,17 @@ class TestCheckManager(TestCase):
             }
         }
 
+        RadarLogger._shared_state['logger'] = Mock()
+
     def test_process_message_fails_due_to_invalid_message_type(self):
         check_manager = CheckManager(self.platform_setup, Mock(), Mock())
-        check_manager._logger = Mock()
         check_manager._process_message(max(Message.TYPE.values()) + 1, [{}])
-        check_manager._logger.log.assert_called_with(ANY)
+        RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     def test_process_message_fails_due_to_invalid_check_sent_from_server(self):
         check_manager = CheckManager(self.platform_setup, Mock(), Mock())
-        check_manager._logger = Mock()
         check_manager._process_message(Message.TYPE['CHECK'], [{}])
-        # TODO: Fix to assert a CheckError instance is passed to 'log'. Why does this fail ?
-        # check_manager._logger.log.assert_called_with(CheckError('Error - Server sent empty or invalid check.'))
-        check_manager._logger.log.assert_called_with(ANY)
+        RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     @raises(CheckError)
     def test_build_checks_raises_check_error(self):

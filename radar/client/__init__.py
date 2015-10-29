@@ -24,6 +24,7 @@ from time import time
 from threading import Thread, Event
 from json import loads as deserialize_json, dumps as serialize_json
 from Queue import Empty as EmptyQueue
+from ..logger import RadarLogger
 from ..network.client import Client
 from ..protocol import Message
 
@@ -58,7 +59,6 @@ class RadarClient(RadarClientLite, Thread):
             network_monitor_timeout=self.NETWORK_MONITOR_TIMEOUT,
             blocking_socket=False
         )
-        self._logger = platform_setup.logger
         self._reconnect = platform_setup.config['reconnect']
         self._input_queue = input_queue
         self._output_queue = output_queue
@@ -77,16 +77,16 @@ class RadarClient(RadarClientLite, Thread):
     def _should_give_up_reconnect(self):
         if time() - self._connect_timestamp < self.CONNECT_DISCONNECT_INTERVAL:
             self.stop_event.set()
-            self._logger.log('Error - Radar client seems not to be allowed to connect to Radar server.')
+            RadarLogger.log('Error - Radar client seems not to be allowed to connect to Radar server.')
         else:
             self.stop_event.wait(self.CONNECT_DISCONNECT_INTERVAL)
 
     def on_connect(self):
-        self._logger.log('Connected to {:}:{:}.'.format(self.address, self.port))
+        RadarLogger.log('Connected to {:}:{:}.'.format(self.address, self.port))
         self._connect_timestamp = time()
 
     def on_disconnect(self):
-        self._logger.log('Disconnected from {:}:{:}.'.format(self.address, self.port))
+        RadarLogger.log('Disconnected from {:}:{:}.'.format(self.address, self.port))
         self._should_give_up_reconnect()
 
     def connect(self):
@@ -94,7 +94,7 @@ class RadarClient(RadarClientLite, Thread):
             try:
                 super(RadarClient, self).connect()
             except Exception as e:
-                self._logger.log('Error - Can\'t connect to {:}:{:}. Falling back {:}s. Details: {:}.'.format(
+                RadarLogger.log('Error - Can\'t connect to {:}:{:}. Falling back {:}s. Details: {:}.'.format(
                     self.address, self.port, self._delays[0], e))
 
                 if self._reconnect:
