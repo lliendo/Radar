@@ -59,7 +59,7 @@ class ClientInitialSetup(InitialSetup):
     __metaclass__ = ABCMeta
 
     AVAILABLE_PLATFORMS = {
-        'UNIX': (UnixClientInitialSetup, UnixClientSetup),
+        'Unix': (UnixClientInitialSetup, UnixClientSetup),
         'Windows': (WindowsClientInitialSetup, WindowsClientSetup),
     }
 

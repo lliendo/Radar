@@ -33,7 +33,7 @@ class RadarClientLauncher(RadarLauncher):
     PROGRAM_NAME = 'radar-client'
     PROGRAM_VERSION = '0.0.1'
     AVAILABLE_PLATFORMS = {
-        'UNIX': UnixClientSetup,
+        'Unix': UnixClientSetup,
         'Windows': WindowsClientSetup,
     }
 

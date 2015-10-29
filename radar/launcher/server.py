@@ -34,7 +34,7 @@ class RadarServerLauncher(RadarLauncher):
     PROGRAM_NAME = 'radar-server'
     PROGRAM_VERSION = '0.0.1'
     AVAILABLE_PLATFORMS = {
-        'UNIX': UnixServerSetup,
+        'Unix': UnixServerSetup,
         'Windows': WindowsServerSetup,
     }
 

@@ -36,7 +36,7 @@ class CheckManager(Thread):
 
     STOP_EVENT_TIMEOUT = 0.2
     AVAILABLE_PLATFORMS = {
-        'UNIX': UnixCheck,
+        'Unix': UnixCheck,
         'Windows': WindowsCheck,
     }
 

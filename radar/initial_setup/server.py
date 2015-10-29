@@ -59,7 +59,7 @@ class ServerInitialSetup(InitialSetup):
     __metaclass__ = ABCMeta
 
     AVAILABLE_PLATFORMS = {
-        'UNIX': (UnixServerInitialSetup, UnixServerSetup),
+        'Unix': (UnixServerInitialSetup, UnixServerSetup),
         'Windows': (WindowsServerInitialSetup, WindowsServerSetup),
     }
 

@@ -46,7 +46,7 @@ class Platform(object):
     def get_platform_type():
         unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
         platform = platform_name()
-        return 'UNIX' if platform in unixes else platform
+        return 'Unix' if platform in unixes else platform
 
     @staticmethod
     def get_os_type():
