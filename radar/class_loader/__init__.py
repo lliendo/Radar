@@ -26,6 +26,7 @@ from ast import walk as ast_walk
 from ast import ClassDef
 from pkgutil import iter_modules
 from sys import path as module_search_path
+from ..logger import RadarLogger
 
 
 class ClassLoaderError(Exception):
@@ -53,7 +54,7 @@ class ClassLoader(object):
         except IOError as e:
             raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}.'.format(filename, e.strerror))
         except SyntaxError as e:
-            raise ClassLoaderError('Error - Couldn\'t parse \'{:}\'. Reason: {:}.'.format(filename, e.strerror))
+            raise ClassLoaderError('Error - Couldn\'t parse \'{:}\'. Reason: {:}.'.format(filename, e))
 
         return class_names
 
@@ -62,8 +63,12 @@ class ClassLoader(object):
 
         for _, module_name, _ in iter_modules(path=[self._module_path]):
             module_path = join_path(self._module_path, module_name)
-            class_names = self._get_class_names(module_path + '/__init__.py')
-            imported_module = __import__(module_name)
-            classes += [getattr(imported_module, class_name) for class_name in class_names]
+
+            try:
+                class_names = self._get_class_names(module_path + '/__init__.py')
+                imported_module = __import__(module_name)
+                classes += [getattr(imported_module, class_name) for class_name in class_names]
+            except ClassLoaderError as e:
+                RadarLogger.log(e)
 
         return [C for C in classes if issubclass(C, subclass)]
