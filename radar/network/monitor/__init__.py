@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta, abstractmethod
+from radar.logger import RadarLogger
 
 
 class NetworkMonitorError(Exception):
@@ -38,6 +39,7 @@ class NetworkMonitor(object):
     def __init__(self, server, timeout=None):
         self._server = server
         self._timeout = timeout
+        RadarLogger.log('Multiplexing strategy : {:}.'.format(self.__class__.__name__))
 
     def _client_arrived(self, fds):
         return self._server.socket.fileno() in fds
