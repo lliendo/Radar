@@ -43,13 +43,17 @@ class ClassLoader(object):
         self._module_path = module_path
         module_search_path.append(module_path)
 
-    def _get_class_names(self, file):
+    def _get_class_names(self, filename):
+        class_names = []
+
         try:
-            with open(file) as fd:
+            with open(filename) as fd:
                 parsed_source = ast_parse(fd.read())
                 class_names = [n.name for n in ast_walk(parsed_source) if isinstance(n, ClassDef)]
         except IOError as e:
-            raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}'.format(file, e.strerror))
+            raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}.'.format(filename, e.strerror))
+        except SyntaxError as e:
+            raise ClassLoaderError('Error - Couldn\'t parse \'{:}\'. Reason: {:}.'.format(filename, e.strerror))
 
         return class_names
 
