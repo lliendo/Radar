@@ -45,10 +45,13 @@ class UnixClientInitialSetup(object):
         ]
 
 
-# As there are no Windows platform specific options, the class is empty.
 class WindowsClientInitialSetup(object):
     def _get_config_dict(self):
-        return {}
+        return {
+            'run as': {
+                'user': 'User to run Radar client as ? [{:}] ',
+            },
+        }
 
     def _get_directories(self, config):
         return []
