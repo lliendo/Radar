@@ -54,11 +54,24 @@ class InitialSetup(object):
 
         return user_setup(), platform_setup
 
+    def _read_value(self, console_message, default_value):
+        correct_type = False
+        inputted_value = ''
+
+        while not correct_type:
+            try:
+                inputted_value = type(default_value)(input(console_message.format(default_value)) or default_value)
+                correct_type = True
+            except ValueError:
+                pass
+
+        return inputted_value
+
     def _read_config(self, config):
         for path in self._generate_dict_paths(config):
             console_message = self._read_dict_path(config, path)
             default_value = self._read_dict_path(self.PlatformSetup.PLATFORM_CONFIG, path)
-            self._write_to_dict_path(config, path, input(console_message.format(default_value)) or default_value)
+            self._write_to_dict_path(config, path, self._read_value(console_message, default_value))
 
         return config
 
