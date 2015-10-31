@@ -100,7 +100,7 @@ class InitialSetup(object):
 
     def _create_directory(self, path):
         try:
-            makedirs(path)
+            makedirs(path, mode=0755)
             chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
         except OSError as e:
             if e.errno != EEXIST:
