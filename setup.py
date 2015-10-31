@@ -29,6 +29,7 @@ def radar_dependencies():
         'nose==1.3.7',
         'pyyaml==3.11',
         'mock==1.3.0',
+        'future==0.15.2',
     ]
 
     if platform_name() == 'Windows':
