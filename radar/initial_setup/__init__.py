@@ -46,7 +46,7 @@ class InitialSetup(object):
 
         try:
             user_setup, platform_setup = self.AVAILABLE_PLATFORMS[platform]
-            print '\nDetected platform : {:}\n'.format(platform)
+            print('\nDetected platform : {:}\n'.format(platform))
         except KeyError:
             raise InitialSetupError('Error - Platform {:} is not currently supported.'.format(platform))
 
@@ -102,8 +102,8 @@ class InitialSetup(object):
             fd.write(dump_yaml(config, default_flow_style=False, indent=4, line_break='\n\n'))
 
     def _print_header(self):
-        print 'Press enter for default values or input a custom one :'
-        print '------------------------------------------------------\n'
+        print('Press enter for default values or input a custom one :')
+        print('------------------------------------------------------\n')
 
     def _run(self):
         self._print_header()
@@ -114,8 +114,8 @@ class InitialSetup(object):
     def run(self):
         try:
             self._run()
-            print '\nDone !\n'
+            print('\nDone !\n')
         except KeyboardInterrupt:
-            print '\n\nAborting configuration...'
+            print('\n\nAborting configuration...')
         except Exception as e:
-            print e
+            print(e)
