@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
+from builtins import input
 from io import open
 from functools import reduce
 from os.path import dirname
@@ -57,7 +58,7 @@ class InitialSetup(object):
         for path in self._generate_dict_paths(config):
             console_message = self._read_dict_path(config, path)
             default_value = self._read_dict_path(self.PlatformSetup.PLATFORM_CONFIG, path)
-            self._write_to_dict_path(config, path, raw_input(console_message.format(default_value)) or default_value)
+            self._write_to_dict_path(config, path, input(console_message.format(default_value)) or default_value)
 
         return config
 
@@ -96,7 +97,7 @@ class InitialSetup(object):
 
     def _save_yaml(self, config):
         console_message = 'Path to main config ? [{:}] '.format(self.PlatformSetup.MAIN_CONFIG_PATH)
-        main_config_path = raw_input(console_message) or self.PlatformSetup.MAIN_CONFIG_PATH
+        main_config_path = input(console_message) or self.PlatformSetup.MAIN_CONFIG_PATH
         self._create_directory(dirname(main_config_path))
 
         with open(main_config_path, 'w') as fd:
