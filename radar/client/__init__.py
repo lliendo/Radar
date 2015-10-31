@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from time import time
 from threading import Thread, Event
 from json import loads as deserialize_json, dumps as serialize_json
-from Queue import Empty as EmptyQueue
+from queue import Empty as EmptyQueue
 from ..logger import RadarLogger
 from ..network.client import Client
 from ..protocol import Message

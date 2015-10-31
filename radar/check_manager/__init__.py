@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from Queue import Empty as EmptyQueue
+from queue import Empty as EmptyQueue
 from threading import Thread, Event
 from ..logger import RadarLogger
 from ..check import UnixCheck, WindowsCheck, CheckError

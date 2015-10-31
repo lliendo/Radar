@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from Queue import Empty as EmptyQueue
+from queue import Empty as EmptyQueue
 from abc import ABCMeta
 from ctypes import cast, py_object
 from functools import reduce

@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from Queue import Full as FullQueue
+from queue import Full as FullQueue
 from datetime import datetime, timedelta
 from json import loads as deserialize_json
 from threading import Thread, Event
