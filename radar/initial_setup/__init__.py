@@ -66,7 +66,7 @@ class InitialSetup(object):
             path = []
 
         if isinstance(d, dict):
-            for x in d.keys():
+            for x in list(d):
                 local_path = path[:]
                 local_path.append(x)
 

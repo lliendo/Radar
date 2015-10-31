@@ -63,7 +63,7 @@ class ConfigBuilder(object):
         if type(config) == list:
             return [self._lower_config_keys(d) for d in config]
 
-        for k in config.keys():
+        for k in list(config):
             if type(config[k]) == dict:
                 lowered = self._lower_config_keys(config.pop(k))
             elif type(config[k]) == list and all([type(e) == str for e in config[k]]):
