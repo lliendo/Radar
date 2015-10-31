@@ -162,3 +162,102 @@ Something similar happens on the order in which the options are scanned from
 the console.
 You can run these scripts as many times as you want but be aware that if you
 point to the same output files they'll be completely overwritten.
+
+
+Configuring startup scripts
+---------------------------
+
+Depending on which OS you're using here are instructions to make Radar (server or
+client) automatically start at system boot.
+
+* For GNU/Linux (SysV) :
+
+Copy the radar-server init script :
+
+.. code-block:: bash
+
+    cd Radar/init_scripts/linux/sysv
+    cp radar-server /etc/init.d
+
+Make sure that the owner/group of the file is root :
+
+.. code-block:: bash
+
+    chown root.root /etc/init.d/radar-server
+
+Make sure the file permissions are :
+
+.. code-block:: bash
+
+    chmod u=rwx,go=rx /etc/init.d/radar-server
+
+Make symlinks :
+
+.. code-block:: bash
+
+    cd /etc/rc2.d/
+    ln -s ../init.d/radar-server S99radar-server
+
+The above command adds automatic startup for runlevel 2 (repeat the last step
+for different runlevels as you need).
+
+Before starting the service :
+
+1. Open the /etc/init.d/radar-server file.
+2. Verify that the DAEMON_ARGS variable points to the same main configuration file
+   that you setup with the radar-server-config.py configuration script or change
+   that path as you need.
+
+Start the service :
+
+.. code-block:: bash
+
+    /etc/init.d/radar-server start
+
+To add the Radar client on system startup follow the same steps but replace 'radar-server'
+by 'radar-client'.
+
+
+* For GNU/Linux (Systemd) :
+
+Copy the radar-server.service and radar-server files :
+
+.. code-block:: bash
+
+    cd Radar/init_scripts/linux/systemd
+    cp radar-server.service /lib/systemd/system
+    cp radar-server /etc/default
+
+Make sure that the owner/group of the file is root :
+
+.. code-block:: bash
+
+    chown root.root /lib/systemd/system/radar-server.service /etc/default/radar-server
+
+Make sure the file permissions are :
+
+.. code-block:: bash
+
+    chmod u=rw,go=r /lib/systemd/system/radar-server.service /etc/default/radar-server
+
+Enable the unit :
+
+.. code-block:: bash
+
+    systemctl enable radar-server.service
+
+Before starting the service :
+
+1. Open the /etc/default/radar-server file.
+2. Verify that the RADAR_SERVER_OPTS variable points to the same main configuration file
+   that you setup with the radar-server-config.py configuration script or change
+   that path as you need.
+
+Start the service :
+
+.. code-block:: bash
+
+    systemctl start radar-server.service
+
+To add the Radar client on system startup follow the same steps but replace 'radar-server'
+by 'radar-client'.
