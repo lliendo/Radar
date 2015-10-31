@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from io import open
 from os.path import join as join_path
 from ast import parse as ast_parse
 from ast import walk as ast_walk

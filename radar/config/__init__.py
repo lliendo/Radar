@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
+from io import open
 from yaml import safe_load, YAMLError
 from ..logger import RadarLogger
 

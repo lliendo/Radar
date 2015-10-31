@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
+from io import open
 from functools import reduce
 from os.path import dirname
 from os import chmod, makedirs

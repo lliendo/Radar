@@ -21,6 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
+from io import open
 from os import getpid, remove, mkdir
 from os.path import dirname, isfile as file_exists
 from signal import signal, SIGTERM, SIGINT
