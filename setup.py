@@ -41,7 +41,7 @@ setup(
     name='Radar-Monitoring-System',
     description='An extendable and generic monitoring system.',
     version='0.0.1a',
-    packages=find_packages(exclude=['docs', 'tests', 'scripts']),
+    packages=find_packages(exclude=['docs', 'tests', 'scripts', 'init_scripts']),
     author='Lucas Liendo',
     author_email='liendolucas84@gmail.com',
     keywords='monitor monitoring system administration',
