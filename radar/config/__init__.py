@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from future.utils import listitems
 from abc import ABCMeta
 from io import open
 from yaml import safe_load, YAMLError
@@ -50,7 +51,7 @@ class ConfigBuilder(object):
             raise ConfigError('Error - Wrong Radar main config format.')
 
     def _merge_options(self, source, destination):
-        for key, value in source.items():
+        for key, value in listitems(source):
             if isinstance(value, dict):
                 node = destination.setdefault(key, {})
                 self._merge_options(value, node)

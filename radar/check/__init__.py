@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from future.utils import listitems
 from functools import reduce
 from json import loads as deserialize_json
 from os import stat
@@ -120,7 +121,7 @@ class Check(Switchable):
     def _deserialize_output(self, output):
         try:
             valid_fields = ['status', 'details', 'data']
-            d = {k.lower(): v for k, v in deserialize_json(output).items() if k.lower() in valid_fields}
+            d = {k.lower(): v for k, v in listitems(deserialize_json(output)) if k.lower() in valid_fields}
             d.update({
                 'status': self.STATUS[d['status'].upper()],
                 'id': self.id,
