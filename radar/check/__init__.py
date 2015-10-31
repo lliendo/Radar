@@ -64,7 +64,7 @@ class Check(Switchable):
         self._platform_setup = platform_setup
 
     def _update_matches(self, check_status):
-        return (self.id == check_status['id']) and (check_status['status'] in self.STATUS.values()) and \
+        return (self.id == check_status['id']) and (check_status['status'] in list(self.STATUS.values())) and \
             self.enabled
 
     def update_status(self, check_status):
@@ -85,7 +85,7 @@ class Check(Switchable):
     @staticmethod
     def get_status(status):
         try:
-            return Check.STATUS.keys()[Check.STATUS.values().index(status)]
+            return list(Check.STATUS)[list(Check.STATUS.values()).index(status)]
         except ValueError:
             raise CheckError('Error - Invalid status value : \'{:}\'.'.format(status))
 

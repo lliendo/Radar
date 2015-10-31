@@ -55,7 +55,7 @@ class Message(object):
 
     @staticmethod
     def get_type(message_type):
-        return Message.TYPE.keys()[Message.TYPE.values().index(message_type)]
+        return list(Message.TYPE)[list(Message.TYPE.values()).index(message_type)]
 
     def _header_received(self):
         return len(self.header.getvalue()) == self.HEADER_SIZE
@@ -104,8 +104,8 @@ class Message(object):
         self.payload = BytesIO()
 
     def _invalid_header(self, message_type, message_options, payload_size):
-        return (message_type not in self.TYPE.values()) or \
-            (message_options not in self.OPTIONS.values()) or payload_size == 0
+        return (message_type not in list(self.TYPE.values())) or \
+            (message_options not in list(self.OPTIONS.values())) or payload_size == 0
 
     def receive(self, client):
         message_type, message_options, payload_size = self._unpack_header(self._receive_header(client))
