@@ -1,0 +1,4 @@
+# Default settings for radar-client.
+
+# Options to pass to radar-client
+RADAR_CLIENT_OPTS=-c /etc/radar/client/main.yml

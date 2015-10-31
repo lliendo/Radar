@@ -1,0 +1,10 @@
+[Unit]
+Description=Radar client
+
+[Service]
+EnvironmentFile=/etc/default/radar-client
+ExecStart=/usr/bin/radar-client.py $RADAR_CLIENT_OPTS
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
