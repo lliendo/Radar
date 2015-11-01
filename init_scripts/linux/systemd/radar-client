@@ -2,3 +2,4 @@
 
 # Options to pass to radar-client
 RADAR_CLIENT_OPTS=-c /etc/radar/client/config/main.yml
+RADAR_CLIENT_PIDFILE=/var/run/radar-client.pid

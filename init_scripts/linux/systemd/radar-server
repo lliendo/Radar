@@ -2,3 +2,4 @@
 
 # Options to pass to radar-server
 RADAR_SERVER_OPTS=-c /etc/radar/server/config/main.yml
+RADAR_SERVER_PIDFILE=/var/run/radar-server.pid

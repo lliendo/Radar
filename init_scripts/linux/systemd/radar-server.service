@@ -3,7 +3,9 @@ Description=Radar server
 
 [Service]
 EnvironmentFile=/etc/default/radar-server
+PIDFile=$RADAR_SERVER_PIDFILE
 ExecStart=/usr/local/bin/radar-server.py $RADAR_SERVER_OPTS
+ExecStopPost=/bin/rm $RADAR_SERVER_PIDFILE
 Type=forking
 
 [Install]
