@@ -102,19 +102,19 @@ Radar is aimed to be both simple and easy to use and understand.
 Tests
 -----
 
-Radar-Checks uses `Nose <https://nose.readthedocs.org/en/latest/>`_ to run its tests.
+Radar uses `Nose <https://nose.readthedocs.org/en/latest/>`_ to run its tests.
 To install Nose, from the command line run :
 
 .. code-block:: bash
     
-    pip install nose
+    pip install -r requirements.txt
 
 To run the tests, clone the this repository and run Nose.
 
 .. code-block:: bash
 
     git clone https://github.com/lliendo/Radar.git
-    cd Radar-Checks
+    cd Radar
     nosetests
 
 
