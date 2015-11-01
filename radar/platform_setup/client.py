@@ -39,7 +39,7 @@ class UnixClientSetup(ClientConfig, UnixSetup):
 
     def configure(self, launcher):
         super(UnixClientSetup, self).configure()
-        self._write_pid_file(self.config['pid file'])
+        self._write_pid_file(self.config['pid file'], self.config['run as']['user'], self.config['run as']['group'])
         self._install_signal_handlers(launcher)
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 

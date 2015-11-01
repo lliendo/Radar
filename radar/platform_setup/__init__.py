@@ -63,8 +63,8 @@ class UnixSetup(object):
 
     def __new__(cls, *args, **kwargs):
         try:
-            global getpwnam, getgrnam, seteuid, setegid, setgroups
-            from os import seteuid, setegid, setgroups
+            global chown, getpwnam, getgrnam, seteuid, setegid, setgroups
+            from os import chown, seteuid, setegid, setgroups
             from pwd import getpwnam
             from grp import getgrnam
         except ImportError as e:
@@ -80,7 +80,7 @@ class UnixSetup(object):
                 raise UnixSetupError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(
                     path, e.strerror))
 
-    def _write_pid_file(self, pidfile):
+    def _write_pid_file(self, pidfile, user, group):
         self._create_dir(dirname(pidfile))
 
         if file_exists(pidfile):
@@ -89,8 +89,12 @@ class UnixSetup(object):
         try:
             with open(pidfile, 'w') as fd:
                 fd.write(u'{:}'.format(getpid()))
+
+            chown(pidfile, getpwnam(user).pw_uid, getgrnam(group).gr_gid)
         except IOError as e:
             raise UnixSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
+        except OSError as e:
+            raise UnixSetupError('Error - Couldn\'t change permissions for pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
 
     def _install_signal_handlers(self, launcher):
         signal(SIGTERM, launcher.stop)
