@@ -60,8 +60,8 @@ invoke Radar this way :
 The -c option specifies an alternate main configuration file.
 
 
-Adding restricted account for Radar
------------------------------------
+Adding restricted account
+-------------------------
 
 As a basic security measure it is recommended to create a restricted account to
 be used by Radar. By default Radar assumes that the name of this account is
@@ -129,8 +129,8 @@ Windows 7 Professional or better :
 9. Log out and verify that you are not allowed to login with the 'radar' user (locally and remotely).
 
 
-Radar setup
------------
+Setting up Radar
+----------------
 
 Before you start configuring Radar I recommend you to read the documentation
 as some options may not make full sense. If you've already read the docs
