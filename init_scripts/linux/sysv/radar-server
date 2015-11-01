@@ -16,8 +16,8 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Radar server"
 NAME=radar-server
-DAEMON=/usr/bin/${NAME}.py
-DAEMON_ARGS="-c /etc/radar/server/main.yml"
+DAEMON=/usr/local/bin/${NAME}.py
+DAEMON_ARGS="-c /etc/radar/server/config/main.yml"
 PIDFILE=/var/run/${NAME}.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
