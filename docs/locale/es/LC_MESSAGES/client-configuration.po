@@ -83,17 +83,7 @@ msgstr ""
 " archivo. Por defecto Radar define un máximo de 100 MiB para el tamaño del "
 "archivo de log y lo rota a lo sumo 5 veces."
 
-#: ../../client-configuration.rst:50
-msgid ""
-"pid file : On Unix platforms this file holds the PID of the Radar process. "
-"When Radar starts it will record its pidfile here and when it shuts down "
-"this file is deleted. Pid files are not recorded on Windows platforms."
-msgstr ""
-"pid file : En plataformas Unix este archivo contiene el PID del proceso "
-"Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
-"ejecución es eliminado. Este archivo no es generado en plataformas Windows."
-
-#: ../../client-configuration.rst:55
+#: ../../client-configuration.rst:56
 msgid ""
 "checks : This is the location where all your checks are stored. Every time a"
 " Radar client receives a CHECK message from the server all checks are first "
@@ -107,7 +97,7 @@ msgstr ""
 "contrario se lo intentará localizar por su ruta absoluta. Puedes organizar "
 "este directorio como gustes."
 
-#: ../../client-configuration.rst:60
+#: ../../client-configuration.rst:61
 msgid ""
 "enforce ownership : On Unix platforms if this option is True then every time"
 " the Radar client has to execute a check it will first verify that the user "
@@ -120,10 +110,10 @@ msgstr ""
 " True entonces cada vez que el cliente necesite ejecutar un chequeo primero "
 "verificará que el usuario y grupo del chequeo coincida con el que se ha "
 "definido en la opcion 'run as'. Si el usuario y grupo no coinciden se genera"
-" un error y el chequeo no es ejecutado. En plataformas Windows solo se verificará "
-"el usuario. Por defecto esta opción tiene el valor True. "
+" un error y el chequeo no es ejecutado. En plataformas Windows solo se "
+"verificará el usuario. Por defecto esta opción tiene el valor True. "
 
-#: ../../client-configuration.rst:67
+#: ../../client-configuration.rst:68
 msgid ""
 "reconnect : This option specifies the behaviour of the client when a Radar "
 "server goes down. If set to True and if the Radar server stops working the "
@@ -135,7 +125,7 @@ msgstr ""
 " servidor se desconecta, el cliente intentará reconectarse al servidor. Por "
 "defecto esta opción tiene un valor True."
 
-#: ../../client-configuration.rst:72
+#: ../../client-configuration.rst:73
 msgid ""
 "As usual you can leave out almost every option to its default value. A "
 "minimum Radar client configuration file might look like this :"
@@ -144,10 +134,22 @@ msgstr ""
 "tomarán sus valores por defecto. A continuación podrás ver un archivo de "
 "configuración mínimo :"
 
-#: ../../client-configuration.rst:80
+#: ../../client-configuration.rst:81
 msgid ""
 "All remaining options take default values. Check these defaults on the "
 "platform defaults section."
 msgstr ""
 "Todas las opciones restantes toman sus valores por defecto. Verifica estos "
 "valores en la sección 'valores por defecto' de la documentación."
+
+#: ../../client-configuration.rst:50
+msgid ""
+"pid file : On Unix platforms this file holds the PID of the Radar process. "
+"When Radar starts it will record its pidfile here and when it shuts down "
+"this file is deleted (the deletion is not performed by Radar itself, is done"
+" by init scripts). Pid files are not recorded on Windows platforms."
+msgstr ""
+"pid file : En plataformas Unix este archivo contiene el PID del proceso "
+"Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
+"ejecución es eliminado (la eliminación de este archivo no la realiza Radar, sino "
+"su script de arranque). Este archivo no es generado en plataformas Windows."

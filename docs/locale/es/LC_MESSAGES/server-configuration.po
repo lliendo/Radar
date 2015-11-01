@@ -88,9 +88,12 @@ msgid ""
 "not be a able to login to the system. The default user and group is radar. "
 "This option does not apply to Windows platforms."
 msgstr ""
-"pid file : En plataformas Unix este archivo contiene el PID del proceso "
-"Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
-"ejecución es eliminado. Este archivo no es generado en plataformas Windows."
+"run as : En plataformas Unix esta opción permite indicarle a Radar el "
+"usuario y grupo efectivo con el cual debe correr. Esta es una consideración "
+"básica de seguridad para permitir a Radar ejecutarse con un usuario sin "
+"privilegios. Este usuario no debería poder ingresar al sistema. Por defecto "
+"tanto el usuario como el grupo utilizado es radar. Esta opción no esta "
+"actualmente disponible en plataformas Windows."
 
 #: ../../server-configuration.rst:61
 msgid ""
@@ -130,16 +133,15 @@ msgstr ""
 msgid ""
 "pid file : On Unix platforms this file holds the PID of the Radar process. "
 "When Radar starts it will record its pidfile here and when it shuts down "
-"this file is deleted. Pid files are not recorded on Windows platforms."
+"this file is deleted (the deletion is not performed by Radar itself, is done"
+" by init scripts). Pid files are not recorded on Windows platforms."
 msgstr ""
-"run as : En plataformas Unix esta opción permite indicarle a Radar el "
-"usuario y grupo efectivo con el cual debe correr. Esta es una consideración "
-"básica de seguridad para permitir a Radar ejecutarse con un usuario sin "
-"privilegios. Este usuario no debería poder ingresar al sistema. Por defecto "
-"tanto el usuario como el grupo utilizado es radar. Esta opción no esta "
-"actualmente disponible en plataformas Windows."
+"pid file : En plataformas Unix este archivo contiene el PID del proceso "
+"Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
+"ejecución es eliminado (la eliminación de este archivo no la realiza Radar, sino "
+"su script de arranque). Este archivo no es generado en plataformas Windows."
 
-#: ../../server-configuration.rst:80
+#: ../../server-configuration.rst:81
 msgid ""
 "checks, contacts, monitors, plugins : All these set of options tell Radar "
 "where to look for checks, contacts, monitors and plugins. They're just "
@@ -161,7 +163,7 @@ msgstr ""
 "diseñado para contener elementos específicos. Este conjunto de directorios "
 "son dependientes de la plataforma donde Radar se encuentra corriendo."
 
-#: ../../server-configuration.rst:90
+#: ../../server-configuration.rst:91
 msgid ""
 "Let's now take a look at a minimum configuration. Every platform has a "
 "default configuration and the options that are different from one another "
@@ -172,7 +174,7 @@ msgstr ""
 "que son diferentes entre una y otra son aquellas que dependen de la "
 "plataforma."
 
-#: ../../server-configuration.rst:101
+#: ../../server-configuration.rst:102
 msgid ""
 "As you can see from the example most of the options are not defined. They "
 "are not really missing, if you don't specify an option it will take its "
@@ -187,11 +189,11 @@ msgstr ""
 "expuesto, consultará a todos sus clientes cada un minuto y se encuentra "
 "escuchando en 192.168.0.100 puerto 3333."
 
-#: ../../server-configuration.rst:109
+#: ../../server-configuration.rst:110
 msgid "Checks configuration"
 msgstr "Configuración de chequeos"
 
-#: ../../server-configuration.rst:111
+#: ../../server-configuration.rst:112
 msgid ""
 "As commented above all checks and check groups definitions are expected to "
 "be found in the checks defined directory."
@@ -200,17 +202,17 @@ msgstr ""
 "grupos de chequeos esperan ser encontrados en el directorio que se definió "
 "en la opcion checks."
 
-#: ../../server-configuration.rst:114
+#: ../../server-configuration.rst:115
 msgid "How checks are defined ? Each check is defined as follows :"
 msgstr ""
 "¿Como se definen los chequeos?. Cada chequeo es especificado de la siguiente"
 " forma :"
 
-#: ../../server-configuration.rst:123
+#: ../../server-configuration.rst:124
 msgid "Let's review each parameter of a check definition :"
 msgstr "Revisemos cada parámetro de esta configuración :"
 
-#: ../../server-configuration.rst:125
+#: ../../server-configuration.rst:126
 msgid ""
 "name : Each check must be uniquely identified. This is the purpose of the "
 "name parameter, it acts as a unique identifier. You can use whatever name "
@@ -220,7 +222,7 @@ msgstr ""
 "propósito de este parámetro, es decir actua como un identificador único. "
 "Puedes utilizar cualquier nombre que desees. Este parámetro es obligatorio."
 
-#: ../../server-configuration.rst:129
+#: ../../server-configuration.rst:130
 msgid ""
 "path : The full filesystem path to the check. If this path is not absolute "
 "then the check is looked up in the client's defined check directory. This "
@@ -230,7 +232,7 @@ msgstr ""
 "entonces el chequeo es buscado en el directorio de chequeos que tiene "
 "definido el cliente. Este parámetro es obligatorio."
 
-#: ../../server-configuration.rst:133
+#: ../../server-configuration.rst:134
 msgid ""
 "args : This parameter is used to specify any additional arguments that you "
 "need to pass to the check. This parameter is optional."
@@ -238,7 +240,7 @@ msgstr ""
 "args : Este parámetro es utilizado para suministrar al chequeo opciones "
 "adcionales de la línea comandos. Este parámetro es opcional. "
 
-#: ../../server-configuration.rst:136
+#: ../../server-configuration.rst:137
 msgid ""
 "Let's now move on defining check groups. Check groups can be defined in two "
 "different ways, let's see the first one :"
@@ -246,7 +248,7 @@ msgstr ""
 "Continuemos ahora con la definición de grupos de chequeos. Los mismos pueden"
 " ser definidos de dos maneras distintas, comencemos con la primera : "
 
-#: ../../server-configuration.rst:149
+#: ../../server-configuration.rst:150
 msgid ""
 "You define a check group by giving that group a name and a set of checks "
 "that make up that group. This allows you to reference a check group later on"
@@ -259,11 +261,11 @@ msgstr ""
 " que te permiten definir sólo una vez un grupo y luego utilizarlo en "
 "cualquier número de monitores. "
 
-#: ../../server-configuration.rst:154
+#: ../../server-configuration.rst:155
 msgid "Let's now take a look at a second way of defining a check group :"
 msgstr "Veamos ahora una segunda manera de definir un grupo de chequeo :"
 
-#: ../../server-configuration.rst:169
+#: ../../server-configuration.rst:170
 msgid ""
 "In this example we've defined a check first and referenced it later from a "
 "check group. This is perfectly valid and is actually a very convenient way "
@@ -287,12 +289,12 @@ msgstr ""
 " entender. Ten en cuenta que es posible primero definir un grupo de chequeo "
 "y luego los chequeos como muestra el siguiente ejemplo :"
 
-#: ../../server-configuration.rst:193 ../../server-configuration.rst:288
+#: ../../server-configuration.rst:194 ../../server-configuration.rst:289
 msgid "Here's a fragment of how a real configuration might look like :"
 msgstr ""
 "Aquí tienes un fragmento de una configuración real a modo de ejemplo :"
 
-#: ../../server-configuration.rst:224
+#: ../../server-configuration.rst:225
 msgid ""
 "Some final notes on defining checks (this actually applies to the overall "
 "configuration) :"
@@ -300,7 +302,7 @@ msgstr ""
 "Algunas consideraciones generales al definir chequeos (estas consideraciones"
 " en realidad se aplican a toda la configuración en general) :"
 
-#: ../../server-configuration.rst:227
+#: ../../server-configuration.rst:228
 msgid ""
 "Radar expects at least one check or check group to exist in the overall "
 "configuration. Otherwise, why use Radar if you don't want to check at least "
@@ -310,7 +312,7 @@ msgstr ""
 "su configuración. Sino, ¿Para que utilizar Radar si no deseas verificar al "
 "menos un recurso?."
 
-#: ../../server-configuration.rst:231
+#: ../../server-configuration.rst:232
 msgid ""
 "Checks and check groups are allowed to be repeated and Radar won't complain "
 "at all. However there are no guarantees at all which of the repeated check "
@@ -322,7 +324,7 @@ msgstr ""
 "todos chequeos o grupos de chequeos repetidos se utilizará. La regla es que "
 "no debes repetir chequeos o grupos de chequeos."
 
-#: ../../server-configuration.rst:236
+#: ../../server-configuration.rst:237
 msgid ""
 "As stated before the order of definition does not matter because Radar will "
 "first build all of its checks and then proceed to build all the check "
@@ -333,7 +335,7 @@ msgstr ""
 " construirá todos los chequeos y luego los grupos de chequeos. Esto mismo se"
 " aplica también para los contactos y grupos de contactos."
 
-#: ../../server-configuration.rst:240
+#: ../../server-configuration.rst:241
 msgid ""
 "If you have a relatively big configuration then it might be useful to split "
 "it among different files and in some cases among directories. Remember that "
@@ -344,11 +346,11 @@ msgstr ""
 "diferentes directorios. Recuerda que Radar no te impone ninguna condición en"
 " el esquema de directorios."
 
-#: ../../server-configuration.rst:246
+#: ../../server-configuration.rst:247
 msgid "Contacts configuration"
 msgstr "Configuración de contactos"
 
-#: ../../server-configuration.rst:248
+#: ../../server-configuration.rst:249
 msgid ""
 "If you understood how checks and checks groups are defined then defining "
 "contacts and contact groups is exactly the same !"
@@ -357,11 +359,11 @@ msgstr ""
 "entonces, ¡la configuración de contactos y grupos de contactos es "
 "exactamente análoga!"
 
-#: ../../server-configuration.rst:251
+#: ../../server-configuration.rst:252
 msgid "Here's an example of a contact definition :"
 msgstr "Veamos un ejemplo :"
 
-#: ../../server-configuration.rst:260
+#: ../../server-configuration.rst:261
 msgid ""
 "name : Each contact must be uniquely identified. This is the purpose of the "
 "name parameter, it acts as a unique identifier. You can use whatever name "
@@ -371,7 +373,7 @@ msgstr ""
 "propósito de este parámetro. Puedes utilizar cualquier nombre que desees. "
 "Este parámetro es obligatorio. "
 
-#: ../../server-configuration.rst:264
+#: ../../server-configuration.rst:265
 msgid ""
 "email : The email of the contact you're defining. Radar won't check at all "
 "if the defined email address is valid, so be careful ! This parameter is "
@@ -381,7 +383,7 @@ msgstr ""
 "Radar no comprobará si dicha dirección es válida, asi que ten cuidado al "
 "definirla. Este parámetro es obligatorio. "
 
-#: ../../server-configuration.rst:268
+#: ../../server-configuration.rst:269
 msgid ""
 "phone : This is the phone number of the contact. Radar won't check if this "
 "is a valid phone number. This parameter is optional."
@@ -390,11 +392,11 @@ msgstr ""
 "verificará si dicho numero telefónico es válido. Este parámetro es opcional."
 " "
 
-#: ../../server-configuration.rst:271
+#: ../../server-configuration.rst:272
 msgid "Let's see a contact group definition :"
 msgstr "Pasemos ahora a ver la definición de un grupo de contactos :"
 
-#: ../../server-configuration.rst:283
+#: ../../server-configuration.rst:284
 msgid ""
 "Compare the above definitions (against checks and check groups). You'll "
 "realize that they are almost identical, of course the identifiers for each "
@@ -407,7 +409,7 @@ msgstr ""
 " prevalece : puedes componer grupos de contactos como desees y referenciar "
 "contactos desde cualquier grupo de contactos. "
 
-#: ../../server-configuration.rst:303
+#: ../../server-configuration.rst:304
 msgid ""
 "There is one little difference between checks and contacts definitions. In "
 "some scenarios it might not be needed to notify any contact at all, so Radar"
@@ -421,11 +423,11 @@ msgstr ""
 "la definición tanto de contactos como grupos de contactos es completamente "
 "opcional. "
 
-#: ../../server-configuration.rst:310
+#: ../../server-configuration.rst:311
 msgid "Monitors configuration"
 msgstr "Configuración de monitores"
 
-#: ../../server-configuration.rst:312
+#: ../../server-configuration.rst:313
 msgid ""
 "Once you have defined all your contacts and checks the last step is to "
 "define monitors. Monitors are the way to tell Radar which hosts to watch, "
@@ -436,11 +438,11 @@ msgstr ""
 "permiten indicarle a Radar que hosts monitorear, que chequear y a quién "
 "notificar. "
 
-#: ../../server-configuration.rst:316
+#: ../../server-configuration.rst:317
 msgid "Let's walk through a real example :"
 msgstr "Veamos el siguiente ejemplo :"
 
-#: ../../server-configuration.rst:325
+#: ../../server-configuration.rst:326
 msgid ""
 "The above example is telling Radar to monitor localhost and all hosts that "
 "are in the 192.168.0.101 - 192.168.0.200 range and to check for Basic "
@@ -453,15 +455,15 @@ msgstr ""
 "health y Disk usage y que notifique a Sysadmins. Entonces para definir "
 "monitores básicamente tienes :"
 
-#: ../../server-configuration.rst:337
+#: ../../server-configuration.rst:338
 msgid ""
 "name: Monitors are allowed to have a name. As you can see from the second "
 "last example its setting is completly optional."
 msgstr ""
-"name: Los monitores pueden tener un nombre. Como puedes ver en el anteúltimo "
-"ejemplo la especificación de un nombre es totalmente opcional."
+"name: Los monitores pueden tener un nombre. Como puedes ver en el anteúltimo"
+" ejemplo la especificación de un nombre es totalmente opcional."
 
-#: ../../server-configuration.rst:340
+#: ../../server-configuration.rst:341
 msgid ""
 "hosts : There are three different way to specify hosts. You can specify a "
 "single host by its IPv4 (this if the preferred way) or by its hostname. The "
@@ -478,7 +480,7 @@ msgstr ""
 "guión y una dirección final. Los extremos de dicho rango estan incluidos. "
 "Debes referenciar al menos un host."
 
-#: ../../server-configuration.rst:347
+#: ../../server-configuration.rst:348
 msgid ""
 "watch : This is a list of checks or check groups to be run on the monitored "
 "hosts. You only need to reference previously defined checks or check group "
@@ -489,7 +491,7 @@ msgstr ""
 "chequeo o grupo de chequeo. Debes al menos referenciar un chequeo o grupo de"
 " chequeos."
 
-#: ../../server-configuration.rst:351
+#: ../../server-configuration.rst:352
 msgid ""
 "notify : Same as above but for contacts. You need to reference a list of "
 "previously defined contacts or contact groups."
@@ -499,7 +501,7 @@ msgstr ""
 " que es opcional definir contactos y grupos de contactos por lo cual esta "
 "definición es también opcional. "
 
-#: ../../server-configuration.rst:354
+#: ../../server-configuration.rst:355
 msgid ""
 "Note that the hosts, watch and notify parameters are defined within squared "
 "brackets. Don't forget this when defining monitors ! This is the only place "
@@ -509,7 +511,7 @@ msgstr ""
 "han sido definidos entre corchetes []. ¡No olvides esto al definir "
 "monitores!. Este es el único lugar donde utilizamos una lista YAML. "
 
-#: ../../server-configuration.rst:358
+#: ../../server-configuration.rst:359
 msgid ""
 "You can include as many monitors as you want on each file. There are no "
 "restrictions. You need to be careful when you reference checks and contacts "
@@ -530,7 +532,7 @@ msgstr ""
 "utilizar siempre la misma regla al realizar definiciones, por ejemplo puedes"
 " definir siempre todo en minúsculas, usar camel case, etc. "
 
-#: ../../server-configuration.rst:368
+#: ../../server-configuration.rst:369
 msgid ""
 "You may be wondering under which conditions Radar knows if it should notify "
 "its contacts. The Radar core does not handle (and does not care) this, but "
@@ -549,7 +551,7 @@ msgstr ""
 "probable que dicho plugin inspeccione el estado actual y anterior de un "
 "chequeo para determinar si debe notificar a un grupo de contactos. "
 
-#: ../../server-configuration.rst:376
+#: ../../server-configuration.rst:377
 msgid ""
 "Don't worry if you don't want to write a Radar plugin (you don't have to, "
 "although you're encouraged to at least understand how a plugin works and how"
@@ -559,11 +561,11 @@ msgstr ""
 "hacerlo, aunque te recomiendo a que al menos comprendas como un plugin "
 "funciona y como debe ser diseñado). "
 
-#: ../../server-configuration.rst:382
+#: ../../server-configuration.rst:383
 msgid "Plugins configuration"
 msgstr "Configuración de plugins"
 
-#: ../../server-configuration.rst:384
+#: ../../server-configuration.rst:385
 msgid ""
 "Radar server relies on plugins to perform certain actions. For example "
 "assume that you want to notify your contacts by SMS and you also want to be "
@@ -575,7 +577,7 @@ msgstr ""
 "resultados de ciertos chequeos en una base de datos relacional los plugins "
 "ofrecen un mecanismo para lograr esto."
 
-#: ../../server-configuration.rst:389
+#: ../../server-configuration.rst:390
 msgid ""
 "Radar does not provide any built-in mechanisms to do these kind of things "
 "because that responsability is left to plugins. For the moment we're not "
@@ -585,7 +587,7 @@ msgstr ""
 "cosas porque no es su responsabilidad. Por el momento no describiremos como "
 "desarrollar un plugin pero si como instalarlos."
 
-#: ../../server-configuration.rst:393
+#: ../../server-configuration.rst:394
 msgid ""
 "As described previously there is one plugin directory defined in the main "
 "configuration file. This directory holds all the plugins managed by Radar. "
@@ -601,7 +603,7 @@ msgstr ""
 "cuanto a su organización jerárquica se refiere. Este no es el caso del "
 "directorio de plugins. "
 
-#: ../../server-configuration.rst:399
+#: ../../server-configuration.rst:400
 msgid ""
 "Let's assume that your plugins directory is : /tmp/Radar/server/plugins. "
 "Then you have a bunch of plugins you want install. Simply copy all of them "
@@ -612,11 +614,11 @@ msgstr ""
 "instalar. Para instalarlos simplemente debemos copiarlos a dicho directorio."
 " "
 
-#: ../../server-configuration.rst:403
+#: ../../server-configuration.rst:404
 msgid "The layout of the plugins directory might look something like this :"
 msgstr "La organización de directorio de plugins se asemejaría a :"
 
-#: ../../server-configuration.rst:415
+#: ../../server-configuration.rst:416
 msgid ""
 "Every plugin must be contained within one directory below the defined "
 "plugins directory. Some plugins might contain configurations as well (from "
