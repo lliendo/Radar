@@ -63,12 +63,12 @@ class UnixSetup(object):
 
     def __new__(cls, *args, **kwargs):
         try:
-            global getpwnam, getgrnam, seteuid, setegid
-            from os import seteuid, setegid
+            global getpwnam, getgrnam, seteuid, setegid, setgroups
+            from os import seteuid, setegid, setgroups
             from pwd import getpwnam
             from grp import getgrnam
-        except ImportError:
-            raise UnixSetupError('')
+        except ImportError as e:
+            raise UnixSetupError('Error - Couldn\'t import Unix permission functions. Details : {:}.'.format(e))
 
         return object.__new__(cls, *args, **kwargs)
 
@@ -88,7 +88,7 @@ class UnixSetup(object):
 
         try:
             with open(pidfile, 'w') as fd:
-                fd.write(str(getpid()))
+                fd.write(u'{:}'.format(getpid()))
         except IOError as e:
             raise UnixSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
 
@@ -98,8 +98,9 @@ class UnixSetup(object):
 
     def _switch_process_owner(self, user, group):
         try:
-            seteuid(getpwnam(user).pw_uid)
+            setgroups([])
             setegid(getgrnam(group).gr_gid)
+            seteuid(getpwnam(user).pw_uid)
         except OSError as e:
             raise UnixSetupError('Error - Couldn\'t switch process owner \'{:}.{:}\'. Details {:}.'.format(
                 user, group, e))
@@ -110,7 +111,7 @@ class UnixSetup(object):
         try:
             remove(pidfile)
         except OSError as e:
-            raise UnixSetupError(('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.').format(pidfile, e))
+            raise UnixSetupError('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.'.format(pidfile, e))
 
 
 class WindowsSetup(object):
