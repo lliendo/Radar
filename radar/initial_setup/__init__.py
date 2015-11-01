@@ -114,7 +114,7 @@ class InitialSetup(object):
         self._create_directory(dirname(main_config_path))
 
         with open(main_config_path, 'w') as fd:
-            fd.write(dump_yaml(config, default_flow_style=False, indent=4, line_break='\n\n'))
+            fd.write(u'{:}'.format(dump_yaml(config, default_flow_style=False, indent=4, line_break='\n\n')))
 
     def _print_header(self):
         print('Press enter for default values or input a custom one :')
