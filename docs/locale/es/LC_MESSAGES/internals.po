@@ -218,7 +218,7 @@ msgstr ""
 " un mensaje incompleto o incorrecto. También este mecanismo es utilizado "
 "como una solución sencilla para finalizar los threads de forma adecuada : un"
 " Event es compartido entre todos los threads definidos y cuando este evento "
-"es detenido la condición de looping deja de cumplirse y los threads terminan"
+"es detenido la condición de iteración deja de cumplirse y los threads terminan"
 " exitosamente."
 
 #: ../../internals.rst:151
