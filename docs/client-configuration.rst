@@ -49,7 +49,8 @@ option (this time we will setup a Windows Radar client) :
 
 * pid file : On Unix platforms this file holds the PID of the Radar
   process. When Radar starts it will record its pidfile here and when
-  it shuts down this file is deleted. Pid files are not recorded on Windows
+  it shuts down this file is deleted (the deletion is not performed by Radar
+  itself, is done by init scripts). Pid files are not recorded on Windows
   platforms.
 
 * checks : This is the location where all your checks are stored. Every time
