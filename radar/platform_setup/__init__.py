@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from abc import ABCMeta
 from io import open
-from os import getpid, remove, mkdir
+from os import getpid, mkdir
 from os.path import dirname, isfile as file_exists
 from signal import signal, SIGTERM, SIGINT
 from platform import system as platform_name
@@ -110,12 +110,6 @@ class UnixSetup(object):
                 user, group, e))
         except KeyError:
             raise UnixSetupError('Error - User or group \'{:}.{:}\' does not exist.'.format(user, group))
-
-    def _delete_pid_file(self, pidfile):
-        try:
-            remove(pidfile)
-        except OSError as e:
-            raise UnixSetupError('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.'.format(pidfile, e))
 
 
 class WindowsSetup(object):

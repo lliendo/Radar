@@ -58,7 +58,6 @@ class UnixServerSetup(ServerConfig, UnixSetup):
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
     def tear_down(self):
-        self._delete_pid_file(self.config['pid file'])
         self._shutdown_plugins()
         super(UnixServerSetup, self).tear_down()
 
