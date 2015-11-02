@@ -153,14 +153,16 @@ class Server(object):
 
             self.socket.bind((address, port))
             self.socket.listen(SOMAXCONN)
-        except SocketError, (_, e):
-            raise ServerListenError('Error - Couldn\'t not listen on : {:}/{:}. Details : {:}.'.format(address, port, e))
+        # Can we do : except SocketError as (_, e): ?
+        except SocketError as e:
+            raise ServerListenError('Error - Couldn\'t not listen on : {:}/{:}. Details : {:}.'.format(address, port, e[1]))
 
     def _accept(self):
         try:
             client_socket, (address, port) = self.socket.accept()
-        except SocketError, (_, e):
-            raise ServerAcceptError('Error - Couldn\'t accept new client. Details : {:}.'.format(e))
+        # Can we do : except SocketError as (_, e): ?
+        except SocketError as e:
+            raise ServerAcceptError('Error - Couldn\'t accept new client. Details : {:}.'.format(e[1]))
 
         if not self.blocking_socket:
             client_socket.setblocking(0)
@@ -174,9 +176,9 @@ class Server(object):
         for c in clients:
             try:
                 self.on_receive(c)
-            except ClientReceiveError, error:
+            except ClientReceiveError as error:
                 self._on_receive_error(c, error)
-            except ClientSendError, error:
+            except ClientSendError as error:
                 self._on_send_error(c, error)
             except ClientDisconnected:
                 self._on_disconnect(c)

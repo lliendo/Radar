@@ -103,8 +103,9 @@ class Client(object):
     def send(self, data):
         try:
             sent_bytes = self.socket.send(data)
-        except SocketError, (_, e):
-            raise ClientSendError('Error - Couldn\'t send data. Details : {:}.'.format(e))
+        # Can we do : except SocketError as (_, e): ?
+        except SocketError as e:
+            raise ClientSendError('Error - Couldn\'t send data. Details : {:}.'.format(e[1]))
         except TypeError:
             raise ClientSendError('Error - Couldn\'t send data (data not iterable).')
 
@@ -113,12 +114,13 @@ class Client(object):
     def receive(self, length):
         try:
             received_bytes = self.socket.recv(length)
-        except SocketError, (error_code, error_details):
-            if self._would_block(error_code):
+        # Can we do : except SocketError as (error_code_, error_details): ?
+        except SocketError as e:
+            if self._would_block(e[0]):
                 raise ClientDataNotReady('Error - Non blocking socket attempting read ahead.')
 
             raise ClientReceiveError('Error - Couldn\'t receive data from {:}:{:}. Details : {:}.'.format(
-                self.address, self.port, error_details))
+                self.address, self.port, e[1]))
 
         if len(received_bytes) == 0:
             raise ClientDisconnected()
@@ -159,9 +161,9 @@ class Client(object):
     def _process_message(self):
         try:
             self.on_receive()
-        except ClientReceiveError, error:
+        except ClientReceiveError as error:
             self.on_receive_error(error)
-        except ClientSendError, error:
+        except ClientSendError as error:
             self.on_send_error(error)
         except ClientDisconnected:
             self.disconnect()
