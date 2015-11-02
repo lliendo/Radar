@@ -128,19 +128,19 @@ msgstr ""
 "para Radar. Por defecto Radar asume que el nombre de dicha cuenta es 'radar'"
 " (pero puedes utilizar la cuenta que desees). "
 
-#: ../../installation.rst:72
+#: ../../installation.rst:72 ../../installation.rst:174
 msgid "Unix OS"
 msgstr "Sistemas Unix"
 
-#: ../../installation.rst:74
+#: ../../installation.rst:74 ../../installation.rst:176
 msgid "For any of the following systems :"
 msgstr "Para cualquiera de las siguientes plataformas :"
 
-#: ../../installation.rst:76
+#: ../../installation.rst:76 ../../installation.rst:178
 msgid "Open a new console."
 msgstr "Abre una consola."
 
-#: ../../installation.rst:77
+#: ../../installation.rst:77 ../../installation.rst:179
 msgid ""
 "Switch to the root user using the `su "
 "<https://en.wikipedia.org/wiki/Su_%28Unix%29>`_ command."
@@ -152,8 +152,9 @@ msgstr ""
 msgid ""
 "GNU/Linux systems typically have the 'useradd' commands to create a new user"
 " :"
-msgstr "Los sistemas GNU/Linux por lo general poseen el comando 'useradd' para "
-"crear u nuevo usuario."
+msgstr ""
+"Los sistemas GNU/Linux por lo general poseen el comando 'useradd' para crear"
+" u nuevo usuario."
 
 #: ../../installation.rst:86
 msgid "On FreeBSD systems, run :"
@@ -248,92 +249,95 @@ msgid ""
 "Depending on which OS you're using here are instructions to make Radar "
 "(server or client) automatically start at system boot."
 msgstr ""
-"Dependiendo que sistema operativo utilizes aquí estan las instrucciones para "
-"configurar el inicio automático de Radar en el arraque (tanto cliente como servidor)."
+"Dependiendo que sistema operativo utilices aquí estan las instrucciones para"
+" configurar el inicio automático de Radar en el arraque (tanto cliente como "
+"servidor)."
 
-#: ../../installation.rst:173
+#: ../../installation.rst:181
 msgid "For GNU/Linux (SysV) :"
 msgstr "En sistemas GNU/Linux (SysV)"
 
-#: ../../installation.rst:175
+#: ../../installation.rst:183
 msgid "Copy the radar-server init script :"
 msgstr "Copia el script de inicio radar-server :"
 
-#: ../../installation.rst:182 ../../installation.rst:231
+#: ../../installation.rst:190 ../../installation.rst:239
 msgid "Make sure that the owner/group of the file is root :"
 msgstr "Asegurate de que el dueño del archivo es el usuario root :"
 
-#: ../../installation.rst:188 ../../installation.rst:237
+#: ../../installation.rst:196 ../../installation.rst:245
 msgid "Make sure the file permissions are :"
 msgstr "Verifica los permisos del archivo :"
 
-#: ../../installation.rst:194
+#: ../../installation.rst:202
 msgid "Make symlinks :"
 msgstr "Crea los symlinks :"
 
-#: ../../installation.rst:201
+#: ../../installation.rst:209
 msgid ""
 "The above command adds automatic startup for runlevel 2 (repeat the last "
 "step for different runlevels as you need)."
 msgstr ""
-"El comando anterior agrega el arranque automático de Radar para el runlevel 2 "
-"(repite este último paso para los runlevels que creas convenientes)."
+"El comando anterior agrega el arranque automático de Radar para el runlevel "
+"2 (repite este último paso para los runlevels que creas convenientes)."
 
-#: ../../installation.rst:204 ../../installation.rst:249
+#: ../../installation.rst:212 ../../installation.rst:257
 msgid "Before starting the service :"
 msgstr "Antes de iniciar el servicio :"
 
-#: ../../installation.rst:206
+#: ../../installation.rst:214
 msgid "Open the /etc/init.d/radar-server file."
 msgstr "Abre el archivo /etc/init.d/radar-server."
 
-#: ../../installation.rst:207
+#: ../../installation.rst:215
 msgid ""
 "Verify that the DAEMON_ARGS variable points to the same main configuration "
 "file that you setup with the radar-server-config.py configuration script or "
 "change that path as you need."
 msgstr ""
-"Verifica que la variable DAEMON_ARGS apunta al mismo archivo de configuración "
-"principal que has definido al ejecutar el script de configuración radar-server-config.py "
-"o modifica dicha variable según lo necesites."
+"Verifica que la variable DAEMON_ARGS apunta al mismo archivo de "
+"configuración principal que has definido al ejecutar el script de "
+"configuración radar-server-config.py o modifica dicha variable según lo "
+"necesites."
 
-#: ../../installation.rst:211 ../../installation.rst:256
+#: ../../installation.rst:219 ../../installation.rst:264
 msgid "Start the service :"
 msgstr "Inicia el servicio :"
 
-#: ../../installation.rst:217 ../../installation.rst:262
+#: ../../installation.rst:225 ../../installation.rst:270
 msgid ""
 "To add the Radar client on system startup follow the same steps but replace "
 "'radar-server' by 'radar-client'."
 msgstr ""
-"Para agregar el cliente de Radar al inicio del sistema sigue los mismos pasos "
-"anteriores pero reemplaza 'radar-server' por 'radar-client'."
+"Para agregar el cliente de Radar al inicio del sistema sigue los mismos "
+"pasos anteriores pero reemplaza 'radar-server' por 'radar-client'."
 
-#: ../../installation.rst:221
+#: ../../installation.rst:229
 msgid "For GNU/Linux (Systemd) :"
 msgstr "En sistemas GNU/Linux (Systemd)"
 
-#: ../../installation.rst:223
+#: ../../installation.rst:231
 msgid "Copy the radar-server.service and radar-server files :"
 msgstr "Copia los archivos radar-server.service y radar-server :"
 
-#: ../../installation.rst:243
+#: ../../installation.rst:251
 msgid "Enable the unit :"
 msgstr "Habilita el unit :"
 
-#: ../../installation.rst:251
+#: ../../installation.rst:259
 msgid "Open the /etc/default/radar-server file."
 msgstr "Abre el archivo /etc/default/radar-server."
 
-#: ../../installation.rst:252
+#: ../../installation.rst:260
 msgid ""
 "Verify that the RADAR_SERVER_OPTS variable points to the same main "
 "configuration file that you setup with the radar-server-config.py "
 "configuration script or change that path as you need."
 msgstr ""
-"Verifica que la variable RADAR_SERVER_OPTS apunta al mismo archivo de configuración "
-"principal que has definido al ejecutar el script de configuración radar-server-config.py "
-"o modifica dicha variable según lo necesites."
+"Verifica que la variable RADAR_SERVER_OPTS apunta al mismo archivo de "
+"configuración principal que has definido al ejecutar el script de "
+"configuración radar-server-config.py o modifica dicha variable según lo "
+"necesites."
 
 #: ../../installation.rst:135
 msgid ""
