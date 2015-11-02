@@ -6,7 +6,6 @@ EnvironmentFile=/etc/default/radar-client
 PIDFile=$RADAR_CLIENT_PIDFILE
 ExecStart=/usr/local/bin/radar-client.py $RADAR_CLIENT_OPTS
 ExecStopPost=/bin/rm $RADAR_CLIENT_PIDFILE
-Type=forking
 
 [Install]
 WantedBy=multi-user.target
