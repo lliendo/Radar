@@ -170,6 +170,14 @@ Configuring startup scripts
 Depending on which OS you're using here are instructions to make Radar (server or
 client) automatically start at system boot.
 
+Unix OS
+~~~~~~~
+
+For any of the following systems :
+
+1. Open a new console.
+2. Switch to the root user using the `su <https://en.wikipedia.org/wiki/Su_%28Unix%29>`_ command.
+
 * For GNU/Linux (SysV) :
 
 Copy the radar-server init script :
