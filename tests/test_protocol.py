@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase, skip
+from unittest import TestCase
 from nose.tools import raises
 from mock import MagicMock
 from struct import pack, unpack, calcsize

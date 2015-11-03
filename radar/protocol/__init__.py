@@ -67,7 +67,7 @@ class Message(object):
         return self._buffer.tell() >= self.HEADER_SIZE
 
     # A '>=' here is less sensitive to an error than '=='. Should we be strict in
-    # assuring exactly HEADER_SIZE + payload_size bytes to be received ?
+    # receiving exactly HEADER_SIZE + payload_size bytes ?
     def _payload_received(self):
         _, _, payload_size = self._read_header()
         return self._buffer.tell() >= self.HEADER_SIZE + payload_size
@@ -84,47 +84,47 @@ class Message(object):
         pack_format = (self.HEADER_FORMAT + self.PAYLOAD_FORMAT).format(message_length)
         return pack(pack_format, message_type, message_options, message_length, message)
 
-    def _receive(self, client, n_bytes):
-        try:
-            self._buffer.write(client.receive(n_bytes))
-        except ClientDataNotReady:
-            raise MessageNotReady()
-
-    def _receive_header(self, client):
-        if not self._header_received():
-            self._receive(client, self.HEADER_SIZE - self._buffer.tell())
-
-            if not self._header_received():
+    def _receive(self, received_chunk, read_chunk, client, n_bytes):
+        if not received_chunk():
+            try:
+                self._buffer.write(client.receive(n_bytes))
+            except ClientDataNotReady:
                 raise MessageNotReady()
 
-        return self._read_header()
-
-    def _receive_payload(self, client):
-        if not self._payload_received():
-            _, _, payload_size = self._read_header()
-            self._receive(client, payload_size - (self._buffer.tell() - self.HEADER_SIZE))
-
-            if not self._payload_received():
+            if not received_chunk():
                 raise MessageNotReady()
 
-        return self._read_payload()
+        return read_chunk()
 
     def _invalid_header(self):
         message_type, message_options, payload_size = self._read_header()
         return (message_type not in list(self.TYPE.values())) or \
             (message_options not in list(self.OPTIONS.values())) or payload_size == 0
 
-    def receive(self, client):
-        message_type, _, _ = self._receive_header(client)
+    def _receive_header(self, client):
+        message_type, _, _ = self._receive(
+            self._header_received, self._read_header, client,
+            self.HEADER_SIZE - self._buffer.tell()
+        )
 
         if self._invalid_header():
             self._buffer = BytesIO()
             raise ClientAbortError()
 
-        payload = self._receive_payload(client)
+        return message_type
+
+    def _receive_payload(self, client):
+        _, _, payload_size = self._read_header()
+        payload = self._receive(
+            self._payload_received, self._read_payload, client,
+            self.HEADER_SIZE + payload_size - self._buffer.tell()
+        )
         self._buffer = BytesIO()
 
-        return message_type, payload
+        return payload
+
+    def receive(self, client):
+        return self._receive_header(client), self._receive_payload(client)
 
     def send(self, client, message_type, message, message_options=OPTIONS['NONE']):
         packed_message = self._pack(message_type, message_options, message)
