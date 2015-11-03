@@ -184,8 +184,10 @@ Copy the radar-server init script :
 
 .. code-block:: bash
 
-    cd Radar/init_scripts/linux/sysv
+    cd Radar/init_scripts/linux/sysv/DISTRIBUTION
     cp radar-server /etc/init.d
+
+Replace DISTRIBUTION by the flavour of GNU/Linux that you're using.
 
 Make sure that the owner/group of the file is root :
 

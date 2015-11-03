@@ -26,8 +26,6 @@ about its current status :
   I/O Completion Port support has been developed but is not working properly,
   consequently Radar relies on the inefficient select system call.
 
-* No start/stop scripts are supplied for any platform yet.
-
 
 These limitations are intended be overcomed as the project evolves. Currently
 Radar's status is ALPHA and proper and expected behaviour needs to be assured
