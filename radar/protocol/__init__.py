@@ -33,7 +33,7 @@ class Message(object):
 
     HEADER_FORMAT = '!BBH'
     HEADER_SIZE = calcsize(HEADER_FORMAT)
-    MAX_PAYLOAD_SIZE = 65536
+    MAX_PAYLOAD_SIZE = 2 ** (calcsize('H') * 8)  # We assume 8 bits per byte.
     PAYLOAD_FORMAT = '{:}s'
 
     TYPE = {
@@ -48,74 +48,81 @@ class Message(object):
         'COMPRESS': 0x01,
     }
 
-    # TODO: Use just one buffer ?
     def __init__(self):
-        self.header = BytesIO()
-        self.payload = BytesIO()
+        self._buffer = BytesIO()
 
     @staticmethod
     def get_type(message_type):
         return list(Message.TYPE)[list(Message.TYPE.values()).index(message_type)]
 
+    def _read_buffer_chunk(self, offset, n_bytes):
+        current_offset = self._buffer.tell()  # Save current offset.
+        self._buffer.seek(offset)
+        buffer_chunk = self._buffer.read(n_bytes)
+        self._buffer.seek(current_offset)  # Restore offset.
+
+        return buffer_chunk
+
     def _header_received(self):
-        return len(self.header.getvalue()) == self.HEADER_SIZE
+        return self._buffer.tell() >= self.HEADER_SIZE
 
-    def _payload_received(self, payload_size):
-        return len(self.payload.getvalue()) == payload_size
+    # A '>=' here is less sensitive to an error than '=='. Should we be strict in
+    # assuring exactly HEADER_SIZE + payload_size bytes to be received ?
+    def _payload_received(self):
+        _, _, payload_size = self._read_header()
+        return self._buffer.tell() >= self.HEADER_SIZE + payload_size
 
-    def _unpack_header(self, header):
-        return unpack(self.HEADER_FORMAT, header)
+    def _read_header(self):
+        return unpack(self.HEADER_FORMAT, self._read_buffer_chunk(0, self.HEADER_SIZE))
+
+    def _read_payload(self):
+        _, _, payload_size = self._read_header()
+        return self._read_buffer_chunk(self.HEADER_SIZE, payload_size)
 
     def _pack(self, message_type, message_options, message):
         message_length = len(message)
         pack_format = (self.HEADER_FORMAT + self.PAYLOAD_FORMAT).format(message_length)
         return pack(pack_format, message_type, message_options, message_length, message)
 
-    # TODO: Better way ? _receive_header & _receive_payload are one and the same...
-    # Will it help to use a single buffer ?
+    def _receive(self, client, n_bytes):
+        try:
+            self._buffer.write(client.receive(n_bytes))
+        except ClientDataNotReady:
+            raise MessageNotReady()
+
     def _receive_header(self, client):
         if not self._header_received():
-            try:
-                received_bytes = client.receive(self.HEADER_SIZE - len(self.header.getvalue()))
-                self.header.write(received_bytes)
-            except ClientDataNotReady:
-                raise MessageNotReady()
+            self._receive(client, self.HEADER_SIZE - self._buffer.tell())
 
             if not self._header_received():
                 raise MessageNotReady()
 
-        return self.header.getvalue()
+        return self._read_header()
 
-    def _receive_payload(self, client, payload_size):
-        if not self._payload_received(payload_size):
-            try:
-                received_bytes = client.receive(payload_size - len(self.payload.getvalue()))
-                self.payload.write(received_bytes)
-            except ClientDataNotReady:
+    def _receive_payload(self, client):
+        if not self._payload_received():
+            _, _, payload_size = self._read_header()
+            self._receive(client, payload_size - (self._buffer.tell() - self.HEADER_SIZE))
+
+            if not self._payload_received():
                 raise MessageNotReady()
 
-            if not self._payload_received(payload_size):
-                raise MessageNotReady()
+        return self._read_payload()
 
-        return self.payload.getvalue()
-
-    def _reset_buffers(self):
-        self.header = BytesIO()
-        self.payload = BytesIO()
-
-    def _invalid_header(self, message_type, message_options, payload_size):
+    def _invalid_header(self):
+        message_type, message_options, payload_size = self._read_header()
         return (message_type not in list(self.TYPE.values())) or \
             (message_options not in list(self.OPTIONS.values())) or payload_size == 0
 
     def receive(self, client):
-        message_type, message_options, payload_size = self._unpack_header(self._receive_header(client))
+        message_type, _, _ = self._receive_header(client)
 
-        if self._invalid_header(message_type, message_options, payload_size):
-            self._reset_buffers()
+        if self._invalid_header():
+            self._buffer = BytesIO()
             raise ClientAbortError()
 
-        payload = self._receive_payload(client, payload_size)
-        self._reset_buffers()
+        payload = self._receive_payload(client)
+        self._buffer = BytesIO()
 
         return message_type, payload
 

@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase
+from unittest import TestCase, skip
 from nose.tools import raises
 from mock import MagicMock
 from struct import pack, unpack, calcsize
@@ -43,9 +43,9 @@ class TestRadarProtocol(TestCase):
         try:
             message._receive_header(self.client)
         except MessageNotReady:
-            self.assertEqual(message.header.tell(), calcsize(header_format))
+            self.assertEqual(message._buffer.tell(), calcsize(header_format))
 
-        return message.header.getvalue()
+        return message._buffer.getvalue()
 
     def test_header_reception(self):
         message = Message()
@@ -73,6 +73,7 @@ class TestRadarProtocol(TestCase):
             pack('!BBH', message_type, message_options, len(payload)),
             pack('!{:}s'.format(len(payload)), payload)
         ])
+
         return message.receive(self.client)
 
     @raises(ClientAbortError)
@@ -95,8 +96,7 @@ class TestRadarProtocol(TestCase):
         message_type, payload = self._receive(message, Message.TYPE['CHECK'], Message.OPTIONS['NONE'], '{}')
         self.assertEqual(message_type, Message.TYPE['CHECK'])
         self.assertEqual(payload, '{}')
-        self.assertEqual(message.header.getvalue(), BytesIO().getvalue())
-        self.assertEqual(message.payload.getvalue(), BytesIO().getvalue())
+        self.assertEqual(message._buffer.getvalue(), BytesIO().getvalue())
 
     def test_fragmented_payload_reception(self):
         message = Message()
