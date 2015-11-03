@@ -80,11 +80,7 @@ msgstr ""
 "Ports pero no esta funcionando adecuadamente, por consiguiente tanto cliente"
 " como servidor se basan en la ineficiente llamada a sistema select."
 
-#: ../../limitations.rst:29
-msgid "No start/stop scripts are supplied for any platform yet."
-msgstr "No hay scripts de arranque/detención para ninguna plataforma"
-
-#: ../../limitations.rst:32
+#: ../../limitations.rst:30
 msgid ""
 "These limitations are intended be overcomed as the project evolves. "
 "Currently Radar's status is ALPHA and proper and expected behaviour needs to"

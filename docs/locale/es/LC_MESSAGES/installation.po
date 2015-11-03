@@ -240,105 +240,6 @@ msgstr ""
 msgid "Setting up Radar"
 msgstr "Configurando Radar"
 
-#: ../../installation.rst:168
-msgid "Configuring startup scripts"
-msgstr "Configurando scripts de inicio"
-
-#: ../../installation.rst:170
-msgid ""
-"Depending on which OS you're using here are instructions to make Radar "
-"(server or client) automatically start at system boot."
-msgstr ""
-"Dependiendo que sistema operativo utilices aquí estan las instrucciones para"
-" configurar el inicio automático de Radar en el arraque (tanto cliente como "
-"servidor)."
-
-#: ../../installation.rst:181
-msgid "For GNU/Linux (SysV) :"
-msgstr "En sistemas GNU/Linux (SysV)"
-
-#: ../../installation.rst:183
-msgid "Copy the radar-server init script :"
-msgstr "Copia el script de inicio radar-server :"
-
-#: ../../installation.rst:190 ../../installation.rst:239
-msgid "Make sure that the owner/group of the file is root :"
-msgstr "Asegurate de que el dueño del archivo es el usuario root :"
-
-#: ../../installation.rst:196 ../../installation.rst:245
-msgid "Make sure the file permissions are :"
-msgstr "Verifica los permisos del archivo :"
-
-#: ../../installation.rst:202
-msgid "Make symlinks :"
-msgstr "Crea los symlinks :"
-
-#: ../../installation.rst:209
-msgid ""
-"The above command adds automatic startup for runlevel 2 (repeat the last "
-"step for different runlevels as you need)."
-msgstr ""
-"El comando anterior agrega el arranque automático de Radar para el runlevel "
-"2 (repite este último paso para los runlevels que creas convenientes)."
-
-#: ../../installation.rst:212 ../../installation.rst:257
-msgid "Before starting the service :"
-msgstr "Antes de iniciar el servicio :"
-
-#: ../../installation.rst:214
-msgid "Open the /etc/init.d/radar-server file."
-msgstr "Abre el archivo /etc/init.d/radar-server."
-
-#: ../../installation.rst:215
-msgid ""
-"Verify that the DAEMON_ARGS variable points to the same main configuration "
-"file that you setup with the radar-server-config.py configuration script or "
-"change that path as you need."
-msgstr ""
-"Verifica que la variable DAEMON_ARGS apunta al mismo archivo de "
-"configuración principal que has definido al ejecutar el script de "
-"configuración radar-server-config.py o modifica dicha variable según lo "
-"necesites."
-
-#: ../../installation.rst:219 ../../installation.rst:264
-msgid "Start the service :"
-msgstr "Inicia el servicio :"
-
-#: ../../installation.rst:225 ../../installation.rst:270
-msgid ""
-"To add the Radar client on system startup follow the same steps but replace "
-"'radar-server' by 'radar-client'."
-msgstr ""
-"Para agregar el cliente de Radar al inicio del sistema sigue los mismos "
-"pasos anteriores pero reemplaza 'radar-server' por 'radar-client'."
-
-#: ../../installation.rst:229
-msgid "For GNU/Linux (Systemd) :"
-msgstr "En sistemas GNU/Linux (Systemd)"
-
-#: ../../installation.rst:231
-msgid "Copy the radar-server.service and radar-server files :"
-msgstr "Copia los archivos radar-server.service y radar-server :"
-
-#: ../../installation.rst:251
-msgid "Enable the unit :"
-msgstr "Habilita el unit :"
-
-#: ../../installation.rst:259
-msgid "Open the /etc/default/radar-server file."
-msgstr "Abre el archivo /etc/default/radar-server."
-
-#: ../../installation.rst:260
-msgid ""
-"Verify that the RADAR_SERVER_OPTS variable points to the same main "
-"configuration file that you setup with the radar-server-config.py "
-"configuration script or change that path as you need."
-msgstr ""
-"Verifica que la variable RADAR_SERVER_OPTS apunta al mismo archivo de "
-"configuración principal que has definido al ejecutar el script de "
-"configuración radar-server-config.py o modifica dicha variable según lo "
-"necesites."
-
 #: ../../installation.rst:135
 msgid ""
 "Before you start configuring Radar I recommend you to read the documentation"
@@ -391,3 +292,106 @@ msgstr ""
 "documantación. Esto se debe a que la biblioteca PyYAML no se encarga de "
 "agregar saltos de línea entre diferentes elementos y tampoco permite definir"
 " el orden de los elementos. "
+
+#: ../../installation.rst:168
+msgid "Configuring startup scripts"
+msgstr "Configurando scripts de inicio"
+
+#: ../../installation.rst:170
+msgid ""
+"Depending on which OS you're using here are instructions to make Radar "
+"(server or client) automatically start at system boot."
+msgstr ""
+"Dependiendo que sistema operativo utilices aquí estan las instrucciones para"
+" configurar el inicio automático de Radar en el arraque (tanto cliente como "
+"servidor)."
+
+#: ../../installation.rst:181
+msgid "For GNU/Linux (SysV) :"
+msgstr "En sistemas GNU/Linux (SysV)"
+
+#: ../../installation.rst:183
+msgid "Copy the radar-server init script :"
+msgstr "Copia el script de inicio radar-server :"
+
+#: ../../installation.rst:190
+msgid "Replace DISTRIBUTION by the flavour of GNU/Linux that you're using."
+msgstr "Reemplaza DISTRIBUTION por la distribución GNU/Linux que utilices."
+
+#: ../../installation.rst:192 ../../installation.rst:241
+msgid "Make sure that the owner/group of the file is root :"
+msgstr "Asegurate de que el dueño del archivo es el usuario root :"
+
+#: ../../installation.rst:198 ../../installation.rst:247
+msgid "Make sure the file permissions are :"
+msgstr "Verifica los permisos del archivo :"
+
+#: ../../installation.rst:204
+msgid "Make symlinks :"
+msgstr "Crea los symlinks :"
+
+#: ../../installation.rst:211
+msgid ""
+"The above command adds automatic startup for runlevel 2 (repeat the last "
+"step for different runlevels as you need)."
+msgstr ""
+"El comando anterior agrega el arranque automático de Radar para el runlevel "
+"2 (repite este último paso para los runlevels que creas convenientes)."
+
+#: ../../installation.rst:214 ../../installation.rst:259
+msgid "Before starting the service :"
+msgstr "Antes de iniciar el servicio :"
+
+#: ../../installation.rst:216
+msgid "Open the /etc/init.d/radar-server file."
+msgstr "Abre el archivo /etc/init.d/radar-server."
+
+#: ../../installation.rst:217
+msgid ""
+"Verify that the DAEMON_ARGS variable points to the same main configuration "
+"file that you setup with the radar-server-config.py configuration script or "
+"change that path as you need."
+msgstr ""
+"Verifica que la variable DAEMON_ARGS apunta al mismo archivo de "
+"configuración principal que has definido al ejecutar el script de "
+"configuración radar-server-config.py o modifica dicha variable según lo "
+"necesites."
+
+#: ../../installation.rst:221 ../../installation.rst:266
+msgid "Start the service :"
+msgstr "Inicia el servicio :"
+
+#: ../../installation.rst:227 ../../installation.rst:272
+msgid ""
+"To add the Radar client on system startup follow the same steps but replace "
+"'radar-server' by 'radar-client'."
+msgstr ""
+"Para agregar el cliente de Radar al inicio del sistema sigue los mismos "
+"pasos anteriores pero reemplaza 'radar-server' por 'radar-client'."
+
+#: ../../installation.rst:231
+msgid "For GNU/Linux (Systemd) :"
+msgstr "En sistemas GNU/Linux (Systemd)"
+
+#: ../../installation.rst:233
+msgid "Copy the radar-server.service and radar-server files :"
+msgstr "Copia los archivos radar-server.service y radar-server :"
+
+#: ../../installation.rst:253
+msgid "Enable the unit :"
+msgstr "Habilita el unit :"
+
+#: ../../installation.rst:261
+msgid "Open the /etc/default/radar-server file."
+msgstr "Abre el archivo /etc/default/radar-server."
+
+#: ../../installation.rst:262
+msgid ""
+"Verify that the RADAR_SERVER_OPTS variable points to the same main "
+"configuration file that you setup with the radar-server-config.py "
+"configuration script or change that path as you need."
+msgstr ""
+"Verifica que la variable RADAR_SERVER_OPTS apunta al mismo archivo de "
+"configuración principal que has definido al ejecutar el script de "
+"configuración radar-server-config.py o modifica dicha variable según lo "
+"necesites."
