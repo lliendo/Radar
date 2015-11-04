@@ -12,5 +12,5 @@ clean
 analyze-code
 pylint-report
 .pylint.ini
-push-master
-push-github-master
+push-progress
+push-github
