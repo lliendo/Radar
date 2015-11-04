@@ -45,7 +45,7 @@ class UnixServerSetup(ServerConfig, UnixSetup):
     PLATFORM_CONFIG['log']['to'] = '/var/log/radar-server.log'
 
     def _configure_plugins(self):
-        [p.configure(self.logger) for p in self.plugins]
+        [p.configure() for p in self.plugins]
 
     def _shutdown_plugins(self):
         [p.on_shutdown() for p in self.plugins]
@@ -75,7 +75,7 @@ class WindowsServerSetup(ServerConfig, WindowsSetup):
     PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\radar-server.log'
 
     def _configure_plugins(self):
-        [p.configure(self.logger) for p in self.plugins]
+        [p.configure() for p in self.plugins]
 
     def _shutdown_plugins(self):
         [p.on_shutdown() for p in self.plugins]

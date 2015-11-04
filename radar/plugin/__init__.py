@@ -72,7 +72,7 @@ class ServerPlugin(ConfigBuilder, Switchable):
     def log(self, message):
         RadarLogger.log('Plugin \'{:}\' v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
 
-    def configure(self, logger):
+    def configure(self):
         RadarLogger.log('Loading plugin : \'{:}\' v{:}.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION))
         self.on_start()
 
