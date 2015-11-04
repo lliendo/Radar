@@ -26,8 +26,8 @@ from ..check import Check
 
 
 class ClientManager(object):
-    def __init__(self, server_setup):
-        self._monitors = server_setup.monitors
+    def __init__(self, monitors):
+        self._monitors = monitors
         self._message_actions = {
             Message.TYPE['CHECK REPLY']: self._on_check_reply,
             Message.TYPE['TEST REPLY']: self._on_test_reply,
