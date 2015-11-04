@@ -177,6 +177,14 @@ For any of the following systems :
 
 1. Open a new console.
 2. Switch to the root user using the `su <https://en.wikipedia.org/wiki/Su_%28Unix%29>`_ command.
+3. Check which init style your system is using by issuing :
+
+.. code-block:: bash
+
+    ps -o cmd -h1
+
+If you get '/sbin/init' then you're using SysV style.
+If you see '/usr/lib/systemd/systemd' then you're using Systemd.
 
 * For GNU/Linux (SysV) :
 
