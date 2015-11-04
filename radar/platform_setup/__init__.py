@@ -111,6 +111,11 @@ class UnixSetup(object):
         except KeyError:
             raise UnixSetupError('Error - User or group \'{:}.{:}\' does not exist.'.format(user, group))
 
+    def configure(self, launcher):
+        self._write_pid_file(self.config['pid file'], self.config['run as']['user'], self.config['run as']['group'])
+        self._install_signal_handlers(launcher)
+        self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
+
 
 class WindowsSetup(object):
 

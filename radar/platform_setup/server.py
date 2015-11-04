@@ -51,11 +51,9 @@ class UnixServerSetup(ServerConfig, UnixSetup):
         [p.on_shutdown() for p in self.plugins]
 
     def configure(self, launcher):
-        super(UnixServerSetup, self).configure()
+        ServerConfig.configure(self)
+        UnixSetup.configure(self, launcher)
         self._configure_plugins()
-        self._write_pid_file(self.config['pid file'], self.config['run as']['user'], self.config['run as']['group'])
-        self._install_signal_handlers(launcher)
-        self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
     def tear_down(self):
         self._shutdown_plugins()
