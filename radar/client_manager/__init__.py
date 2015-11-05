@@ -75,6 +75,7 @@ class ClientManager(object):
             action = self._message_actions[message_type]
             updated_checks = action(client, message_type, message)
         except KeyError:
-            RadarLogger.log('Unknown message id \'{:}\'.'.format(message_type))
+            RadarLogger.log('Error - Client {:}:{:} sent unknown message id \'{:}\'.'.format(
+                client.address, client.port, message_type))
 
         return updated_checks
