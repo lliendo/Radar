@@ -36,6 +36,10 @@ class ServerPluginError(Exception):
     pass
 
 
+class PluginManagerError(Exception):
+    pass
+
+
 class ServerPlugin(ConfigBuilder, Switchable):
 
     __metaclass__ = ABCMeta
@@ -119,13 +123,16 @@ class PluginManager(Thread):
         return reduce(lambda l, m: l + m, list_of_lists)
 
     def _get_plugin_args(self, message):
-        return (
-            message['address'],
-            message['port'],
-            message['message_type'],
-            self._flatten([c.as_list() for c in self._dereference(message['check_ids'])]),
-            self._flatten([c.as_list() for c in self._dereference(message['contact_ids'])]),
-        )
+        try:
+            return (
+                message['address'],
+                message['port'],
+                message['message_type'],
+                self._flatten([c.as_list() for c in self._dereference(message['check_ids'])]),
+                self._flatten([c.as_list() for c in self._dereference(message['contact_ids'])]),
+            )
+        except KeyError as e:
+            raise PluginManagerError('Error - Couldn\'t process incoming message from queue. Missing key : \'{:}\'.'.format(e))
 
     def is_stopped(self):
         return self.stop_event.is_set()
@@ -147,3 +154,5 @@ class PluginManager(Thread):
                 self._run_plugins(self._queue.get_nowait())
             except EmptyQueue:
                 self.stop_event.wait(self.STOP_EVENT_TIMEOUT)
+            except PluginManagerError as e:
+                RadarLogger.log(e)
