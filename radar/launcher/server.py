@@ -50,7 +50,7 @@ class RadarServerLauncher(RadarLauncher):
         return [
             RadarServer(client_manager, self._platform_setup, queue, stop_event=stop_event),
             RadarServerPoller(client_manager, self._platform_setup, stop_event=stop_event),
-            PluginManager(self._platform_setup, queue, stop_event=stop_event),
+            PluginManager(self._platform_setup.plugins, queue, stop_event=stop_event),
         ]
 
     def _start_and_join_threads(self):

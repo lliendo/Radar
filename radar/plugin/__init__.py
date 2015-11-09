@@ -70,8 +70,11 @@ class ServerPlugin(ConfigBuilder, Switchable):
         return join_path(dirname(source_filename), config_filename)
 
     def run(self, address, port, message_type, checks, contacts):
-        action = self._message_actions[message_type]
-        action(address, port, checks, contacts)
+        try:
+            action = self._message_actions[message_type]
+            action(address, port, checks, contacts)
+        except KeyError:
+            raise ServerPluginError('Error - Unrecognized message type : {:}.'.format(message_type))
 
     def log(self, message):
         RadarLogger.log('Plugin \'{:}\' v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
@@ -108,9 +111,9 @@ class PluginManager(Thread):
 
     STOP_EVENT_TIMEOUT = 0.2
 
-    def __init__(self, platform_setup, queue, stop_event=None):
+    def __init__(self, plugins, queue, stop_event=None):
         Thread.__init__(self)
-        self._plugins = platform_setup.plugins
+        self._plugins = plugins
         self._queue = queue
         self.stop_event = stop_event or Event()
 
