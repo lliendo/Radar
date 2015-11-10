@@ -15,11 +15,11 @@
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Radar server"
-NAME=radar-server
-DAEMON=/usr/local/bin/${NAME}.py
+NAME="radar-server"
+DAEMON="/usr/local/bin/${NAME}.py"
 DAEMON_ARGS="-c /etc/radar/server/config/main.yml"
-PIDFILE=/var/run/${NAME}.pid
-SCRIPTNAME=/etc/init.d/$NAME
+PIDFILE="/var/run/${NAME}.pid"
+SCRIPTNAME="/etc/init.d/${NAME}"
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
