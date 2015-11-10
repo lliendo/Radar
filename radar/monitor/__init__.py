@@ -54,28 +54,15 @@ class Monitor(Switchable):
             any([new_client.address in a for a in self.addresses])
 
     def add_client(self, client):
-        added = False
-
         if self.matches(client):
             self.active_clients.append({
                 'client': client,
                 'checks': deepcopy(self.checks),
                 'contacts': deepcopy(self.contacts),
             })
-            added = True
-
-        return added
 
     def remove_client(self, client):
-        removed = False
-        pre_remove_clients_count = len(self.active_clients)
-
         self.active_clients = [c for c in self.active_clients if c['client'] != client]
-
-        if len(self.active_clients) < pre_remove_clients_count:
-            removed = True
-
-        return removed
 
     def update_checks(self, client, statuses):
         updated = {}

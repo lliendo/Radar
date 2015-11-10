@@ -83,7 +83,8 @@ class TestMonitor(TestCase):
         self.assertFalse(self.monitor.matches(self.dummy_client))
 
     def test_add_client_succeeds(self):
-        self.assertTrue(self.monitor.add_client(self.dummy_client))
+        self.monitor.add_client(self.dummy_client)
+        self.assertTrue(self.dummy_client in [c['client'] for c in self.monitor.active_clients])
 
     def test_add_client_fails(self):
         self.assertFalse(self.monitor.add_client(DummyClient(address='192.168.0.101', port=10000)))
@@ -91,7 +92,8 @@ class TestMonitor(TestCase):
     def test_remove_client_succeeds(self):
         self.monitor.add_client(self.dummy_client)
         self.assertEqual(len(self.monitor.active_clients), 1)
-        self.assertTrue(self.monitor.remove_client(self.dummy_client))
+        self.monitor.remove_client(self.dummy_client)
+        self.assertFalse(self.dummy_client in [c['client'] for c in self.monitor.active_clients])
 
     def test_remove_client_fails(self):
         self.assertFalse(self.monitor.remove_client(self.dummy_client))
