@@ -1,0 +1,33 @@
+#!/bin/sh
+
+. /etc/rc.subr
+
+desc="Radar server"
+name="radar_server"
+command="/usr/local/bin/${name}.py"
+command_args="-c /etc/radar/server/config/main.yml"
+pidfile="/var/run/radar-server.pid"
+start_cmd="${name}_start"
+stop_cmd="${name}_stop"
+
+radar_server_start()
+{
+    if [ ! -f $pidfile ]; then
+        exec $command $command_args &
+    else
+        echo "${desc} seems to be running. If that's not the case then remove : ${pidfile}."
+    fi   
+}
+
+radar_server_stop()
+{
+    if [ -f $pidfile ]; then
+        /bin/kill `/bin/cat ${pidfile}`
+        /bin/rm -f $pidfile
+    else
+        echo "${desc} seems to be stopped."
+    fi
+}
+
+load_rc_config $name
+run_rc_command "$1"
