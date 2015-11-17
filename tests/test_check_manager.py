@@ -20,38 +20,61 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase
-from mock import Mock, ANY
+from unittest import TestCase, skip
+from mock import Mock, MagicMock, ANY
 from nose.tools import raises
 from radar.logger import RadarLogger
 from radar.check import CheckError
 from radar.check_manager import CheckManager
+from radar.check import Check, CheckError, CheckStillRunning
 from radar.protocol import Message
+from radar.config.client import ClientConfig
 
 
 class TestCheckManager(TestCase):
     def setUp(self):
         self.platform_setup = Mock()
-        self.platform_setup.config = {
-            'connect': {
-                'to': ANY,
-                'port': ANY,
-            }
-        }
-
+        self.platform_setup.config = ClientConfig.DEFAULT_CONFIG
+        self.platform_setup.config['check concurrency'] = 2
+        self.check_manager = CheckManager(self.platform_setup, Mock(), Mock())
+        self.check_manager._output_queue = Mock()
         RadarLogger._shared_state['logger'] = Mock()
 
     def test_process_message_fails_due_to_invalid_message_type(self):
-        check_manager = CheckManager(self.platform_setup, Mock(), Mock())
-        check_manager._process_message(max(Message.TYPE.values()) + 1, [{}])
+        self.check_manager._process_message(max(Message.TYPE.values()) + 1, [{}])
         RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     def test_process_message_fails_due_to_invalid_check_sent_from_server(self):
-        check_manager = CheckManager(self.platform_setup, Mock(), Mock())
-        check_manager._process_message(Message.TYPE['CHECK'], [{}])
+        self.check_manager._process_message(Message.TYPE['CHECK'], [{}])
         RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     @raises(CheckError)
     def test_build_checks_raises_check_error(self):
-        check_manager = CheckManager(self.platform_setup, Mock(), Mock())
-        check_manager._build_checks([{}])
+        self.check_manager._build_checks([{}])
+
+    def _build_check(self, output='{}', has_finished=False, is_overdue=False):
+        process_handler = Mock()
+        process_handler.communicate = MagicMock(return_value=(output, '', ''))
+        check = Check(name='dummy', path='dummy.py', platform_setup=self.platform_setup)
+        check._call_popen = MagicMock(return_value=process_handler)
+        check.run = MagicMock(return_value=check)
+        check.has_finished = MagicMock(return_value=has_finished)
+        check.is_overdue = MagicMock(return_value=is_overdue)
+
+        return check
+
+    def _build_checks(self, checks_config):
+        return [self._build_check(**check_config) for check_config in checks_config]
+
+    @skip('Not yet finished.')
+    def test_run_checks(self):
+        checks_config = [
+            {'output': '{"status": "OK"}'},
+            {'output': '{"status": "WARNING"}'},
+            {'output': '{"status": "SEVERE"}'},
+        ]
+        self.check_manager._wait_queue.extend(self._build_checks(checks_config))
+        self.check_manager._run_checks()
+        self.assertEqual(len(self.check_manager._wait_queue), 1)
+        self.assertEqual(len(self.check_manager._execution_queue), 2)
+        self.check_manager._run_checks()

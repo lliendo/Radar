@@ -20,16 +20,23 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase
-from mock import Mock, MagicMock
+from unittest import TestCase, skip
+from mock import Mock, MagicMock, ANY
 from nose.tools import raises
 from json import dumps as serialize_json
-from radar.check import Check, CheckError
+from time import time
+from radar.check import Check, CheckError, CheckStillRunning
+from radar.logger import RadarLogger
+from radar.config.client import ClientConfig
 
 
 class TestCheck(TestCase):
     def setUp(self):
-        self.dummy_check = Check(name='dummy', path='dummy.py')
+        platform_setup = Mock()
+        platform_setup.config = ClientConfig.DEFAULT_CONFIG
+        platform_setup.config['checks'] = '/tmp'
+        self.dummy_check = Check(name='dummy', path='dummy.py', platform_setup=platform_setup)
+        RadarLogger._shared_state['logger'] = Mock()
 
     def test_check_default_values(self):
         self.assertNotEqual(self.dummy_check.id, None)
@@ -171,7 +178,7 @@ class TestCheck(TestCase):
 
     def test_check_set(self):
         duplicated_dummy_check = Check(name='dummy', path='dummy.py')
-        another_check = Check(name='Free RAM', path='free-ram.py')
+        another_check = Check(name='dummy 2', path='dummy_2.py')
         self.assertEqual(len(set([self.dummy_check, duplicated_dummy_check])), 1)
         self.assertEqual(len(set([self.dummy_check, another_check])), 2)
         self.assertEqual(len(set([self.dummy_check, duplicated_dummy_check, another_check])), 2)
@@ -190,15 +197,47 @@ class TestCheck(TestCase):
         self.assertEqual(dummy_check._build_absolute_path(), [absolute_check_path])
 
     def test_run_fails(self):
-        dummy_check = Check(name='dummy', path='dummy.py', platform_setup=Mock())
-        dummy_check._call_popen = MagicMock(return_value='{}')
-        dummy_check.run()
-        self.assertEqual(dummy_check.current_status, Check.STATUS['ERROR'])
-        self.assertEqual(dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+        self.dummy_check._call_popen = MagicMock(side_effect=CheckError())
+        self.dummy_check.run()
+        self.assertEqual(self.dummy_check.current_status, Check.STATUS['ERROR'])
+        self.assertEqual(self.dummy_check._process_handler, None)
+        self.assertEqual(self.dummy_check._start_time, None)
 
-    def test_run(self):
-        dummy_check = Check(name='dummy', path='dummy.py', platform_setup=Mock())
-        dummy_check._call_popen = MagicMock(return_value='{"status": "OK"}')
-        dummy_check.run()
-        self.assertEqual(dummy_check.current_status, Check.STATUS['OK'])
-        self.assertEqual(dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+    def test_run_and_collect(self):
+        process_handler = Mock()
+        process_handler.communicate = MagicMock(return_value=('{"status": "OK"}', '', ''))
+        self.dummy_check.has_finished = MagicMock(return_value=True)
+        self.dummy_check._call_popen = MagicMock(return_value=process_handler)
+        self.dummy_check.run()
+        self.dummy_check.collect_output()
+        self.assertEqual(self.dummy_check.current_status, Check.STATUS['OK'])
+        self.assertEqual(self.dummy_check.previous_status, Check.STATUS['UNKNOWN'])
+        self.assertEqual(self.dummy_check._process_handler, None)
+        self.assertEqual(self.dummy_check._start_time, None)
+        RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
+
+    @raises(CheckStillRunning)
+    def test_collect_raises_error_still_running(self):
+        self.dummy_check.has_finished = MagicMock(return_value=False)
+        self.dummy_check.collect_output()
+
+    def test_terminate(self):
+        self.dummy_check.has_finished = MagicMock(return_value=False)
+        self.dummy_check._terminate = Mock()
+        self.dummy_check.terminate()
+        self.assertEqual(self.dummy_check.current_status, Check.STATUS['TIMEOUT'])
+        RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
+
+    def test_check_is_overdue(self):
+        self.dummy_check._start_time = time() - (self.dummy_check._platform_setup.config['check timeout'] + 1)
+        self.dummy_check.has_finished = MagicMock(return_value=False)
+        self.assertTrue(self.dummy_check.is_overdue())
+
+    def test_check_is_not_overdue(self):
+        self.dummy_check.has_finished = MagicMock(return_value=True)
+        self.assertFalse(self.dummy_check.is_overdue())
+
+    def test_check_is_not_overdue_and_still_running(self):
+        self.dummy_check.has_finished = MagicMock(return_value=True)
+        self.dummy_check._start_time = time() - (self.dummy_check._platform_setup.config['check timeout'] / 2.0)
+        self.assertFalse(self.dummy_check.is_overdue())
