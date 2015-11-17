@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from queue import Empty as EmptyQueue
 from threading import Thread, Event
 from ..logger import RadarLogger
-from ..check import UnixCheck, WindowsCheck, CheckError
+from ..check import UnixCheck, WindowsCheck, CheckError, CheckStillRunning
 from ..protocol import Message
 from ..platform_setup import Platform
 
@@ -51,6 +51,8 @@ class CheckManager(Thread):
             Message.TYPE['CHECK']: self._on_check,
             Message.TYPE['TEST']: self._on_test,
         }
+        self._wait_queue = []
+        self._execution_queue = []
 
     def _get_platform_check_class(self):
         platform = Platform.get_platform_type()
@@ -66,12 +68,44 @@ class CheckManager(Thread):
         except KeyError:
             raise CheckError('Error - Server sent empty or invalid check.')
 
-    def _on_check(self, message):
-        self._run_checks(self._build_checks(message))
+    def _free_slots_amount(self):
+        return self._platform_setup.config['check concurrency'] - len(self._execution_queue)
+
+    def _available_slots(self):
+        return self._free_slots_amount() > 0
+
+    def _collect_outputs(self):
+        outputs = []
+
+        for check in self._execution_queue:
+            try:
+                outputs.append(check.collect_output().to_check_reply_dict())
+            except CheckStillRunning:
+                pass
+
+        return outputs
+
+    def _reply_check_outputs(self, check_outputs):
+        if len(check_outputs) > 0:
+            self._output_queue.put_nowait(check_outputs)
+
+    def _run_checks(self):
+        if self._available_slots():
+            checks = self._wait_queue[:self._free_slots_amount()]
+            self._wait_queue = self._wait_queue[self._free_slots_amount():]
+            self._execution_queue.extend([check.run() for check in checks])
+        else:
+            [check.terminate() for check in self._execution_queue if check.is_overdue()]
+            check_outputs = self._collect_outputs()
+            self._execution_queue = [check for check in self._execution_queue if not check.is_overdue()]
+            self._reply_check_outputs(check_outputs)
 
     # Yes, is the same as above ! This implementation may change in the future.
     def _on_test(self, message):
         self._on_check(message)
+
+    def _on_check(self, message):
+        self._wait_queue.extend(self._build_checks(message))
 
     def _log_action(self, message_type, check):
         RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
@@ -95,10 +129,6 @@ class CheckManager(Thread):
     def is_stopped(self):
         return self.stop_event.is_set()
 
-    def _run_checks(self, checks):
-        checks_outputs = [c.run().to_check_reply_dict() for c in checks]
-        self._output_queue.put_nowait(checks_outputs)
-
     def run(self):
         while not self.is_stopped():
             try:
@@ -106,3 +136,5 @@ class CheckManager(Thread):
                 self._process_message(queue_message['message_type'], queue_message['message'])
             except EmptyQueue:
                 self.stop_event.wait(self.STOP_EVENT_TIMEOUT)
+
+            self._run_checks()  # Yes, this is constantly executed (altough it may not run any check at all).

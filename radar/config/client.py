@@ -47,6 +47,8 @@ class ClientConfig(ConfigBuilder):
 
         'enforce ownership': True,
         'reconnect': True,
+        'check concurrency': 1,
+        'check timeout': 10,
     }
 
     def __init__(self, path=None):

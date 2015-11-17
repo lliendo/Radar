@@ -27,7 +27,9 @@ from os import stat
 from os.path import join as join_path, isabs as is_absolute_path
 from shlex import split as split_args
 from subprocess import Popen, PIPE
+from time import time
 from ..misc import Switchable
+from ..logger import RadarLogger
 
 
 class CheckError(Exception):
@@ -35,6 +37,10 @@ class CheckError(Exception):
 
 
 class CheckGroupError(Exception):
+    pass
+
+
+class CheckStillRunning(Exception):
     pass
 
 
@@ -63,6 +69,8 @@ class Check(Switchable):
         self.current_status = self.STATUS['UNKNOWN']
         self.previous_status = self.STATUS['UNKNOWN']
         self._platform_setup = platform_setup
+        self._process_handler = None
+        self._start_time = None
 
     def _update_matches(self, check_status):
         return (self.id == check_status['id']) and (check_status['status'] in list(self.STATUS.values())) and \
@@ -118,6 +126,12 @@ class Check(Switchable):
 
         return d
 
+    def _read_popen_output(self):
+        try:
+            return self._process_handler.communicate()[0]
+        except AttributeError:
+            raise CheckError('Error - Couldn\'t read popen output.')
+
     def _deserialize_output(self, output):
         try:
             valid_fields = ['status', 'details', 'data']
@@ -152,19 +166,54 @@ class Check(Switchable):
             ))
 
         try:
-            return Popen(absolute_path + self._split_args(), stdout=PIPE).communicate()[0]
+            return Popen(absolute_path + self._split_args(), stdout=PIPE)
         except OSError as e:
             raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
 
     def run(self):
         try:
-            deserialized_output = self._deserialize_output(self._call_popen())
-            self.update_status(deserialized_output)
+            self._process_handler = self._call_popen()
+            self._start_time = time()
         except CheckError as e:
             self.current_status = self.STATUS['ERROR']
             self.details = str(e)
 
         return self
+
+    def collect_output(self):
+        if self.has_finished():
+            deserialized_output = self._deserialize_output(self._process_handler.communicate()[0])
+            self.update_status(deserialized_output)
+            RadarLogger.log('Check \'{:} {:}\' succesfully executed. Run time : {:} seconds.'.format(
+                self.path, self.args, round(time() - self._start_time, 3)))
+            self._process_handler = None
+            self._start_time = None
+        else:
+            raise CheckStillRunning('Error - Can\'t collect output. Check still running.')
+
+        return self
+
+    def terminate(self):
+        self._terminate()
+        self.current_status = self.STATUS['TIMEOUT']
+        self.details = 'Check \'{:} {:}\' was forcibly terminated. Maximum check timeout ({:} seconds) reached.'.format(
+            self.path, self.args, self._platform_setup.config['check timeout'])
+        RadarLogger.log(self.details)
+
+    def has_finished(self):
+        pass
+
+    # TODO: Let's make sure that .config['check timeout'] is a a float or integer.
+    def is_overdue(self):
+        overdue = False
+
+        if not self.has_finished():
+            try:
+                overdue = (time() - self._start_time) > self._platform_setup.config['check timeout']
+            except TypeError:
+                pass
+
+        return overdue
 
     def as_list(self):
         return [self]
@@ -180,8 +229,10 @@ class Check(Switchable):
 class UnixCheck(Check):
     def __new__(cls, *args, **kwargs):
         try:
-            global getpwnam
+            global getpwnam, kill, SIGKILL
             from pwd import getpwnam
+            from os import kill
+            from signal import SIGKILL
         except ImportError:
             pass
 
@@ -206,14 +257,35 @@ class UnixCheck(Check):
     def _owned_by_stated_user(self, filename):
         return self._owned_by_user(filename) and self._owned_by_group(filename)
 
+    def _terminate(self):
+        if self.has_finished():
+            try:
+                kill(self._process_handler.pid, SIGKILL)
+                self._process_handler = None
+                self._start_time = None
+            except (OSError, AttributeError):
+                pass
+
+    def has_finished(self):
+        finished = False
+
+        try:
+            kill(self._process_handler.pid, 0)
+        except (OSError, AttributeError, TypeError):
+            finished = True
+
+        return finished
+
 
 class WindowsCheck(Check):
     def __new__(cls, *args, **kwargs):
         try:
             global FindExecutable, FindExecutableError, GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
+            global OpenProcess, TerminateProcess, CloseHandle
             from win32security import GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
-            from win32api import FindExecutable
-            from pywintypes import error as FindExecutableError
+            from win32api import FindExecutable, OpenProcess, TerminateProcess, CloseHandle
+            from pywintypes import error as Win32Error
+            from winerror import ERROR_INVALID_PARAMETER
         except ImportError:
             pass
 
@@ -222,7 +294,7 @@ class WindowsCheck(Check):
     def _find_interpreter(self, filename):
         try:
             return FindExecutable(filename)
-        except FindExecutableError as e:
+        except Win32Error as e:
             raise CheckError('Error - Couldn\'t find executable for : {:}. Details : {:}.'.format(filename, e))
 
     # If the file isn't just executable we need to know who interprets this filetype,
@@ -250,6 +322,35 @@ class WindowsCheck(Check):
 
     def _split_args(self):
         return split_args(self.args, posix=False)
+
+    def _invalid_pid(self, error_code):
+        return error_code == ERROR_INVALID_PARAMETER
+
+    def _terminate(self):
+        PROCESS_TERMINATE = 1
+
+        if not self.has_finished():
+            try:
+                handle = OpenProcess(PROCESS_TERMINATE, False, self._process_handler.pid)
+                TerminateProcess(handle, -1)
+                CloseHandle(handle)
+                self._process_handler = None
+                self._start_time = None
+            except Win32Error:
+                pass
+
+    def has_finished(self):
+        finished = False
+
+        try:
+            OpenProcess(1, False, self._process_handler.pid)
+        except TypeError:
+            finished = True
+        except Win32Error as (error_code, _, _):
+            if self._invalid_pid(error_code):
+                finished = True
+
+        return finished
 
 
 class CheckGroup(Switchable):
