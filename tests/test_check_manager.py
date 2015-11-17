@@ -57,16 +57,14 @@ class TestCheckManager(TestCase):
         process_handler.communicate = MagicMock(return_value=(output, '', ''))
         check = Check(name='dummy', path='dummy.py', platform_setup=self.platform_setup)
         check._call_popen = MagicMock(return_value=process_handler)
-        check.run = MagicMock(return_value=check)
         check.has_finished = MagicMock(return_value=has_finished)
-        check.is_overdue = MagicMock(return_value=is_overdue)
+        # check.is_overdue = MagicMock(return_value=is_overdue)
 
         return check
 
     def _build_checks(self, checks_config):
         return [self._build_check(**check_config) for check_config in checks_config]
 
-    @skip('Not yet finished.')
     def test_run_checks(self):
         checks_config = [
             {'output': '{"status": "OK"}'},
@@ -77,4 +75,10 @@ class TestCheckManager(TestCase):
         self.check_manager._run_checks()
         self.assertEqual(len(self.check_manager._wait_queue), 1)
         self.assertEqual(len(self.check_manager._execution_queue), 2)
+
+        # Let's assume all checks finished gracefully in time.
+        for check in self.check_manager._execution_queue:
+            check.has_finished = MagicMock(return_value=True)
+
         self.check_manager._run_checks()
+        self.assertEqual(len(self.check_manager._execution_queue), 0)

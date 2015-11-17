@@ -97,7 +97,7 @@ class CheckManager(Thread):
         else:
             [check.terminate() for check in self._execution_queue if check.is_overdue()]
             check_outputs = self._collect_outputs()
-            self._execution_queue = [check for check in self._execution_queue if not check.is_overdue()]
+            self._execution_queue = [check for check in self._execution_queue if not check.is_overdue() and not check.has_finished()]
             self._reply_check_outputs(check_outputs)
 
     # Yes, is the same as above ! This implementation may change in the future.
