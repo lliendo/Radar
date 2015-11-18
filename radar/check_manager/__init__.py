@@ -100,6 +100,9 @@ class CheckManager(Thread):
             self._execution_queue = [check for check in self._execution_queue if not check.is_overdue() and not check.has_finished()]
             self._reply_check_outputs(check_outputs)
 
+    def _terminate_all(self):
+        [check.terminate() for check in self._execution_queue]
+
     def _on_check(self, message):
         self._wait_queue.extend(self._build_checks(message))
 
@@ -137,4 +140,6 @@ class CheckManager(Thread):
             except EmptyQueue:
                 self.stop_event.wait(self.STOP_EVENT_TIMEOUT)
 
-            self._process_check_queues()  # Yes, this is constantly executed (altough it may not run any check at all).
+            self._process_check_queues()
+
+        self._terminate_all()
