@@ -126,12 +126,6 @@ class Check(Switchable):
 
         return d
 
-    def _read_popen_output(self):
-        try:
-            return self._process_handler.communicate()[0]
-        except AttributeError:
-            raise CheckError('Error - Couldn\'t read popen output.')
-
     def _deserialize_output(self, output):
         try:
             valid_fields = ['status', 'details', 'data']
