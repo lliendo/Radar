@@ -46,7 +46,7 @@ class CheckManager(Thread):
         self._input_queue = input_queue
         self._output_queue = output_queue
         self.stop_event = stop_event or Event()
-        self._Check = self._get_platform_check_class()
+        self._check_class = self._get_platform_check_class()
         self._message_actions = {
             Message.TYPE['CHECK']: self._on_check,
             Message.TYPE['TEST']: self._on_test,
@@ -64,7 +64,7 @@ class CheckManager(Thread):
 
     def _build_checks(self, checks):
         try:
-            return [self._Check(name=c['path'], platform_setup=self._platform_setup, **c) for c in checks]
+            return [self._check_class(name=c['path'], platform_setup=self._platform_setup, **c) for c in checks]
         except KeyError:
             raise CheckError('Error - Server sent empty or invalid check.')
 
@@ -126,8 +126,8 @@ class CheckManager(Thread):
             action(message)
         except (KeyError, ValueError):
             RadarLogger.log('Error - Unknown message id {:}. Message : {:}.'.format(message_type, message))
-        except CheckError as e:
-            RadarLogger.log(e)
+        except CheckError as error:
+            RadarLogger.log(error)
 
     def is_stopped(self):
         return self.stop_event.is_set()

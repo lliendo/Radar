@@ -55,7 +55,7 @@ class Check(Switchable):
         'TIMEOUT': 4,
     }
 
-    def __init__(self, id=None, name='', path='', args='', details='', data=None, enabled=True, platform_setup=None):
+    def __init__(self, id=None, name='', path='', args='', details='', enabled=True, platform_setup=None):
         super(Check, self).__init__(id=id, enabled=enabled)
 
         if not name or not path:
@@ -65,9 +65,9 @@ class Check(Switchable):
         self.path = path
         self.args = args
         self.details = details
-        self.data = data
         self.current_status = self.STATUS['UNKNOWN']
         self.previous_status = self.STATUS['UNKNOWN']
+        self.data = None
         self._platform_setup = platform_setup
         self._process_handler = None
         self._start_time = None
@@ -105,41 +105,41 @@ class Check(Switchable):
         ])
 
     def to_check_dict(self):
-        d = super(Check, self).to_dict(['id', 'path'])
+        check_dict = super(Check, self).to_dict(['id', 'path'])
 
         if self.args:
-            d.update({'args': self.args})
+            check_dict.update({'args': self.args})
 
-        return [d]
+        return [check_dict]
 
     def to_check_reply_dict(self):
-        d = {
+        check_reply_dict = {
             'id': self.id,
             'status': self.current_status,
         }
 
         if self.details:
-            d.update({'details': self.details})
+            check_reply_dict.update({'details': self.details})
 
         if self.data:
-            d.update({'data': self.data})
+            check_reply_dict.update({'data': self.data})
 
-        return d
+        return check_reply_dict
 
     def _deserialize_output(self, output):
         try:
             valid_fields = ['status', 'details', 'data']
-            d = {k.lower(): v for k, v in listitems(deserialize_json(output)) if k.lower() in valid_fields}
-            d.update({
-                'status': self.STATUS[d['status'].upper()],
+            deserialized_output = {k.lower(): v for k, v in listitems(deserialize_json(output)) if k.lower() in valid_fields}
+            deserialized_output.update({
+                'status': self.STATUS[deserialized_output['status'].upper()],
                 'id': self.id,
             })
-        except ValueError as e:
-            raise CheckError('Error - Couldn\'t parse JSON from check output. Details : {:}'.format(e))
+        except ValueError as error:
+            raise CheckError('Error - Couldn\'t parse JSON from check output. Details : {:}'.format(error))
         except KeyError:
             raise CheckError('Error - Missing or invalid \'status\' from check output.')
 
-        return d
+        return deserialized_output
 
     def _build_absolute_path(self):
         checks_directory = self._platform_setup.PLATFORM_CONFIG['checks']
@@ -147,6 +147,9 @@ class Check(Switchable):
 
     def _split_args(self):
         return split_args(self.args)
+
+    def _owned_by_stated_user(self, filename):
+        pass
 
     def _call_popen(self):
         absolute_path = self._build_absolute_path()
@@ -161,16 +164,16 @@ class Check(Switchable):
 
         try:
             return Popen(absolute_path + self._split_args(), stdout=PIPE)
-        except OSError as e:
-            raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, e))
+        except OSError as error:
+            raise CheckError('Error - Couldn\'t run : {:} check. Details : {:}'.format(absolute_path, error))
 
     def run(self):
         try:
             self._process_handler = self._call_popen()
             self._start_time = time()
-        except CheckError as e:
+        except CheckError as error:
             self.current_status = self.STATUS['ERROR']
-            self.details = str(e)
+            self.details = str(error)
 
         return self
 
@@ -186,6 +189,9 @@ class Check(Switchable):
             raise CheckStillRunning('Error - Can\'t collect output. Check still running.')
 
         return self
+
+    def _terminate(self):
+        pass
 
     def terminate(self):
         self._terminate()
@@ -276,10 +282,12 @@ class WindowsCheck(Check):
         try:
             global FindExecutable, FindExecutableError, GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
             global OpenProcess, TerminateProcess, CloseHandle
+            global PROCESS_TERMINATE
             from win32security import GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
             from win32api import FindExecutable, OpenProcess, TerminateProcess, CloseHandle
             from pywintypes import error as Win32Error
             from winerror import ERROR_INVALID_PARAMETER
+            from win32con import PROCESS_TERMINATE
         except ImportError:
             pass
 
@@ -288,8 +296,8 @@ class WindowsCheck(Check):
     def _find_interpreter(self, filename):
         try:
             return FindExecutable(filename)
-        except Win32Error as e:
-            raise CheckError('Error - Couldn\'t find executable for : {:}. Details : {:}.'.format(filename, e))
+        except Win32Error as error:
+            raise CheckError('Error - Couldn\'t find executable for : {:}. Details : {:}.'.format(filename, error))
 
     # If the file isn't just executable we need to know who interprets this filetype,
     # otherwise popen fails.
@@ -308,8 +316,8 @@ class WindowsCheck(Check):
             security_descriptor = GetFileSecurity(filename, OWNER_SECURITY_INFORMATION)
             user, _, _ = LookupAccountSid(None, security_descriptor.GetSecurityDescriptorOwner())
             return user == self._platform_setup.config['run as']['user']
-        except MemoryError as e:
-            raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(filename, e))
+        except MemoryError as error:
+            raise CheckError('Error - Couldn\'t get owner of : {:}. Details : {:}.'.format(filename, error))
 
     def _owned_by_stated_user(self, filename):
         return self._owned_by_user(filename)
@@ -317,12 +325,11 @@ class WindowsCheck(Check):
     def _split_args(self):
         return split_args(self.args, posix=False)
 
-    def _invalid_pid(self, error_code):
+    def _invalid_pid(self, error):
+        error_code, _, _ = error
         return error_code == ERROR_INVALID_PARAMETER
 
     def _terminate(self):
-        PROCESS_TERMINATE = 1
-
         if not self.has_finished():
             try:
                 handle = OpenProcess(PROCESS_TERMINATE, False, self._process_handler.pid)
@@ -340,8 +347,8 @@ class WindowsCheck(Check):
             OpenProcess(1, False, self._process_handler.pid)
         except TypeError:
             finished = True
-        except Win32Error as (error_code, _, _):
-            if self._invalid_pid(error_code):
+        except Win32Error as error:
+            if self._invalid_pid(error):
                 finished = True
 
         return finished
@@ -361,15 +368,15 @@ class CheckGroup(Switchable):
         return any([c.update_status(check_status) for c in self.checks])
 
     def to_dict(self):
-        d = super(CheckGroup, self).to_dict(['id', 'name', 'enabled'])
-        d.update({'checks': [c.to_dict() for c in self.checks]})
-        return d
+        check_group_dict = super(CheckGroup, self).to_dict(['id', 'name', 'enabled'])
+        check_group_dict.update({'checks': [check.to_dict() for check in self.checks]})
+        return check_group_dict
 
     def to_check_dict(self):
-        return reduce(lambda l, m: l + m, [c.to_check_dict() for c in self.checks])
+        return reduce(lambda l, m: l + m, [check.to_check_dict() for check in self.checks])
 
     def as_list(self):
-        return [c for c in self.checks]
+        return [check for check in self.checks]
 
     def __eq__(self, other_check_group):
         return self.name == other_check_group.name and self.checks == other_check_group.checks

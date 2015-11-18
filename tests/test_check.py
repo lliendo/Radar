@@ -169,8 +169,9 @@ class TestCheck(TestCase):
         self.assertTrue('details' in d)
 
     def test_to_check_reply_dict_contains_data(self):
-        d = Check(name='dummy', path='dummy.py', data={'data': 'some data'}).to_check_reply_dict()
-        self.assertTrue('data' in d)
+        check = Check(name='dummy', path='dummy.py')
+        check.update_status({'id': check.id, 'status': Check.STATUS['OK'], 'data': 'some_data'})
+        self.assertTrue('data' in check.to_check_reply_dict())
 
     def test_check_as_list(self):
         self.assertEqual(type(self.dummy_check.as_list()), list)
