@@ -58,7 +58,6 @@ class TestCheckManager(TestCase):
         check = Check(name='dummy', path='dummy.py', platform_setup=self.platform_setup)
         check._call_popen = MagicMock(return_value=process_handler)
         check.has_finished = MagicMock(return_value=has_finished)
-        # check.is_overdue = MagicMock(return_value=is_overdue)
 
         return check
 
@@ -72,13 +71,14 @@ class TestCheckManager(TestCase):
             {'output': '{"status": "SEVERE"}'},
         ]
         self.check_manager._wait_queue.extend(self._build_checks(checks_config))
-        self.check_manager._run_checks()
+        self.check_manager._process_check_queues()
         self.assertEqual(len(self.check_manager._wait_queue), 1)
         self.assertEqual(len(self.check_manager._execution_queue), 2)
 
-        # Let's assume all checks finished gracefully in time.
+        # Let's assume all checks finished gracefully on time.
         for check in self.check_manager._execution_queue:
             check.has_finished = MagicMock(return_value=True)
 
-        self.check_manager._run_checks()
+        self.check_manager._process_check_queues()
+        self.assertEqual(len(self.check_manager._wait_queue), 1)
         self.assertEqual(len(self.check_manager._execution_queue), 0)

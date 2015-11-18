@@ -89,7 +89,7 @@ class CheckManager(Thread):
         if len(check_outputs) > 0:
             self._output_queue.put_nowait(check_outputs)
 
-    def _run_checks(self):
+    def _process_check_queues(self):
         if self._available_slots():
             checks = self._wait_queue[:self._free_slots_amount()]
             self._wait_queue = self._wait_queue[self._free_slots_amount():]
@@ -100,12 +100,12 @@ class CheckManager(Thread):
             self._execution_queue = [check for check in self._execution_queue if not check.is_overdue() and not check.has_finished()]
             self._reply_check_outputs(check_outputs)
 
+    def _on_check(self, message):
+        self._wait_queue.extend(self._build_checks(message))
+
     # Yes, is the same as above ! This implementation may change in the future.
     def _on_test(self, message):
         self._on_check(message)
-
-    def _on_check(self, message):
-        self._wait_queue.extend(self._build_checks(message))
 
     def _log_action(self, message_type, check):
         RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
@@ -137,4 +137,4 @@ class CheckManager(Thread):
             except EmptyQueue:
                 self.stop_event.wait(self.STOP_EVENT_TIMEOUT)
 
-            self._run_checks()  # Yes, this is constantly executed (altough it may not run any check at all).
+            self._process_check_queues()  # Yes, this is constantly executed (altough it may not run any check at all).
