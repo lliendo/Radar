@@ -44,6 +44,10 @@ class CheckStillRunning(Exception):
     pass
 
 
+class CheckNotRunning(Exception):
+    pass
+
+
 class Check(Switchable):
 
     STATUS = {
@@ -177,14 +181,18 @@ class Check(Switchable):
 
         return self
 
+    # TODO: Ugly ! Improve me !
     def collect_output(self):
         if self.has_finished():
-            deserialized_output = self._deserialize_output(self._process_handler.communicate()[0])
-            self.update_status(deserialized_output)
-            RadarLogger.log('Check \'{:} {:}\' succesfully executed. Run time : {:} seconds.'.format(
-                self.path, self.args, round(time() - self._start_time, 3)))
-            self._process_handler = None
-            self._start_time = None
+            try:
+                deserialized_output = self._deserialize_output(self._process_handler.communicate()[0])
+                self.update_status(deserialized_output)
+                RadarLogger.log('Check \'{:} {:}\' succesfully executed. Run time : {:} seconds.'.format(
+                    self.path, self.args, round(time() - self._start_time, 3)))
+                self._process_handler = None
+                self._start_time = None
+            except AttributeError:
+                pass
         else:
             raise CheckStillRunning('Error - Can\'t collect output. Check still running.')
 
@@ -193,12 +201,18 @@ class Check(Switchable):
     def _terminate(self):
         pass
 
+    # TODO: Ugly ! Improve me !
     def terminate(self):
-        self._terminate()
-        self.current_status = self.STATUS['TIMEOUT']
-        self.details = 'Check \'{:} {:}\' was forcibly terminated. Maximum check timeout ({:} seconds) reached.'.format(
-            self.path, self.args, self._platform_setup.config['check timeout'])
-        RadarLogger.log(self.details)
+        try:
+            self._terminate()
+            self.current_status = self.STATUS['TIMEOUT']
+            self.details = 'Check \'{:} {:}\' was forcibly terminated. Maximum check timeout ({:} seconds) exceeded.'.format(
+                self.path, self.args, self._platform_setup.config['check timeout'])
+            RadarLogger.log(self.details)
+            self._process_handler = None
+            self._start_time = None
+        except CheckNotRunning:
+            pass
 
     def has_finished(self):
         pass
@@ -258,13 +272,11 @@ class UnixCheck(Check):
         return self._owned_by_user(filename) and self._owned_by_group(filename)
 
     def _terminate(self):
-        if self.has_finished():
+        if not self.has_finished():
             try:
                 kill(self._process_handler.pid, SIGKILL)
-                self._process_handler = None
-                self._start_time = None
             except (OSError, AttributeError):
-                pass
+                raise CheckNotRunning()
 
     def has_finished(self):
         finished = False
@@ -335,10 +347,8 @@ class WindowsCheck(Check):
                 handle = OpenProcess(PROCESS_TERMINATE, False, self._process_handler.pid)
                 TerminateProcess(handle, -1)
                 CloseHandle(handle)
-                self._process_handler = None
-                self._start_time = None
             except Win32Error:
-                pass
+                raise CheckNotRunning()
 
     def has_finished(self):
         finished = False

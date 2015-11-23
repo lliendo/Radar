@@ -20,9 +20,10 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase, skip
+from unittest import TestCase
 from mock import Mock, MagicMock, ANY
 from nose.tools import raises
+from time import time
 from radar.logger import RadarLogger
 from radar.check import CheckError
 from radar.check_manager import CheckManager
@@ -57,18 +58,19 @@ class TestCheckManager(TestCase):
         process_handler.communicate = MagicMock(return_value=(output, '', ''))
         check = Check(name='dummy', path='dummy.py', platform_setup=self.platform_setup)
         check._call_popen = MagicMock(return_value=process_handler)
-        check.has_finished = MagicMock(return_value=has_finished)
+        check.has_finished = MagicMock(side_effect=has_finished)
+        check._terminate = MagicMock()
 
         return check
 
     def _build_checks(self, checks_config):
         return [self._build_check(**check_config) for check_config in checks_config]
 
-    def test_run_checks(self):
+    def test_process_check_queues(self):
         checks_config = [
-            {'output': '{"status": "OK"}'},
-            {'output': '{"status": "WARNING"}'},
-            {'output': '{"status": "SEVERE"}'},
+            {'output': '{"status": "OK"}', 'has_finished': [False]},
+            {'output': '{"status": "WARNING"}', 'has_finished': [False]},
+            {'output': '{"status": "SEVERE"}', 'has_finished': [False]},
         ]
         self.check_manager._wait_queue.extend(self._build_checks(checks_config))
         self.check_manager._process_check_queues()
@@ -82,3 +84,30 @@ class TestCheckManager(TestCase):
         self.check_manager._process_check_queues()
         self.assertEqual(len(self.check_manager._wait_queue), 1)
         self.assertEqual(len(self.check_manager._execution_queue), 0)
+
+        # Let's make sure that all outputs are replied to the output queue and
+        # all have OK status.
+
+    def test_process_check_queue_with_overdue_check(self):
+        checks_config = [
+            {'output': '{"status": "OK"}', 'has_finished': [False, False]},
+            {'output': '{"status": "WARNING"}', 'has_finished': [False, True]},
+            {'output': '{"status": "SEVERE"}', 'has_finished': [False, False]},
+        ]
+        checks = self._build_checks(checks_config)
+        self.check_manager._wait_queue.extend(checks)
+
+        self.check_manager._process_check_queues()
+        self.assertEqual(len(self.check_manager._wait_queue), 1)
+        self.assertEqual(len(self.check_manager._execution_queue), 2)
+
+        self.check_manager._execution_queue[0].has_finished = MagicMock(return_value=True)
+        self.check_manager._execution_queue[1].is_overdue = MagicMock(return_value=True)
+
+        self.check_manager._process_check_queues()
+        self.assertTrue(checks[1]._terminate.called)
+        self.assertEqual(len(self.check_manager._wait_queue), 1)
+        self.assertEqual(len(self.check_manager._execution_queue), 0)
+
+        # Let's make sure that all outputs are replied to the output queue and
+        # that one of them has a TIMEOUT status.
