@@ -54,6 +54,21 @@ class CheckManager(Thread):
         self._wait_queue = []
         self._execution_queue = []
 
+    def _validate(self):
+        try:
+            if float(self._platform_setup['check timeout']) < 1:
+                raise CheckManagerError('Error - Check timeout must be at least 1 second.')
+        except ValueError:
+            raise CheckManagerError('Error - \'{:}\' is not a valid check timeout value.'.format(
+                self._platform_setup['check timeout']))
+
+        try:
+            if int(self._platform_setup['check concurrency']) < 1:
+                raise CheckManagerError('Error - Check concurrency must be at least 1 second.')
+        except ValueError:
+            raise CheckManagerError('Error - \'{:}\' is not a valid check concurrency value.'.format(
+                self._platform_setup['check concurrency']))
+
     def _get_platform_check_class(self):
         platform = Platform.get_platform_type()
 
@@ -89,6 +104,9 @@ class CheckManager(Thread):
         if len(check_outputs) > 0:
             self._output_queue.put_nowait(check_outputs)
 
+    def _can_keep_running(self, check):
+        return not check.has_finished() and not check.is_overdue()
+
     def _process_check_queues(self):
         if self._available_slots():
             checks = self._wait_queue[:self._free_slots_amount()]
@@ -97,7 +115,7 @@ class CheckManager(Thread):
         else:
             [check.terminate() for check in self._execution_queue if check.is_overdue()]
             check_outputs = self._collect_outputs()
-            self._execution_queue = [check for check in self._execution_queue if not check.is_overdue() and not check.has_finished()]
+            self._execution_queue = [check for check in self._execution_queue if self._can_keep_running(check)]
             self._reply_check_outputs(check_outputs)
 
     def _terminate_all(self):
