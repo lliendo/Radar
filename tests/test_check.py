@@ -215,7 +215,6 @@ class TestCheck(TestCase):
         self.assertEqual(self.dummy_check.previous_status, Check.STATUS['UNKNOWN'])
         self.assertEqual(self.dummy_check._process_handler, None)
         self.assertEqual(self.dummy_check._start_time, None)
-        RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     @raises(CheckStillRunning)
     def test_collect_raises_error_still_running(self):
@@ -227,7 +226,6 @@ class TestCheck(TestCase):
         self.dummy_check._terminate = Mock()
         self.dummy_check.terminate()
         self.assertEqual(self.dummy_check.current_status, Check.STATUS['TIMEOUT'])
-        RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     def test_check_is_overdue(self):
         self.dummy_check._start_time = time() - (self.dummy_check._platform_setup.config['check timeout'] + 1)
