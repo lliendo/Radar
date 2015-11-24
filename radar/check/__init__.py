@@ -29,7 +29,6 @@ from shlex import split as split_args
 from subprocess import Popen, PIPE
 from time import time
 from ..misc import Switchable
-from ..logger import RadarLogger
 
 
 class CheckError(Exception):
@@ -181,34 +180,28 @@ class Check(Switchable):
 
         return self
 
-    # TODO: Ugly ! Improve me !
     def collect_output(self):
         if self.has_finished():
             try:
-                deserialized_output = self._deserialize_output(self._process_handler.communicate()[0])
-                self.update_status(deserialized_output)
-                RadarLogger.log('Check \'{:} {:}\' succesfully executed. Run time : {:} seconds.'.format(
-                    self.path, self.args, round(time() - self._start_time, 3)))
+                self.update_status(self._deserialize_output(self._process_handler.communicate()[0]))
                 self._process_handler = None
                 self._start_time = None
             except AttributeError:
                 pass
         else:
-            raise CheckStillRunning('Error - Can\'t collect output. Check still running.')
+            raise CheckStillRunning('Error - Can\'t collect output. Check\'s still running.')
 
         return self
 
     def _terminate(self):
         pass
 
-    # TODO: Ugly ! Improve me !
     def terminate(self):
         try:
             self._terminate()
             self.current_status = self.STATUS['TIMEOUT']
             self.details = 'Check \'{:} {:}\' was forcibly terminated. Maximum check timeout ({:} seconds) exceeded.'.format(
                 self.path, self.args, self._platform_setup.config['check timeout'])
-            RadarLogger.log(self.details)
             self._process_handler = None
             self._start_time = None
         except CheckNotRunning:
@@ -217,7 +210,6 @@ class Check(Switchable):
     def has_finished(self):
         pass
 
-    # TODO: Let's make sure that .config['check timeout'] is a a float or integer.
     def is_overdue(self):
         overdue = False
 
