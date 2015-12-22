@@ -207,6 +207,7 @@ class Check(Switchable):
         except CheckNotRunning:
             pass
 
+    # Platform dependant.
     def has_finished(self):
         pass
 
