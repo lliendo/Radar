@@ -116,9 +116,9 @@ class SequentialIdGenerator(object):
         self.__dict__ = self._shared_state
 
     def generate(self):
-        id = self._shared_state['id']
+        _id = self._shared_state['id']
         self._shared_state['id'] += 1
-        return id
+        return _id
 
 
 # Mixin used heavily on server side. It provides a unique id and a silly
