@@ -222,6 +222,12 @@ class ServerConfig(ConfigBuilder):
             'rotations': 5,
         },
 
+        'console': {
+            'address': 'localhost',
+            'port': 3334,
+            'allowed clients': None,
+        },
+
         'polling time': 300,
     }
 
