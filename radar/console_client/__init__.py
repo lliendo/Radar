@@ -19,7 +19,7 @@ along with Radar. If not, see <http://www.gnu.org/licenses/>.
 Copyright 2015 Lucas Liendo.
 """
 
-
+from json import dumps as serialize_json
 from threading import Thread, Event
 from queue import Empty as EmptyQueue
 from ..client import RadarClientLite
@@ -52,7 +52,8 @@ class RadarConsoleClient(RadarClientLite, Thread):
 
     def on_timeout(self):
         try:
-            self.send_message(RadarConsoleMessage.TYPE['QUERY'], self._input_queue.get_nowait())
+            serialized_command = serialize_json({'action': self._input_queue.get_nowait()})
+            self.send_message(RadarConsoleMessage.TYPE['QUERY'], serialized_command)
         except EmptyQueue:
             pass
 
