@@ -25,7 +25,7 @@ from nose.tools import raises
 from mock import MagicMock
 from struct import pack, unpack, calcsize
 from io import BytesIO
-from radar.protocol import Message, MessageNotReady
+from radar.protocol import Message, RadarMessage, MessageNotReady
 from radar.network.client import ClientAbortError
 
 
@@ -48,24 +48,24 @@ class TestRadarProtocol(TestCase):
         return message._buffer.getvalue()
 
     def test_header_reception(self):
-        message = Message()
+        message = RadarMessage()
         self._mock_receive([
-            pack('!B', Message.TYPE['CHECK']),
+            pack('!B', RadarMessage.TYPE['CHECK']),
             pack('!B', Message.OPTIONS['NONE']),
             pack('!H', 2),
         ])
 
         self.assertEqual(
             unpack('!B', self._receive_header(message, '!B')),
-            (Message.TYPE['CHECK'],)
+            (RadarMessage.TYPE['CHECK'],)
         )
         self.assertEqual(
             unpack('!BB', self._receive_header(message, '!BB')),
-            (Message.TYPE['CHECK'], Message.OPTIONS['NONE'], )
+            (RadarMessage.TYPE['CHECK'], Message.OPTIONS['NONE'], )
         )
         self.assertEqual(
             unpack('!BBH', self._receive_header(message, '!BBH')),
-            (Message.TYPE['CHECK'], Message.OPTIONS['NONE'], 2)
+            (RadarMessage.TYPE['CHECK'], Message.OPTIONS['NONE'], 2)
         )
 
     def _receive(self, message, message_type, message_options, payload=''):
@@ -78,30 +78,30 @@ class TestRadarProtocol(TestCase):
 
     @raises(ClientAbortError)
     def test_receive_raises_error_due_to_invalid_message_type(self):
-        message = Message()
-        self._receive(message, max(Message.TYPE.values()) + 1, Message.OPTIONS['NONE'])
+        message = RadarMessage()
+        self._receive(message, max(RadarMessage.TYPE.values()) + 1, Message.OPTIONS['NONE'])
 
     @raises(ClientAbortError)
     def test_invalid_header_due_to_invalid_message_option(self):
-        message = Message()
-        self._receive(message, Message.TYPE['CHECK'], max(Message.OPTIONS.values()) + 1)
+        message = RadarMessage()
+        self._receive(message, RadarMessage.TYPE['CHECK'], max(Message.OPTIONS.values()) + 1)
 
     @raises(ClientAbortError)
     def test_invalid_header_due_to_invalid_message_length(self):
-        message = Message()
-        self._receive(message, Message.TYPE['CHECK'], max(Message.OPTIONS.values()) + 1)
+        message = RadarMessage()
+        self._receive(message, RadarMessage.TYPE['CHECK'], max(Message.OPTIONS.values()) + 1)
 
     def test_payload_reception(self):
-        message = Message()
-        message_type, payload = self._receive(message, Message.TYPE['CHECK'], Message.OPTIONS['NONE'], '{}')
-        self.assertEqual(message_type, Message.TYPE['CHECK'])
+        message = RadarMessage()
+        message_type, payload = self._receive(message, RadarMessage.TYPE['CHECK'], Message.OPTIONS['NONE'], '{}')
+        self.assertEqual(message_type, RadarMessage.TYPE['CHECK'])
         self.assertEqual(payload, '{}')
         self.assertEqual(message._buffer.getvalue(), BytesIO().getvalue())
 
     def test_fragmented_payload_reception(self):
-        message = Message()
+        message = RadarMessage()
         self._mock_receive([
-            pack('!BBH', Message.TYPE['CHECK'], Message.OPTIONS['NONE'], 3),
+            pack('!BBH', RadarMessage.TYPE['CHECK'], RadarMessage.OPTIONS['NONE'], 3),
             pack('!1s', '{'),
             pack('!1s', ' '),
             pack('!1s', '}'),
@@ -118,10 +118,10 @@ class TestRadarProtocol(TestCase):
             pass
 
         message_type, payload = message.receive(self.client)
-        self.assertEqual(message_type, Message.TYPE['CHECK'])
+        self.assertEqual(message_type, RadarMessage.TYPE['CHECK'])
         self.assertEqual(payload, '{ }')
 
     def test_send(self):
-        message = Message()
+        message = RadarMessage()
         self._mock_send([4, 1, 1])
-        self.assertEqual(message.send(self.client, Message.TYPE['CHECK'], '{}'), 6)
+        self.assertEqual(message.send(self.client, RadarMessage.TYPE['CHECK'], '{}'), 6)

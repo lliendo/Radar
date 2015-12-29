@@ -27,7 +27,7 @@ from radar.check import Check, CheckGroup
 from radar.contact import Contact, ContactGroup
 from radar.monitor import Monitor, MonitorError
 from radar.network.client import Client
-from radar.protocol import Message
+from radar.protocol import Message, RadarMessage
 
 
 class DummyClient(Client):
@@ -138,6 +138,6 @@ class TestMonitor(TestCase):
 
     def test_monitor_polls_clients(self):
         self.monitor.add_client(self.dummy_client)
-        message = self.monitor.poll(Message.TYPE['CHECK'])
+        message = self.monitor.poll(RadarMessage.TYPE['CHECK'])
         [self.assertTrue(('path' in c) and ('id' in c)) for c in message]
         self.assertEqual(type(message), list)

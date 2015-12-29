@@ -29,7 +29,7 @@ from threading import Thread, Event
 from ..logger import RadarLogger
 from ..config import ConfigBuilder, ConfigError
 from ..misc import Switchable
-from ..protocol import Message
+from ..protocol import RadarMessage
 
 
 class ServerPluginError(Exception):
@@ -61,8 +61,8 @@ class ServerPlugin(ConfigBuilder, Switchable):
 
         Switchable.__init__(self, enabled=self.config.get('enabled', True))
         self._message_actions = {
-            Message.TYPE['CHECK REPLY']: self.on_check_reply,
-            Message.TYPE['TEST REPLY']: self.on_test_reply,
+            RadarMessage.TYPE['CHECK REPLY']: self.on_check_reply,
+            RadarMessage.TYPE['TEST REPLY']: self.on_test_reply,
         }
 
     @staticmethod

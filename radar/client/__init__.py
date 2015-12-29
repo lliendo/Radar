@@ -26,7 +26,7 @@ from json import loads as deserialize_json, dumps as serialize_json
 from queue import Empty as EmptyQueue
 from ..logger import RadarLogger
 from ..network.client import Client
-from ..protocol import Message
+from ..protocol import Message, RadarMessage
 
 
 class RadarClientLite(Client):
@@ -112,7 +112,7 @@ class RadarClient(RadarClientLite, Thread):
     def on_timeout(self):
         try:
             serialized_message = serialize_json(self._input_queue.get_nowait())
-            self.send_message(Message.TYPE['CHECK REPLY'], serialized_message)
+            self.send_message(RadarMessage.TYPE['CHECK REPLY'], serialized_message)
         except EmptyQueue:
             pass
 
