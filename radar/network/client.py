@@ -66,7 +66,10 @@ class Client(object):
         if self.is_connected():
             raise ClientError('Error - Client is already connected to {:}:{:}.'.format(self.address, self.port))
 
-        self.socket = create_connection((self.address, self.port))
+        try:
+            self.socket = create_connection((self.address, self.port))
+        except Exception as error:
+            raise ClientError('Error - Can\'t connect to {:}:{:}. Details : {:}.'.format(self.address, self.port, error))
 
         if not self.blocking_socket:
             self.socket.setblocking(0)
