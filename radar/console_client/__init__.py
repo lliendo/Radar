@@ -19,11 +19,13 @@ along with Radar. If not, see <http://www.gnu.org/licenses/>.
 Copyright 2015 Lucas Liendo.
 """
 
+
 from json import dumps as serialize_json
 from threading import Thread, Event
 from queue import Empty as EmptyQueue
 from ..client import RadarClientLite
 from ..protocol import RadarConsoleMessage, MessageNotReady
+from ..network.client import ClientError
 
 
 class RadarClientConsoleError(Exception):
@@ -70,10 +72,11 @@ class RadarConsoleClient(RadarClientLite, Thread):
             print('Error - Invalid message type : {:}.'.format(message_type))
 
     def run(self):
-        self.connect()
-
-        while not self.is_stopped():
+        try:
+            self.connect()
             super(RadarConsoleClient, self).run()
+        except ClientError as error:
+            print(error)
 
 
 class RadarConsoleClientInput(Thread):
