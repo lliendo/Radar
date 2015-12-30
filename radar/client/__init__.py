@@ -25,7 +25,7 @@ from threading import Thread, Event
 from json import loads as deserialize_json, dumps as serialize_json
 from queue import Empty as EmptyQueue
 from ..logger import RadarLogger
-from ..network.client import Client
+from ..network.client import Client, ClientError
 from ..protocol import Message, RadarMessage
 
 
@@ -93,9 +93,8 @@ class RadarClient(RadarClientLite, Thread):
         while not self.is_stopped() and not self.is_connected():
             try:
                 super(RadarClient, self).connect()
-            except Exception as e:
-                RadarLogger.log('Error - Can\'t connect to {:}:{:}. Falling back {:}s. Details: {:}.'.format(
-                    self.address, self.port, self._delays[0], e))
+            except ClientError as error:
+                RadarLogger.log('{:} Falling back {:}s. Details: {:}.'.format(error, self._delays[0]))
 
                 if self._reconnect:
                     self._sleep()
