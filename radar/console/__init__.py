@@ -49,11 +49,23 @@ class RadarServerConsole(Server, Thread):
         self._client_manager = client_manager
         self.stop_event = stop_event or Event()
         self._actions = {
+            'help': self._help,
             'list': self._list,
             'enable': self._enable,
             'disable': self._disable,
             'test': self._test,
         }
+
+    def _help(self):
+        help_message = """
+        help()                       Displays this message.
+        list() | list(id[, id, ...]) List all available Radar objects or the ones specified by ids.
+        enable(id[, id, ...])        Enable specified Radar objects.
+        disable(id[, id, ...])       Disable specified Radar objects.
+        test(id[, id, ...])          Force test of specified Radar objects.
+        """
+
+        return {'action reply': help_message}
 
     def _enable(self, ids):
         print 'enabling {:}'.format(ids)
