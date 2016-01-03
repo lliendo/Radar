@@ -41,6 +41,8 @@ class ClassLoader(object):
     to load unknown classes dynamically at run-time.
     """
 
+    ENCODING_DECLARATION = '# -*- coding: utf-8 -*-'
+
     def __init__(self, module_path):
         self._module_path = module_path
         module_search_path.append(module_path)
@@ -50,7 +52,7 @@ class ClassLoader(object):
 
         try:
             with open(filename) as fd:
-                parsed_source = ast_parse(fd.read())
+                parsed_source = ast_parse(fd.read().strip(self.ENCODING_DECLARATION))
                 class_names = [n.name for n in ast_walk(parsed_source) if isinstance(n, ClassDef)]
         except IOError as e:
             raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}.'.format(filename, e.strerror))
