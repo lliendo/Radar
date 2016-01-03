@@ -58,26 +58,26 @@ class RadarServerConsole(Server, Thread):
 
     def _help(self):
         help_message = """
-        help()                       Displays this message.
+        help()                       Displays this help message.
         list() | list(id[, id, ...]) List all available Radar objects or the ones specified by ids.
         enable(id[, id, ...])        Enable specified Radar objects.
         disable(id[, id, ...])       Disable specified Radar objects.
         test(id[, id, ...])          Force test of specified Radar objects.
         """
 
-        return {'action reply': help_message}
+        return help_message
 
     def _enable(self, ids):
-        print 'enabling {:}'.format(ids)
+        print('enabling {:}'.format(ids))
 
     def _disable(self, ids):
-        print 'disabling {:}'.format(ids)
+        print('disabling {:}'.format(ids))
 
     def _test(self, ids):
-        print 'testing {:}'.format(ids)
+        print('testing {:}'.format(ids))
 
     def _list(self, ids):
-        print 'listing {:}'.format(ids)
+        print('listing {:}'.format(ids))
 
     def is_stopped(self):
         return self.stop_event.is_set()
@@ -102,7 +102,7 @@ class RadarServerConsole(Server, Thread):
 
         try:
             message_type, message = client.receive_message()
-            response = self._process_command(deserialize_json(message))
+            response = {'action reply': self._process_command(deserialize_json(message))}
         except RadarServerConsoleError as error:
             response = {'action reply': error}
         except MessageNotReady:
