@@ -82,7 +82,7 @@ class RadarConsoleClientLauncher(RadarLauncher):
     def run(self):
         try:
             self._start_and_join_threads()
-        except IOError as e:
-            self._resume_interrupted_call(e)
-        except Exception as e:
-            print('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, e))
+        except IOError as error:
+            self._resume_interrupted_call(error)
+        except Exception as error:
+            print('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, error))
