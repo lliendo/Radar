@@ -80,6 +80,8 @@ class RadarLauncher(object):
         except KeyError:
             raise RadarLauncherError('Error - Platform : \'{:}\' is not available.'.format(platform))
 
+        platform_setup.configure(self)
+
         return platform_setup
 
     def _start_threads(self, threads):

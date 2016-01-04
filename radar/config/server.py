@@ -280,7 +280,6 @@ class ServerConfig(ConfigBuilder):
         return set([P() for P in plugin_classes])
 
     def build(self):
-        super(ServerConfig, self).build()
         self.monitors = self._build_monitors(self._build_checks(), self._build_contacts())
         self.plugins = self._load_plugins()
         return self
