@@ -55,6 +55,8 @@ class UnixServerSetup(ServerConfig, UnixSetup):
         UnixSetup.configure(self, launcher)
         self._configure_plugins()
 
+        return self
+
     def tear_down(self):
         self._shutdown_plugins()
         super(UnixServerSetup, self).tear_down()
@@ -84,6 +86,8 @@ class WindowsServerSetup(ServerConfig, WindowsSetup):
         super(WindowsServerSetup, self).configure()
         self._configure_plugins()
         self._install_signal_handlers(launcher)
+
+        return self
 
     def tear_down(self):
         self._shutdown_plugins()
