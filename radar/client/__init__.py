@@ -26,13 +26,13 @@ from json import loads as deserialize_json, dumps as serialize_json
 from queue import Empty as EmptyQueue
 from ..logger import RadarLogger
 from ..network.client import Client, ClientError
-from ..protocol import Message, RadarMessage
+from ..protocol import Message, RadarMessage, RadarConsoleMessage
 
 
 class RadarClientLite(Client):
     def __init__(self, *args, **kwargs):
         super(RadarClientLite, self).__init__(*args, **kwargs)
-        self._message = Message()
+        self._message = RadarMessage()
 
     def on_receive(self):
         pass
@@ -42,6 +42,12 @@ class RadarClientLite(Client):
 
     def receive_message(self):
         return self._message.receive(self)
+
+
+class RadarConsoleClient(RadarClientLite):
+    def __init__(self, *args, **kwargs):
+        super(RadarConsoleClient, self).__init__(*args, **kwargs)
+        self._message = RadarConsoleMessage()
 
 
 class RadarClient(RadarClientLite, Thread):

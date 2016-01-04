@@ -23,7 +23,7 @@ Copyright 2015 Lucas Liendo.
 from ast import parse
 from json import loads as deserialize_json, dumps as serialize_json
 from threading import Thread, Event
-from ..client import RadarClientLite
+from ..client import RadarConsoleClient
 from ..network.server import Server
 from ..protocol import RadarConsoleMessage, MessageNotReady
 
@@ -34,7 +34,7 @@ class RadarServerConsoleError(Exception):
 
 class RadarServerConsole(Server, Thread):
 
-    Client = RadarClientLite
+    Client = RadarConsoleClient
     NETWORK_MONITOR_TIMEOUT = 0.2
 
     def __init__(self, client_manager, platform_setup, stop_event=None):
@@ -56,13 +56,13 @@ class RadarServerConsole(Server, Thread):
             'test': self._test,
         }
 
-    def _help(self):
+    def _help(self, _):
         help_message = """
-        help()                       Displays this help message.
-        list() | list(id[, id, ...]) List all available Radar objects or the ones specified by ids.
-        enable(id[, id, ...])        Enable specified Radar objects.
-        disable(id[, id, ...])       Disable specified Radar objects.
-        test(id[, id, ...])          Force test of specified Radar objects.
+        help()                        Displays this help message.
+        list() | list(id [, id, ...]) List all available Radar objects or the ones specified by ids.
+        enable(id [, id, ...])        Enable specified Radar objects.
+        disable(id [, id, ...])       Disable specified Radar objects.
+        test(id [, id, ...])          Force test of specified Radar objects.
         """
 
         return help_message
