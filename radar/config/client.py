@@ -52,3 +52,6 @@ class ClientConfig(ConfigBuilder):
     def __init__(self, path=None):
         super(ClientConfig, self).__init__(path or self.MAIN_CONFIG_PATH)
         self.merge_config(self.PLATFORM_CONFIG)
+
+    def build(self):
+        return self

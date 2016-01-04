@@ -90,12 +90,13 @@ class ConfigBuilder(object):
         return [config for config in self.config if key in config]
 
     def build(self):
+        pass
+
+    def configure(self, *args):
         RadarLogger(
             self.config['log']['to'], max_size=self.config['log']['size'],
             rotations=self.config['log']['rotations']
         )
-
-        return self
 
     def tear_down(self):
         RadarLogger.shutdown()
