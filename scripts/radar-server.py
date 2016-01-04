@@ -22,8 +22,12 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from sys import stderr
 from radar.launcher.server import RadarServerLauncher
 
 
 if __name__ == '__main__':
-    RadarServerLauncher().run()
+    try:
+        RadarServerLauncher().run()
+    except Exception as error:
+        stderr.write('{:}\n'.format(error))
