@@ -57,6 +57,8 @@ class UnixServerSetup(ServerConfig, UnixSetup):
         self._install_signal_handlers(launcher)
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
+        return self
+
     def tear_down(self):
         self._shutdown_plugins()
         super(UnixServerSetup, self).tear_down()
@@ -86,6 +88,8 @@ class WindowsServerSetup(ServerConfig, WindowsSetup):
         super(WindowsServerSetup, self).configure()
         self._configure_plugins()
         self._install_signal_handlers(launcher)
+
+        return self
 
     def tear_down(self):
         self._shutdown_plugins()
