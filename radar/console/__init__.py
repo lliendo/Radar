@@ -56,7 +56,7 @@ class RadarServerConsole(Server, Thread):
             'test': self._test,
         }
 
-    def _help(self, _):
+    def _help(self, *unused):
         help_message = """
         help()                        Displays this help message.
         list() | list(id [, id, ...]) List all available Radar objects or the ones specified by ids.
@@ -68,16 +68,16 @@ class RadarServerConsole(Server, Thread):
         return help_message
 
     def _enable(self, ids):
-        print('enabling {:}'.format(ids))
+        return 'Enabling {:}'.format(ids)
 
     def _disable(self, ids):
-        print('disabling {:}'.format(ids))
+        return 'Disabling {:}'.format(ids)
 
     def _test(self, ids):
-        print('testing {:}'.format(ids))
+        return 'Testing {:}'.format(ids)
 
     def _list(self, ids):
-        print('listing {:}'.format(ids))
+        return 'Listing {:}'.format(ids)
 
     def is_stopped(self):
         return self.stop_event.is_set()
