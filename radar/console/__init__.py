@@ -63,6 +63,7 @@ class RadarServerConsole(Server, Thread):
         enable(id [, id, ...])        Enable specified Radar objects.
         disable(id [, id, ...])       Disable specified Radar objects.
         test(id [, id, ...])          Force test of specified Radar objects.
+        quit()                        Exits the console client.
         """
 
         return help_message
@@ -87,11 +88,8 @@ class RadarServerConsole(Server, Thread):
             parsed_expression = parse(message['action']).body.pop()
             action = parsed_expression.value.func.id
             return self._actions[action]([arg.n for arg in parsed_expression.value.args])
-        except SyntaxError as error:
-            raise RadarServerConsoleError('Error - Couldn\'t parse command : \'{:}\'. Details : \'{:}\'.'.format(
-                error.text.strip(), error.msg))
-        except KeyError:
-            raise RadarServerConsoleError('Error - Invalid command : \'{:}\'.'.format(action))
+        except (SyntaxError, AttributeError, KeyError):
+            raise RadarServerConsoleError('Error - Invalid command : \'{:}\'.'.format(message['action']))
 
     def _reply_client(self, client, response):
         if response is not None:
@@ -104,7 +102,7 @@ class RadarServerConsole(Server, Thread):
             message_type, message = client.receive_message()
             response = {'action reply': self._process_command(deserialize_json(message))}
         except RadarServerConsoleError as error:
-            response = {'action reply': error}
+            response = {'action reply': error.message}
         except MessageNotReady:
             pass
 
