@@ -132,10 +132,11 @@ class RadarConsoleClientInput(Thread):
             raise RadarConsoleClientError('Error - Couldn\'t read input queue. Details {:}.'.format(error))
 
     def _read_input(self):
-        command = raw_input(self.COMMAND_PROMPT)
-
         try:
+            command = raw_input(self.COMMAND_PROMPT)
             raise self.WRAPPED_COMMANDS[command]()
+        except EOFError:
+            raise RadarConsoleClientQuit()
         except KeyError:
             return command
 

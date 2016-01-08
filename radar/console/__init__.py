@@ -63,7 +63,7 @@ class RadarServerConsole(Server, Thread):
         enable(id [, id, ...])        Enable specified Radar objects.
         disable(id [, id, ...])       Disable specified Radar objects.
         test(id [, id, ...])          Force test of specified Radar objects.
-        quit()                        Exits the console client.
+        quit() | Ctrl-D               Exits the console client.
         """
 
         return help_message
