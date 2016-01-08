@@ -20,9 +20,10 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from json import dumps as serialize_json
+from json import dumps as serialize_json, loads as deserialize_json
 from threading import Thread, Event
 from queue import Empty as EmptyQueue
+from pprint import pprint
 from ..client import RadarClientLite
 from ..protocol import RadarConsoleMessage, MessageNotReady
 from ..network.client import ClientError
@@ -33,6 +34,10 @@ class RadarConsoleClientError(Exception):
 
 
 class RadarConsoleClientQuit(Exception):
+    pass
+
+
+class RadarConsoleClientEmptyInput(Exception):
     pass
 
 
@@ -58,10 +63,13 @@ class RadarConsoleClient(RadarClientLite, Thread):
 
     def on_timeout(self):
         try:
-            serialized_command = serialize_json({'action': self._input_queue.get_nowait()})
-            self.send_message(RadarConsoleMessage.TYPE['QUERY'], serialized_command)
+            self.send_message(RadarConsoleMessage.TYPE['QUERY'], self._input_queue.get_nowait())
         except EmptyQueue:
             pass
+
+    def on_disconnect(self):
+        self.stop_event.set()
+        print('\n\nError - Got disconnect from server. Was Radar server shut down ?')
 
     def _on_query_reply(self, message):
         self._output_queue.put(message)
@@ -91,7 +99,10 @@ class RadarConsoleClient(RadarClientLite, Thread):
 class RadarConsoleClientInput(Thread):
 
     COMMAND_PROMPT = '> '
-    QUIT_COMMAND = 'quit()'
+    WRAPPED_COMMANDS = {
+        'quit()': RadarConsoleClientQuit,
+        '': RadarConsoleClientEmptyInput,
+    }
 
     def __init__(self, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
@@ -101,23 +112,32 @@ class RadarConsoleClientInput(Thread):
 
     def _write_output_queue(self, command):
         try:
-            self._output_queue.put(command)
+            self._output_queue.put(serialize_json({'action': command}))
         except Exception as error:
             raise RadarConsoleClientError('Error - Couldn\'t run command : {:}. Details {:}.'.format(command, error))
 
+    def _print_reply(self, response):
+        try:
+            if type(response['action reply']) == unicode:
+                print(response['action reply'])
+            else:
+                pprint(response['action reply'])
+        except KeyError:
+            raise RadarConsoleClientError('Error - Wrong JSON format. Missing \'action reply\' key.')
+
     def _read_input_queue(self):
         try:
-            print('\n{:}'.format(self._input_queue.get()))
+            self._print_reply(deserialize_json(self._input_queue.get()))
         except Exception as error:
             raise RadarConsoleClientError('Error - Couldn\'t read input queue. Details {:}.'.format(error))
 
     def _read_input(self):
         command = raw_input(self.COMMAND_PROMPT)
 
-        if command == self.QUIT_COMMAND:
-            raise RadarConsoleClientQuit()
-
-        return command
+        try:
+            raise self.WRAPPED_COMMANDS[command]()
+        except KeyError:
+            return command
 
     def is_stopped(self):
         return self.stop_event.is_set()
@@ -131,5 +151,7 @@ class RadarConsoleClientInput(Thread):
                 self.stop_event.set()
             except RadarConsoleClientError as error:
                 print(error)
+            except RadarConsoleClientEmptyInput:
+                pass
 
         return self.is_stopped()
