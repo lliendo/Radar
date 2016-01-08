@@ -28,7 +28,11 @@ from ..protocol import RadarConsoleMessage, MessageNotReady
 from ..network.client import ClientError
 
 
-class RadarClientConsoleError(Exception):
+class RadarConsoleClientError(Exception):
+    pass
+
+
+class RadarConsoleClientQuit(Exception):
     pass
 
 
@@ -36,7 +40,7 @@ class RadarConsoleClient(RadarClientLite, Thread):
 
     NETWORK_MONITOR_TIMEOUT = 0.2
 
-    def __init__(self, cli, input_queue, output_queue, stop_event):
+    def __init__(self, cli, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
         RadarClientLite.__init__(
             self,
@@ -66,10 +70,13 @@ class RadarConsoleClient(RadarClientLite, Thread):
         try:
             message_type, message = self.receive_message()
             self._actions[message_type](message)
-        except MessageNotReady:
-            pass
         except KeyError:
             print('Error - Invalid message type : {:}.'.format(message_type))
+        except MessageNotReady:
+            pass
+
+    def is_stopped(self):
+        return self.stop_event.is_set()
 
     def run(self):
         try:
@@ -78,28 +85,39 @@ class RadarConsoleClient(RadarClientLite, Thread):
         except ClientError as error:
             print(error)
 
+        return self.is_stopped()
+
 
 class RadarConsoleClientInput(Thread):
 
     COMMAND_PROMPT = '> '
+    QUIT_COMMAND = 'quit()'
 
-    def __init__(self, input_queue, output_queue, stop_event):
+    def __init__(self, input_queue, output_queue, stop_event=None):
         Thread.__init__(self)
         self._input_queue = input_queue
         self._output_queue = output_queue
-        self.stop_event = stop_event
+        self.stop_event = stop_event or Event()
 
     def _write_output_queue(self, command):
         try:
             self._output_queue.put(command)
         except Exception as error:
-            raise RadarClientConsoleError('Error - Couldn\'t run command : {:}. Details {:}.'.format(command, error))
+            raise RadarConsoleClientError('Error - Couldn\'t run command : {:}. Details {:}.'.format(command, error))
 
     def _read_input_queue(self):
         try:
             print('\n{:}'.format(self._input_queue.get()))
         except Exception as error:
-            raise RadarClientConsoleError('Error - Couldn\'t read input queue. Details {:}.'.format(error))
+            raise RadarConsoleClientError('Error - Couldn\'t read input queue. Details {:}.'.format(error))
+
+    def _read_input(self):
+        command = raw_input(self.COMMAND_PROMPT)
+
+        if command == self.QUIT_COMMAND:
+            raise RadarConsoleClientQuit()
+
+        return command
 
     def is_stopped(self):
         return self.stop_event.is_set()
@@ -107,9 +125,11 @@ class RadarConsoleClientInput(Thread):
     def run(self):
         while not self.is_stopped():
             try:
-                self._write_output_queue(raw_input(self.COMMAND_PROMPT))
+                self._write_output_queue(self._read_input())
                 self._read_input_queue()
-            except RadarClientConsoleError as error:
+            except RadarConsoleClientQuit:
+                self.stop_event.set()
+            except RadarConsoleClientError as error:
                 print(error)
 
         return self.is_stopped()
