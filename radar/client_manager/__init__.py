@@ -79,3 +79,12 @@ class ClientManager(object):
                 client.address, client.port, message_type))
 
         return updated_checks
+
+    def to_dict(self):
+        return {'monitors': [monitor.to_dict() for monitor in self._monitors]}
+
+    def enable(self, ids=None):
+        [monitor.enable(ids=ids) for monitor in self._monitors]
+
+    def disable(self, ids=None):
+        [monitor.disable(ids=ids) for monitor in self._monitors]

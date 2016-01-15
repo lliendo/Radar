@@ -131,11 +131,19 @@ class Switchable(object):
         self.id = id or SequentialIdGenerator().generate()
         self.enabled = enabled
 
-    def enable(self):
-        self.enabled = True
+    # We enable/disable ourselves only if our id is present in the ids list or
+    # if the list does not exist.
+    def enable(self, ids=None):
+        try:
+            self.enabled = True if self.id in ids else False
+        except TypeError:
+            self.enabled = True
 
-    def disable(self):
-        self.enabled = False
+    def disable(self, ids=None):
+        try:
+            self.enabled = False if self.id in ids else True
+        except TypeError:
+            self.enabled = False
 
     def to_dict(self, attrs):
         return {a: getattr(self, a) for a in attrs}

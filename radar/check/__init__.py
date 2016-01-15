@@ -391,3 +391,11 @@ class CheckGroup(Switchable):
             hashed = hash(self.name) ^ list(self.checks).pop().__hash__()
 
         return hashed
+
+    def enable(self, ids):
+        super(CheckGroup, self).enable(ids=ids)
+        [check.enable(ids=ids) for check in self.checks]
+
+    def disable(self, ids):
+        super(CheckGroup, self).disable(ids=ids)
+        [check.disable(ids=ids) for check in self.checks]
