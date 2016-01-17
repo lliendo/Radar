@@ -57,28 +57,37 @@ class RadarServerConsole(Server, Thread):
         }
 
     def _help(self, *unused):
-        help_message = """
-        help()                        Displays this help message.
-        list() | list(id [, id, ...]) List all available Radar objects or the ones specified by ids.
-        enable(id [, id, ...])        Enable specified Radar objects.
-        disable(id [, id, ...])       Disable specified Radar objects.
-        test(id [, id, ...])          Force test of specified Radar objects.
-        quit() | Ctrl-D               Exits the console client.
+        message = """
+        help()                               Displays this help message.
+        list()                               List all available Radar objects.
+        enable() | enable(id [, id, ...])    Enable all Radar objects or the ones specified by their ids.
+        disable() | disable(id [, id, ...])  Disable all Radar objects or the ones specified by their ids.
+        test(id [, id, ...])                 Force test of specified Radar objects.
+        quit() | Ctrl-D                      Exits the console client.
         """
 
-        return help_message
+        return message, []
 
-    def _enable(self, ids):
-        return 'Enabling {:}'.format(ids)
+    def _enable(self, *ids):
+        enabled_objects = self._client_manager.enable(ids=ids) or 'All'
+        message = '{:} objects are now enabled.'.format(enabled_objects)
 
-    def _disable(self, ids):
-        return 'Disabling {:}'.format(ids)
+        return message, enabled_objects
 
-    def _test(self, ids):
-        return 'Testing {:}'.format(ids)
+    def _disable(self, *ids):
+        disabled_objects = self._client_manager.enable(ids=ids) or 'All'
+        message = '{:} objects are now disabled'.format(disabled_objects)
 
-    def _list(self, ids):
-        return 'Listing {:}'.format(ids)
+        return message, disabled_objects
+
+    # TODO: Needs to be implemented.
+    def _test(self, *ids):
+        tested_objects = []
+        message = 'Launched test for : {:} objects.'.format(tested_objects)
+        return message, tested_objects
+
+    def _list(self, *unused):
+        return None, self._client_manager.to_dict()
 
     def is_stopped(self):
         return self.stop_event.is_set()
@@ -92,17 +101,15 @@ class RadarServerConsole(Server, Thread):
             raise RadarServerConsoleError('Error - Invalid command : \'{:}\'.'.format(message['action']))
 
     def _reply_client(self, client, response):
-        if response is not None:
-            client.send_message(RadarConsoleMessage.TYPE['QUERY REPLY'], serialize_json(response))
+        client.send_message(RadarConsoleMessage.TYPE['QUERY REPLY'], serialize_json(response))
 
     def on_receive(self, client):
-        response = None
-
         try:
             message_type, message = client.receive_message()
-            response = {'action reply': self._process_command(deserialize_json(message))}
-        except RadarServerConsoleError as error:
-            response = {'action reply': error.message}
+            action_message, object_ids = self._process_command(deserialize_json(message))
+            response = {'message': action_message, 'data': object_ids}
+        except (ValueError, RadarServerConsoleError) as error:
+            response = {'message': error.message, 'data': []}
         except MessageNotReady:
             pass
 

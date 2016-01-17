@@ -118,12 +118,12 @@ class RadarConsoleClientInput(Thread):
 
     def _print_reply(self, response):
         try:
-            if type(response['action reply']) == unicode:
-                print(response['action reply'])
+            if type(response['message']) == unicode:
+                print(response['message'])
             else:
-                pprint(response['action reply'])
+                pprint(response['data'])
         except KeyError:
-            raise RadarConsoleClientError('Error - Wrong JSON format. Missing \'action reply\' key.')
+            raise RadarConsoleClientError('Error - Wrong JSON format. Missing \'message\' or \'data\' key.')
 
     def _read_input_queue(self):
         try:

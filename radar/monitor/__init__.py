@@ -94,14 +94,14 @@ class Monitor(Switchable):
     def _active_client_to_dict(self, active_client):
         return {
             'address': active_client['client'].address,
-            'checks': [c.to_dict() for c in active_client['checks']],
-            'contacts': [c.to_dict() for c in active_client['contacts']],
+            'checks': [check.to_dict() for check in active_client['checks']],
+            'contacts': [contact.to_dict() for contact in active_client['contacts']],
         }
 
     def to_dict(self):
         d = super(Monitor, self).to_dict(['id', 'name', 'enabled'])
         d.update({
-            'clients': [self._active_client_to_dict(c) for c in self.active_clients]
+            'clients': [self._active_client_to_dict(client) for client in self.active_clients]
         })
 
         return d
@@ -118,12 +118,12 @@ class Monitor(Switchable):
         super(Monitor, self).enable(ids=ids)
 
         for client in self.active_clients:
-            [check.enable(ids=ids) for check in client['checks']]
-            [contact.enable(ids=ids) for contact in client['contacts']]
+            return [check.enable(ids=ids) for check in client['checks']] + \
+                [contact.enable(ids=ids) for contact in client['contacts']]
 
     def disable(self, ids=None):
         super(Monitor, self).disable(ids=ids)
 
         for client in self.active_clients:
-            [check.disable(ids=ids) for check in client['checks']]
-            [contact.disable(ids=ids) for contact in client['contacts']]
+            return [check.disable(ids=ids) for check in client['checks']] + \
+                [contact.disable(ids=ids) for contact in client['contacts']]
