@@ -76,7 +76,7 @@ class RadarServerConsole(Server, Thread):
 
     def _disable(self, *ids):
         disabled_objects = self._client_manager.enable(ids=ids) or 'All'
-        message = '{:} objects are now disabled'.format(disabled_objects)
+        message = '{:} objects are now disabled.'.format(disabled_objects)
 
         return message, disabled_objects
 
@@ -84,6 +84,7 @@ class RadarServerConsole(Server, Thread):
     def _test(self, *ids):
         tested_objects = []
         message = 'Launched test for : {:} objects.'.format(tested_objects)
+
         return message, tested_objects
 
     def _list(self, *unused):
@@ -94,9 +95,9 @@ class RadarServerConsole(Server, Thread):
 
     def _process_command(self, message):
         try:
-            parsed_expression = parse(message['action']).body.pop()
-            action = parsed_expression.value.func.id
-            return self._actions[action]([arg.n for arg in parsed_expression.value.args])
+            parsed_sentence = parse(message['action']).body.pop()
+            action = parsed_sentence.value.func.id
+            return self._actions[action]([arg.n for arg in parsed_sentence.value.args])
         except (SyntaxError, AttributeError, KeyError):
             raise RadarServerConsoleError('Error - Invalid command : \'{:}\'.'.format(message['action']))
 

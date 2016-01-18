@@ -393,9 +393,9 @@ class CheckGroup(Switchable):
         return hashed
 
     def enable(self, ids):
-        super(CheckGroup, self).enable(ids=ids)
-        [check.enable(ids=ids) for check in self.checks]
+        return ([self.id] if super(CheckGroup, self).enable(ids=ids) else []) + \
+            [check.id for check in self.checks if check.enable(ids=ids)]
 
     def disable(self, ids):
-        super(CheckGroup, self).disable(ids=ids)
-        [check.disable(ids=ids) for check in self.checks]
+        return ([self.id] if super(CheckGroup, self).disable(ids=ids) else []) + \
+            [check.id for check in self.checks if check.disable(ids=ids)]

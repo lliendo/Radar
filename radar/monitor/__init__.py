@@ -115,15 +115,19 @@ class Monitor(Switchable):
         return hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), sets_union)
 
     def enable(self, ids=None):
-        super(Monitor, self).enable(ids=ids)
+        enabled_objects = []
 
         for client in self.active_clients:
-            return [check.enable(ids=ids) for check in client['checks']] + \
-                [contact.enable(ids=ids) for contact in client['contacts']]
+            enabled_objects = [check.id for check in client['checks'] if check.enable(ids=ids)] + \
+                [contact.id for contact in client['contacts'] if contact.enable(ids=ids)]
+
+        return ([self.id] if super(Monitor, self).enable(ids=ids) else []) + enabled_objects
 
     def disable(self, ids=None):
-        super(Monitor, self).disable(ids=ids)
+        disabled_objects = []
 
         for client in self.active_clients:
-            return [check.disable(ids=ids) for check in client['checks']] + \
-                [contact.disable(ids=ids) for contact in client['contacts']]
+            disabled_objects = [check.id for check in client['checks'] if check.disable(ids=ids)] + \
+                [contact.id for contact in client['contacts'] if contact.disable(ids=ids)]
+
+        return ([self.id] if super(Monitor, self).disable(ids=ids) else []) + disabled_objects

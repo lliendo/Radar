@@ -83,8 +83,9 @@ class ClientManager(object):
     def to_dict(self):
         return {'monitors': [monitor.to_dict() for monitor in self._monitors]}
 
+    # TODO: Flatten resulting list of ids.
     def enable(self, ids=None):
-        [monitor.enable(ids=ids) for monitor in self._monitors]
+        return [monitor.enable(ids=ids) for monitor in self._monitors]
 
     def disable(self, ids=None):
-        [monitor.disable(ids=ids) for monitor in self._monitors]
+        return [monitor.disable(ids=ids) for monitor in self._monitors]

@@ -133,17 +133,23 @@ class Switchable(object):
 
     # We enable/disable ourselves only if our id is present in the ids list or
     # if the list does not exist.
-    def enable(self, ids=None):
+    def _switch(self, ids, to_value=True):
+        switched = False
+
         try:
-            self.enabled = True if self.id in ids else False
+            self.enabled = to_value if self.id in ids else (not to_value)
+            switched = True
         except TypeError:
-            self.enabled = True
+            self.enabled = to_value
+            switched = True
+
+        return switched
+
+    def enable(self, ids=None):
+        return self._switch(ids)
 
     def disable(self, ids=None):
-        try:
-            self.enabled = False if self.id in ids else True
-        except TypeError:
-            self.enabled = False
+        return self._switch(ids, to_value=False)
 
     def to_dict(self, attrs):
         return {a: getattr(self, a) for a in attrs}
