@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from functools import reduce
 from ..logger import RadarLogger
 from ..protocol import RadarMessage
 from ..check import Check
@@ -83,9 +84,8 @@ class ClientManager(object):
     def to_dict(self):
         return {'monitors': [monitor.to_dict() for monitor in self._monitors]}
 
-    # TODO: Flatten resulting list of ids.
     def enable(self, ids=None):
-        return [monitor.enable(ids=ids) for monitor in self._monitors]
+        return reduce(lambda l, m: l + m, [monitor.enable(ids=ids) for monitor in self._monitors])
 
     def disable(self, ids=None):
-        return [monitor.disable(ids=ids) for monitor in self._monitors]
+        return reduce(lambda l, m: l + m, [monitor.disable(ids=ids) for monitor in self._monitors])
