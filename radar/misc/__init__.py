@@ -137,8 +137,9 @@ class Switchable(object):
         switched = False
 
         try:
-            self.enabled = to_value if self.id in ids else (not to_value)
-            switched = True
+            if self.id in ids:
+                self.enabled = to_value
+                switched = True
         except TypeError:
             self.enabled = to_value
             switched = True
