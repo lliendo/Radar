@@ -33,23 +33,23 @@ class DummySwitch(Switchable):
 
 class TestSwitchable(TestCase):
     def setUp(self):
-        self.remote_control = DummySwitch()
+        self.switchable = DummySwitch()
 
-    def test_remote_control_default_instance(self):
-        self.assertNotEqual(self.remote_control.id, None)
-        self.assertEqual(self.remote_control.enabled, True)
+    def test_switchable_defaults(self):
+        self.assertNotEqual(self.switchable.id, None)
+        self.assertEqual(self.switchable.enabled, True)
 
-    def test_remote_control_disable(self):
-        self.remote_control.disable()
-        self.assertEqual(self.remote_control.enabled, False)
+    def test_switchable_disable(self):
+        self.switchable.disable()
+        self.assertEqual(self.switchable.enabled, False)
 
-    def test_remote_control_enable(self):
-        self.remote_control.disable()
-        self.remote_control.enable()
-        self.assertEqual(self.remote_control.enabled, True)
+    def test_switchable_enable(self):
+        self.switchable.disable()
+        self.switchable.enable()
+        self.assertEqual(self.switchable.enabled, True)
 
-    def test_remote_control_to_dict(self):
-        d = self.remote_control.to_dict(['some_attribute', 'some_other_attribute'])
+    def test_switchable_to_dict(self):
+        d = self.switchable.to_dict(['some_attribute', 'some_other_attribute'])
         self.assertEqual(type(d), dict)
         self.assertEqual(type(d['some_attribute']), str)
         self.assertEqual(type(d['some_other_attribute']), int)
