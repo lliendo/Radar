@@ -102,3 +102,33 @@ class TestClientManager(TestCase):
 
         self.client_manager._update_checks(client, [{'id': self.check.id, 'status': Check.STATUS['OK']}])
         self.assertNotEqual(check.current_status, Check.STATUS['OK'])
+
+    def test_enable_all(self):
+        client = RadarClientLite('10.0.0.1', 10000)
+        self.client_manager.register(client)
+        self.client_manager.enable()
+        self.assertTrue(all([monitor.enabled for monitor in self.monitors]))
+
+    def test_enable_ids(self):
+        client = RadarClientLite('10.0.0.1', 10000)
+        self.client_manager.register(client)
+        self.client_manager.disable()
+        check = list(self.monitors[0].active_clients[0]['checks'])[0]
+        self.assertTrue(all([not monitor.enabled for monitor in self.monitors]) and not check.enabled)
+        self.client_manager.enable(ids=[self.monitors[0].id, self.monitors[1].id])
+        self.assertTrue(self.monitors[0].enabled and self.monitors[1].enabled)
+        self.assertTrue(not (self.monitors[2].enabled and check.enabled))
+
+    def test_disable_all(self):
+        client = RadarClientLite('10.0.0.1', 10000)
+        self.client_manager.register(client)
+        self.client_manager.disable()
+        self.assertTrue(all([not monitor.enabled for monitor in self.monitors]))
+
+    def test_disable_ids(self):
+        client = RadarClientLite('10.0.0.1', 10000)
+        self.client_manager.register(client)
+        check = list(self.monitors[0].active_clients[0]['checks'])[0]
+        self.client_manager.disable(ids=[self.monitors[0].id, self.monitors[1].id])
+        self.assertTrue(not(self.monitors[0].enabled and self.monitors[1].enabled))
+        self.assertTrue(self.monitors[2].enabled and check.enabled)
