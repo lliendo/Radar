@@ -133,7 +133,7 @@ class RadarConsoleClientInput(Thread):
 
     def _read_input(self):
         try:
-            command = raw_input(self.COMMAND_PROMPT)
+            command = raw_input(self.COMMAND_PROMPT).strip()
             raise self.WRAPPED_COMMANDS[command]()
         except EOFError:
             raise RadarConsoleClientQuit()
