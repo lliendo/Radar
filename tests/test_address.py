@@ -22,32 +22,32 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from radar.misc import AddressError, Address
+from radar.misc import AddressError, IPV4Address
 
 
-class TestAddress(TestCase):
+class TestIPV4Address(TestCase):
     def test_address_contains_itself(self):
-        address = Address('0.0.0.0')
-        self.assertTrue(address in Address('0.0.0.0'))
+        address = IPV4Address('0.0.0.0')
+        self.assertTrue(address in IPV4Address('0.0.0.0'))
 
     def test_address_does_not_contain_itself(self):
-        self.assertFalse(Address('0.0.0.0') in Address('0.0.0.1'))
+        self.assertFalse(IPV4Address('0.0.0.0') in IPV4Address('0.0.0.1'))
 
     def test_addresses_are_equal(self):
-        self.assertEqual(Address('0.0.0.0'), Address('0.0.0.0'))
+        self.assertEqual(IPV4Address('0.0.0.0'), IPV4Address('0.0.0.0'))
 
     def test_addresses_are_not_equal(self):
-        self.assertNotEqual(Address('0.0.0.0'), Address('0.0.0.1'))
+        self.assertNotEqual(IPV4Address('0.0.0.0'), IPV4Address('0.0.0.1'))
 
     def test_address_to_dict(self):
-        self.assertTrue(Address('0.0.0.0').to_dict()['address'], '0.0.0.0')
+        self.assertTrue(IPV4Address('0.0.0.0').to_dict()['address'], '0.0.0.0')
 
     def test_address_and_string_address_are_equal(self):
-        self.assertEqual(Address('0.0.0.0'), '0.0.0.0')
+        self.assertEqual(IPV4Address('0.0.0.0'), '0.0.0.0')
 
     def test_address_and_string_address_are_not_equal(self):
-        self.assertNotEqual(Address('0.0.0.0'), '0.0.0.1')
+        self.assertNotEqual(IPV4Address('0.0.0.0'), '0.0.0.1')
 
     @raises(AddressError)
     def test_address_raises_address_error_exception(self):
-        Address('*invalid hostname*')
+        IPV4Address('*invalid hostname*')

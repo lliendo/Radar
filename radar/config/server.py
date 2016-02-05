@@ -30,7 +30,7 @@ from . import ConfigBuilder, ConfigError
 from ..check import Check, CheckGroup, CheckError, CheckGroupError
 from ..contact import Contact, ContactGroup, ContactError, ContactGroupError
 from ..monitor import Monitor
-from ..misc import Address, AddressRange, AddressError, SequentialIdGenerator
+from ..misc import IPV4Address, IPV4AddressRange, AddressError, SequentialIdGenerator
 from ..class_loader import ClassLoader
 from ..plugin import ServerPlugin
 
@@ -166,7 +166,7 @@ class MonitorBuilder(ConfigBuilder):
     TAG = 'monitor'
 
     def _build_address(self, address):
-        for A in [Address, AddressRange]:
+        for A in [IPV4Address, IPV4AddressRange]:
             try:
                 return A(address)
             except AddressError as e:

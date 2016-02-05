@@ -22,47 +22,47 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from radar.misc import Address, AddressError, AddressRange
+from radar.misc import IPV4Address, AddressError, IPV4AddressRange
 
 
-class TestAddressRange(TestCase):
+class TestIPV4AddressRange(TestCase):
     def test_address_range_integer_mappings(self):
-        address_range = AddressRange('192.168.0.1 - 192.168.0.100')
+        address_range = IPV4AddressRange('192.168.0.1 - 192.168.0.100')
         self.assertEqual(address_range.start_ip.ip, '192.168.0.1')
         self.assertEqual(address_range.start_ip.n, 3232235521)
         self.assertEqual(address_range.end_ip.ip, '192.168.0.100')
         self.assertEqual(address_range.end_ip.n, 3232235620)
 
     def test_addresses_are_included_in_address_range(self):
-        address_range = AddressRange('192.168.0.1 - 192.168.0.100')
-        [self.assertTrue(Address('192.168.0.' + str(i)) in address_range) for i in range(1, 100 + 1)]
+        address_range = IPV4AddressRange('192.168.0.1 - 192.168.0.100')
+        [self.assertTrue(IPV4Address('192.168.0.' + str(i)) in address_range) for i in range(1, 100 + 1)]
 
     def test_addresses_are_not_included_in_address_range(self):
-        address_range = AddressRange('192.168.0.1 - 192.168.0.100')
-        self.assertFalse(Address('192.168.0.0') in address_range)
-        self.assertFalse(Address('192.168.0.101') in address_range)
+        address_range = IPV4AddressRange('192.168.0.1 - 192.168.0.100')
+        self.assertFalse(IPV4Address('192.168.0.0') in address_range)
+        self.assertFalse(IPV4Address('192.168.0.101') in address_range)
 
     def test_address_ranges_are_equal(self):
-        self.assertEqual(AddressRange('192.168.0.1 - 192.168.0.100'), AddressRange('192.168.0.1 - 192.168.0.100'))
+        self.assertEqual(IPV4AddressRange('192.168.0.1 - 192.168.0.100'), IPV4AddressRange('192.168.0.1 - 192.168.0.100'))
 
     def test_address_ranges_are_not_equal(self):
-        self.assertNotEqual(AddressRange('192.168.0.1 - 192.168.0.100'), AddressRange('192.168.0.1 - 192.168.0.101'))
+        self.assertNotEqual(IPV4AddressRange('192.168.0.1 - 192.168.0.100'), IPV4AddressRange('192.168.0.1 - 192.168.0.101'))
 
     def test_address_range_and_string_address_range_are_equal(self):
-        self.assertEqual(AddressRange('192.168.0.1 - 192.168.0.100'), '192.168.0.1 - 192.168.0.100')
+        self.assertEqual(IPV4AddressRange('192.168.0.1 - 192.168.0.100'), '192.168.0.1 - 192.168.0.100')
 
     def test_address_range_and_string_address_range_are_not_equal(self):
-        self.assertNotEqual(AddressRange('192.168.0.1 - 192.168.0.100'), '192.168.0.1 - 192.168.0.101')
+        self.assertNotEqual(IPV4AddressRange('192.168.0.1 - 192.168.0.100'), '192.168.0.1 - 192.168.0.101')
 
     def test_address_range_to_dict(self):
-        d = AddressRange('192.168.0.1 - 192.168.0.100').to_dict()
+        d = IPV4AddressRange('192.168.0.1 - 192.168.0.100').to_dict()
         self.assertEqual(d['start address'], '192.168.0.1')
         self.assertEqual(d['end address'], '192.168.0.100')
 
     @raises(AddressError)
     def test_address_range_raises_address_error_exception(self):
-        Address('*invalid hostname* - 01')
+        IPV4Address('*invalid hostname* - 01')
 
     @raises(AddressError)
     def test_address_range_raises_address_error_due_to_inverted_addresses(self):
-        AddressRange('192.168.0.100 - 192.168.0.1')
+        IPV4AddressRange('192.168.0.100 - 192.168.0.1')
