@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from re import compile as compile_re
+from re import compile as compile_regexp, IGNORECASE
 from socket import gethostbyname
 from abc import ABCMeta, abstractmethod
 
@@ -50,9 +50,9 @@ class Address(object):
     def _validate(self, address):
         pass
 
-    @abstractmethod
-    def _to_int(self):
-        pass
+    def _to_int(self, n_groups=4, bits=8, base=10):
+        groups = [int(group, base=base) for group in self.ip.split(self.SEPARATOR, n_groups - 1)]
+        return sum([group * pow(pow(2, bits), n) for n, group in enumerate(reversed(groups))])
 
     @abstractmethod
     def __eq__(self, other_address):
@@ -70,7 +70,7 @@ class IPV4Address(Address):
     SEPARATOR = '.'
 
     def _validate(self, address):
-        ipv4_pattern = compile_re(r'(\d{1,3}\.){3}\d{1,3}')
+        ipv4_pattern = compile_regexp(r'(\d{1,3}\.){3}\d{1,3}')
 
         try:
             if not ipv4_pattern.match(address) or not all([int(octet) <= 255 for octet in address.split(self.SEPARATOR, 3)]):
@@ -80,10 +80,6 @@ class IPV4Address(Address):
 
         return address
 
-    def _to_int(self):
-        octets = [int(octet) for octet in self.ip.split(self.SEPARATOR, 3)]
-        return sum([byte * pow(256, n) for n, byte in enumerate(reversed(octets))])
-
     def __eq__(self, other_address):
         if type(other_address) == IPV4Address:
             return self.n == other_address.n
@@ -92,7 +88,46 @@ class IPV4Address(Address):
 
 
 class IPV6Address(Address):
-    pass
+
+    SEPARATOR = ':'
+    GROUPS = 8
+
+    def _compact_address(self, address):
+        return len([group for group in address.split(self.SEPARATOR) if group != '']) != self.GROUPS
+
+    def _fill_address(self, address):
+        filled_address = address.split(self.SEPARATOR)
+
+        # If a '::' is present at the beginning or at the end of the address
+        # then after splitting, a double '' appears in filled_address.
+        if filled_address.count('') > 1:
+            filled_address.pop(filled_address.index(''))
+
+        i = filled_address.index('')
+        filled_address.pop(i)
+        [filled_address.insert(i, '0000') for n in range(0, self.GROUPS - len(filled_address))]
+
+        return self.SEPARATOR.join(filled_address)
+
+    def _validate(self, address):
+        if self._compact_address(address):
+            address = self._fill_address(address)
+
+        ipv6_pattern = compile_regexp(r'([0-9a-f]{1,4}\:){7}[0-9a-f]{1,4}', IGNORECASE)
+
+        if not ipv6_pattern.match(address):
+            raise AddressError('Error - Invalid host name or ipv6 address : \'{:}\'.'.format(address))
+
+        return address
+
+    def _to_int(self):
+        return super(IPV6Address, self)._to_int(n_groups=self.GROUPS, bits=16, base=16)
+
+    def __eq__(self, other_address):
+        if type(other_address) == IPV6Address:
+            return self.n == other_address.n
+
+        return self.n == IPV6Address(other_address).n
 
 
 class AddressRange(object):
@@ -100,6 +135,7 @@ class AddressRange(object):
     __metaclass__ = ABCMeta
 
     SEPARATOR = '-'
+    AddressClass = None
 
     def __init__(self, address_range):
         self.start_ip, self.end_ip = self._validate(address_range.strip())
@@ -110,31 +146,28 @@ class AddressRange(object):
             'end address': self.end_ip.ip,
         }
 
-    @abstractmethod
     def _validate(self, address_range):
-        pass
+        start_ip, end_ip = [self.AddressClass(a) for a in address_range.split(self.SEPARATOR, 1)]
 
-    @abstractmethod
-    def __eq__(self, other_address_range):
-        pass
+        if start_ip.n >= end_ip.n:
+            raise AddressError('Error - Start ip address is lower (or equal) than end ip address : \'{:} - {:}\'.'.format(
+                start_ip.ip, end_ip.ip))
+
+        return start_ip, end_ip
 
     def __hash__(self):
         return self.start_ip.__hash__() ^ self.end_ip.__hash__()
 
-    @abstractmethod
     def __contains__(self, address):
-        pass
+        if type(address) == self.AddressClass:
+            return self.start_ip.n <= address.n <= self.end_ip.n
+
+        return self.start_ip.n <= self.AddressClass(address).n <= self.end_ip.n
 
 
 class IPV4AddressRange(AddressRange):
-    def _validate(self, address_range):
-        start_ip, end_ip = [IPV4Address(a) for a in address_range.split(self.SEPARATOR, 1)]
 
-        if start_ip.n >= end_ip.n:
-            raise AddressError('Error - Start ipv4 address is lower (or equal) than end ipv4 address : \'{:} - {:}\'.'.format(
-                start_ip.ip, end_ip.ip))
-
-        return start_ip, end_ip
+    AddressClass = IPV4Address
 
     def __eq__(self, other_address_range):
         if type(other_address_range) == IPV4AddressRange:
@@ -144,15 +177,18 @@ class IPV4AddressRange(AddressRange):
         return self.start_ip.n == IPV4AddressRange(other_address_range).start_ip.n and \
             self.end_ip.n == IPV4AddressRange(other_address_range).end_ip.n
 
-    def __contains__(self, address):
-        if type(address) == IPV4Address:
-            return self.start_ip.n <= address.n <= self.end_ip.n
-
-        return self.start_ip.n <= IPV4Address(address).n <= self.end_ip.n
-
 
 class IPV6AddressRange(AddressRange):
-    pass
+
+    AddressClass = IPV6Address
+
+    def __eq__(self, other_address_range):
+        if type(other_address_range) == IPV6AddressRange:
+            return self.start_ip == other_address_range.start_ip and \
+                self.end_ip == other_address_range.end_ip
+
+        return self.start_ip.n == IPV6AddressRange(other_address_range).start_ip.n and \
+            self.end_ip.n == IPV6AddressRange(other_address_range).end_ip.n
 
 
 class SequentialIdGenerator(object):
