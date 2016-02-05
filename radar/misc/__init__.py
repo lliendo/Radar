@@ -69,11 +69,14 @@ class IPV4Address(Address):
 
     SEPARATOR = '.'
 
+    def _invalid_octets(self, address):
+        return not all([int(octet) <= 255 for octet in address.split(self.SEPARATOR, 3)])
+
     def _validate(self, address):
         ipv4_pattern = compile_regexp(r'(\d{1,3}\.){3}\d{1,3}')
 
         try:
-            if not ipv4_pattern.match(address) or not all([int(octet) <= 255 for octet in address.split(self.SEPARATOR, 3)]):
+            if not ipv4_pattern.match(address) or self._invalid_octets(address):
                 return self._resolve_hostname(address)
         except ValueError:
             raise AddressError('Error - Invalid host name or ipv4 address : \'{:}\'.'.format(address))
