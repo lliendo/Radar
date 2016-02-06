@@ -126,7 +126,6 @@ class IPV6Address(Address):
         return self.SEPARATOR.join(filled_address)
 
     def _validate(self, address):
-        # invalid_compact_ipv6_pattern = re.compile(r'(::(:)*){2,}')
         invalid_ipv6_pattern = compile_regexp(r'(\:\:)+')
 
         if len(invalid_ipv6_pattern.findall(address)) > 1:
