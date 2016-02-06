@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from re import compile as compile_regexp, IGNORECASE
-from socket import gethostbyname
+from socket import gethostbyname, inet_pton, AF_INET, AF_INET6, error as SocketError
 from abc import ABCMeta, abstractmethod
 
 
@@ -63,6 +63,19 @@ class Address(object):
 
     def __contains__(self, address):
         return self.__eq__(address)
+
+    @staticmethod
+    def detect_version(address):
+        versions = [AF_INET, AF_INET6]
+
+        for version in versions:
+            try:
+                inet_pton(version, address)
+                return version
+            except SocketError:
+                pass
+
+        raise AddressError('Error - Couldn\'t detect ip address version for address : \'{:}\'.'.format(address))
 
 
 class IPV4Address(Address):
@@ -108,11 +121,17 @@ class IPV6Address(Address):
 
         i = filled_address.index('')
         filled_address.pop(i)
-        [filled_address.insert(i, '0000') for n in range(0, self.GROUPS - len(filled_address))]
+        [filled_address.insert(i, '0') for n in range(0, self.GROUPS - len(filled_address))]
 
         return self.SEPARATOR.join(filled_address)
 
     def _validate(self, address):
+        # invalid_compact_ipv6_pattern = re.compile(r'(::(:)*){2,}')
+        invalid_ipv6_pattern = compile_regexp(r'(\:\:)+')
+
+        if len(invalid_ipv6_pattern.findall(address)) > 1:
+            raise AddressError('Error - Invalid host name or ipv6 address : \'{:}\'.'.format(address))
+
         if self._compact_address(address):
             address = self._fill_address(address)
 
