@@ -20,9 +20,10 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase
+from unittest import TestCase, skip
+from socket import AF_INET, AF_INET6
 from nose.tools import raises
-from radar.misc import AddressError, IPV4Address
+from radar.misc import AddressError, Address, IPV4Address, IPV6Address
 
 
 class TestIPV4Address(TestCase):
@@ -48,6 +49,23 @@ class TestIPV4Address(TestCase):
     def test_address_and_string_address_are_not_equal(self):
         self.assertNotEqual(IPV4Address('0.0.0.0'), '0.0.0.1')
 
+    def test_detect_address(self):
+        self.assertEqual(Address.detect_version('0.0.0.0'), AF_INET)
+
     @raises(AddressError)
-    def test_address_raises_address_error_exception(self):
+    def test_detect_address_raises_address_error(self):
+        Address.detect_version('invalid address')
+
+    @raises(AddressError)
+    def test_address_raises_address_exception(self):
         IPV4Address('*invalid hostname*')
+
+
+class TestIPV6Address(TestCase):
+    @skip('This case is not yet supported')
+    def test_address_contains_itself(self):
+        address = IPV6Address('::')
+        self.assertTrue(address in IPV6Address('::'))
+
+    def test_detect_address(self):
+        self.assertEqual(Address.detect_version('::'), AF_INET6)
