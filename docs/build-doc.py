@@ -64,9 +64,9 @@ class DocBuilder(object):
 
         try:
             [self._clean_directory('{:}/{:}'.format(build_dir, f)) for f in listdir(build_dir)]
-        except OSError, e:
-            if e.errno != ENOENT:
-                raise e
+        except OSError as error:
+            if error.errno != ENOENT:
+                raise error
 
     def _build_default_lang_docs(self):
         call(split_args('sphinx-build -b html -d {:} . {:}'.format(
@@ -92,11 +92,11 @@ class DocBuilder(object):
 
     def build(self):
         options = self._build_parser().parse_args()
-        self._build_docs(options.lang)
+        self._build_docs(options.lang.lower())
 
 
 if __name__ == '__main__':
     try:
         DocBuilder().build()
-    except Exception, e:
-        print e
+    except Exception as error:
+        print error
