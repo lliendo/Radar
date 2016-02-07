@@ -405,7 +405,8 @@ Let's take a look at how to configure the Radar server console :
 This instructs the Radar server to start the Radar server console at address
 192.168.0.100 port 3334. If the console option is not found in the main configuration
 file Radar assumes that you don't want to use this feature and consecuently the
-console is fully disabled.
+console is fully disabled. By default Radar does not enable the server console
+so you have to explicitly enable it. The default port if not specified is 3334.
 
 To connect to the Radar server console launch the console client :
 
