@@ -30,7 +30,7 @@ from . import ConfigBuilder, ConfigError
 from ..check import Check, CheckGroup, CheckError, CheckGroupError
 from ..contact import Contact, ContactGroup, ContactError, ContactGroupError
 from ..monitor import Monitor
-from ..misc import IPV4Address, IPV4AddressRange, AddressError, SequentialIdGenerator
+from ..misc import IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange, AddressError, SequentialIdGenerator
 from ..class_loader import ClassLoader
 from ..plugin import ServerPlugin
 
@@ -166,13 +166,13 @@ class MonitorBuilder(ConfigBuilder):
     TAG = 'monitor'
 
     def _build_address(self, address):
-        for A in [IPV4Address, IPV4AddressRange]:
+        for AddressClass in [IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange]:
             try:
-                return A(address)
-            except AddressError as e:
-                error = e
+                return AddressClass(address)
+            except AddressError:
+                pass
 
-        raise error
+        raise AddressError('Error - Invalid ipv4/ipv6 address or address range. Details : {:}.'.format(address))
 
     def _build_monitor(self, monitor, checks, contacts):
         monitor = monitor[self.TAG]
