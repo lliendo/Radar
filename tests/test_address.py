@@ -58,7 +58,7 @@ class TestIPV4Address(TestCase):
 
     @raises(AddressError)
     def test_address_raises_address_exception(self):
-        IPV4Address('*invalid hostname*')
+        IPV4Address('invalid hostname*')
 
 
 class TestIPV6Address(TestCase):
@@ -66,6 +66,21 @@ class TestIPV6Address(TestCase):
     def test_address_contains_itself(self):
         address = IPV6Address('::')
         self.assertTrue(address in IPV6Address('::'))
+
+    def test_full_address(self):
+        self.assertEqual(IPV6Address('2001:0db8:85a3:0000:0000:8a2e:0370:7334').n, 42540766452641154071740215577757643572L)
+
+    def test_shortened_address(self):
+        self.assertEqual(IPV6Address('2001:db8:85a3:0:0:8a2e:370:7334').n, 42540766452641154071740215577757643572L)
+
+    def test_compact_address(self):
+        self.assertEqual(IPV6Address('2001:db8:85a3::8a2e:370:7334').n, 42540766452641154071740215577757643572L)
+
+    def test_compact_address_2(self):
+        self.assertEqual(IPV6Address('::ffff:c000:0280').n, 281473902969472)
+
+    def test_compact_address_3(self):
+        self.assertEqual(IPV6Address('::1').n, 1)
 
     def test_detect_address(self):
         self.assertEqual(Address.detect_version('::'), AF_INET6)
