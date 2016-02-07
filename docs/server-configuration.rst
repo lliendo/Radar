@@ -38,6 +38,10 @@ option :
         size: 10
         rotations: 3
 
+    console:
+        address: 192.168.0.100
+        port: 3334
+
     polling time: 300
     pidfile: /tmp/radar-server.pid
     checks: /tmp/radar/server/checks
@@ -57,6 +61,10 @@ option :
   specified user should not be a able to login to the system.
   The default user and group is radar. This option does not apply to
   Windows platforms.
+
+* console: This sets up the Radar server console, a way to interactively manipulate
+  Radar objects while Radar is running. The Radar server console is described in
+  detail in the 'Server console' section of the documentation.
 
 * polling time : This tells Radar the frequency of the execution of checks.
   It is expressed in seconds. By default Radar will poll all its clients
@@ -377,6 +385,94 @@ if it should notify the affected contacts.
 Don't worry if you don't want to write a Radar plugin (you don't have to,
 although you're encouraged to at least understand how a plugin works and how
 it should be designed).
+
+
+Server console
+--------------
+
+The Radar server comes with a built-in console that allows you to inspect Radar
+objects in real time. 
+
+Let's take a look at how to configure the Radar server console :
+
+.. code-block:: bash
+
+    console:
+        address: 192.168.0.100
+        port: 3334
+
+
+This instructs the Radar server to start the Radar server console at address
+192.168.0.100 port 3334. If the console option is not found in the main configuration
+file Radar assumes that you don't want to use this feature and consecuently the
+console is not run at all.
+
+To connect to the Radar server console launch the console client :
+
+.. code-block:: bash
+
+    radar-console-client.py -a ADDRESS -p PORT
+
+
+Where ADDRESS is the TCP/IP address of the running Radar server console and PORT
+where the Radar server console is waiting for new clients.
+
+Once the console starts you will get a small help message that displays all the
+available commands. Internally the Radar console is nothing more than just a
+restricted Python console where the only allowed commands are the ones displayed
+by help message. The number of currently supported commands is small so you should
+have no difficult at remebering them and if you still need to get the list of the
+available commands you can type :
+
+.. code-block:: bash
+
+    > help()
+
+
+The Radar objects that you can currently manipulate include :
+
+* Checks.
+* Check groups.
+* Contact.
+* Contact groups.
+* Monitors.
+
+So let's say you want to get the current status of all Radar objects, just run
+the following command :
+
+.. code-block:: bash
+
+    > list()
+
+
+You will get a JSON with all objects and their current status. All available commands
+always return a JSON, the exception is of course the 'help()' command. The above
+command can also display the status of a particular object or set of objects.
+Here's an example :
+
+.. code-block:: bash
+
+    > list(1, 3, 40)
+
+
+Once a again you will get a JSON with the status of objects 1, 3 and 40. Every
+Radar object internally holds a unique id, so if you want to disable a particular
+object you will need to at least run the 'list()' command to get the id and then
+use that id in subsecuent commands.
+
+The console is useful if you want to :
+
+* Get the status of all or a particular Radar object (Check, check group, contact, etc).
+* Enable or disable a Radar object on demand.
+* Test a particular check or set of checks to verify if they're properly working.
+
+without stopping the Radar server.
+
+Currently the Radar server console doesn't filter the incoming clients. This translates
+to the fact that ANY client can potentially connect and execute any command.
+It is strongly recommended that you set up a firewall to only allow certain well
+know addresses be able to connect to the Radar console server. This security
+limitation is expected to be solved in the near future.
 
 
 Plugins configuration
