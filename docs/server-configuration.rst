@@ -405,7 +405,7 @@ Let's take a look at how to configure the Radar server console :
 This instructs the Radar server to start the Radar server console at address
 192.168.0.100 port 3334. If the console option is not found in the main configuration
 file Radar assumes that you don't want to use this feature and consecuently the
-console is not run at all.
+console is fully disabled.
 
 To connect to the Radar server console launch the console client :
 
@@ -414,7 +414,7 @@ To connect to the Radar server console launch the console client :
     radar-console-client.py -a ADDRESS -p PORT
 
 
-Where ADDRESS is the TCP/IP address of the running Radar server console and PORT
+Where ADDRESS is the IP address of the running Radar server console and PORT
 where the Radar server console is waiting for new clients.
 
 Once the console starts you will get a small help message that displays all the
@@ -457,8 +457,8 @@ Here's an example :
 
 Once a again you will get a JSON with the status of objects 1, 3 and 40. Every
 Radar object internally holds a unique id, so if you want to disable a particular
-object you will need to at least run the 'list()' command to get the id and then
-use that id in subsecuent commands.
+object you will need to at least run the 'list()' command one time to get the id(s)
+and then use that id(s) in subsecuent commands.
 
 The console is useful if you want to :
 
@@ -469,9 +469,9 @@ The console is useful if you want to :
 without stopping the Radar server.
 
 Currently the Radar server console doesn't filter the incoming clients. This translates
-to the fact that ANY client can potentially connect and execute any command.
+to the fact that any client can potentially connect and execute any command.
 It is strongly recommended that you set up a firewall to only allow certain well
-know addresses be able to connect to the Radar console server. This security
+known IP addresses be able to connect to the Radar console server. This security
 limitation is expected to be solved in the near future.
 
 
