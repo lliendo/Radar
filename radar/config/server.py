@@ -223,7 +223,7 @@ class ServerConfig(ConfigBuilder):
         },
 
         'console': {
-            'address': 'localhost',
+            'address': None,
             'port': 3334,
             'allowed clients': None,
         },

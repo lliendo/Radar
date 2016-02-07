@@ -43,6 +43,12 @@ class RadarServerLauncher(RadarLauncher):
         super(RadarServerLauncher, self).__init__()
         self._threads = self._build_threads()
 
+    def _build_radar_server_console(self, client_manager, stop_event):
+        radar_server_console_address = self._platform_setup.config['console']['address']
+        return [
+            RadarServerConsole(client_manager, self._platform_setup, stop_event=stop_event)
+        ] if radar_server_console_address is not None else []
+
     def _build_threads(self):
         client_manager = ClientManager(self._platform_setup.monitors)
         queue = Queue()
@@ -52,8 +58,7 @@ class RadarServerLauncher(RadarLauncher):
             RadarServer(client_manager, self._platform_setup, queue, stop_event=stop_event),
             RadarServerPoller(client_manager, self._platform_setup, stop_event=stop_event),
             PluginManager(self._platform_setup.plugins, queue, stop_event=stop_event),
-            RadarServerConsole(client_manager, self._platform_setup, stop_event=stop_event),
-        ]
+        ] + self._build_radar_server_console(client_manager, stop_event)
 
     def _start_and_join_threads(self):
         self._start_threads(self._threads[:1])
