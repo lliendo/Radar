@@ -400,6 +400,7 @@ Let's take a look at how to configure the Radar server console :
     console:
         address: 192.168.0.100
         port: 3334
+        allowed hosts: [localhost, 192.168.0.101]
 
 
 This instructs the Radar server to start the Radar server console at address
@@ -407,6 +408,11 @@ This instructs the Radar server to start the Radar server console at address
 file Radar assumes that you don't want to use this feature and consecuently the
 console is fully disabled. By default Radar does not enable the server console
 so you have to explicitly enable it. The default port if not specified is 3334.
+Also note the allowed hosts option, it allows you to specify which hosts are allowed
+to connect to the Radar server console. It acts as a basic security measure to
+restrict potential unwanted clients. By default all clients are rejected, this
+means to you have to explicitly set this option to at least allow one client to
+connect, otherwise you won't be able to use to the console.
 
 To connect to the Radar server console launch the console client :
 
@@ -458,7 +464,7 @@ Here's an example :
 
 Once a again you will get a JSON with the status of objects 1, 3 and 40. Every
 Radar object internally holds a unique id, so if you want to disable a particular
-object you will need to at least run the 'list()' command one time to get the id(s)
+object you will need to at least run the 'list()' command once to get the id(s)
 and then use that id(s) in subsecuent commands.
 
 The console is useful if you want to :
@@ -468,12 +474,6 @@ The console is useful if you want to :
 * Test a particular check or set of checks to verify if they're properly working.
 
 without stopping the Radar server.
-
-Currently the Radar server console doesn't filter the incoming clients. This translates
-to the fact that any client can potentially connect and execute any command.
-It is strongly recommended that you set up a firewall to only allow certain well
-known IP addresses be able to connect to the Radar console server. This security
-limitation is expected to be solved in the near future.
 
 
 Plugins configuration

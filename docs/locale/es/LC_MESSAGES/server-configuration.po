@@ -658,11 +658,11 @@ msgstr ""
 msgid "Let's take a look at how to configure the Radar server console :"
 msgstr "Veamos como configurar la consola :"
 
-#: ../../server-configuration.rst:411
+#: ../../server-configuration.rst:417
 msgid "To connect to the Radar server console launch the console client :"
 msgstr "Para conectarte a la consola utiliza el cliente de consola : "
 
-#: ../../server-configuration.rst:421
+#: ../../server-configuration.rst:427
 msgid ""
 "Once the console starts you will get a small help message that displays all "
 "the available commands. Internally the Radar console is nothing more than "
@@ -673,44 +673,44 @@ msgid ""
 msgstr ""
 "Una vez que logras conectarte, un pequeño mensaje de ayuda muestra todos "
 "loscomandos disponibles. Internamente la consola Radar no es mas que una "
-"consola Pythonrestringida, donde los únicos comandos permitidos son los que "
+"consola Python restringida, donde los únicos comandos permitidos son los que "
 "informa el mensajede ayuda. Actualmente el número de comandos disponibles es"
-" pequeño, así que notendrás problema en recordarlos y si aún necesitas "
-"revisar alguno de ellos puedesejecutar la ayuda :"
+" pequeño, así que no tendrás problema en recordarlos y si aún necesitas "
+"revisar alguno de ellos puedes ejecutar la ayuda :"
 
-#: ../../server-configuration.rst:433
+#: ../../server-configuration.rst:439
 msgid "The Radar objects that you can currently manipulate include :"
 msgstr "Los objetos que actualmente puedes manipular son : "
 
-#: ../../server-configuration.rst:435
+#: ../../server-configuration.rst:441
 msgid "Checks."
 msgstr ""
 
-#: ../../server-configuration.rst:436
+#: ../../server-configuration.rst:442
 msgid "Check groups."
 msgstr ""
 
-#: ../../server-configuration.rst:437
+#: ../../server-configuration.rst:443
 msgid "Contact."
 msgstr ""
 
-#: ../../server-configuration.rst:438
+#: ../../server-configuration.rst:444
 msgid "Contact groups."
 msgstr ""
 
-#: ../../server-configuration.rst:439
+#: ../../server-configuration.rst:445
 msgid "Monitors."
 msgstr ""
 
-#: ../../server-configuration.rst:441
+#: ../../server-configuration.rst:447
 msgid ""
 "So let's say you want to get the current status of all Radar objects, just "
 "run the following command :"
 msgstr ""
 "Asumamos por ejemplo que quieres ver el estado de todos los objetos "
-"disponibles,simplemente ejecuta :"
+"disponibles, simplemente ejecuta :"
 
-#: ../../server-configuration.rst:449
+#: ../../server-configuration.rst:455
 msgid ""
 "You will get a JSON with all objects and their current status. All available"
 " commands always return a JSON, the exception is of course the 'help()' "
@@ -718,89 +718,84 @@ msgid ""
 "object or set of objects. Here's an example :"
 msgstr ""
 "Obtendrás como respuesta un JSON con todos los objetos y sus respectivos "
-"estados.Todos los comandos disponibles siempre devuelven un JSON como "
-"respuesta, la únicaexcepción es el comando 'help()'. El comando anterior "
-"también puede mostrarsolamente el estado de un objeto en particular. Por "
+"estados. Todos los comandos disponibles siempre devuelven un JSON como "
+"respuesta, la única excepción es el comando 'help()'. El comando anterior "
+"también puede mostrar solamente el estado de un objeto en particular. Por "
 "ejemplo :"
 
-#: ../../server-configuration.rst:459
-msgid ""
-"Once a again you will get a JSON with the status of objects 1, 3 and 40. "
-"Every Radar object internally holds a unique id, so if you want to disable a"
-" particular object you will need to at least run the 'list()' command one "
-"time to get the id(s) and then use that id(s) in subsecuent commands."
-msgstr ""
-"Nuevamente la respuesta es un JSON solamente mostrando los estdos de los "
-"objetos1, 3 y 40. Radar mantiene internamente por cada objeto un id único, "
-"así que sideseas deshabilitar un objeto en particular tendrás que ejecutar "
-"el comando 'list()'al menos una vez para obtener los id(s) en cuestión y "
-"utilizarlos en los comandossubsiguientes. "
-
-#: ../../server-configuration.rst:464
+#: ../../server-configuration.rst:470
 msgid "The console is useful if you want to :"
 msgstr "La consola es útil si deseas :"
 
-#: ../../server-configuration.rst:466
+#: ../../server-configuration.rst:472
 msgid ""
 "Get the status of all or a particular Radar object (Check, check group, "
 "contact, etc)."
 msgstr ""
 "Obtener el estado de todos objetos o alguno en particular (por ejemplo "
-"Check,check group, contact, etc)."
+"Check, check group, contact, etc)."
 
-#: ../../server-configuration.rst:467
+#: ../../server-configuration.rst:473
 msgid "Enable or disable a Radar object on demand."
 msgstr "Habilitar o deshabilitar un objeto en tiempo real."
 
-#: ../../server-configuration.rst:468
+#: ../../server-configuration.rst:474
 msgid ""
 "Test a particular check or set of checks to verify if they're properly "
 "working."
 msgstr ""
 "Probar un check o conjunto de checks para verificar que estan "
-"funcionandocorrectamente."
+"funcionando correctamente."
 
-#: ../../server-configuration.rst:470
+#: ../../server-configuration.rst:476
 msgid "without stopping the Radar server."
 msgstr "sin detener el servidor Radar."
 
-#: ../../server-configuration.rst:418
+#: ../../server-configuration.rst:424
 msgid ""
 "Where ADDRESS is the IP address of the running Radar server console and PORT"
 " where the Radar server console is waiting for new clients."
 msgstr ""
 "Donde ADDRESS es la dirección IP donde se encuentra la consola y PORT es "
-"elpuerto donde la misma se encuentra escuchando a la espera de nuevos "
+"el puerto donde la misma se encuentra escuchando a la espera de nuevos "
 "clientes."
 
-#: ../../server-configuration.rst:472
-msgid ""
-"Currently the Radar server console doesn't filter the incoming clients. This"
-" translates to the fact that any client can potentially connect and execute "
-"any command. It is strongly recommended that you set up a firewall to only "
-"allow certain well known IP addresses be able to connect to the Radar "
-"console server. This security limitation is expected to be solved in the "
-"near future."
-msgstr ""
-"Actualmente la consola no ofrece la opción de filtrar los clientes que se "
-"conectan.Esto significa que cualquier cliente puede potencialmente "
-"conectarse y ejecutarcualquier comando. Te recomiendo que por el momento "
-"configures un firewall parapermitir solamente direcciones IP en las que "
-"confías. Esta limitación deseguridad será corregida dentro de poco tiempo."
-
-#: ../../server-configuration.rst:405
+#: ../../server-configuration.rst:406
 msgid ""
 "This instructs the Radar server to start the Radar server console at address"
 " 192.168.0.100 port 3334. If the console option is not found in the main "
 "configuration file Radar assumes that you don't want to use this feature and"
 " consecuently the console is fully disabled. By default Radar does not "
 "enable the server console so you have to explicitly enable it. The default "
-"port if not specified is 3334."
+"port if not specified is 3334. Also note the allowed hosts option, it allows"
+" you to specify which hosts are allowed to connect to the Radar server "
+"console. It acts as a basic security measure to restrict potential unwanted "
+"clients. By default all clients are rejected, this means to you have to "
+"explicitly set this option to at least allow one client to connect, "
+"otherwise you won't be able to use to the console."
 msgstr ""
 "Esta configuración le dice al servidor que habilite la consola en la "
-"dirección192.168.0.100 puerto 3334. Si Radar no logra encontrar la opción "
-"'console' ensu archivo de configuración principal, asume que no quieres "
-"utilizar estacaracterística y en consecuencia la consola es habilitada. Por"
-"defecto Radar no habilita la consola así que si quieres habilitarla debes"
-"explícitamente indicarlo en el archivo de configuración principal. El puerto"
-"(si no lo especificas) por defecto es el 3334."
+"dirección 192.168.0.100 puerto 3334. Si Radar no logra encontrar la opción "
+"'console' en su archivo de configuración principal, asume que no quieres "
+"utilizar esta característica y en consecuencia la consola es habilitada. "
+"Por defecto Radar no habilita la consola así que si quieres habilitarla "
+"debes explícitamente indicarlo en el archivo de configuración principal. El "
+"puerto (si no lo especifícas) por defecto es el 3334."
+"Ten en cuenta también la opción 'allowed hosts', permite especificar aquellos "
+"hosts que tienen permitido conectarse a la consola. Esta característica permite "
+"restringir potenciales clientes no deseados. Por defecto todos los clientes son "
+"rechazados, esto significa que deberás al menos especificar un cliente ya que "
+"de otro modo no podrás utilizar la consola."
+
+#: ../../server-configuration.rst:465
+msgid ""
+"Once a again you will get a JSON with the status of objects 1, 3 and 40. "
+"Every Radar object internally holds a unique id, so if you want to disable a"
+" particular object you will need to at least run the 'list()' command once "
+"to get the id(s) and then use that id(s) in subsecuent commands."
+msgstr ""
+"Nuevamente la respuesta es un JSON solamente mostrando los estdos de los "
+"objetos 1, 3 y 40. Radar mantiene internamente por cada objeto un id único, "
+"así que si deseas deshabilitar un objeto en particular tendrás que ejecutar "
+"el comando 'list()' al menos una vez para obtener los id(s) en cuestión y "
+"utilizarlos en los comandos subsiguientes. "
