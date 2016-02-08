@@ -244,7 +244,7 @@ class ServerConfig(ConfigBuilder):
         'console': {
             'address': None,
             'port': 3334,
-            'allowed hosts': None,
+            'allowed hosts': [],
         },
 
         'polling time': 300,
