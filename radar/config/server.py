@@ -161,6 +161,25 @@ class CheckGroupBuilder(CheckBuilder):
             raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
+# TODO: When merging with updated 'ipv6-support' branch, also remove _build_address()
+# method from MonitorBuilder and use the AddressBuilder.
+class AddressBuilder(object):
+    def __init__(self, addresses):
+        self._addresses = addresses
+
+    def _build_address(self, address):
+        for A in [Address, AddressRange]:
+            try:
+                return A(address)
+            except AddressError as e:
+                error = e
+
+        raise error
+
+    def build(self):
+        return [self._build_address(address) for address in self._addresses]
+
+
 class MonitorBuilder(ConfigBuilder):
 
     TAG = 'monitor'
@@ -225,7 +244,7 @@ class ServerConfig(ConfigBuilder):
         'console': {
             'address': None,
             'port': 3334,
-            'allowed clients': None,
+            'allowed hosts': None,
         },
 
         'polling time': 300,
