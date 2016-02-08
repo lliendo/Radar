@@ -23,9 +23,11 @@ Copyright 2015 Lucas Liendo.
 from ast import parse
 from json import loads as deserialize_json, dumps as serialize_json
 from threading import Thread, Event
+from ..logger import RadarLogger
 from ..client import RadarConsoleClient
 from ..network.server import Server
 from ..protocol import RadarConsoleMessage, MessageNotReady
+from ..config.server import AddressBuilder
 
 
 class RadarServerConsoleError(Exception):
@@ -47,6 +49,7 @@ class RadarServerConsole(Server, Thread):
             blocking_socket=False,
         )
         self._client_manager = client_manager
+        self._allowed_addresses = AddressBuilder(platform_setup.config['console']['allowed hosts']).build()
         self.stop_event = stop_event or Event()
         self._actions = {
             'help': self._help,
@@ -55,6 +58,13 @@ class RadarServerConsole(Server, Thread):
             'disable': self._disable,
             'test': self._test,
         }
+
+    def accept_client(self, client):
+        return any([client.address in address for address in self._allowed_addresses])
+
+    def on_reject(self, client):
+        RadarLogger.log('Console client {:}:{:} is not allowed to connect or is already conected.'.format(
+            client.address, client.port))
 
     def _help(self, *unused):
         message = """
@@ -80,7 +90,8 @@ class RadarServerConsole(Server, Thread):
 
         return message, disabled_objects
 
-    # TODO: Needs to be implemented.
+    # TODO: Needs to be implemented. It should use (the now unused) client_manager
+    # to issue tests over checks.
     def _test(self, *ids):
         tested_objects = []
         message = 'Launched test for : {:} objects.'.format(tested_objects)
