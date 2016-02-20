@@ -85,13 +85,12 @@ class RadarServerConsole(Server, Thread):
         return message, enabled_objects
 
     def _disable(self, *ids):
-        disabled_objects = self._client_manager.enable(ids=ids) or 'All'
+        disabled_objects = self._client_manager.disable(ids=ids) or 'All'
         message = '{:} objects are now disabled.'.format(disabled_objects)
 
         return message, disabled_objects
 
-    # TODO: Needs to be implemented. It should use (the now unused) client_manager
-    # to issue tests over checks.
+    # TODO: Needs to be implemented.
     def _test(self, *ids):
         tested_objects = []
         message = 'Launched test for : {:} objects.'.format(tested_objects)
