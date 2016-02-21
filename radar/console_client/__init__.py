@@ -128,8 +128,8 @@ class RadarConsoleClientInput(Thread):
     def _read_input_queue(self):
         try:
             self._print_reply(deserialize_json(self._input_queue.get()))
-        except Exception as error:
-            raise RadarConsoleClientError('Error - Couldn\'t read input queue. Details {:}.'.format(error))
+        except ValueError:
+            raise RadarConsoleClientError('Error - Couldn\'t decode JSON object.')
 
     def _read_input(self):
         try:
