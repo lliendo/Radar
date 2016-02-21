@@ -89,7 +89,7 @@ class Client(object):
         if not self.is_connected():
             raise ClientError('Error - Client is not connected.')
 
-        # Second parameter of pack means set on linger, the third parametern is
+        # Second parameter of pack means set on linger, the third parameter is
         # the linger timeout (0 in this case).
         self.socket.setsockopt(SOL_SOCKET, SO_LINGER, pack('ii', 1, 0))
         self.socket.close()
@@ -146,6 +146,8 @@ class Client(object):
     def on_receive(self):
         pass
 
+    # Yes, the error variable is not used in the default implementation however
+    # it could be used when this behaviour is overrided.
     def on_receive_error(self, error):
         self.disconnect()
 
