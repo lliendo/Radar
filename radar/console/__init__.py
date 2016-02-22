@@ -97,8 +97,8 @@ class RadarServerConsole(Server, Thread):
 
         return message, tested_objects
 
-    def _list(self, *unused):
-        return None, self._client_manager.to_dict()
+    def _list(self, *ids):
+        return None, self._client_manager.list(ids=ids)
 
     def is_stopped(self):
         return self.stop_event.is_set()

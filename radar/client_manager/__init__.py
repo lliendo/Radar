@@ -84,6 +84,9 @@ class ClientManager(object):
     def to_dict(self):
         return {'monitors': [monitor.to_dict() for monitor in self._monitors]}
 
+    def list(self, ids=None):
+        return reduce(lambda l, m: l + m, [monitor.list(ids=ids) for monitor in self._monitors])
+
     def enable(self, ids=None):
         return reduce(lambda l, m: l + m, [monitor.enable(ids=ids) for monitor in self._monitors])
 

@@ -114,6 +114,18 @@ class Monitor(Switchable):
         sets_union = self.addresses.union(self.checks).union(self.contacts)
         return hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), sets_union)
 
+    def list(self, ids=None):
+        if ids is not None:
+            monitor_objects = reduce(
+                lambda l, m: l + m,
+                [client['checks'] + client['contacts'] for client in self.active_clients]
+            ) + [self]
+            listed_objects = [monitor_object.to_dict() for monitor_object in monitor_objects if monitor_object.id in ids]
+        else:
+            listed_objects = [self.to_dict()]
+
+        return listed_objects
+
     def enable(self, ids=None):
         enabled_objects = []
 
