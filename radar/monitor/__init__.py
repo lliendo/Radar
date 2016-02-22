@@ -118,8 +118,8 @@ class Monitor(Switchable):
         if ids is not None:
             monitor_objects = reduce(
                 lambda l, m: l + m,
-                [client['checks'] + client['contacts'] for client in self.active_clients]
-            ) + [self]
+                [client['checks'] + client['contacts'] for client in self.active_clients], [self]
+            )
             listed_objects = [monitor_object.to_dict() for monitor_object in monitor_objects if monitor_object.id in ids]
         else:
             listed_objects = [self.to_dict()]
