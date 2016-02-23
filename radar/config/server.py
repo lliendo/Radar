@@ -171,10 +171,10 @@ class AddressBuilder(object):
         for A in [Address, AddressRange]:
             try:
                 return A(address)
-            except AddressError as e:
-                error = e
+            except AddressError as error:
+                address_error = error
 
-        raise error
+        raise address_error
 
     def build(self):
         return [self._build_address(address) for address in self._addresses]
