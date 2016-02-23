@@ -108,7 +108,9 @@ class RadarServerConsole(Server, Thread):
             parsed_sentence = parse(message['action']).body.pop()
             action = parsed_sentence.value.func.id
             return self._actions[action]([arg.n for arg in parsed_sentence.value.args])
-        except (SyntaxError, AttributeError, KeyError):
+        except KeyError as error:
+            raise RadarServerConsoleError('Error - Invalid message format. Misssing : \'{:}\' key.'.format(error.message))
+        except (SyntaxError, AttributeError):
             raise RadarServerConsoleError('Error - Invalid command : \'{:}\'.'.format(message['action']))
 
     def _reply_client(self, client, response):
