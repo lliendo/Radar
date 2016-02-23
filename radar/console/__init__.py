@@ -116,6 +116,8 @@ class RadarServerConsole(Server, Thread):
     def _reply_client(self, client, response):
         client.send_message(RadarConsoleMessage.TYPE['QUERY REPLY'], serialize_json(response))
 
+    # TODO: message_type is not being used at all ! We need to verify that we
+    # are actually receiving a QUERY message type.
     def on_receive(self, client):
         try:
             message_type, message = client.receive_message()
