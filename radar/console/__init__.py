@@ -26,6 +26,7 @@ from threading import Thread, Event
 from ..logger import RadarLogger
 from ..client import RadarConsoleClient
 from ..network.server import Server
+from ..network.client import ClientReceiveError
 from ..protocol import RadarConsoleMessage, MessageNotReady
 from ..config.server import AddressBuilder
 
@@ -65,6 +66,9 @@ class RadarServerConsole(Server, Thread):
     def on_reject(self, client):
         RadarLogger.log('Console client {:}:{:} is not allowed to connect or is already conected.'.format(
             client.address, client.port))
+
+    def on_receive_error(self, client, error):
+        RadarLogger.log(error)
 
     def _help(self, *unused):
         message = """
@@ -116,13 +120,19 @@ class RadarServerConsole(Server, Thread):
     def _reply_client(self, client, response):
         client.send_message(RadarConsoleMessage.TYPE['QUERY REPLY'], serialize_json(response))
 
+    def _verify_message_type(self, message_type, client):
+        if message_type != RadarConsoleMessage.TYPE['QUERY']:
+            raise ClientReceiveError('Error - Unknown message type : \'{:}\' from client {:}:{:}'.format(
+                message_type, client.address, client.port))
+
     # TODO: message_type is not being used at all ! We need to verify that we
     # are actually receiving a QUERY message type.
     def on_receive(self, client):
         try:
             message_type, message = client.receive_message()
-            action_message, object_ids = self._process_command(deserialize_json(message))
-            response = {'message': action_message, 'data': object_ids}
+            self._verify_message_type(message_type, client)
+            action_message, radar_object_ids = self._process_command(deserialize_json(message))
+            response = {'message': action_message, 'data': radar_object_ids}
         except (ValueError, RadarServerConsoleError) as error:
             response = {'message': error.message, 'data': []}
         except MessageNotReady:
