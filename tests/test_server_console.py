@@ -20,9 +20,10 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase
+from unittest import TestCase, skip
 from nose.tools import raises
-from mock import Mock, MagicMock, patch, ANY
+from mock import Mock, MagicMock, patch
+from json import dumps as serialize_json
 from radar.protocol import RadarConsoleMessage
 from radar.logger import RadarLogger
 from radar.console import RadarServerConsole, RadarServerConsoleError
@@ -45,6 +46,13 @@ class TestRadarServerConsole(TestCase):
                 client_manager = MagicMock()
                 return RadarServerConsole(client_manager, self.platform_setup)
 
+    def _get_mocked_radar_client(self, side_effect):
+        client = MagicMock()
+        client.receive_message = MagicMock(side_effect=side_effect)
+        client.send_message = MagicMock()
+
+        return client
+
     @raises(RadarServerConsoleError)
     def test_process_command_fails_due_syntax_error(self):
         radar_server_console = self._get_patched_radar_server_console()
@@ -55,17 +63,32 @@ class TestRadarServerConsole(TestCase):
         radar_server_console = self._get_patched_radar_server_console()
         radar_server_console._process_command({})
 
-    def test_enable_action_is_called(self):
+    # We make sure that upon an action the respective client_manager action is
+    # also triggered.
+    def _test_on_receive_action_is_called(self, action, ids=[]):
         radar_server_console = self._get_patched_radar_server_console()
-        radar_server_console._client_manager.enable = MagicMock(side_effect=[[], [1, 2, 3]])
-        client = MagicMock()
-        client.receive_message = MagicMock(side_effect=[
-            (RadarConsoleMessage.TYPE['QUERY'], '{"action": "enable()"}'),
-            (RadarConsoleMessage.TYPE['QUERY'], '{"action": "enable(1, 2, 3)"}'),
+        setattr(radar_server_console._client_manager, action, MagicMock(side_effect=[ids]))
+        serialized_action = serialize_json({
+            'action': '{:}({:})'.format(action, ','.join([str(id) for id in ids]))
+        })
+        radar_client = self._get_mocked_radar_client([
+            (RadarConsoleMessage.TYPE['QUERY'], serialized_action),
         ])
-        client.send_message = MagicMock()
-        radar_server_console.on_receive(client)
-        radar_server_console._client_manager.enable.assert_called_with(ids=([],))
-        client.send_message.assert_called_with(RadarConsoleMessage.TYPE['QUERY REPLY'], ANY)
-        radar_server_console.on_receive(client)
-        radar_server_console._client_manager.enable.assert_called_with(ids=([1, 2, 3],))
+        radar_server_console.on_receive(radar_client)
+        getattr(radar_server_console._client_manager, action).assert_called_with(ids=(ids,))
+
+    def test_on_receive_enable_action_is_called(self):
+        self._test_on_receive_action_is_called('enable')
+        self._test_on_receive_action_is_called('enable', ids=[1, 2, 3])
+
+    def test_on_receive_disable_action_is_called(self):
+        self._test_on_receive_action_is_called('disable')
+        self._test_on_receive_action_is_called('disable', ids=[1, 2, 3])
+
+    def test_on_receive_list_action_is_called(self):
+        self._test_on_receive_action_is_called('list')
+        self._test_on_receive_action_is_called('list', ids=[1, 2, 3])
+
+    @skip('The test action not yet implemented.')
+    def test_on_receive_test_action_is_called(self):
+        pass
