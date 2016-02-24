@@ -22,12 +22,13 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase, skip
 from nose.tools import raises
-from mock import Mock, MagicMock, patch
+from mock import Mock, MagicMock, patch, ANY
 from json import dumps as serialize_json
 from radar.protocol import RadarConsoleMessage
 from radar.logger import RadarLogger
 from radar.console import RadarServerConsole, RadarServerConsoleError
 from radar.config.server import ServerConfig
+from radar.network.client import ClientReceiveError
 
 
 class TestRadarServerConsole(TestCase):
@@ -88,6 +89,16 @@ class TestRadarServerConsole(TestCase):
     def test_on_receive_list_action_is_called(self):
         self._test_on_receive_action_is_called('list')
         self._test_on_receive_action_is_called('list', ids=[1, 2, 3])
+
+    @raises(ClientReceiveError)
+    def test_on_receives_gets_an_invalid_message_type(self):
+        radar_server_console = self._get_patched_radar_server_console()
+        radar_server_console._on_receive_error = MagicMock()
+        radar_client = self._get_mocked_radar_client([
+            (max(RadarConsoleMessage.TYPE.values()) + 1, '{}'),
+        ])
+        radar_server_console.on_receive(radar_client)
+        radar_server_console._on_receive_error.assert_called_with(ANY)
 
     @skip('The test action not yet implemented.')
     def test_on_receive_test_action_is_called(self):
