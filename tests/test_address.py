@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase, skip
+from unittest import TestCase
 from socket import AF_INET, AF_INET6
 from nose.tools import raises
 from radar.misc import AddressError, Address, IPV4Address, IPV6Address
@@ -62,7 +62,6 @@ class TestIPV4Address(TestCase):
 
 
 class TestIPV6Address(TestCase):
-    @skip('This case is not yet supported')
     def test_address_contains_itself(self):
         address = IPV6Address('::')
         self.assertTrue(address in IPV6Address('::'))

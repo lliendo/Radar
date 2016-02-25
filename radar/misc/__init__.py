@@ -131,8 +131,10 @@ class IPV6Address(Address):
         if len(invalid_ipv6_pattern.findall(address)) > 1:
             raise AddressError('Error - Invalid host name or ipv6 address : \'{:}\'.'.format(address))
 
-        if self._compact_address(address):
+        if self._compact_address(address) and address != '::':
             address = self._fill_address(address)
+        elif address == '::':
+            address = '0:0:0:0:0:0:0:0'
 
         ipv6_pattern = compile_regexp(r'([0-9a-f]{1,4}\:){7}[0-9a-f]{1,4}', IGNORECASE)
 
