@@ -68,7 +68,7 @@ msgstr ""
 "funcionamiento de Radar. Le daremos un vistazo a dicho archivo y "
 "describiremos cada una de sus opciones : "
 
-#: ../../server-configuration.rst:54
+#: ../../server-configuration.rst:58
 msgid ""
 "run as : On Unix platforms this option tells Radar the effective user and "
 "group that the process should run as. This is a basic security consideration"
@@ -83,7 +83,7 @@ msgstr ""
 "tanto el usuario como el grupo utilizado es radar. Esta opción no esta "
 "actualmente disponible en plataformas Windows."
 
-#: ../../server-configuration.rst:61
+#: ../../server-configuration.rst:69
 msgid ""
 "polling time : This tells Radar the frequency of the execution of checks. It"
 " is expressed in seconds. By default Radar will poll all its clients every "
@@ -98,7 +98,7 @@ msgstr ""
 "Las fracciones de segundo estan permitidas asi que es posible consultar "
 "clientes por ejemplo cada 10.5 segundos."
 
-#: ../../server-configuration.rst:67
+#: ../../server-configuration.rst:75
 msgid ""
 "log : Radar will log all of its activity in this file. So if you feel that "
 "something is not working properly this is the place to look for any errors. "
@@ -117,7 +117,7 @@ msgstr ""
 " archivo. Por defecto Radar define un máximo de 100 MiB para el tamaño del "
 "archivo de log y lo rota a lo sumo 5 veces."
 
-#: ../../server-configuration.rst:75
+#: ../../server-configuration.rst:83
 msgid ""
 "pid file : On Unix platforms this file holds the PID of the Radar process. "
 "When Radar starts it will record its pidfile here and when it shuts down "
@@ -130,7 +130,7 @@ msgstr ""
 "sino su script de arranque). Este archivo no es generado en plataformas "
 "Windows."
 
-#: ../../server-configuration.rst:81
+#: ../../server-configuration.rst:89
 msgid ""
 "checks, contacts, monitors, plugins : All these set of options tell Radar "
 "where to look for checks, contacts, monitors and plugins. They're just "
@@ -152,7 +152,7 @@ msgstr ""
 "diseñado para contener elementos específicos. Este conjunto de directorios "
 "son dependientes de la plataforma donde Radar se encuentra corriendo."
 
-#: ../../server-configuration.rst:91
+#: ../../server-configuration.rst:99
 msgid ""
 "Let's now take a look at a minimum configuration. Every platform has a "
 "default configuration and the options that are different from one another "
@@ -163,7 +163,7 @@ msgstr ""
 "que son diferentes entre una y otra son aquellas que dependen de la "
 "plataforma."
 
-#: ../../server-configuration.rst:102
+#: ../../server-configuration.rst:110
 msgid ""
 "As you can see from the example most of the options are not defined. They "
 "are not really missing, if you don't specify an option it will take its "
@@ -178,11 +178,11 @@ msgstr ""
 "expuesto, consultará a todos sus clientes cada un minuto y se encuentra "
 "escuchando en 192.168.0.100 puerto 3333."
 
-#: ../../server-configuration.rst:110
+#: ../../server-configuration.rst:118
 msgid "Checks configuration"
 msgstr "Configuración de chequeos"
 
-#: ../../server-configuration.rst:112
+#: ../../server-configuration.rst:120
 msgid ""
 "As commented above all checks and check groups definitions are expected to "
 "be found in the checks defined directory."
@@ -191,17 +191,17 @@ msgstr ""
 "grupos de chequeos esperan ser encontrados en el directorio que se definió "
 "en la opcion checks."
 
-#: ../../server-configuration.rst:115
+#: ../../server-configuration.rst:123
 msgid "How checks are defined ? Each check is defined as follows :"
 msgstr ""
 "¿Como se definen los chequeos?. Cada chequeo es especificado de la siguiente"
 " forma :"
 
-#: ../../server-configuration.rst:124
+#: ../../server-configuration.rst:132
 msgid "Let's review each parameter of a check definition :"
 msgstr "Revisemos cada parámetro de esta configuración :"
 
-#: ../../server-configuration.rst:126
+#: ../../server-configuration.rst:134
 msgid ""
 "name : Each check must be uniquely identified. This is the purpose of the "
 "name parameter, it acts as a unique identifier. You can use whatever name "
@@ -211,7 +211,7 @@ msgstr ""
 "propósito de este parámetro, es decir actua como un identificador único. "
 "Puedes utilizar cualquier nombre que desees. Este parámetro es obligatorio."
 
-#: ../../server-configuration.rst:130
+#: ../../server-configuration.rst:138
 msgid ""
 "path : The full filesystem path to the check. If this path is not absolute "
 "then the check is looked up in the client's defined check directory. This "
@@ -221,7 +221,7 @@ msgstr ""
 "entonces el chequeo es buscado en el directorio de chequeos que tiene "
 "definido el cliente. Este parámetro es obligatorio."
 
-#: ../../server-configuration.rst:134
+#: ../../server-configuration.rst:142
 msgid ""
 "args : This parameter is used to specify any additional arguments that you "
 "need to pass to the check. This parameter is optional."
@@ -229,7 +229,7 @@ msgstr ""
 "args : Este parámetro es utilizado para suministrar al chequeo opciones "
 "adcionales de la línea comandos. Este parámetro es opcional. "
 
-#: ../../server-configuration.rst:137
+#: ../../server-configuration.rst:145
 msgid ""
 "Let's now move on defining check groups. Check groups can be defined in two "
 "different ways, let's see the first one :"
@@ -237,7 +237,7 @@ msgstr ""
 "Continuemos ahora con la definición de grupos de chequeos. Los mismos pueden"
 " ser definidos de dos maneras distintas, comencemos con la primera : "
 
-#: ../../server-configuration.rst:150
+#: ../../server-configuration.rst:158
 msgid ""
 "You define a check group by giving that group a name and a set of checks "
 "that make up that group. This allows you to reference a check group later on"
@@ -250,11 +250,11 @@ msgstr ""
 " que te permiten definir sólo una vez un grupo y luego utilizarlo en "
 "cualquier número de monitores. "
 
-#: ../../server-configuration.rst:155
+#: ../../server-configuration.rst:163
 msgid "Let's now take a look at a second way of defining a check group :"
 msgstr "Veamos ahora una segunda manera de definir un grupo de chequeo :"
 
-#: ../../server-configuration.rst:170
+#: ../../server-configuration.rst:178
 msgid ""
 "In this example we've defined a check first and referenced it later from a "
 "check group. This is perfectly valid and is actually a very convenient way "
@@ -278,12 +278,12 @@ msgstr ""
 " entender. Ten en cuenta que es posible primero definir un grupo de chequeo "
 "y luego los chequeos como muestra el siguiente ejemplo :"
 
-#: ../../server-configuration.rst:194 ../../server-configuration.rst:289
+#: ../../server-configuration.rst:202 ../../server-configuration.rst:297
 msgid "Here's a fragment of how a real configuration might look like :"
 msgstr ""
 "Aquí tienes un fragmento de una configuración real a modo de ejemplo :"
 
-#: ../../server-configuration.rst:225
+#: ../../server-configuration.rst:233
 msgid ""
 "Some final notes on defining checks (this actually applies to the overall "
 "configuration) :"
@@ -291,7 +291,7 @@ msgstr ""
 "Algunas consideraciones generales al definir chequeos (estas consideraciones"
 " en realidad se aplican a toda la configuración en general) :"
 
-#: ../../server-configuration.rst:228
+#: ../../server-configuration.rst:236
 msgid ""
 "Radar expects at least one check or check group to exist in the overall "
 "configuration. Otherwise, why use Radar if you don't want to check at least "
@@ -301,7 +301,7 @@ msgstr ""
 "su configuración. Sino, ¿Para que utilizar Radar si no deseas verificar al "
 "menos un recurso?."
 
-#: ../../server-configuration.rst:232
+#: ../../server-configuration.rst:240
 msgid ""
 "Checks and check groups are allowed to be repeated and Radar won't complain "
 "at all. However there are no guarantees at all which of the repeated check "
@@ -313,7 +313,7 @@ msgstr ""
 "todos chequeos o grupos de chequeos repetidos se utilizará. La regla es que "
 "no debes repetir chequeos o grupos de chequeos."
 
-#: ../../server-configuration.rst:237
+#: ../../server-configuration.rst:245
 msgid ""
 "As stated before the order of definition does not matter because Radar will "
 "first build all of its checks and then proceed to build all the check "
@@ -324,7 +324,7 @@ msgstr ""
 " construirá todos los chequeos y luego los grupos de chequeos. Esto mismo se"
 " aplica también para los contactos y grupos de contactos."
 
-#: ../../server-configuration.rst:241
+#: ../../server-configuration.rst:249
 msgid ""
 "If you have a relatively big configuration then it might be useful to split "
 "it among different files and in some cases among directories. Remember that "
@@ -335,11 +335,11 @@ msgstr ""
 "diferentes directorios. Recuerda que Radar no te impone ninguna condición en"
 " el esquema de directorios."
 
-#: ../../server-configuration.rst:247
+#: ../../server-configuration.rst:255
 msgid "Contacts configuration"
 msgstr "Configuración de contactos"
 
-#: ../../server-configuration.rst:249
+#: ../../server-configuration.rst:257
 msgid ""
 "If you understood how checks and checks groups are defined then defining "
 "contacts and contact groups is exactly the same !"
@@ -348,11 +348,11 @@ msgstr ""
 "entonces, ¡la configuración de contactos y grupos de contactos es "
 "exactamente análoga!"
 
-#: ../../server-configuration.rst:252
+#: ../../server-configuration.rst:260
 msgid "Here's an example of a contact definition :"
 msgstr "Veamos un ejemplo :"
 
-#: ../../server-configuration.rst:261
+#: ../../server-configuration.rst:269
 msgid ""
 "name : Each contact must be uniquely identified. This is the purpose of the "
 "name parameter, it acts as a unique identifier. You can use whatever name "
@@ -362,7 +362,7 @@ msgstr ""
 "propósito de este parámetro. Puedes utilizar cualquier nombre que desees. "
 "Este parámetro es obligatorio. "
 
-#: ../../server-configuration.rst:265
+#: ../../server-configuration.rst:273
 msgid ""
 "email : The email of the contact you're defining. Radar won't check at all "
 "if the defined email address is valid, so be careful ! This parameter is "
@@ -372,7 +372,7 @@ msgstr ""
 "Radar no comprobará si dicha dirección es válida, asi que ten cuidado al "
 "definirla. Este parámetro es obligatorio. "
 
-#: ../../server-configuration.rst:269
+#: ../../server-configuration.rst:277
 msgid ""
 "phone : This is the phone number of the contact. Radar won't check if this "
 "is a valid phone number. This parameter is optional."
@@ -381,11 +381,11 @@ msgstr ""
 "verificará si dicho numero telefónico es válido. Este parámetro es opcional."
 " "
 
-#: ../../server-configuration.rst:272
+#: ../../server-configuration.rst:280
 msgid "Let's see a contact group definition :"
 msgstr "Pasemos ahora a ver la definición de un grupo de contactos :"
 
-#: ../../server-configuration.rst:284
+#: ../../server-configuration.rst:292
 msgid ""
 "Compare the above definitions (against checks and check groups). You'll "
 "realize that they are almost identical, of course the identifiers for each "
@@ -398,7 +398,7 @@ msgstr ""
 " prevalece : puedes componer grupos de contactos como desees y referenciar "
 "contactos desde cualquier grupo de contactos. "
 
-#: ../../server-configuration.rst:304
+#: ../../server-configuration.rst:312
 msgid ""
 "There is one little difference between checks and contacts definitions. In "
 "some scenarios it might not be needed to notify any contact at all, so Radar"
@@ -412,11 +412,11 @@ msgstr ""
 "la definición tanto de contactos como grupos de contactos es completamente "
 "opcional. "
 
-#: ../../server-configuration.rst:311
+#: ../../server-configuration.rst:319
 msgid "Monitors configuration"
 msgstr "Configuración de monitores"
 
-#: ../../server-configuration.rst:313
+#: ../../server-configuration.rst:321
 msgid ""
 "Once you have defined all your contacts and checks the last step is to "
 "define monitors. Monitors are the way to tell Radar which hosts to watch, "
@@ -427,11 +427,11 @@ msgstr ""
 "permiten indicarle a Radar que hosts monitorear, que chequear y a quién "
 "notificar. "
 
-#: ../../server-configuration.rst:317
+#: ../../server-configuration.rst:325
 msgid "Let's walk through a real example :"
 msgstr "Veamos el siguiente ejemplo :"
 
-#: ../../server-configuration.rst:326
+#: ../../server-configuration.rst:334
 msgid ""
 "The above example is telling Radar to monitor localhost and all hosts that "
 "are in the 192.168.0.101 - 192.168.0.200 range and to check for Basic "
@@ -444,7 +444,7 @@ msgstr ""
 "health y Disk usage y que notifique a Sysadmins. Entonces para definir "
 "monitores básicamente tienes :"
 
-#: ../../server-configuration.rst:338
+#: ../../server-configuration.rst:346
 msgid ""
 "name: Monitors are allowed to have a name. As you can see from the second "
 "last example its setting is completly optional."
@@ -452,7 +452,7 @@ msgstr ""
 "name: Los monitores pueden tener un nombre. Como puedes ver en el anteúltimo"
 " ejemplo la especificación de un nombre es totalmente opcional."
 
-#: ../../server-configuration.rst:348
+#: ../../server-configuration.rst:356
 msgid ""
 "watch : This is a list of checks or check groups to be run on the monitored "
 "hosts. You only need to reference previously defined checks or check group "
@@ -463,7 +463,7 @@ msgstr ""
 "chequeo o grupo de chequeo. Debes al menos referenciar un chequeo o grupo de"
 " chequeos."
 
-#: ../../server-configuration.rst:352
+#: ../../server-configuration.rst:360
 msgid ""
 "notify : Same as above but for contacts. You need to reference a list of "
 "previously defined contacts or contact groups."
@@ -473,7 +473,7 @@ msgstr ""
 " que es opcional definir contactos y grupos de contactos por lo cual esta "
 "definición es también opcional. "
 
-#: ../../server-configuration.rst:355
+#: ../../server-configuration.rst:363
 msgid ""
 "Note that the hosts, watch and notify parameters are defined within squared "
 "brackets. Don't forget this when defining monitors ! This is the only place "
@@ -483,7 +483,7 @@ msgstr ""
 "han sido definidos entre corchetes []. ¡No olvides esto al definir "
 "monitores!. Este es el único lugar donde utilizamos una lista YAML. "
 
-#: ../../server-configuration.rst:359
+#: ../../server-configuration.rst:367
 msgid ""
 "You can include as many monitors as you want on each file. There are no "
 "restrictions. You need to be careful when you reference checks and contacts "
@@ -504,7 +504,7 @@ msgstr ""
 "utilizar siempre la misma regla al realizar definiciones, por ejemplo puedes"
 " definir siempre todo en minúsculas, usar camel case, etc. "
 
-#: ../../server-configuration.rst:369
+#: ../../server-configuration.rst:377
 msgid ""
 "You may be wondering under which conditions Radar knows if it should notify "
 "its contacts. The Radar core does not handle (and does not care) this, but "
@@ -523,7 +523,7 @@ msgstr ""
 "probable que dicho plugin inspeccione el estado actual y anterior de un "
 "chequeo para determinar si debe notificar a un grupo de contactos. "
 
-#: ../../server-configuration.rst:377
+#: ../../server-configuration.rst:385
 msgid ""
 "Don't worry if you don't want to write a Radar plugin (you don't have to, "
 "although you're encouraged to at least understand how a plugin works and how"
@@ -533,11 +533,11 @@ msgstr ""
 "hacerlo, aunque te recomiendo a que al menos comprendas como un plugin "
 "funciona y como debe ser diseñado). "
 
-#: ../../server-configuration.rst:383
+#: ../../server-configuration.rst:480
 msgid "Plugins configuration"
 msgstr "Configuración de plugins"
 
-#: ../../server-configuration.rst:385
+#: ../../server-configuration.rst:482
 msgid ""
 "Radar server relies on plugins to perform certain actions. For example "
 "assume that you want to notify your contacts by SMS and you also want to be "
@@ -549,7 +549,7 @@ msgstr ""
 "resultados de ciertos chequeos en una base de datos relacional los plugins "
 "ofrecen un mecanismo para lograr esto."
 
-#: ../../server-configuration.rst:390
+#: ../../server-configuration.rst:487
 msgid ""
 "Radar does not provide any built-in mechanisms to do these kind of things "
 "because that responsability is left to plugins. For the moment we're not "
@@ -559,7 +559,7 @@ msgstr ""
 "cosas porque no es su responsabilidad. Por el momento no describiremos como "
 "desarrollar un plugin pero si como instalarlos."
 
-#: ../../server-configuration.rst:394
+#: ../../server-configuration.rst:491
 msgid ""
 "As described previously there is one plugin directory defined in the main "
 "configuration file. This directory holds all the plugins managed by Radar. "
@@ -575,7 +575,7 @@ msgstr ""
 "cuanto a su organización jerárquica se refiere. Este no es el caso del "
 "directorio de plugins. "
 
-#: ../../server-configuration.rst:400
+#: ../../server-configuration.rst:497
 msgid ""
 "Let's assume that your plugins directory is : /tmp/Radar/server/plugins. "
 "Then you have a bunch of plugins you want install. Simply copy all of them "
@@ -586,11 +586,11 @@ msgstr ""
 "instalar. Para instalarlos simplemente debemos copiarlos a dicho directorio."
 " "
 
-#: ../../server-configuration.rst:404
+#: ../../server-configuration.rst:501
 msgid "The layout of the plugins directory might look something like this :"
 msgstr "La organización de directorio de plugins se asemejaría a :"
 
-#: ../../server-configuration.rst:416
+#: ../../server-configuration.rst:513
 msgid ""
 "Every plugin must be contained within one directory below the defined "
 "plugins directory. Some plugins might contain configurations as well (from "
@@ -606,7 +606,7 @@ msgstr ""
 "plugin para entender su alcance y como configurarlo para que se ajuste a tu "
 "medida."
 
-#: ../../server-configuration.rst:49
+#: ../../server-configuration.rst:53
 msgid ""
 "listen : The listen options specifies the address and port number where "
 "Radar server is going to listen for new clients. IPv4 and IPv6 addresses are"
@@ -614,10 +614,9 @@ msgid ""
 msgstr ""
 "listen : Esta opción permite especificar la dirección y puerto en que Radar "
 "escuchará a la espera de nuevos clientes. Radar soporta tanto direcciones "
-"IPv4 como IPv6. Por defecto Radar escuchará en localhost en el puerto "
-"3333."
+"IPv4 como IPv6. Por defecto Radar escuchará en localhost en el puerto 3333."
 
-#: ../../server-configuration.rst:341
+#: ../../server-configuration.rst:349
 msgid ""
 "hosts : There are three different way to specify hosts. You can specify a "
 "single host by its IPv4 (this if the preferred way) or by its hostname. The "
@@ -632,5 +631,170 @@ msgstr ""
 "es útil por ejemplo si deseas ejecutar los mismos chequeos en un conjunto de"
 " hosts. Los rangos IPv4 se especifican mediante una dirección inicial, un "
 "guión y una dirección final. Los extremos de dicho rango estan incluidos. "
-"Debes referenciar al menos un host. Puedes también especificar hosts o rangos "
-"de hosts utlizando direcciones IPv6."
+"Debes referenciar al menos un host. Puedes también especificar hosts o "
+"rangos de hosts utlizando direcciones IPv6."
+
+#: ../../server-configuration.rst:65
+msgid ""
+"console: This sets up the Radar server console, a way to interactively "
+"manipulate Radar objects while Radar is running. The Radar server console is"
+" described in detail in the 'Server console' section of the documentation."
+msgstr ""
+
+#: ../../server-configuration.rst:391
+msgid "Server console"
+msgstr "Configuración de la consola"
+
+#: ../../server-configuration.rst:393
+msgid ""
+"The Radar server comes with a built-in console that allows you to inspect "
+"Radar objects in real time."
+msgstr ""
+"El servidor Radar tiene una consola integrada que te permite inspeccionar "
+"objetosen tiempo real."
+
+#: ../../server-configuration.rst:396
+msgid "Let's take a look at how to configure the Radar server console :"
+msgstr "Veamos como configurar la consola :"
+
+#: ../../server-configuration.rst:417
+msgid "To connect to the Radar server console launch the console client :"
+msgstr "Para conectarte a la consola utiliza el cliente de consola : "
+
+#: ../../server-configuration.rst:427
+msgid ""
+"Once the console starts you will get a small help message that displays all "
+"the available commands. Internally the Radar console is nothing more than "
+"just a restricted Python console where the only allowed commands are the "
+"ones displayed by help message. The number of currently supported commands "
+"is small so you should have no difficult at remebering them and if you still"
+" need to get the list of the available commands you can type :"
+msgstr ""
+"Una vez que logras conectarte, un pequeño mensaje de ayuda muestra todos "
+"loscomandos disponibles. Internamente la consola Radar no es mas que una "
+"consola Python restringida, donde los únicos comandos permitidos son los que"
+" informa el mensajede ayuda. Actualmente el número de comandos disponibles "
+"es pequeño, así que no tendrás problema en recordarlos y si aún necesitas "
+"revisar alguno de ellos puedes ejecutar la ayuda :"
+
+#: ../../server-configuration.rst:439
+msgid "The Radar objects that you can currently manipulate include :"
+msgstr "Los objetos que actualmente puedes manipular son : "
+
+#: ../../server-configuration.rst:441
+msgid "Checks."
+msgstr ""
+
+#: ../../server-configuration.rst:442
+msgid "Check groups."
+msgstr ""
+
+#: ../../server-configuration.rst:443
+msgid "Contact."
+msgstr ""
+
+#: ../../server-configuration.rst:444
+msgid "Contact groups."
+msgstr ""
+
+#: ../../server-configuration.rst:445
+msgid "Monitors."
+msgstr ""
+
+#: ../../server-configuration.rst:447
+msgid ""
+"So let's say you want to get the current status of all Radar objects, just "
+"run the following command :"
+msgstr ""
+"Asumamos por ejemplo que quieres ver el estado de todos los objetos "
+"disponibles, simplemente ejecuta :"
+
+#: ../../server-configuration.rst:455
+msgid ""
+"You will get a JSON with all objects and their current status. All available"
+" commands always return a JSON, the exception is of course the 'help()' "
+"command. The above command can also display the status of a particular "
+"object or set of objects. Here's an example :"
+msgstr ""
+"Obtendrás como respuesta un JSON con todos los objetos y sus respectivos "
+"estados. Todos los comandos disponibles siempre devuelven un JSON como "
+"respuesta, la única excepción es el comando 'help()'. El comando anterior "
+"también puede mostrar solamente el estado de un objeto en particular. Por "
+"ejemplo :"
+
+#: ../../server-configuration.rst:470
+msgid "The console is useful if you want to :"
+msgstr "La consola es útil si deseas :"
+
+#: ../../server-configuration.rst:472
+msgid ""
+"Get the status of all or a particular Radar object (Check, check group, "
+"contact, etc)."
+msgstr ""
+"Obtener el estado de todos objetos o alguno en particular (por ejemplo "
+"Check, check group, contact, etc)."
+
+#: ../../server-configuration.rst:473
+msgid "Enable or disable a Radar object on demand."
+msgstr "Habilitar o deshabilitar un objeto en tiempo real."
+
+#: ../../server-configuration.rst:474
+msgid ""
+"Test a particular check or set of checks to verify if they're properly "
+"working."
+msgstr ""
+"Probar un check o conjunto de checks para verificar que estan funcionando "
+"correctamente."
+
+#: ../../server-configuration.rst:476
+msgid "without stopping the Radar server."
+msgstr "sin detener el servidor Radar."
+
+#: ../../server-configuration.rst:424
+msgid ""
+"Where ADDRESS is the IP address of the running Radar server console and PORT"
+" where the Radar server console is waiting for new clients."
+msgstr ""
+"Donde ADDRESS es la dirección IP donde se encuentra la consola y PORT es el "
+"puerto donde la misma se encuentra escuchando a la espera de nuevos "
+"clientes."
+
+#: ../../server-configuration.rst:406
+msgid ""
+"This instructs the Radar server to start the Radar server console at address"
+" 192.168.0.100 port 3334. If the console option is not found in the main "
+"configuration file Radar assumes that you don't want to use this feature and"
+" consecuently the console is fully disabled. By default Radar does not "
+"enable the server console so you have to explicitly enable it. The default "
+"port if not specified is 3334. Also note the allowed hosts option, it allows"
+" you to specify which hosts are allowed to connect to the Radar server "
+"console. It acts as a basic security measure to restrict potential unwanted "
+"clients. By default all clients are rejected, this means to you have to "
+"explicitly set this option to at least allow one client to connect, "
+"otherwise you won't be able to use to the console."
+msgstr ""
+"Esta configuración le dice al servidor que habilite la consola en la "
+"dirección 192.168.0.100 puerto 3334. Si Radar no logra encontrar la opción "
+"'console' en su archivo de configuración principal, asume que no quieres "
+"utilizar esta característica y en consecuencia la consola es habilitada. Por"
+" defecto Radar no habilita la consola así que si quieres habilitarla debes "
+"explícitamente indicarlo en el archivo de configuración principal. El puerto"
+" (si no lo especifícas) por defecto es el 3334.Ten en cuenta también la "
+"opción 'allowed hosts', permite especificar aquellos hosts que tienen "
+"permitido conectarse a la consola. Esta característica permite restringir "
+"potenciales clientes no deseados. Por defecto todos los clientes son "
+"rechazados, esto significa que deberás al menos especificar un cliente ya "
+"que de otro modo no podrás utilizar la consola."
+
+#: ../../server-configuration.rst:465
+msgid ""
+"Once a again you will get a JSON with the status of objects 1, 3 and 40. "
+"Every Radar object internally holds a unique id, so if you want to disable a"
+" particular object you will need to at least run the 'list()' command once "
+"to get the id(s) and then use that id(s) in subsecuent commands."
+msgstr ""
+"Nuevamente la respuesta es un JSON solamente mostrando los estdos de los "
+"objetos 1, 3 y 40. Radar mantiene internamente por cada objeto un id único, "
+"así que si deseas deshabilitar un objeto en particular tendrás que ejecutar "
+"el comando 'list()' al menos una vez para obtener los id(s) en cuestión y "
+"utilizarlos en los comandos subsiguientes. "

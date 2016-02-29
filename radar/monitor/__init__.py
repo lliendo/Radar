@@ -94,14 +94,14 @@ class Monitor(Switchable):
     def _active_client_to_dict(self, active_client):
         return {
             'address': active_client['client'].address,
-            'checks': [c.to_dict() for c in active_client['checks']],
-            'contacts': [c.to_dict() for c in active_client['contacts']],
+            'checks': [check.to_dict() for check in active_client['checks']],
+            'contacts': [contact.to_dict() for contact in active_client['contacts']],
         }
 
     def to_dict(self):
         d = super(Monitor, self).to_dict(['id', 'name', 'enabled'])
         d.update({
-            'clients': [self._active_client_to_dict(c) for c in self.active_clients]
+            'clients': [self._active_client_to_dict(client) for client in self.active_clients]
         })
 
         return d
@@ -113,3 +113,33 @@ class Monitor(Switchable):
     def __hash__(self):
         sets_union = self.addresses.union(self.checks).union(self.contacts)
         return hash(self.name) ^ reduce(lambda l, m: l.__hash__() ^ m.__hash__(), sets_union)
+
+    def list(self, ids=None):
+        if ids is not None:
+            monitor_objects = reduce(
+                lambda l, m: l + m,
+                [client['checks'] + client['contacts'] for client in self.active_clients], [self]
+            )
+            listed_objects = [monitor_object.to_dict() for monitor_object in monitor_objects if monitor_object.id in ids]
+        else:
+            listed_objects = [self.to_dict()]
+
+        return listed_objects
+
+    def enable(self, ids=None):
+        enabled_objects = []
+
+        for client in self.active_clients:
+            enabled_objects = [check.id for check in client['checks'] if check.enable(ids=ids)] + \
+                [contact.id for contact in client['contacts'] if contact.enable(ids=ids)]
+
+        return ([self.id] if super(Monitor, self).enable(ids=ids) else []) + enabled_objects
+
+    def disable(self, ids=None):
+        disabled_objects = []
+
+        for client in self.active_clients:
+            disabled_objects = [check.id for check in client['checks'] if check.disable(ids=ids)] + \
+                [contact.id for contact in client['contacts'] if contact.disable(ids=ids)]
+
+        return ([self.id] if super(Monitor, self).disable(ids=ids) else []) + disabled_objects

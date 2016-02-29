@@ -66,6 +66,7 @@ setup(
     scripts=[
         'scripts/radar-client.py',
         'scripts/radar-client-config.py',
+        'scripts/radar-console-client.py',
         'scripts/radar-server.py',
         'scripts/radar-server-config.py',
     ],

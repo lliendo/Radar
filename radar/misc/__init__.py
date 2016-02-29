@@ -222,9 +222,9 @@ class SequentialIdGenerator(object):
         self.__dict__ = self._shared_state
 
     def generate(self):
-        id = self._shared_state['id']
+        _id = self._shared_state['id']
         self._shared_state['id'] += 1
-        return id
+        return _id
 
 
 # Mixin used heavily on server side. It provides a unique id and a silly
@@ -237,11 +237,26 @@ class Switchable(object):
         self.id = id or SequentialIdGenerator().generate()
         self.enabled = enabled
 
-    def enable(self):
-        self.enabled = True
+    # We enable/disable ourselves only if our id is present in the ids list or
+    # if the list does not exist.
+    def _switch(self, ids, to_value=True):
+        switched = False
 
-    def disable(self):
-        self.enabled = False
+        try:
+            if self.id in ids:
+                self.enabled = to_value
+                switched = True
+        except TypeError:
+            self.enabled = to_value
+            switched = True
+
+        return switched
+
+    def enable(self, ids=None):
+        return self._switch(ids)
+
+    def disable(self, ids=None):
+        return self._switch(ids, to_value=False)
 
     def to_dict(self, attrs):
         return {a: getattr(self, a) for a in attrs}

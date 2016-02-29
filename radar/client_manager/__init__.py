@@ -20,8 +20,9 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from functools import reduce
 from ..logger import RadarLogger
-from ..protocol import Message
+from ..protocol import RadarMessage
 from ..check import Check
 
 
@@ -29,8 +30,8 @@ class ClientManager(object):
     def __init__(self, monitors):
         self._monitors = monitors
         self._message_actions = {
-            Message.TYPE['CHECK REPLY']: self._on_check_reply,
-            Message.TYPE['TEST REPLY']: self._on_test_reply,
+            RadarMessage.TYPE['CHECK REPLY']: self._on_check_reply,
+            RadarMessage.TYPE['TEST REPLY']: self._on_test_reply,
         }
 
     def matches_any_monitor(self, client):
@@ -46,13 +47,13 @@ class ClientManager(object):
     def unregister(self, client):
         [m.remove_client(client) for m in self._monitors]
 
-    def poll(self, message_type=Message.TYPE['CHECK']):
+    def poll(self, message_type=RadarMessage.TYPE['CHECK']):
         [m.poll(message_type) for m in self._monitors if m.enabled]
 
     def _log_reply(self, client, message_type, check):
         check['status'] = Check.get_status(check['status'])
         RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
-            Message.get_type(message_type), client.address, client.port,
+            RadarMessage.get_type(message_type), client.address, client.port,
             check)
         )
         check['status'] = Check.STATUS[check['status']]
@@ -79,3 +80,15 @@ class ClientManager(object):
                 client.address, client.port, message_type))
 
         return updated_checks
+
+    def to_dict(self):
+        return {'monitors': [monitor.to_dict() for monitor in self._monitors]}
+
+    def list(self, ids=None):
+        return reduce(lambda l, m: l + m, [monitor.list(ids=ids) for monitor in self._monitors])
+
+    def enable(self, ids=None):
+        return reduce(lambda l, m: l + m, [monitor.enable(ids=ids) for monitor in self._monitors])
+
+    def disable(self, ids=None):
+        return reduce(lambda l, m: l + m, [monitor.disable(ids=ids) for monitor in self._monitors])

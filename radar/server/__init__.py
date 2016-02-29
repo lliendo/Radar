@@ -132,36 +132,3 @@ class RadarServerPoller(Thread):
 
     def is_stopped(self):
         return self.stop_event.is_set()
-
-
-# TODO: Implement me !
-class RadarServerConsole(Thread):
-    def __init__(self, client_manager, platform_setup, stop_event=None):
-        Thread.__init__(self)
-        self._actions = {
-            'list': self._list,
-            'enable': self._enable,
-            'disable': self._disable,
-            'test': self._test,
-        }
-        self._client_manager = client_manager
-        self.stop_event = stop_event or Event()
-
-    def _enable(self, *ids):
-        pass
-
-    def _disable(self, *ids):
-        pass
-
-    def _test(self, *ids):
-        pass
-
-    def _list(self, *ids):
-        pass
-
-    def is_stopped(self):
-        return self.stop_event.is_set()
-
-    def run(self):
-        while not self.is_stopped():
-            pass

@@ -25,14 +25,14 @@ from threading import Thread, Event
 from json import loads as deserialize_json, dumps as serialize_json
 from queue import Empty as EmptyQueue
 from ..logger import RadarLogger
-from ..network.client import Client
-from ..protocol import Message
+from ..network.client import Client, ClientError
+from ..protocol import Message, RadarMessage, RadarConsoleMessage
 
 
 class RadarClientLite(Client):
     def __init__(self, *args, **kwargs):
         super(RadarClientLite, self).__init__(*args, **kwargs)
-        self._message = Message()
+        self._message = RadarMessage()
 
     def on_receive(self):
         pass
@@ -42,6 +42,12 @@ class RadarClientLite(Client):
 
     def receive_message(self):
         return self._message.receive(self)
+
+
+class RadarConsoleClient(RadarClientLite):
+    def __init__(self, *args, **kwargs):
+        super(RadarConsoleClient, self).__init__(*args, **kwargs)
+        self._message = RadarConsoleMessage()
 
 
 class RadarClient(RadarClientLite, Thread):
@@ -93,9 +99,8 @@ class RadarClient(RadarClientLite, Thread):
         while not self.is_stopped() and not self.is_connected():
             try:
                 super(RadarClient, self).connect()
-            except Exception as e:
-                RadarLogger.log('Error - Can\'t connect to {:}:{:}. Falling back {:}s. Details: {:}.'.format(
-                    self.address, self.port, self._delays[0], e))
+            except ClientError as error:
+                RadarLogger.log('{:} Falling back {:}s. Details: {:}.'.format(error, self._delays[0]))
 
                 if self._reconnect:
                     self._sleep()
@@ -112,7 +117,7 @@ class RadarClient(RadarClientLite, Thread):
     def on_timeout(self):
         try:
             serialized_message = serialize_json(self._input_queue.get_nowait())
-            self.send_message(Message.TYPE['CHECK REPLY'], serialized_message)
+            self.send_message(RadarMessage.TYPE['CHECK REPLY'], serialized_message)
         except EmptyQueue:
             pass
 

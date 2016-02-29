@@ -25,7 +25,7 @@ from nose.tools import raises
 from mock import Mock, ANY
 from radar.plugin import ServerPlugin, ServerPluginError
 from radar.logger import RadarLogger
-from radar.protocol import Message
+from radar.protocol import RadarMessage
 
 
 class InvalidPlugin(ServerPlugin):
@@ -43,7 +43,7 @@ class TestServerPlugin(TestCase):
 
     @raises(ServerPluginError)
     def test_run_raises_error_due_to_wrong_message_type(self):
-        DummyPlugin().run(None, None, max(Message.TYPE.values()) + 1, None, None)
+        DummyPlugin().run(None, None, max(RadarMessage.TYPE.values()) + 1, None, None)
 
     def test_on_start_is_called_when_plugin_gets_configured(self):
         RadarLogger._shared_state['logger'] = Mock()

@@ -161,25 +161,35 @@ class CheckGroupBuilder(CheckBuilder):
             raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
+# TODO: When merging with updated 'ipv6-support' branch, also remove _build_address()
+# method from MonitorBuilder and use the AddressBuilder.
+class AddressBuilder(object):
+    def __init__(self, addresses):
+        self._addresses = addresses
+
+    def _build_address(self, address):
+        for A in [IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange]:
+            try:
+                return A(address)
+            except AddressError as error:
+                address_error = error
+
+        raise address_error
+
+    def build(self):
+        return [self._build_address(address) for address in self._addresses]
+
+
 class MonitorBuilder(ConfigBuilder):
 
     TAG = 'monitor'
-
-    def _build_address(self, address):
-        for AddressClass in [IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange]:
-            try:
-                return AddressClass(address)
-            except AddressError:
-                pass
-
-        raise AddressError('Error - Invalid ipv4/ipv6 address or address range. Details : {:}.'.format(address))
 
     def _build_monitor(self, monitor, checks, contacts):
         monitor = monitor[self.TAG]
 
         return Monitor(
             name=monitor.get('name', ''),
-            addresses=[self._build_address(address) for address in monitor['hosts']],
+            addresses=AddressBuilder(monitor['hosts']),
             checks=[c for c in checks if c.name in monitor['watch']],
             contacts=[c for c in contacts if c.name in monitor['notify']],
             enabled=monitor.get('enabled', True)
@@ -220,6 +230,12 @@ class ServerConfig(ConfigBuilder):
             'to': '',
             'size': 100,
             'rotations': 5,
+        },
+
+        'console': {
+            'address': None,
+            'port': 3334,
+            'allowed hosts': [],
         },
 
         'polling time': 300,

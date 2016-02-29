@@ -20,6 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
+from abc import ABCMeta
 from io import BytesIO
 from struct import pack, unpack, calcsize
 from ..network.client import ClientDataNotReady, ClientAbortError
@@ -31,17 +32,12 @@ class MessageNotReady(Exception):
 
 class Message(object):
 
+    __metaclass__ = ABCMeta
+
     HEADER_FORMAT = '!BBH'
     HEADER_SIZE = calcsize(HEADER_FORMAT)
     MAX_PAYLOAD_SIZE = 2 ** (calcsize('H') * 8)  # We assume 8 bits per byte.
     PAYLOAD_FORMAT = '{:}s'
-
-    TYPE = {
-        'TEST': 0,
-        'TEST REPLY': 1,
-        'CHECK': 2,
-        'CHECK REPLY': 3,
-    }
 
     OPTIONS = {
         'NONE': 0x00,
@@ -135,3 +131,27 @@ class Message(object):
             sent_bytes += client.send(packed_message[sent_bytes:message_length])
 
         return sent_bytes
+
+
+class RadarMessage(Message):
+    TYPE = {
+        'TEST': 0,
+        'TEST REPLY': 1,
+        'CHECK': 2,
+        'CHECK REPLY': 3,
+    }
+
+    @staticmethod
+    def get_type(message_type):
+        return list(RadarMessage.TYPE)[list(RadarMessage.TYPE.values()).index(message_type)]
+
+
+class RadarConsoleMessage(Message):
+    TYPE = {
+        'QUERY': 0,
+        'QUERY REPLY': 1,
+    }
+
+    @staticmethod
+    def get_type(message_type):
+        return list(RadarConsoleMessage.TYPE)[list(RadarConsoleMessage.TYPE.values()).index(message_type)]

@@ -27,7 +27,7 @@ from radar.logger import RadarLogger
 from radar.check import CheckError
 from radar.check_manager import CheckManager
 from radar.check import Check, CheckError
-from radar.protocol import Message
+from radar.protocol import RadarMessage
 from radar.config.client import ClientConfig
 
 
@@ -41,11 +41,11 @@ class TestCheckManager(TestCase):
         RadarLogger._shared_state['logger'] = Mock()
 
     def test_process_message_fails_due_to_invalid_message_type(self):
-        self.check_manager._process_message(max(Message.TYPE.values()) + 1, [{}])
+        self.check_manager._process_message(max(RadarMessage.TYPE.values()) + 1, [{}])
         RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     def test_process_message_fails_due_to_invalid_check_sent_from_server(self):
-        self.check_manager._process_message(Message.TYPE['CHECK'], [{}])
+        self.check_manager._process_message(RadarMessage.TYPE['CHECK'], [{}])
         RadarLogger._shared_state['logger'].info.assert_called_with(ANY)
 
     @raises(CheckError)

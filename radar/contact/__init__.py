@@ -86,3 +86,11 @@ class ContactGroup(Switchable):
             hashed = hash(self.name) ^ list(self.contacts).pop().__hash__()
 
         return hashed
+
+    def enable(self, ids):
+        return ([self.id] if super(ContactGroup, self).enable(ids=ids) else []) + \
+            [contact.id for contact in self.contacts if contact.enable(ids=ids)]
+
+    def disable(self, ids):
+        return ([self.id] if super(ContactGroup, self).disable(ids=ids) else []) + \
+            [contact.id for contact in self.contact if contact.disable(ids=ids)]

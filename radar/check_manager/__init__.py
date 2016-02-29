@@ -24,7 +24,7 @@ from queue import Empty as EmptyQueue
 from threading import Thread, Event
 from ..logger import RadarLogger
 from ..check import UnixCheck, WindowsCheck, CheckError, CheckStillRunning
-from ..protocol import Message
+from ..protocol import RadarMessage
 from ..platform_setup import Platform
 
 
@@ -48,8 +48,8 @@ class CheckManager(Thread):
         self.stop_event = stop_event or Event()
         self._check_class = self._get_platform_check_class()
         self._message_actions = {
-            Message.TYPE['CHECK']: self._on_check,
-            Message.TYPE['TEST']: self._on_test,
+            RadarMessage.TYPE['CHECK']: self._on_check,
+            RadarMessage.TYPE['TEST']: self._on_test,
         }
         self._wait_queue = []
         self._execution_queue = []
@@ -130,7 +130,7 @@ class CheckManager(Thread):
 
     def _log_action(self, message_type, check):
         RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
-            Message.get_type(message_type), self._platform_setup.config['connect']['to'],
+            RadarMessage.get_type(message_type), self._platform_setup.config['connect']['to'],
             self._platform_setup.config['connect']['port'], check)
         )
 
