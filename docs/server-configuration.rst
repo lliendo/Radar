@@ -47,8 +47,8 @@ option :
 
 
 * listen : The listen options specifies the address and port number where
-  Radar server is going to listen for new clients. At the moment only IPv4
-  addresses are supported. The default values are to listen on localhost
+  Radar server is going to listen for new clients. IPv4 and IPv6 addresses are
+  supported. The default values are to listen on localhost
   and port 3333.
 
 * run as : On Unix platforms this option tells Radar the effective user
@@ -343,7 +343,7 @@ Disk usage and to notify Sysadmins. So to define monitors you basically have :
   hostname. The last way to define hosts is using an IPv4 range. This is
   useful for example if you want to run the same checks on a set of hosts.
   Ranges are specified by its start, a hyphen and its end ip. The initial
-  and ending hosts are included in the range.
+  and ending hosts are included in the range. IPv6 addresses are also supported.
 
 * watch : This is a list of checks or check groups to be run on the monitored
   hosts. You only need to reference previously defined checks or check
