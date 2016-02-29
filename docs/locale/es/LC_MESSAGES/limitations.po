@@ -25,14 +25,6 @@ msgstr ""
 
 #: ../../limitations.rst:7
 msgid ""
-"Concurrent checks : Radar does not support concurrent check execution at the"
-" moment."
-msgstr ""
-"Chequeos concurrentes : Radar no soporta la ejecución de chequeos de forma "
-"concurrente por el momento. "
-
-#: ../../limitations.rst:10
-msgid ""
 "Concurrent plugin execution : At the moment all plugins are executed "
 "sequentially, this is in a way identical to the checks limitation described "
 "above."
@@ -40,7 +32,7 @@ msgstr ""
 "Plugins concurrentes : Todos los plugins se ejecutan de manera secuencial, "
 "esto es en cierta forma idéntico a como se ejecutan los chequeos. "
 
-#: ../../limitations.rst:14
+#: ../../limitations.rst:11
 msgid ""
 "Passive checks : There's no passive check support yet. This feature will "
 "certainly be implemented in the near future."
@@ -48,7 +40,7 @@ msgstr ""
 "Chequeos pasivos : No hay soporte para chequeos pasivos actualmente. Esta "
 "característica será sin dudas implementada a la brevedad. "
 
-#: ../../limitations.rst:17
+#: ../../limitations.rst:14
 msgid ""
 "SNMP checks : SNMP is not supported. It hasn't been yet defined if this "
 "feature will be supported at all."
@@ -56,7 +48,7 @@ msgstr ""
 "Chequeos SNMP : No están soportados. Todavía no se ha decidido si SNMP será "
 "soportado. "
 
-#: ../../limitations.rst:20
+#: ../../limitations.rst:17
 msgid ""
 "SSL/TLS : Is not yet supported but certainly it's going to be included on a "
 "future release."
@@ -65,11 +57,11 @@ msgstr ""
 "segura entre servidor y clientes. Esta característica se implementara en un "
 "proximo release. "
 
-#: ../../limitations.rst:23
+#: ../../limitations.rst:20
 msgid "IPv6 addresses are not supported yet."
 msgstr "Las direcciones IPv6 no estan actualmente soportadas."
 
-#: ../../limitations.rst:25
+#: ../../limitations.rst:22
 msgid ""
 "Both Windows client and server need to be improved considerably. I/O "
 "Completion Port support has been developed but is not working properly, "
@@ -80,7 +72,7 @@ msgstr ""
 "Ports pero no esta funcionando adecuadamente, por consiguiente tanto cliente"
 " como servidor se basan en la ineficiente llamada a sistema select."
 
-#: ../../limitations.rst:30
+#: ../../limitations.rst:27
 msgid ""
 "These limitations are intended be overcomed as the project evolves. "
 "Currently Radar's status is ALPHA and proper and expected behaviour needs to"
