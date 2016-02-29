@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from mock import Mock, ANY
-from radar.misc import Address, AddressRange
+from radar.misc import IPV4Address, IPV4AddressRange
 from radar.check import Check
 from radar.monitor import Monitor
 from radar.client_manager import ClientManager
@@ -36,9 +36,9 @@ class TestClientManager(TestCase):
         RadarLogger._shared_state['logger'] = Mock()
         self.check = Check(name='dummy', path='dummy_check.py')
         addresses = [
-            AddressRange('10.0.0.1 - 10.0.0.10'),
-            AddressRange('10.0.0.20 - 10.0.0.30'),
-            Address('10.0.0.40'),
+            IPV4AddressRange('10.0.0.1 - 10.0.0.10'),
+            IPV4AddressRange('10.0.0.20 - 10.0.0.30'),
+            IPV4Address('10.0.0.40'),
         ]
         self.monitors = [Monitor(addresses=[a], checks=[self.check]) for a in addresses]
         self.client_manager = ClientManager(self.monitors)

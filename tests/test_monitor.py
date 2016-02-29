@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from radar.misc import Address, AddressRange
+from radar.misc import IPV4Address, IPV4AddressRange
 from radar.check import Check, CheckGroup
 from radar.contact import Contact, ContactGroup
 from radar.monitor import Monitor, MonitorError
@@ -43,14 +43,14 @@ class TestMonitor(TestCase):
         self.dummy_client = DummyClient(address='192.168.0.1', port=10000)
         self.checks = [Check(name='Load average', path='load_average')]
         self.monitor = Monitor(
-            addresses=[AddressRange('192.168.0.1 - 192.168.0.100')],
+            addresses=[IPV4AddressRange('192.168.0.1 - 192.168.0.100')],
             checks=self.checks,
             contacts=[Contact(name='name', email='name@contact.org')]
         )
 
     def test_monitor_does_not_get_duplicates(self):
-        address = Address('192.168.0.1')
-        address_range = AddressRange('192.168.0.1 - 192.168.0.100')
+        address = IPV4Address('192.168.0.1')
+        address_range = IPV4AddressRange('192.168.0.1 - 192.168.0.100')
         check = Check(name='Load average', path='load_average')
         check_group = CheckGroup(name='check group', checks=[check])
         contact = Contact(name='name', email='contact@contact.com')
@@ -70,7 +70,7 @@ class TestMonitor(TestCase):
 
     @raises(MonitorError)
     def test_monitor_raises_exception_due_to_missing_checks(self):
-        Monitor(addresses=[Address('192.168.0.1')])
+        Monitor(addresses=[IPV4Address('192.168.0.1')])
 
     def test_monitor_matches_client(self):
         self.assertTrue(self.monitor.matches(self.dummy_client))
@@ -100,7 +100,7 @@ class TestMonitor(TestCase):
 
     def test_monitors_are_equal(self):
         another_monitor = Monitor(
-            addresses=[AddressRange('192.168.0.1 - 192.168.0.100')],
+            addresses=[IPV4AddressRange('192.168.0.1 - 192.168.0.100')],
             checks=[Check(name='Load average', path='load_average')],
             contacts=[Contact(name='name', email='name@contact.org')]
         )
@@ -108,7 +108,7 @@ class TestMonitor(TestCase):
 
     def test_monitors_are_not_equal(self):
         another_monitor = Monitor(
-            addresses=[AddressRange('192.168.0.0 - 192.168.0.100')],
+            addresses=[IPV4AddressRange('192.168.0.0 - 192.168.0.100')],
             checks=[Check(name='Load average', path='load_average')]
         )
         self.assertNotEqual(self.monitor, another_monitor)

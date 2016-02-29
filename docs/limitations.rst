@@ -17,8 +17,6 @@ about its current status :
 * SSL/TLS : Is not yet supported but certainly it's going to be included on
   a future release.
 
-* IPv6 addresses are not supported yet.
-
 * Both Windows client and server need to be improved considerably.
   I/O Completion Port support has been developed but is not working properly,
   consequently Radar relies on the inefficient select system call.

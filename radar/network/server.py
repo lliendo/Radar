@@ -21,13 +21,14 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta, abstractmethod
-from socket import socket, AF_INET, SOCK_STREAM, SOL_SOCKET, SO_REUSEADDR, SOMAXCONN, error as SocketError
+from socket import socket, SOL_SOCKET, SO_REUSEADDR, SOMAXCONN, error as SocketError
 from monitor.select_monitor import SelectMonitor
 from monitor.poll_monitor import PollMonitor
 from monitor.epoll_monitor import EPollMonitor
 from monitor.kqueue_monitor import KQueueMonitor
 from client import ClientReceiveError, ClientSendError, ClientDisconnected, ClientAbortError, Client as BaseClient
 from ..platform_setup import Platform
+from ..misc import Address
 
 
 class ServerListenError(Exception):
@@ -145,7 +146,7 @@ class Server(object):
 
     def _listen(self, address, port):
         try:
-            self.socket = socket(AF_INET, SOCK_STREAM)
+            self.socket = socket(Address.detect_version(address))
             self.socket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 
             if not self.blocking_socket:

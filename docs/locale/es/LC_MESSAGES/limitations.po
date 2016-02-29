@@ -57,11 +57,6 @@ msgstr ""
 "segura entre servidor y clientes. Esta característica se implementara en un "
 "proximo release. "
 
-#: ../../limitations.rst:20
-msgid "IPv6 addresses are not supported yet."
-msgstr "Las direcciones IPv6 no estan actualmente soportadas."
-
-#: ../../limitations.rst:22
 msgid ""
 "Both Windows client and server need to be improved considerably. I/O "
 "Completion Port support has been developed but is not working properly, "
@@ -72,7 +67,6 @@ msgstr ""
 "Ports pero no esta funcionando adecuadamente, por consiguiente tanto cliente"
 " como servidor se basan en la ineficiente llamada a sistema select."
 
-#: ../../limitations.rst:27
 msgid ""
 "These limitations are intended be overcomed as the project evolves. "
 "Currently Radar's status is ALPHA and proper and expected behaviour needs to"
