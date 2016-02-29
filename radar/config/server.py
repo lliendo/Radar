@@ -161,8 +161,6 @@ class CheckGroupBuilder(CheckBuilder):
             raise ConfigError(str(e) + ' File {:}'.format(self.path))
 
 
-# TODO: When merging with updated 'ipv6-support' branch, also remove _build_address()
-# method from MonitorBuilder and use the AddressBuilder.
 class AddressBuilder(object):
     def __init__(self, addresses):
         self._addresses = addresses
@@ -189,7 +187,7 @@ class MonitorBuilder(ConfigBuilder):
 
         return Monitor(
             name=monitor.get('name', ''),
-            addresses=AddressBuilder(monitor['hosts']),
+            addresses=AddressBuilder(monitor['hosts']).build(),
             checks=[c for c in checks if c.name in monitor['watch']],
             contacts=[c for c in contacts if c.name in monitor['notify']],
             enabled=monitor.get('enabled', True)
