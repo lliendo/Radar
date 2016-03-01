@@ -23,16 +23,7 @@ msgstr ""
 "Radar es un proyecto reciente y aquí describiremos sus limitaciones actuales"
 " :"
 
-#: ../../limitations.rst:7
-msgid ""
-"Concurrent plugin execution : At the moment all plugins are executed "
-"sequentially, this is in a way identical to the checks limitation described "
-"above."
-msgstr ""
-"Plugins concurrentes : Todos los plugins se ejecutan de manera secuencial, "
-"esto es en cierta forma idéntico a como se ejecutan los chequeos. "
-
-#: ../../limitations.rst:11
+#: ../../limitations.rst:9
 msgid ""
 "Passive checks : There's no passive check support yet. This feature will "
 "certainly be implemented in the near future."
@@ -40,7 +31,7 @@ msgstr ""
 "Chequeos pasivos : No hay soporte para chequeos pasivos actualmente. Esta "
 "característica será sin dudas implementada a la brevedad. "
 
-#: ../../limitations.rst:14
+#: ../../limitations.rst:12
 msgid ""
 "SNMP checks : SNMP is not supported. It hasn't been yet defined if this "
 "feature will be supported at all."
@@ -48,7 +39,7 @@ msgstr ""
 "Chequeos SNMP : No están soportados. Todavía no se ha decidido si SNMP será "
 "soportado. "
 
-#: ../../limitations.rst:17
+#: ../../limitations.rst:15
 msgid ""
 "SSL/TLS : Is not yet supported but certainly it's going to be included on a "
 "future release."
@@ -57,7 +48,7 @@ msgstr ""
 "segura entre servidor y clientes. Esta característica se implementara en un "
 "proximo release. "
 
-#: ../../limitations.rst:20
+#: ../../limitations.rst:18
 msgid ""
 "Both Windows client and server need to be improved considerably. I/O "
 "Completion Port support has been developed but is not working properly, "
@@ -68,7 +59,7 @@ msgstr ""
 "Ports pero no esta funcionando adecuadamente, por consiguiente tanto cliente"
 " como servidor se basan en la ineficiente llamada a sistema select."
 
-#: ../../limitations.rst:25
+#: ../../limitations.rst:23
 msgid ""
 "These limitations are intended be overcomed as the project evolves. "
 "Currently Radar's status is ALPHA and proper and expected behaviour needs to"
@@ -79,3 +70,10 @@ msgstr ""
 "Actualmente Radar se encuentra en estado ALFA y su actual comportamiento "
 "necesita ser asegurado antes de continuar agregando características. Algunos"
 " cambios menores pueden esperarse en esta etapa de desarrollo."
+
+#: ../../limitations.rst:7
+msgid ""
+"Concurrent plugin execution : At the moment all plugins are executed "
+"sequentially."
+msgstr ""
+"Plugins concurrentes : Actualmente Todos los plugins se ejecutan de manera secuencial."

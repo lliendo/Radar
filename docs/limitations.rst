@@ -4,9 +4,7 @@ Limitations
 Radar is a brand new project and here are some things that you should know
 about its current status :
 
-* Concurrent plugin execution : At the moment all plugins are executed
-  sequentially, this is in a way identical to the checks limitation described
-  above.
+* Concurrent plugin execution : At the moment all plugins are executed sequentially.
 
 * Passive checks : There's no passive check support yet. This feature will
   certainly be implemented in the near future.
