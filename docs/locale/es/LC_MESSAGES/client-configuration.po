@@ -39,7 +39,7 @@ msgstr ""
 "Radar. Veremos a continuación una configuración completa y describiremos "
 "cada opción disponible (esta vez configuraremos un cliente Windows) :"
 
-#: ../../client-configuration.rst:31
+#: ../../client-configuration.rst:33
 msgid ""
 "connect : This option tells Radar client where to connect to. At the moment "
 "only IPv4 addresses are supported. By default it tries to connect to "
@@ -49,7 +49,7 @@ msgstr ""
 "servidor Radar al cual debe conectarse. Por defecto se intentará conectar a "
 "localhost puerto 3333."
 
-#: ../../client-configuration.rst:35
+#: ../../client-configuration.rst:37
 msgid ""
 "run as : On Unix platforms this option tells Radar the effective user and "
 "group that the process should run as. This is a basic security consideration"
@@ -64,7 +64,7 @@ msgstr ""
 "tanto el usuario como el grupo utilizados es 'radar'. Esta opción no esta "
 "actualmente disponible en plataformas Windows."
 
-#: ../../client-configuration.rst:42
+#: ../../client-configuration.rst:44
 msgid ""
 "log : Radar will log all of its activity in this file. So if you feel that "
 "something is not working properly this is the place to look for any errors. "
@@ -83,7 +83,7 @@ msgstr ""
 " archivo. Por defecto Radar define un máximo de 100 MiB para el tamaño del "
 "archivo de log y lo rota a lo sumo 5 veces."
 
-#: ../../client-configuration.rst:56
+#: ../../client-configuration.rst:58
 msgid ""
 "checks : This is the location where all your checks are stored. Every time a"
 " Radar client receives a CHECK message from the server all checks are first "
@@ -97,7 +97,7 @@ msgstr ""
 "contrario se lo intentará localizar por su ruta absoluta. Puedes organizar "
 "este directorio como gustes."
 
-#: ../../client-configuration.rst:61
+#: ../../client-configuration.rst:63
 msgid ""
 "enforce ownership : On Unix platforms if this option is True then every time"
 " the Radar client has to execute a check it will first verify that the user "
@@ -113,7 +113,7 @@ msgstr ""
 " un error y el chequeo no es ejecutado. En plataformas Windows solo se "
 "verificará el usuario. Por defecto esta opción tiene el valor True. "
 
-#: ../../client-configuration.rst:68
+#: ../../client-configuration.rst:70
 msgid ""
 "reconnect : This option specifies the behaviour of the client when a Radar "
 "server goes down. If set to True and if the Radar server stops working the "
@@ -125,7 +125,7 @@ msgstr ""
 " servidor se desconecta, el cliente intentará reconectarse al servidor. Por "
 "defecto esta opción tiene un valor True."
 
-#: ../../client-configuration.rst:73
+#: ../../client-configuration.rst:84
 msgid ""
 "As usual you can leave out almost every option to its default value. A "
 "minimum Radar client configuration file might look like this :"
@@ -134,7 +134,7 @@ msgstr ""
 "tomarán sus valores por defecto. A continuación podrás ver un archivo de "
 "configuración mínimo :"
 
-#: ../../client-configuration.rst:81
+#: ../../client-configuration.rst:92
 msgid ""
 "All remaining options take default values. Check these defaults on the "
 "platform defaults section."
@@ -142,7 +142,7 @@ msgstr ""
 "Todas las opciones restantes toman sus valores por defecto. Verifica estos "
 "valores en la sección 'valores por defecto' de la documentación."
 
-#: ../../client-configuration.rst:50
+#: ../../client-configuration.rst:52
 msgid ""
 "pid file : On Unix platforms this file holds the PID of the Radar process. "
 "When Radar starts it will record its pidfile here and when it shuts down "
@@ -151,5 +151,30 @@ msgid ""
 msgstr ""
 "pid file : En plataformas Unix este archivo contiene el PID del proceso "
 "Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
-"ejecución es eliminado (la eliminación de este archivo no la realiza Radar, sino "
-"su script de arranque). Este archivo no es generado en plataformas Windows."
+"ejecución es eliminado (la eliminación de este archivo no la realiza Radar, "
+"sino su script de arranque). Este archivo no es generado en plataformas "
+"Windows."
+
+#: ../../client-configuration.rst:75
+msgid ""
+"check concurrency : This option allows you to set the maximum number of "
+"checks that can be run simultaneously. By default all checks are run "
+"sequentially, that means that the default value for this option is 1."
+msgstr ""
+"check concurrency : Esta opción te permite configurar el número máximo de "
+"chequeos que pueden ejecutarse en paralelo. Por defecto todos los chequeos "
+"son ejecutados de forma secuencial, es decir que el valor de este parámetro "
+"es por defecto 1. "
+
+#: ../../client-configuration.rst:79
+msgid ""
+"check timeout : This option allows you to set the maximum time (in seconds) "
+"that a check is allowed to run. After a check reaches this running time "
+"limit it will be automatically killed and the check's status will be marked "
+"as TIMEOUT. By default a check is allowed to run for up to 10 seconds."
+msgstr ""
+"check timeout : Mediante esta opción podrás controlar la máxima cantidad de "
+"tiempo (en segundos) que un chequeo tiene permitido ejecutarse. Luego de que"
+" un chequeo alcanza este límite es automaticamente terminado y el estado "
+"del mismo es marcado como TIMEOUT. Por defecto un chequeo tiene permitido "
+"correr durante un máximo de 10 segundos. "

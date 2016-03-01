@@ -27,6 +27,8 @@ option (this time we will setup a Windows Radar client) :
     checks: C:\Radar\Client\checks
     enforce ownership: False
     reconnect: False
+    check concurrency: 5
+    check timeout: 10
 
 * connect : This option tells Radar client where to connect to.
   At the moment only IPv4 addresses are supported. By default it tries to connect
@@ -69,6 +71,15 @@ option (this time we will setup a Windows Radar client) :
   server goes down. If set to True and if the Radar server stops working
   the client will keep retrying to connect to the server. By default this
   option is set to True.
+
+* check concurrency : This option allows you to set the maximum number of checks
+  that can be run simultaneously. By default all checks are run sequentially, that
+  means that the default value for this option is 1.
+
+* check timeout : This option allows you to set the maximum time (in seconds) that
+  a check is allowed to run. After a check reaches this running time limit it will be
+  automatically killed and the check's status will be marked as TIMEOUT.
+  By default a check is allowed to run for up to 10 seconds.
 
 As usual you can leave out almost every option to its default value. A minimum
 Radar client configuration file might look like this :
