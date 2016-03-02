@@ -21,7 +21,7 @@ Copyright 2015 Lucas Liendo.
 
 
 from re import compile as compile_regexp, IGNORECASE
-from socket import gethostbyname, inet_pton, AF_INET, AF_INET6, error as SocketError
+from socket import gethostbyname, getaddrinfo, gaierror as GAIError
 from abc import ABCMeta, abstractmethod
 
 
@@ -66,16 +66,11 @@ class Address(object):
 
     @staticmethod
     def detect_version(address):
-        versions = [AF_INET, AF_INET6]
-
-        for version in versions:
-            try:
-                inet_pton(version, address)
-                return version
-            except SocketError:
-                pass
-
-        raise AddressError('Error - Couldn\'t detect ip address version for address : \'{:}\'.'.format(address))
+        try:
+            protocol_version, _, _, _, _ = getaddrinfo(address, 0).pop()
+            return protocol_version
+        except GAIError:
+            raise AddressError('Error - Couldn\'t detect ip address version for address : \'{:}\'.'.format(address))
 
 
 class IPV4Address(Address):
