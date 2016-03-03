@@ -133,7 +133,10 @@ class IPV6Address(Address):
 
         ipv6_pattern = compile_regexp(r'([0-9a-f]{1,4}\:){7}[0-9a-f]{1,4}', IGNORECASE)
 
-        if not ipv6_pattern.match(address):
+        try:
+            if not ipv6_pattern.match(address):
+                return self._resolve_hostname(address)
+        except ValueError:
             raise AddressError('Error - Invalid host name or ipv6 address : \'{:}\'.'.format(address))
 
         return address

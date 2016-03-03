@@ -52,6 +52,9 @@ class TestIPV4Address(TestCase):
     def test_detect_address(self):
         self.assertEqual(Address.detect_version('0.0.0.0'), AF_INET)
 
+    def test_detect_address_from_hostname(self):
+        self.assertEqual(Address.detect_version('localhost'), AF_INET)
+
     @raises(AddressError)
     def test_detect_address_raises_address_error(self):
         Address.detect_version('invalid address')
@@ -83,3 +86,10 @@ class TestIPV6Address(TestCase):
 
     def test_detect_address(self):
         self.assertEqual(Address.detect_version('::'), AF_INET6)
+
+    def test_detect_address_from_hostname(self):
+        self.assertEqual(Address.detect_version('ip6-localhost'), AF_INET6)
+
+    @raises(AddressError)
+    def test_invalid_address(self):
+        IPV6Address(':::')
