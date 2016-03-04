@@ -41,6 +41,8 @@ class UnixClientSetup(ClientConfig, UnixSetup):
         ClientConfig.configure(self)
         UnixSetup.configure(self, launcher)
 
+        return self
+
 
 class WindowsClientSetup(ClientConfig, WindowsSetup):
 
@@ -56,3 +58,5 @@ class WindowsClientSetup(ClientConfig, WindowsSetup):
     def configure(self, launcher):
         super(WindowsClientSetup, self).configure()
         self._install_signal_handlers(launcher)
+
+        return self
