@@ -100,7 +100,7 @@ class RadarClient(RadarClientLite, Thread):
             try:
                 super(RadarClient, self).connect()
             except ClientError as error:
-                RadarLogger.log('{:} Falling back {:}s. Details: {:}.'.format(error, self._delays[0]))
+                RadarLogger.log('{:} Falling back {:}s.'.format(error, self._delays[0]))
 
                 if self._reconnect:
                     self._sleep()
