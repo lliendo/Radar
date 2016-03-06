@@ -213,8 +213,6 @@ class TestCheck(TestCase):
         self.dummy_check.collect_output()
         self.assertEqual(self.dummy_check.current_status, Check.STATUS['OK'])
         self.assertEqual(self.dummy_check.previous_status, Check.STATUS['UNKNOWN'])
-        self.assertEqual(self.dummy_check._process_handler, None)
-        self.assertEqual(self.dummy_check._start_time, None)
 
     @raises(CheckStillRunning)
     def test_collect_raises_error_still_running(self):
