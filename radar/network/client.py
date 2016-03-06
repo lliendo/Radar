@@ -106,9 +106,8 @@ class Client(object):
     def send(self, data):
         try:
             sent_bytes = self.socket.send(data)
-        # Can we do : except SocketError as (_, e): ?
-        except SocketError as e:
-            raise ClientSendError('Error - Couldn\'t send data. Details : {:}.'.format(e[1]))
+        except SocketError as (_, error):
+            raise ClientSendError('Error - Couldn\'t send data. Details : {:}.'.format(error))
         except TypeError:
             raise ClientSendError('Error - Couldn\'t send data (data not iterable).')
 
@@ -117,13 +116,12 @@ class Client(object):
     def receive(self, length):
         try:
             received_bytes = self.socket.recv(length)
-        # Can we do : except SocketError as (error_code_, error_details): ?
-        except SocketError as e:
-            if self._would_block(e[0]):
+        except SocketError as (error_code, error_details):
+            if self._would_block(error_code):
                 raise ClientDataNotReady('Error - Non blocking socket attempting read ahead.')
 
             raise ClientReceiveError('Error - Couldn\'t receive data from {:}:{:}. Details : {:}.'.format(
-                self.address, self.port, e[1]))
+                self.address, self.port, error_details))
 
         if len(received_bytes) == 0:
             raise ClientDisconnected()
@@ -178,9 +176,9 @@ class Client(object):
 
         try:
             ready_fds, _, _ = select([self.socket], [], [], self.network_monitor_timeout)
-        except SelectError as e:
-            if not self._interrupted_by_signal(e):
-                raise e
+        except SelectError as error:
+            if not self._interrupted_by_signal(error):
+                raise error
 
         return ready_fds
 
