@@ -44,9 +44,9 @@ class RadarLogger(object):
     def _create_dir(self, path):
         try:
             mkdir(dirname(path))
-        except OSError as e:
-            if e.errno != EEXIST:
-                raise LoggerError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(path, e.strerror))
+        except OSError as error:
+            if error.errno != EEXIST:
+                raise LoggerError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(path, error.strerror))
 
     def _configure_logger(self, path, logger_name, max_size, rotations):
         try:
@@ -55,8 +55,8 @@ class RadarLogger(object):
             file_handler = RotatingFileHandler(path, maxBytes=max_size, backupCount=rotations)
             file_handler.setFormatter(Formatter(fmt='%(asctime)s - %(message)s', datefmt='%b %d %H:%M:%S'))
             logger.addHandler(file_handler)
-        except Exception as e:
-            raise LoggerError('Error - Couldn\'t configure Radar logger. Details : {:}.'.format(e))
+        except Exception as error:
+            raise LoggerError('Error - Couldn\'t configure Radar logger. Details : {:}.'.format(error))
 
         return logger
 
@@ -64,8 +64,8 @@ class RadarLogger(object):
     def log(message):
         try:
             RadarLogger._shared_state['logger'].info(message)
-        except Exception as e:
-            stderr.write('Error - Couldn\'t log to Radar logger. Details : {:}.'.format(e))
+        except Exception as error:
+            stderr.write('Error - Couldn\'t log to Radar logger. Details : {:}.'.format(error))
 
     @staticmethod
     def shutdown():

@@ -102,11 +102,11 @@ class InitialSetup(object):
         try:
             makedirs(path, mode=0755)
             chmod(path, S_IRUSR | S_IWUSR | S_IXUSR)
-        except OSError as e:
-            if e.errno != EEXIST:
-                raise InitialSetupError('Error - Couldn\'t create : \'{:}\'. Details : {:}.'.format(path, e))
-        except Exception as e:
-            raise InitialSetupError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, e))
+        except OSError as error:
+            if error.errno != EEXIST:
+                raise InitialSetupError('Error - Couldn\'t create : \'{:}\'. Details : {:}.'.format(path, error))
+        except Exception as error:
+            raise InitialSetupError('Error - Couldn\'t change permission of : \'{:}\' directory. Details : {:}.'.format(path, error))
 
     def _save_yaml(self, config):
         console_message = 'Path to main config ? [{:}] '.format(self.PlatformSetup.MAIN_CONFIG_PATH)
@@ -132,5 +132,5 @@ class InitialSetup(object):
             print('\nDone !\n')
         except KeyboardInterrupt:
             print('\n\nAborting configuration...')
-        except Exception as e:
-            print(e)
+        except Exception as error:
+            print(error)

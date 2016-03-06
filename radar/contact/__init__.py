@@ -73,7 +73,7 @@ class ContactGroup(Switchable):
         return d
 
     def as_list(self):
-        return [c for c in self.contacts]
+        return [contact for contact in self.contacts]
 
     def __eq__(self, other_contact_group):
         return self.name == other_contact_group.name \

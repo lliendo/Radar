@@ -77,21 +77,21 @@ class RadarServer(Server, Thread):
             'address': client.address,
             'port': client.port,
             'message_type': message_type,
-            'check_ids': [id(c) for c in updated_checks['checks']],
-            'contact_ids': [id(c) for c in updated_checks['contacts']]
+            'check_ids': [id(updated_check) for updated_check in updated_checks['checks']],
+            'contact_ids': [id(updated_contact) for updated_contact in updated_checks['contacts']]
         }
 
         try:
             self._queue.put_nowait(queue_message)
-        except FullQueue as e:
-            RadarLogger.log('Error - Couldn\'t write to queue. Details : {:}.'.format(e))
+        except FullQueue as error:
+            RadarLogger.log('Error - Couldn\'t write to queue. Details : {:}.'.format(error))
 
     def on_receive(self, client):
         try:
             message_type, message = client.receive_message()
             deserialized_message = deserialize_json(message)
             updated_checks = self._client_manager.process_message(client, message_type, deserialized_message)
-            [self._write_queue(client, message_type, uc) for uc in updated_checks]
+            [self._write_queue(client, message_type, updated_check) for updated_check in updated_checks]
         except MessageNotReady:
             pass
 

@@ -83,14 +83,14 @@ class RadarLauncher(object):
         return platform_setup
 
     def _start_threads(self, threads):
-        [t.start() for t in threads]
+        [thread.start() for thread in threads]
 
     def _join_threads(self):
-        while any([t.is_alive() for t in self._threads]):
-            [t.join(self.THREAD_POLLING_TIME) for t in self._threads if t.is_alive()]
+        while any([thread.is_alive() for thread in self._threads]):
+            [thread.join(self.THREAD_POLLING_TIME) for thread in self._threads if thread.is_alive()]
 
     def stop(self, *args):
-        [t.stop_event.set() for t in self._threads]
+        [thread.stop_event.set() for thread in self._threads]
 
     # Let's try to re-join the threads one more time for graceful termination.
     def _resume_interrupted_call(self, error):
@@ -103,10 +103,10 @@ class RadarLauncher(object):
         try:
             RadarLogger.log('Starting {:}.'.format(self.PROGRAM_NAME))
             self._start_and_join_threads()
-        except IOError as e:
-            self._resume_interrupted_call(e)
-        except Exception as e:
-            RadarLogger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, e))
+        except IOError as error:
+            self._resume_interrupted_call(error)
+        except Exception as error:
+            RadarLogger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, error))
         finally:
             RadarLogger.log('Shutting down {:}.'.format(self.PROGRAM_NAME))
             self._platform_setup.tear_down()

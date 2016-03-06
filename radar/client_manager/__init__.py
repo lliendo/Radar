@@ -35,20 +35,20 @@ class ClientManager(object):
         }
 
     def matches_any_monitor(self, client):
-        return any([m.matches(client) for m in self._monitors])
+        return any([monitor.matches(client) for monitor in self._monitors])
 
     def _update_checks(self, client, statuses):
-        updated_checks = [m.update_checks(client, statuses) for m in self._monitors if m.enabled]
-        return [uc for uc in updated_checks if uc]
+        updated_checks = [monitor.update_checks(client, statuses) for monitor in self._monitors if monitor.enabled]
+        return [updated_check for updated_check in updated_checks if updated_check]
 
     def register(self, client):
-        [m.add_client(client) for m in self._monitors]
+        [monitor.add_client(client) for monitor in self._monitors]
 
     def unregister(self, client):
-        [m.remove_client(client) for m in self._monitors]
+        [monitor.remove_client(client) for monitor in self._monitors]
 
     def poll(self, message_type=RadarMessage.TYPE['CHECK']):
-        [m.poll(message_type) for m in self._monitors if m.enabled]
+        [monitor.poll(message_type) for monitor in self._monitors if m.enabled]
 
     def _log_reply(self, client, message_type, check):
         check['status'] = Check.get_status(check['status'])

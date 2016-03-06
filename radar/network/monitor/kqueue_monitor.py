@@ -48,5 +48,5 @@ class KQueueMonitor(NetworkMonitor):
         self._register(client.socket)
 
     def watch(self):
-        ready_fds = [e.ident for e in self._kernel_queue.control(None, 1, self._timeout)]
+        ready_fds = [event.ident for event in self._kernel_queue.control(None, 1, self._timeout)]
         super(KQueueMonitor, self)._watch(ready_fds)

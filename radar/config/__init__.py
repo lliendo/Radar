@@ -83,8 +83,8 @@ class ConfigBuilder(object):
         try:
             with open(path) as fd:
                 return safe_load(fd)
-        except (YAMLError, IOError) as e:
-            raise ConfigError('Error - Couldn\'t parse YAML file : \'{:}\'. Details : {:}.'.format(path, e))
+        except (YAMLError, IOError) as error:
+            raise ConfigError('Error - Couldn\'t parse YAML file : \'{:}\'. Details : {:}.'.format(path, error))
 
     def _filter_config(self, key):
         return [config for config in self.config if key in config]

@@ -67,18 +67,18 @@ class UnixSetup(object):
             from os import chown, seteuid, setegid, setgroups
             from pwd import getpwnam
             from grp import getgrnam
-        except ImportError as e:
-            raise UnixSetupError('Error - Couldn\'t import Unix permission functions. Details : {:}.'.format(e))
+        except ImportError as error:
+            raise UnixSetupError('Error - Couldn\'t import Unix permission functions. Details : {:}.'.format(error))
 
         return object.__new__(cls, *args, **kwargs)
 
     def _create_dir(self, path):
         try:
             mkdir(path)
-        except OSError as e:
-            if e.errno != EEXIST:
+        except OSError as error:
+            if error.errno != EEXIST:
                 raise UnixSetupError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(
-                    path, e.strerror))
+                    path, error.strerror))
 
     def _write_pid_file(self, pidfile, user, group):
         self._create_dir(dirname(pidfile))
@@ -91,10 +91,10 @@ class UnixSetup(object):
                 fd.write(u'{:}'.format(getpid()))
 
             chown(pidfile, getpwnam(user).pw_uid, getgrnam(group).gr_gid)
-        except IOError as e:
-            raise UnixSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
-        except OSError as e:
-            raise UnixSetupError('Error - Couldn\'t change permissions for pidfile \'{:}\'. Details : {:}.'.format(pidfile, e))
+        except IOError as error:
+            raise UnixSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, error))
+        except OSError as error:
+            raise UnixSetupError('Error - Couldn\'t change permissions for pidfile \'{:}\'. Details : {:}.'.format(pidfile, error))
 
     def _install_signal_handlers(self, launcher):
         signal(SIGTERM, launcher.stop)
@@ -105,9 +105,9 @@ class UnixSetup(object):
             setgroups([])
             setegid(getgrnam(group).gr_gid)
             seteuid(getpwnam(user).pw_uid)
-        except OSError as e:
+        except OSError as error:
             raise UnixSetupError('Error - Couldn\'t switch process owner \'{:}.{:}\'. Details {:}.'.format(
-                user, group, e))
+                user, group, error))
         except KeyError:
             raise UnixSetupError('Error - User or group \'{:}.{:}\' does not exist.'.format(user, group))
 

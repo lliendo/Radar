@@ -94,4 +94,4 @@ class ClientInitialSetup(InitialSetup):
             config['checks'],
         ]
 
-        [self._create_directory(d) for d in directories + self.user_setup._get_directories(config)]
+        [self._create_directory(directory) for directory in directories + self.user_setup._get_directories(config)]

@@ -22,9 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from io import open
 from os.path import join as join_path
-from ast import parse as ast_parse
-from ast import walk as ast_walk
-from ast import ClassDef
+from ast import parse as ast_parse, walk as ast_walk, ClassDef
 from pkgutil import iter_modules
 from sys import path as module_search_path
 from ..logger import RadarLogger
@@ -47,22 +45,22 @@ class ClassLoader(object):
         self._module_path = module_path
         module_search_path.append(module_path)
 
-    def _get_class_names(self, filename):
+    def _get_class_names(self, file):
         class_names = []
 
         try:
-            with open(filename) as fd:
-                parsed_source = ast_parse(fd.read().strip(self.ENCODING_DECLARATION))
-                class_names = [n.name for n in ast_walk(parsed_source) if isinstance(n, ClassDef)]
-        except IOError as e:
-            raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}.'.format(filename, e.strerror))
-        except SyntaxError as e:
-            raise ClassLoaderError('Error - Couldn\'t parse \'{:}\'. Reason: {:}.'.format(filename, e))
+            with open(file) as fd:
+                parsed_source = ast_parse(fd.read().strip(self.ENCODING_DECLARATION))  # We remove the encoding declaration, otherwise file parsing fails.
+                class_names = [node.name for node in ast_walk(parsed_source) if isinstance(node, ClassDef)]
+        except IOError as error:
+            raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}.'.format(file, error.strerror))
+        except SyntaxError as error:
+            raise ClassLoaderError('Error - Couldn\'t parse \'{:}\'. Reason: {:}.'.format(file, error))
 
         return class_names
 
     def get_classes(self, subclass=object):
-        classes = []
+        loaded_classes = []
 
         for _, module_name, _ in iter_modules(path=[self._module_path]):
             module_path = join_path(self._module_path, module_name)
@@ -70,8 +68,8 @@ class ClassLoader(object):
             try:
                 class_names = self._get_class_names(module_path + '/__init__.py')
                 imported_module = __import__(module_name)
-                classes += [getattr(imported_module, class_name) for class_name in class_names]
-            except ClassLoaderError as e:
-                RadarLogger.log(e)
+                loaded_classes += [getattr(imported_module, class_name) for class_name in class_names]
+            except ClassLoaderError as error:
+                RadarLogger.log(error)
 
-        return [C for C in classes if issubclass(C, subclass)]
+        return [LoadedClass for LoadedClass in loaded_classes if issubclass(LoadedClass, subclass)]

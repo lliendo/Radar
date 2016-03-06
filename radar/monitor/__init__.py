@@ -44,14 +44,14 @@ class Monitor(Switchable):
 
     def _validate(self):
         try:
-            attr = [attr for attr in ['addresses', 'checks'] if not getattr(self, attr)].pop()
-            raise MonitorError('Error - Missing \'{:}\' from monitor definition.'.format(attr))
+            attribute = [attribute for attribute in ['addresses', 'checks'] if not getattr(self, attribute)].pop()
+            raise MonitorError('Error - Missing \'{:}\' from monitor definition.'.format(attribute))
         except IndexError:
             pass
 
     def matches(self, new_client):
-        return (new_client not in [c['client'] for c in self.active_clients]) and \
-            any([new_client.address in a for a in self.addresses])
+        return (new_client not in [active_client['client'] for active_client in self.active_clients]) and \
+            any([new_client.address in address for address in self.addresses])
 
     def add_client(self, client):
         if self.matches(client):
@@ -62,7 +62,7 @@ class Monitor(Switchable):
             })
 
     def remove_client(self, client):
-        self.active_clients = [c for c in self.active_clients if c['client'] != client]
+        self.active_clients = [active_client for active_client in self.active_clients if active_client['client'] != client]
 
     def update_checks(self, client, statuses):
         updated = {}
@@ -82,12 +82,12 @@ class Monitor(Switchable):
     def _poll_client(self, client, message_type, message):
         try:
             client.send_message(message_type, serialize_json(message))
-        except ClientSendError as e:
-            RadarLogger.log(e)
+        except ClientSendError as error:
+            RadarLogger.log(error)
 
     def poll(self, message_type):
-        message = reduce(lambda l, m: l + m, [c.to_check_dict() for c in self.checks if c.enabled])
-        [self._poll_client(c['client'], message_type, message) for c in self.active_clients]
+        message = reduce(lambda l, m: l + m, [check.to_check_dict() for check in self.checks if check.enabled])
+        [self._poll_client(active_client['client'], message_type, message) for active_client in self.active_clients]
 
         return message
 
@@ -101,7 +101,7 @@ class Monitor(Switchable):
     def to_dict(self):
         d = super(Monitor, self).to_dict(['id', 'name', 'enabled'])
         d.update({
-            'clients': [self._active_client_to_dict(client) for client in self.active_clients]
+            'clients': [self._active_client_to_dict(active_client) for active_client in self.active_clients]
         })
 
         return d
@@ -118,7 +118,7 @@ class Monitor(Switchable):
         if ids is not None:
             monitor_objects = reduce(
                 lambda l, m: l + m,
-                [client['checks'] + client['contacts'] for client in self.active_clients], [self]
+                [active_client['checks'] + active_client['contacts'] for active_client in self.active_clients], [self]
             )
             listed_objects = [monitor_object.to_dict() for monitor_object in monitor_objects if monitor_object.id in ids]
         else:

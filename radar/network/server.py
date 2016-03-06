@@ -154,16 +154,14 @@ class Server(object):
 
             self.socket.bind((address, port))
             self.socket.listen(SOMAXCONN)
-        # Can we do : except SocketError as (_, e): ?
-        except SocketError as e:
-            raise ServerListenError('Error - Couldn\'t not listen on : {:}/{:}. Details : {:}.'.format(address, port, e[1]))
+        except SocketError as (_, error):
+            raise ServerListenError('Error - Couldn\'t not listen on : {:}/{:}. Details : {:}.'.format(address, port, error))
 
     def _accept(self):
         try:
             client_socket, (address, port) = self.socket.accept()
-        # Can we do : except SocketError as (_, e): ?
-        except SocketError as e:
-            raise ServerAcceptError('Error - Couldn\'t accept new client. Details : {:}.'.format(e[1]))
+        except SocketError as (_, error):
+            raise ServerAcceptError('Error - Couldn\'t accept new client. Details : {:}.'.format(error))
 
         if not self.blocking_socket:
             client_socket.setblocking(0)
@@ -174,17 +172,17 @@ class Server(object):
         return self.Client(address, port, socket=client_socket, blocking_socket=self.blocking_socket)
 
     def _serve_ready_clients(self, clients):
-        for c in clients:
+        for client in clients:
             try:
-                self.on_receive(c)
+                self.on_receive(client)
             except ClientReceiveError as error:
-                self._on_receive_error(c, error)
+                self._on_receive_error(client, error)
             except ClientSendError as error:
-                self._on_send_error(c, error)
+                self._on_send_error(client, error)
             except ClientDisconnected:
-                self._on_disconnect(c)
+                self._on_disconnect(client)
             except ClientAbortError:
-                self._on_abort(c)
+                self._on_abort(client)
 
     def is_stopped(self):
         return False

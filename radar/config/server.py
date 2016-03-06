@@ -43,13 +43,13 @@ class ContactBuilder(ConfigBuilder):
         return Contact(enabled=contact[ContactBuilder.TAG].get('enabled', True), **contact[ContactBuilder.TAG])
 
     def _build_contacts(self, contacts):
-        return set([self._build_contact(c) for c in contacts])
+        return set([self._build_contact(contact) for contact in contacts])
 
     def build(self):
         try:
             return list(self._build_contacts(self._filter_config(self.TAG)))
-        except ContactError as e:
-            raise ConfigError(str(e) + ' File {:}'.format(self.path))
+        except ContactError as error:
+            raise ConfigError(str(error) + ' File {:}'.format(self.path))
 
 
 class ContactGroupBuilder(ContactBuilder):
@@ -58,7 +58,7 @@ class ContactGroupBuilder(ContactBuilder):
 
     def _copy_contact(self, contact_name, defined_contacts):
         try:
-            contact = deepcopy([c for c in defined_contacts if c.name == contact_name].pop())
+            contact = deepcopy([contact for contact in defined_contacts if contact.name == contact_name].pop())
             contact.id = SequentialIdGenerator().generate()
         except IndexError:
             raise ConfigError('Error - Contact \'{:}\' does not exist.'.format(contact_name))
@@ -74,7 +74,7 @@ class ContactGroupBuilder(ContactBuilder):
         return contact
 
     def _build_contacts(self, contacts, defined_contacts):
-        return [self._build_contact(c, defined_contacts) for c in contacts]
+        return [self._build_contact(contact, defined_contacts) for contact in contacts]
 
     def _build_contact_group(self, contact_group, defined_contacts):
         contact_group = contact_group[ContactGroupBuilder.TAG]
@@ -87,15 +87,15 @@ class ContactGroupBuilder(ContactBuilder):
 
     def _build_contact_groups(self, contact_groups, defined_contacts):
         try:
-            return set([self._build_contact_group(cg, defined_contacts) for cg in contact_groups])
+            return set([self._build_contact_group(contact_group, defined_contacts) for contact_group in contact_groups])
         except TypeError:
             raise ConfigError('Error - Invalid contact group format.')
 
     def build(self, defined_contacts):
         try:
             return list(self._build_contact_groups(self._filter_config(ContactGroupBuilder.TAG), defined_contacts))
-        except ContactGroupError as e:
-            raise ConfigError(str(e) + ' File {:}'.format(self.path))
+        except ContactGroupError as error:
+            raise ConfigError(str(error) + ' File {:}'.format(self.path))
 
 
 class CheckBuilder(ConfigBuilder):
@@ -106,13 +106,13 @@ class CheckBuilder(ConfigBuilder):
         return Check(enabled=check.get('enabled', True), **check[CheckBuilder.TAG])
 
     def _build_checks(self, checks):
-        return set([self._build_check(c) for c in checks])
+        return set([self._build_check(check) for check in checks])
 
     def build(self):
         try:
             return list(self._build_checks(self._filter_config(CheckBuilder.TAG)))
-        except CheckError as e:
-            raise ConfigError(str(e) + ' File {:}'.format(self.path))
+        except CheckError as error:
+            raise ConfigError(str(error) + ' File {:}'.format(self.path))
 
 
 class CheckGroupBuilder(CheckBuilder):
@@ -121,7 +121,7 @@ class CheckGroupBuilder(CheckBuilder):
 
     def _copy_check(self, check_name, defined_checks):
         try:
-            check = deepcopy([c for c in defined_checks if c.name == check_name].pop())
+            check = deepcopy([check for check in defined_checks if check.name == check_name].pop())
             check.id = SequentialIdGenerator().generate()
         except IndexError:
             raise ConfigError('Error - Check \'{:}\' does not exist.'.format(check_name))
@@ -137,7 +137,7 @@ class CheckGroupBuilder(CheckBuilder):
         return check
 
     def _build_checks(self, checks, defined_checks):
-        return [self._build_check(c, defined_checks) for c in checks]
+        return [self._build_check(check, defined_checks) for check in checks]
 
     def _build_check_group(self, check_group, defined_checks):
         check_group = check_group[CheckGroupBuilder.TAG]
@@ -150,15 +150,15 @@ class CheckGroupBuilder(CheckBuilder):
 
     def _build_check_groups(self, check_groups, defined_checks):
         try:
-            return set([self._build_check_group(cg, defined_checks) for cg in check_groups])
+            return set([self._build_check_group(check_group, defined_checks) for check_group in check_groups])
         except TypeError:
             raise ConfigError('Error - Invalid check group format.')
 
     def build(self, defined_checks):
         try:
             return list(self._build_check_groups(self._filter_config(CheckGroupBuilder.TAG), defined_checks))
-        except CheckGroupError as e:
-            raise ConfigError(str(e) + ' File {:}'.format(self.path))
+        except CheckGroupError as error:
+            raise ConfigError(str(error) + ' File {:}'.format(self.path))
 
 
 class AddressBuilder(object):
@@ -166,9 +166,9 @@ class AddressBuilder(object):
         self._addresses = addresses
 
     def _build_address(self, address):
-        for A in [IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange]:
+        for AddressClass in [IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange]:
             try:
-                return A(address)
+                return AddressClass(address)
             except AddressError as error:
                 address_error = error
 
@@ -188,23 +188,23 @@ class MonitorBuilder(ConfigBuilder):
         return Monitor(
             name=monitor.get('name', ''),
             addresses=AddressBuilder(monitor['hosts']).build(),
-            checks=[c for c in checks if c.name in monitor['watch']],
-            contacts=[c for c in contacts if c.name in monitor['notify']],
+            checks=[check for check in checks if check.name in monitor['watch']],
+            contacts=[contact for contact in contacts if contact.name in monitor['notify']],
             enabled=monitor.get('enabled', True)
         )
 
     def _build_monitors(self, monitors, checks, contacts):
-        return set([self._build_monitor(m, checks, contacts) for m in monitors])
+        return set([self._build_monitor(monitor, checks, contacts) for monitor in monitors])
 
     def build(self, checks, contacts):
         try:
             monitors_config = self._filter_config(self.TAG)
             monitors = list(self._build_monitors(monitors_config, checks, contacts))
-        except KeyError as e:
-            raise ConfigError('Error - Missing \'{:}\' while creating monitor from {:}.'.format(e.args[0], self.path))
-        except TypeError as e:
+        except KeyError as error:
+            raise ConfigError('Error - Missing \'{:}\' while creating monitor from {:}.'.format(error.args[0], self.path))
+        except TypeError as error:
             raise ConfigError('Error - Either hosts, checks or contacts are not a YAML list in monitor definition. File : {:}.'.format(
-                e.args[0], self.path))
+                error.args[0], self.path))
 
         return monitors
 
@@ -246,12 +246,12 @@ class ServerConfig(ConfigBuilder):
         self.plugins = []
 
     def _search_files(self, path):
-        files = [join_path(root, f) for root, _, files in walk(path) for f in files]
-        return [f for f in files if S_ISREG(stat(f).st_mode)]
+        files = [join_path(root, file) for root, _, files in walk(path) for file in files]
+        return [file for file in files if S_ISREG(stat(file).st_mode)]
 
     def _build_and_reduce(self, Builder, files, builder_args=None):
         builder_args = builder_args if builder_args is not None else []
-        return reduce(lambda l, m: l + m, [Builder(f).build(*builder_args) for f in files])
+        return reduce(lambda l, m: l + m, [Builder(file).build(*builder_args) for file in files])
 
     def _build_contacts(self):
         files = self._search_files(self.config['contacts'])
@@ -285,7 +285,7 @@ class ServerConfig(ConfigBuilder):
 
     def _load_plugins(self):
         plugin_classes = ClassLoader(self.config['plugins']).get_classes(subclass=ServerPlugin)
-        return set([P() for P in plugin_classes])
+        return set([PluginClass() for PluginClass in plugin_classes])
 
     def build(self):
         self.monitors = self._build_monitors(self._build_checks(), self._build_contacts())

@@ -131,11 +131,11 @@ class PluginManager(Thread):
                 message['address'],
                 message['port'],
                 message['message_type'],
-                self._flatten([c.as_list() for c in self._dereference(message['check_ids'])]),
-                self._flatten([c.as_list() for c in self._dereference(message['contact_ids'])]),
+                self._flatten([check_ids.as_list() for check_ids in self._dereference(message['check_ids'])]),
+                self._flatten([contact_ids.as_list() for contact_ids in self._dereference(message['contact_ids'])]),
             )
-        except KeyError as e:
-            raise PluginManagerError('Error - Couldn\'t process incoming message from queue. Missing key : \'{:}\'.'.format(e))
+        except KeyError as error:
+            raise PluginManagerError('Error - Couldn\'t process incoming message from queue. Missing key : \'{:}\'.'.format(error))
 
     def is_stopped(self):
         return self.stop_event.is_set()
@@ -143,13 +143,13 @@ class PluginManager(Thread):
     def _run_plugin(self, plugin, address, port, message_type, checks, contacts):
         try:
             plugin.run(address, port, message_type, checks, contacts)
-        except Exception as e:
+        except Exception as error:
             RadarLogger.log('Error - Plugin \'{:}\' version \'{:}\' raised an error. Details : {:}.'.format(
-                plugin.PLUGIN_NAME, plugin.PLUGIN_VERSION, e))
+                plugin.PLUGIN_NAME, plugin.PLUGIN_VERSION, error))
 
     def _run_plugins(self, queue_message):
         plugin_args = self._get_plugin_args(queue_message)
-        [self._run_plugin(p, *plugin_args) for p in self._plugins if p.enabled]
+        [self._run_plugin(plugin, *plugin_args) for plugin in self._plugins if plugin.enabled]
 
     def run(self):
         while not self.is_stopped():
@@ -157,5 +157,5 @@ class PluginManager(Thread):
                 self._run_plugins(self._queue.get_nowait())
             except EmptyQueue:
                 self.stop_event.wait(self.STOP_EVENT_TIMEOUT)
-            except PluginManagerError as e:
-                RadarLogger.log(e)
+            except PluginManagerError as error:
+                RadarLogger.log(error)

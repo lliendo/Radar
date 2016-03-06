@@ -168,7 +168,7 @@ class AddressRange(object):
         }
 
     def _validate(self, address_range):
-        start_ip, end_ip = [self.AddressClass(a) for a in address_range.split(self.SEPARATOR, 1)]
+        start_ip, end_ip = [self.AddressClass(address) for address in address_range.split(self.SEPARATOR, 1)]
 
         if start_ip.n >= end_ip.n:
             raise AddressError('Error - Start ip address is lower (or equal) than end ip address : \'{:} - {:}\'.'.format(
@@ -256,5 +256,5 @@ class Switchable(object):
     def disable(self, ids=None):
         return self._switch(ids, to_value=False)
 
-    def to_dict(self, attrs):
-        return {a: getattr(self, a) for a in attrs}
+    def to_dict(self, attributes):
+        return {attribute: getattr(self, attribute) for attribute in attributes}
