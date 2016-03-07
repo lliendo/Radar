@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase, skip
+from unittest import TestCase
 from yaml import load
 from mock import patch
 from radar.config import ConfigBuilder
@@ -31,7 +31,6 @@ class GenericConfigBuilder(ConfigBuilder):
 
 
 class TestConfigBuilder(TestCase):
-    @skip('The _lower_config_keys() method is not working properly.')
     def test_config_dict_gets_lower_cased(self):
         input_yaml = """
         - ELEMENT:
@@ -50,17 +49,16 @@ class TestConfigBuilder(TestCase):
         composite_element = {
             'composite element': {
                 'id': 'B',
-                'elements': {
-                    'element': {'id': 'C'},
-                    'element': {'id': 'D'},
-                }
+                'elements': [
+                    {'element': {'id': 'C'}},
+                    {'element': {'id': 'D'}},
+                ]
             }
         }
 
         with patch.object(GenericConfigBuilder, '_read_config', return_value=load(input_yaml)):
             config_builder = GenericConfigBuilder(None)
-            self.assertEqual(element, config_builder._filter_config('element').pop())
-            self.assertEqual(composite_element, config_builder._filter_config('composite element').pop())
+            self.assertEqual([element, composite_element], config_builder.config)
 
     def test_config_dict_merges_options(self):
         input_yaml = """

@@ -40,7 +40,7 @@ class ConfigBuilder(object):
 
     def __init__(self, path):
         self.path = path
-        self.config = self._lower_config_keys(self._read_config(path) or {})
+        self.config = self._lower_config_dict(self._read_config(path) or {})
         self.logger = None
 
     # Merges the current config with a default config.
@@ -60,24 +60,14 @@ class ConfigBuilder(object):
 
         return destination
 
-    # TODO: This is ugly and not woking properly !
-    def _lower_config_keys(self, config):
-        if type(config) == list:
-            return [self._lower_config_keys(d) for d in config]
+    # Lowers down all keys of our config dictionary.
+    def _lower_config_dict(self, obj):
+        if type(obj) == dict:
+            return {key.lower(): self._lower_config_dict(value) for key, value in obj.iteritems()}
+        elif type(obj) == list:
+            return [self._lower_config_dict(item) for item in obj]
 
-        for k in list(config):
-            if type(config[k]) == dict:
-                lowered = self._lower_config_keys(config.pop(k))
-            elif type(config[k]) == list and all([type(e) == str for e in config[k]]):
-                lowered = config.pop(k)
-            elif type(config[k]) == list:
-                lowered = [self._lower_config_keys(d) for d in config[k]]
-            else:
-                lowered = config.pop(k)
-
-            config[k.lower()] = lowered
-
-        return config
+        return obj
 
     def _read_config(self, path):
         try:
