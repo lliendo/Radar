@@ -48,7 +48,7 @@ class ClientManager(object):
         [monitor.remove_client(client) for monitor in self._monitors]
 
     def poll(self, message_type=RadarMessage.TYPE['CHECK']):
-        [monitor.poll(message_type) for monitor in self._monitors if m.enabled]
+        [monitor.poll(message_type) for monitor in self._monitors if monitor.enabled]
 
     def _log_reply(self, client, message_type, check):
         check['status'] = Check.get_status(check['status'])
