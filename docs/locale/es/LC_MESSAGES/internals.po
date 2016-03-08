@@ -110,11 +110,11 @@ msgstr "Organización del proyecto"
 msgid "Radar has the following project structure :"
 msgstr "Radar posee la siguiente estructura :"
 
-#: ../../internals.rst:102
+#: ../../internals.rst:105
 msgid "Initialization"
 msgstr "Inicialización"
 
-#: ../../internals.rst:104
+#: ../../internals.rst:107
 msgid ""
 "Both Radar client and server go through almost the same steps before going "
 "into operational mode. When Radar (client or server) is fired up it "
@@ -126,12 +126,12 @@ msgstr ""
 "arrancado instancia un lanzador (RadarClientLauncher en el cliente y "
 "RadarServerLauncher en el servidor) e inmediatamente invoca al método run()."
 
-#: ../../internals.rst:109
+#: ../../internals.rst:112
 msgid "From that point a three phase initialization takes place :"
 msgstr ""
 "De ahí en adelante una fase de inicializacion de tres etapas toma lugar :"
 
-#: ../../internals.rst:111
+#: ../../internals.rst:114
 msgid ""
 "First the command line is processed. This is done in the RadarLauncher "
 "class. After this, objects and configurations are read from the main "
@@ -142,17 +142,17 @@ msgstr ""
 "clase RadarLauncher. Luego de esto, otras configuraciones son procesadas y "
 "varios objetos son creados (en el caso del servidor). "
 
-#: ../../internals.rst:115
+#: ../../internals.rst:118
 msgid "Client and server proceed to define, create and configure threads."
 msgstr ""
 "Tanto el cliente como el servidor definen, crean y configuran algunos "
 "threads."
 
-#: ../../internals.rst:116
+#: ../../internals.rst:119
 msgid "Finally threads are launched."
 msgstr "Se ejecutan cada uno de los threads."
 
-#: ../../internals.rst:118
+#: ../../internals.rst:121
 msgid ""
 "After all threads are successfully launched client and server break away and"
 " start performing completely different tasks."
@@ -160,11 +160,11 @@ msgstr ""
 "Una vez que se han ejecutado los threads, cliente y servidor dejan de tener "
 "similitud y comienzan a realizar tareas completamente distintas."
 
-#: ../../internals.rst:123
+#: ../../internals.rst:126
 msgid "Operational overview"
 msgstr "Funcionamiento general"
 
-#: ../../internals.rst:125
+#: ../../internals.rst:128
 msgid ""
 "Both Radar client and server operate in an event triggered fashion and make "
 "use of threads to distribute the workload. If you look at the code of the "
@@ -183,7 +183,7 @@ msgstr ""
 "que se encuentran en el módulo network. El cliente y servidor operan de "
 "manera muy similar a pesar de manejar sockets de manera diferente."
 
-#: ../../internals.rst:134
+#: ../../internals.rst:137
 msgid ""
 "The network module also provides some network monitors that are platform "
 "dependent. Before Radar server goes into operational mode it tries to select"
@@ -202,7 +202,7 @@ msgstr ""
 "de multiplexing de los cuales Radar dispone actualmente son : select, poll, "
 "epoll y kqueue."
 
-#: ../../internals.rst:142
+#: ../../internals.rst:145
 msgid ""
 "Radar's client and server also operate in a non-blocking way. Its main "
 "threads loops are iterated constantly every 200 milliseconds. This prevents "
@@ -221,31 +221,31 @@ msgstr ""
 "es detenido la condición de iteración deja de cumplirse y los threads "
 "terminan exitosamente."
 
-#: ../../internals.rst:152
+#: ../../internals.rst:155
 msgid "Server operation"
 msgstr "Funcionamiento del servidor"
 
-#: ../../internals.rst:154
+#: ../../internals.rst:157
 msgid "The main work of the server is split across three main threads :"
 msgstr "El servidor distribuye el trabajo en tres threads principales :"
 
-#: ../../internals.rst:156
+#: ../../internals.rst:159
 msgid "RadarServer."
 msgstr "RadarServer."
 
-#: ../../internals.rst:157
+#: ../../internals.rst:160
 msgid "RadarServerPoller."
 msgstr "RadarServerPoller."
 
-#: ../../internals.rst:158
+#: ../../internals.rst:161
 msgid "PluginManager."
 msgstr "PluginManager."
 
-#: ../../internals.rst:161
+#: ../../internals.rst:165
 msgid "RadarServer :"
 msgstr "RadarServer :"
 
-#: ../../internals.rst:163
+#: ../../internals.rst:167
 msgid ""
 "This thread is responsible for accepting clients and receiving replies from "
 "them. A client is only accepted if it is defined in at least one monitor and"
@@ -255,7 +255,7 @@ msgstr ""
 "mismos. Un cliente es solo aceptado si fue definido en al menos un monitor y"
 " no esta duplicado (esto es, si el cliente no se encuentra ya conectado)."
 
-#: ../../internals.rst:167
+#: ../../internals.rst:171
 msgid ""
 "Once a client is accepted it is registered within the ClientManager. The "
 "ClientManager acts as proxy that talks directly to all defined monitors. "
@@ -272,7 +272,7 @@ msgstr ""
 "almancena con una instancia de dicho cliente. Esta copia es necesaria ya que"
 " más de un cliente puede coincidir con un mismo monitor. "
 
-#: ../../internals.rst:174
+#: ../../internals.rst:178
 msgid ""
 "The reverse process applies when a client disconnects, the RadarServer "
 "unregisters that client and the connection is closed."
@@ -280,7 +280,7 @@ msgstr ""
 "El proceso inverso se da cuando un cliente se desconecta, RadarServer borra "
 "el cliente y su conexión se cierra."
 
-#: ../../internals.rst:177
+#: ../../internals.rst:181
 msgid ""
 "When a client sends a reply is it also initially processed by the "
 "ClientManager. The reason for this is that we need to get a list of checks "
@@ -294,11 +294,11 @@ msgstr ""
 " objetos (chequeos y contactos) son más tarde transferidas al PluginManager "
 "para que puedan procesarse por algún plugin."
 
-#: ../../internals.rst:183
+#: ../../internals.rst:187
 msgid "RadarServerPoller :"
 msgstr "RadarServerPoller :"
 
-#: ../../internals.rst:185
+#: ../../internals.rst:189
 msgid ""
 "This is the simplest thread. Every N seconds it simply asks the "
 "ClientManager to poll all of its monitors. The existence of this thread is "
@@ -317,11 +317,11 @@ msgstr ""
 "tiempo) llevandonos a un diseño más rebuscado tanto para trabajar como para "
 "comprender."
 
-#: ../../internals.rst:194
+#: ../../internals.rst:198
 msgid "PluginManager :"
 msgstr "PluginManager :"
 
-#: ../../internals.rst:196
+#: ../../internals.rst:200
 msgid ""
 "As its name indicates, this is the place where all plugins are executed and "
 "controlled. Whenever the RadarServer receives a reply from a client and "
@@ -353,27 +353,27 @@ msgstr ""
 "apropiados. En caso de que un plugin no funcione correctamente todas sus "
 "excepciones son atrapadas y volcadas al archivo de log de Radar."
 
-#: ../../internals.rst:213
+#: ../../internals.rst:238
 msgid "Client operation"
 msgstr "Funcionamiento del cliente"
 
-#: ../../internals.rst:215
+#: ../../internals.rst:240
 msgid "The client relies on two threads :"
 msgstr "El cliente se basa en dos threads :"
 
-#: ../../internals.rst:217
+#: ../../internals.rst:242
 msgid "RadarClient."
 msgstr "RadarClient."
 
-#: ../../internals.rst:218
+#: ../../internals.rst:243
 msgid "CheckManager."
 msgstr "CheckManager."
 
-#: ../../internals.rst:220
+#: ../../internals.rst:245
 msgid "RadarClient :"
 msgstr "RadarClient :"
 
-#: ../../internals.rst:222
+#: ../../internals.rst:247
 msgid ""
 "This thread is responsible for receiving and replying messages from the "
 "Radar server. For every message received the message is desearialized and "
@@ -389,7 +389,7 @@ msgstr ""
 "threads. Una cola es utilizada para escribir los chequeos que se necesitan "
 "ejecutar, la otra es usada para leer los resultados de dichas ejecuciones."
 
-#: ../../internals.rst:229
+#: ../../internals.rst:254
 msgid ""
 "In case the Radar client is unable to connect to the Radar server it will "
 "wait a certain amount of time and try to reconnect again. This is repeated "
@@ -406,11 +406,11 @@ msgstr ""
 "reconfigurado es necesario reiniciarlo y todas las conexiones actuales se "
 "pierden. Radar no provee un mecanismo de recarga de configuración."
 
-#: ../../internals.rst:237
+#: ../../internals.rst:262
 msgid "CheckManager :"
 msgstr "CheckManager :"
 
-#: ../../internals.rst:239
+#: ../../internals.rst:264
 msgid ""
 "Whenever a CHECK message is received by the RadarClient thread and after "
 "little processing is immediately sent to the CheckManager. When the check "
@@ -433,7 +433,7 @@ msgstr ""
 "que no son relevantes (solo se quedará con los campos status, details y data"
 " del JSON devuelto por el chequeo). "
 
-#: ../../internals.rst:249
+#: ../../internals.rst:274
 msgid ""
 "Once the outputs have been collected they're sent back to the RadarClient "
 "through the other queue and RadarClient sends those results back to the "
@@ -443,11 +443,11 @@ msgstr ""
 " RadarClient mediante la otra cola y RadarClient enviará estos resultados de"
 " vuelta al servidor. "
 
-#: ../../internals.rst:255
+#: ../../internals.rst:307
 msgid "Network protocol"
 msgstr "Protocolo de red"
 
-#: ../../internals.rst:257
+#: ../../internals.rst:309
 msgid ""
 "Radar client and server use TCP for all of its communications. Here is the "
 "network protocol that is used by Radar :"
@@ -455,23 +455,23 @@ msgstr ""
 "El cliente y servidor de Radar utilizan TCP para todas sus comunicaciones. "
 "Este el protocolo de red que usa Radar : "
 
-#: ../../internals.rst:261
+#: ../../internals.rst:313
 msgid "TYPE"
 msgstr "TYPE"
 
-#: ../../internals.rst:261
+#: ../../internals.rst:313
 msgid "OPTIONS"
 msgstr "OPTIONS"
 
-#: ../../internals.rst:261
+#: ../../internals.rst:313
 msgid "PAYLOAD SIZE"
 msgstr "PAYLOAD SIZE"
 
-#: ../../internals.rst:261
+#: ../../internals.rst:313
 msgid "PAYLOAD"
 msgstr "PAYLOAD"
 
-#: ../../internals.rst:264
+#: ../../internals.rst:316
 msgid ""
 "TYPE (1 byte) : Current message types are TEST, TEST REPLY, CHECK and CHECK "
 "REPLY."
@@ -479,15 +479,15 @@ msgstr ""
 "TYPE (1 byte) : Los tipos actuales de mensajes son TEST, TEST REPLY, CHECK y"
 " CHECK REPLY. "
 
-#: ../../internals.rst:267
+#: ../../internals.rst:319
 msgid "OPTIONS (1 byte) : Current options are NONE and COMPRESS."
 msgstr "OPTIONS (1 byte) : Las opciones actuales son NONE y COMPRESS."
 
-#: ../../internals.rst:269
+#: ../../internals.rst:321
 msgid "PAYLOAD SIZE (2 bytes) : Indicates the size (in bytes) of the payload."
 msgstr "PAYLOAD SIZE (2 bytes) : Indica el tamaño (en bytes) del payload."
 
-#: ../../internals.rst:271
+#: ../../internals.rst:323
 msgid ""
 "PAYLOAD (variable) : N bytes make up the payload. The payload's maximum size"
 " is 64 KiB."
@@ -495,7 +495,7 @@ msgstr ""
 "PAYLOAD (variable) : Formada por N bytes. El tamaño máximo del payload es de"
 " 64 KiB. "
 
-#: ../../internals.rst:274
+#: ../../internals.rst:326
 msgid ""
 "Every time the poller needs to query its clients a CHECK message is built "
 "and broadcasted to all clients that are managed by any monitor. When the "
@@ -511,7 +511,7 @@ msgstr ""
 " de tipo CHECK REPLY con los resultados es contruido y enviado de vuelta al "
 "servidor. "
 
-#: ../../internals.rst:280
+#: ../../internals.rst:332
 msgid ""
 "The TEST and TEST REPLY messages are not yet implemented (just defined). The"
 " idea is to have a user-controlled way to explicitly force the run of "
@@ -532,7 +532,7 @@ msgstr ""
 "implementada en un próximo release en conjunto con una pequeña consola de "
 "administración que le permita al usuario un mejor control del servidor. "
 
-#: ../../internals.rst:288
+#: ../../internals.rst:340
 msgid ""
 "The payload is always a JSON. The decision behind using JSON is that "
 "provides flexibility and an easy way to validate and convert data that comes"
@@ -548,7 +548,7 @@ msgstr ""
 "también tiene desventajas : más bytes son enviados por la red y un overhead "
 "adicional es agregado cada vez que serializamos y deserializamos un JSON."
 
-#: ../../internals.rst:296
+#: ../../internals.rst:348
 msgid ""
 "Currently messages are not being compressed at all. This feature makes sense"
 " only if the client replies a message longer than 64 KiB. This feature will "
@@ -558,11 +558,11 @@ msgstr ""
 "tiene sentido si la respuesta de un cliente supera los 64 KiB. Esto será "
 "definitivamente implementado en un próximo release. "
 
-#: ../../internals.rst:302
+#: ../../internals.rst:354
 msgid "Class diagrams"
 msgstr "Diagramas de clase"
 
-#: ../../internals.rst:304
+#: ../../internals.rst:356
 msgid ""
 "Sometimes class diagrams help you see the big picture of a design and also "
 "act as useful documentation. Here are some diagrams that may help you to to "
@@ -573,7 +573,7 @@ msgstr ""
 "diagramas que pueden ayudarte a entender un poco mejor lo que las palabras a"
 " veces no logran describir adecuadamente. "
 
-#: ../../internals.rst:308
+#: ../../internals.rst:360
 msgid ""
 "The diagrams contain the most relevant classes of both Radar server and "
 "client. Only the most important methods of every class are mentioned. You "
@@ -585,66 +585,178 @@ msgstr ""
 "la lectura de estos diagramas con el código fuente para entender "
 "detalladamente lo que sucede en cierta parte del proyecto."
 
-#: ../../internals.rst:313
+#: ../../internals.rst:365
 msgid "Radar client :"
 msgstr "Cliente :"
 
-#: ../../internals.rst:322
+#: ../../internals.rst:374
 msgid "Radar server :"
 msgstr "Servidor :"
 
-#: ../../internals.rst:316
+#: ../../internals.rst:368
 msgid "RadarClient"
 msgstr ""
 
-#: ../../internals.rst:316
+#: ../../internals.rst:368
 msgid "RadarClientLauncher"
 msgstr ""
 
-#: ../../internals.rst:318
+#: ../../internals.rst:370
 msgid "|radar-client|"
 msgstr ""
 
-#: ../../internals.rst:318
+#: ../../internals.rst:370
 msgid "|radar-client-launcher|"
 msgstr ""
 
-#: ../../internals.rst:325
+#: ../../internals.rst:377
 msgid "RadarServer"
 msgstr ""
 
-#: ../../internals.rst:325
+#: ../../internals.rst:377
 msgid "Server"
 msgstr ""
 
-#: ../../internals.rst:327
+#: ../../internals.rst:379
 msgid "|radar-server|"
 msgstr ""
 
-#: ../../internals.rst:327
+#: ../../internals.rst:379
 msgid "|server|"
 msgstr ""
 
-#: ../../internals.rst:333
+#: ../../internals.rst:385
 msgid "Monitor"
 msgstr ""
 
-#: ../../internals.rst:333
+#: ../../internals.rst:385
 msgid "ServerConfig"
 msgstr ""
 
-#: ../../internals.rst:335
+#: ../../internals.rst:387
 msgid "|monitor|"
 msgstr ""
 
-#: ../../internals.rst:335
+#: ../../internals.rst:387
 msgid "|server-config|"
 msgstr ""
 
-#: ../../internals.rst:339
+#: ../../internals.rst:391
 msgid "Notes :"
 msgstr "Notas :"
 
-#: ../../internals.rst:341
+#: ../../internals.rst:393
 msgid "RadarServerLauncher is analogous to RadarClientLauncher."
 msgstr "La clase RadarServerLauncher es análoga a RadarClientLauncher."
+
+#: ../../internals.rst:162
+msgid "RadarServerConsole (only spawn if enabled by user)."
+msgstr "RadarServerConsole (solo si es habilitada por el usuario)."
+
+#: ../../internals.rst:216
+msgid "RadarServerConsole :"
+msgstr ""
+
+#: ../../internals.rst:218
+msgid ""
+"The RadarServerConsole provides a simple and yet powerful mechanism to "
+"control Radar objects while the server is running. This thread will be "
+"launched (if explicitly enabled by the user) and start listening for clients"
+" in the specified address/port. Basically it expects JSON messages that "
+"contains Python instructions and processes them using the built-in ast "
+"module. As this may seem a potential security issue, the actual commands "
+"that can be executed are very well limited to ensure that arbitrary "
+"execution can't take place. Once the JSON is parsed and validated the "
+"corresponding action will be tried to be executed. The protocol used is very"
+" similar to the one used to exchange messages between Radar server and "
+"clients (take a look at the Network Protocol section below) and consists "
+"only in the QUERY and QUERY REPLY messages. As usual this is a non-blocking "
+"thread and it works similarly to the above described threads. It's worth "
+"noting that not any host can connect to the RadarServerConsole (only those "
+"specified in the 'allowed hosts' option), here we use a similar policy as "
+"when Radar clients try to connect the Radar server, with the difference that"
+" more than one client with the same address can connect to the "
+"RadarServerConsole. All activity is logged in the Radar's log file."
+msgstr ""
+"Este thread provee un mecanismo simple y poderoso que permite controlar "
+"diferentes objetos de Radar mientras el servidor se encuentra ejecutando. "
+"Este thread se encarga de escuchar (solo si el usuario lo habilita "
+"explícitamente) la llegada de nuevos clientes en la dirección/puerto "
+"especificados. Básicamente se encarga de procesar mensajes JSON que "
+"contienen instrucciones Python y las interpreta utilizando el modulo ast de "
+"Python. Como esto puede representar una amenaza de seguridad, los comandos "
+"que se pueden ejecutar estan explícitamente limitados para asegurar la "
+"imposibilidad de una ejecución de una instrucción  arbitraria. Una vez que "
+"este mensaje JSON es leído y validado la instrucción recibida se intenta "
+"ejecutar. El protocolo utilizado es muy similar al que utilizan el servidor "
+"Radar y sus clientes (mira la sección Protocolo de red más abajo) y consiste"
+" solamente de los mensajes QUERY y QUERY REPLY. Como siempre, este thread es"
+" no bloqueante y funciona de manera similar a los descriptos anteriormente. "
+"Vale la pena mencionar que no cualquier host puede conectarse a este thread "
+"(solamente aquellos clientes que han sido especificados mediante la opción "
+"'allowed hosts'), nuevamente utilizamos una política similar a la que "
+"utilizan los clientes de Radar y el servidor, con la salvedad que más de un "
+"cliente con la misma dirección de host puede conectarse a la consola. Toda "
+"la actividad de este thread es registrada en el archivo de log de Radar. "
+
+#: ../../internals.rst:280
+msgid "Console client operation"
+msgstr "Funcionamiento de cliente de consola"
+
+#: ../../internals.rst:282
+msgid ""
+"The Radar console client is an external console application that allows you "
+"to remotely control certain aspects of a Radar server. It consists of the "
+"following threads :"
+msgstr ""
+"El cliente de consola de Radar es una aplicación externa que te permite "
+"controlar remotamente ciertos aspectos del servidor Radar. Consiste de los "
+"siguientes threads : "
+
+#: ../../internals.rst:286
+msgid "RadarConsoleClient."
+msgstr ""
+
+#: ../../internals.rst:287
+msgid "RadarConsoleClientInput."
+msgstr ""
+
+#: ../../internals.rst:300
+msgid ""
+"Two commands are 'wrapped' from the RadarConsoleClientInput before passing "
+"them to the RadarConsoleClient thread. These are the '' (empty string) and "
+"the 'quit()' instructions. In the first case we simply print a new line, the"
+" latter if called makes the RadarConsoleClient gracefully finish its "
+"interaction with the server."
+msgstr ""
+"Hay dos comandos que son 'atrapados' por RadarConsoleClientInput antes de "
+"ser enviados al thread RadarConsoleClient. Estos son la cadena vacía '' y la"
+" instrucción 'quit()'. En el primer caso simplemente imprimimos por pantalla"
+" una nueva línea. En el caso de 'quit()' finalizamos la actividad que "
+"mantenemos con el servidor de manera adecuada. "
+
+#: ../../internals.rst:290
+msgid ""
+"These two threads work cooperatively and communicate each other using two "
+"queues. Once again this is the same technique used between the RadarClient "
+"and CheckManager. The RadarConsoleClientInput waits indefinetly for user "
+"input. After the user types something in, the input is immediatly serialized"
+" into a JSON that contains the 'action' to be executed on the server side, "
+"then this JSON is communicated to the RadarConsoleClient which in turns "
+"sends it to the server. When the RadarServerConsole finishes processing the "
+"requested action (if valid) it talks back to the RadarConsoleClient replying"
+" the details about how the command performed, then it is once again passed "
+"to the RadarConsoleClientInput (through a queue) which prints the results on"
+" the screen."
+msgstr ""
+"Estos dos threads trabajan cooperativamente y se comunican utilizando dos "
+"colas. Nuevamente esta es la misma técnica utilizada entre RadarClient y el "
+"CheckManager. El thread RadarConsoleClientInput espera indefinidamente un "
+"input por parte del usuario. Luego de que el usuario ingresa un comando, "
+"esta entrada es inmediatamente serializada en un JSON que contiene la "
+"'acción' a ser ejecutada en el servidor, luego este JSON se envía al thread "
+"RadarConsoleClient que a su vez lo envía al servidor Radar. Cuando el "
+"servidor finaliza el procesamiento de la acción solicitada (siempre que esta"
+" sea válida) le responde a RadarConcoleClient los detalles acerca de la "
+"ejecución del comando, este a su vez lo reenvia al thread RadarConsoleClientInput "
+"(mediante una cola) que finalmente muestra los resultados por pantalla. "
