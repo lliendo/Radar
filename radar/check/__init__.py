@@ -47,6 +47,10 @@ class CheckNotRunning(Exception):
     pass
 
 
+class CheckOutputAlreadyCollected(Exception):
+    pass
+
+
 class Check(Switchable):
 
     STATUS = {
@@ -151,6 +155,7 @@ class Check(Switchable):
     def _split_args(self):
         return split_args(self.args)
 
+    # Platform dependant.
     def _owned_by_stated_user(self, filename):
         pass
 
@@ -184,8 +189,8 @@ class Check(Switchable):
         if self.has_finished():
             try:
                 self.update_status(self._deserialize_output(self._process_handler.communicate()[0]))
-                self._process_handler = None
-                self._start_time = None
+            except ValueError:
+                raise CheckOutputAlreadyCollected()
             except AttributeError:
                 pass
         else:
@@ -193,6 +198,7 @@ class Check(Switchable):
 
         return self
 
+    # Platform dependant.
     def _terminate(self):
         pass
 
@@ -203,13 +209,11 @@ class Check(Switchable):
             self.details = 'Check \'{:} {:}\' was forcibly terminated. Maximum check timeout ({:} seconds) exceeded.'.format(
                 self.path, self.args, self._platform_setup.config['check timeout'])
             self._process_handler = None
-            self._start_time = None
         except CheckNotRunning:
             pass
 
-    # Platform dependant.
     def has_finished(self):
-        pass
+        return self._process_handler.poll() is not None
 
     def is_overdue(self):
         overdue = False
@@ -270,16 +274,6 @@ class UnixCheck(Check):
                 kill(self._process_handler.pid, SIGKILL)
             except (OSError, AttributeError):
                 raise CheckNotRunning()
-
-    def has_finished(self):
-        finished = False
-
-        try:
-            kill(self._process_handler.pid, 0)
-        except (OSError, AttributeError, TypeError):
-            finished = True
-
-        return finished
 
 
 class WindowsCheck(Check):
@@ -342,19 +336,6 @@ class WindowsCheck(Check):
                 CloseHandle(handle)
             except Win32Error:
                 raise CheckNotRunning()
-
-    def has_finished(self):
-        finished = False
-
-        try:
-            OpenProcess(1, False, self._process_handler.pid)
-        except TypeError:
-            finished = True
-        except Win32Error as error:
-            if self._invalid_pid(error):
-                finished = True
-
-        return finished
 
 
 class CheckGroup(Switchable):

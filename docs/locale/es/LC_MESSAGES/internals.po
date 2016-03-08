@@ -410,30 +410,7 @@ msgstr ""
 msgid "CheckManager :"
 msgstr "CheckManager :"
 
-#: ../../internals.rst:239
-msgid ""
-"Whenever a CHECK message is received by the RadarClient thread and after "
-"little processing is immediately sent to the CheckManager. When the check "
-"information is received the CheckManager proceeds to instantiate a bunch of "
-"Checks (depending on the platform running it may instantiate a UnixCheck or "
-"a WindowsCheck) and finally executes them sequentially. Every check's output"
-" is collected and verified (the CheckManager makes sure that the Check "
-"didn't blow up and that a valid status was returned). It also discards all "
-"fields that are not relevant (it will only keep the status, details and data"
-" fields of the returned JSON)."
-msgstr ""
-"Cuando un mensaje de tipo CHECK es recibido por el thread RadarClient y "
-"luego de ser procesado mínimamente, se lo envía al CheckManager. Cuando el "
-"CheckManager recibe esta información se procede a instanciar un conjunto de "
-"chequeos (dependiento la plataforma en donde el cliente este ejecutando "
-"podría instanciar un UnixCheck o un WindowsCheck) y finalmente se los "
-"ejecuta. Cada una de las salidas de los chequeos es recolectada y verificada"
-" (el CheckManager se asegura que un chequeo no ha reventado y que un estado "
-"válido ha sido devuelto). Adicionalmente descartará todos aquellos campos "
-"que no son relevantes (solo se quedará con los campos status, details y data"
-" del JSON devuelto por el chequeo). "
-
-#: ../../internals.rst:249
+#: ../../internals.rst:266
 msgid ""
 "Once the outputs have been collected they're sent back to the RadarClient "
 "through the other queue and RadarClient sends those results back to the "
@@ -443,11 +420,11 @@ msgstr ""
 " RadarClient mediante la otra cola y RadarClient enviará estos resultados de"
 " vuelta al servidor. "
 
-#: ../../internals.rst:255
+#: ../../internals.rst:272
 msgid "Network protocol"
 msgstr "Protocolo de red"
 
-#: ../../internals.rst:257
+#: ../../internals.rst:274
 msgid ""
 "Radar client and server use TCP for all of its communications. Here is the "
 "network protocol that is used by Radar :"
@@ -455,23 +432,23 @@ msgstr ""
 "El cliente y servidor de Radar utilizan TCP para todas sus comunicaciones. "
 "Este el protocolo de red que usa Radar : "
 
-#: ../../internals.rst:261
+#: ../../internals.rst:278
 msgid "TYPE"
 msgstr "TYPE"
 
-#: ../../internals.rst:261
+#: ../../internals.rst:278
 msgid "OPTIONS"
 msgstr "OPTIONS"
 
-#: ../../internals.rst:261
+#: ../../internals.rst:278
 msgid "PAYLOAD SIZE"
 msgstr "PAYLOAD SIZE"
 
-#: ../../internals.rst:261
+#: ../../internals.rst:278
 msgid "PAYLOAD"
 msgstr "PAYLOAD"
 
-#: ../../internals.rst:264
+#: ../../internals.rst:281
 msgid ""
 "TYPE (1 byte) : Current message types are TEST, TEST REPLY, CHECK and CHECK "
 "REPLY."
@@ -479,15 +456,15 @@ msgstr ""
 "TYPE (1 byte) : Los tipos actuales de mensajes son TEST, TEST REPLY, CHECK y"
 " CHECK REPLY. "
 
-#: ../../internals.rst:267
+#: ../../internals.rst:284
 msgid "OPTIONS (1 byte) : Current options are NONE and COMPRESS."
 msgstr "OPTIONS (1 byte) : Las opciones actuales son NONE y COMPRESS."
 
-#: ../../internals.rst:269
+#: ../../internals.rst:286
 msgid "PAYLOAD SIZE (2 bytes) : Indicates the size (in bytes) of the payload."
 msgstr "PAYLOAD SIZE (2 bytes) : Indica el tamaño (en bytes) del payload."
 
-#: ../../internals.rst:271
+#: ../../internals.rst:288
 msgid ""
 "PAYLOAD (variable) : N bytes make up the payload. The payload's maximum size"
 " is 64 KiB."
@@ -495,7 +472,7 @@ msgstr ""
 "PAYLOAD (variable) : Formada por N bytes. El tamaño máximo del payload es de"
 " 64 KiB. "
 
-#: ../../internals.rst:274
+#: ../../internals.rst:291
 msgid ""
 "Every time the poller needs to query its clients a CHECK message is built "
 "and broadcasted to all clients that are managed by any monitor. When the "
@@ -511,7 +488,7 @@ msgstr ""
 " de tipo CHECK REPLY con los resultados es contruido y enviado de vuelta al "
 "servidor. "
 
-#: ../../internals.rst:280
+#: ../../internals.rst:297
 msgid ""
 "The TEST and TEST REPLY messages are not yet implemented (just defined). The"
 " idea is to have a user-controlled way to explicitly force the run of "
@@ -532,7 +509,7 @@ msgstr ""
 "implementada en un próximo release en conjunto con una pequeña consola de "
 "administración que le permita al usuario un mejor control del servidor. "
 
-#: ../../internals.rst:288
+#: ../../internals.rst:305
 msgid ""
 "The payload is always a JSON. The decision behind using JSON is that "
 "provides flexibility and an easy way to validate and convert data that comes"
@@ -548,7 +525,7 @@ msgstr ""
 "también tiene desventajas : más bytes son enviados por la red y un overhead "
 "adicional es agregado cada vez que serializamos y deserializamos un JSON."
 
-#: ../../internals.rst:296
+#: ../../internals.rst:313
 msgid ""
 "Currently messages are not being compressed at all. This feature makes sense"
 " only if the client replies a message longer than 64 KiB. This feature will "
@@ -558,11 +535,11 @@ msgstr ""
 "tiene sentido si la respuesta de un cliente supera los 64 KiB. Esto será "
 "definitivamente implementado en un próximo release. "
 
-#: ../../internals.rst:302
+#: ../../internals.rst:319
 msgid "Class diagrams"
 msgstr "Diagramas de clase"
 
-#: ../../internals.rst:304
+#: ../../internals.rst:321
 msgid ""
 "Sometimes class diagrams help you see the big picture of a design and also "
 "act as useful documentation. Here are some diagrams that may help you to to "
@@ -573,7 +550,7 @@ msgstr ""
 "diagramas que pueden ayudarte a entender un poco mejor lo que las palabras a"
 " veces no logran describir adecuadamente. "
 
-#: ../../internals.rst:308
+#: ../../internals.rst:325
 msgid ""
 "The diagrams contain the most relevant classes of both Radar server and "
 "client. Only the most important methods of every class are mentioned. You "
@@ -585,66 +562,127 @@ msgstr ""
 "la lectura de estos diagramas con el código fuente para entender "
 "detalladamente lo que sucede en cierta parte del proyecto."
 
-#: ../../internals.rst:313
+#: ../../internals.rst:330
 msgid "Radar client :"
 msgstr "Cliente :"
 
-#: ../../internals.rst:322
+#: ../../internals.rst:339
 msgid "Radar server :"
 msgstr "Servidor :"
 
-#: ../../internals.rst:316
+#: ../../internals.rst:333
 msgid "RadarClient"
 msgstr ""
 
-#: ../../internals.rst:316
+#: ../../internals.rst:333
 msgid "RadarClientLauncher"
 msgstr ""
 
-#: ../../internals.rst:318
+#: ../../internals.rst:335
 msgid "|radar-client|"
 msgstr ""
 
-#: ../../internals.rst:318
+#: ../../internals.rst:335
 msgid "|radar-client-launcher|"
 msgstr ""
 
-#: ../../internals.rst:325
+#: ../../internals.rst:342
 msgid "RadarServer"
 msgstr ""
 
-#: ../../internals.rst:325
+#: ../../internals.rst:342
 msgid "Server"
 msgstr ""
 
-#: ../../internals.rst:327
+#: ../../internals.rst:344
 msgid "|radar-server|"
 msgstr ""
 
-#: ../../internals.rst:327
+#: ../../internals.rst:344
 msgid "|server|"
 msgstr ""
 
-#: ../../internals.rst:333
+#: ../../internals.rst:350
 msgid "Monitor"
 msgstr ""
 
-#: ../../internals.rst:333
+#: ../../internals.rst:350
 msgid "ServerConfig"
 msgstr ""
 
-#: ../../internals.rst:335
+#: ../../internals.rst:352
 msgid "|monitor|"
 msgstr ""
 
-#: ../../internals.rst:335
+#: ../../internals.rst:352
 msgid "|server-config|"
 msgstr ""
 
-#: ../../internals.rst:339
+#: ../../internals.rst:356
 msgid "Notes :"
 msgstr "Notas :"
 
-#: ../../internals.rst:341
+#: ../../internals.rst:358
 msgid "RadarServerLauncher is analogous to RadarClientLauncher."
 msgstr "La clase RadarServerLauncher es análoga a RadarClientLauncher."
+
+#: ../../internals.rst:239
+msgid ""
+"Whenever a CHECK message is received by the RadarClient thread and after "
+"little processing is immediately sent to the CheckManager. When the check "
+"information is received the CheckManager proceeds to instantiate a bunch of "
+"Checks (depending on the platform running it may instantiate a UnixCheck or "
+"a WindowsCheck) and puts them in the _wait_queue (this is actually reflected"
+" in the _on_check() method from the CheckManager class)."
+msgstr ""
+"Cuando un mensaje de tipo CHECK es recibido por el thread RadarClient y "
+"luego de ser procesado mínimamente, se lo envía al CheckManager. Cuando el "
+"CheckManager recibe esta información se procede a instanciar un conjunto de "
+"chequeos (dependiento la plataforma en donde el cliente este ejecutando "
+"podría instanciar un UnixCheck o un WindowsCheck)."
+
+#: ../../internals.rst:246
+msgid ""
+"The CheckManager maintains two queues to allow controlled concurrency "
+"execution of checks, these queues are the _wait_queue and the "
+"_execution_queue. As described before all checks go initially to the "
+"_wait_queue. This queue can indeed grow without any restrictions. The "
+"execution queue however only allows a maximun of N checks at any given time "
+"(N is actually the number specified by the 'check concurrency' option). "
+"Everytime a check or checks arrive they are put on the _wait_queue and if "
+"there is enough room available in the _execution_queue they are moved there "
+"and then those checks are launched. As our CheckManager is non-blocking we "
+"have the advantage to periodically check the status of our spawn checks, and"
+" that's exactly what we do to prenvent indefinite execution. Every time the "
+"CheckManager iterates it also verifies that no check has taken more than "
+"certain amount of time to execute. If this is indeed the case then those "
+"checks are forced to terminate and marked as TIMEOUT."
+msgstr ""
+"El CheckManager administra dos colas que posibilitan la ejecución de chequeos de "
+"forma concurrente y controlada, estas colas son _wait_queue y _execution_queue. "
+"Como se ha mencionado anteriormente todos los chequeos van inicialmente a la "
+"_wait_queue. Esta cola de hecho puede crecer sin ningún tipo de restricción. "
+"La cola _execution_queue en cambio solo admite un numero N máximo de chequeos en "
+"cualquier instante (N es en realidad el número especificado por la opción  "
+"'check concurrency'). Cada vez que uno o varios chequeos llegan se los envía a "
+"la cola _wait_queue y si existe espacio suficiente en la cola _execution_queue "
+"se los mueven allí y luego son ejecutados. Como nuestro CheckManager es no "
+"bloqueante tenemos la ventaja de poder verificar periodicamente el estado "
+"de los chequeos que hemos lanzado y esto es exactamente lo que hacemos para "
+"prevenir la ejecución indefinida de los mismos. Cada vez que el CheckManager itera "
+"también se encarga de verificar que ningún chequeo ha tomado más de un cierto "
+"tiempo en ejecutarse. Si este es el caso entonces dichos chequeos son terminados "
+"de manera forzosa y se los marca con el estado TIMEOUT. "
+
+#: ../../internals.rst:261
+msgid ""
+"Every check's output is collected and verified (the CheckManager makes sure "
+"that the Check didn't blow up and that a valid status was returned). It also"
+" discards all fields that are not relevant (it will only keep the status, "
+"details and data fields of the returned JSON)."
+msgstr ""
+"Cada una de las salidas de los chequeos es recolectada y verificada "
+"(el CheckManager se asegura que un chequeo no ha reventado y que un estado "
+"válido ha sido devuelto). Adicionalmente descartará todos aquellos campos "
+"que no son relevantes (solo se quedará con los campos status, details y data "
+"del JSON devuelto por el chequeo). "
