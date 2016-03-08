@@ -71,6 +71,9 @@ Radar has the following project structure :
             /config          # Includes builders that handle initializations of
                              # both Radar client and server.
 
+            /console         # Contains the Radar server console.
+            /console_client  # Contains the classes that support the Radar console client.
+
             /contact         # Contact and ContactGroup abstractions.
 
             /initial_setup   # Includes facilities to configure Radar after
@@ -156,6 +159,7 @@ The main work of the server is split across three main threads :
 * RadarServer.
 * RadarServerPoller.
 * PluginManager.
+* RadarServerConsole (only spawn if enabled by user).
 
 
 RadarServer :
@@ -207,6 +211,27 @@ re-instantiating those objects from their states.
 After this pre-processing every plugin's run method is called with appropiate
 arguments. If a plugin does not work properly all exceptions are caught and
 registered in the Radar's log file.
+
+
+RadarServerConsole :
+
+The RadarServerConsole provides a simple and yet powerful mechanism to control
+Radar objects while the server is running. This thread will be launched (if
+explicitly enabled by the user) and start listening for clients in the specified
+address/port. Basically it expects JSON messages that contains Python instructions
+and processes them using the built-in ast module. As this may seem a potential
+security issue, the actual commands that can be executed are very well limited to
+ensure that arbitrary execution can't take place. Once the JSON is parsed and
+validated the corresponding action will be tried to be executed. The protocol
+used is very similar to the one used to exchange messages between Radar server
+and clients (take a look at the Network Protocol section below) and consists only
+in the QUERY and QUERY REPLY messages. As usual this is a non-blocking thread
+and it works similarly to the above described threads. It's worth noting that not
+any host can connect to the RadarServerConsole (only those specified in the
+'allowed hosts' option), here we use a similar policy as when Radar clients try
+to connect the Radar server, with the difference that more than one client with
+the same address can connect to the RadarServerConsole. All activity is logged
+in the Radar's log file.
 
 
 Client operation
@@ -266,6 +291,33 @@ details and data fields of the returned JSON).
 Once the outputs have been collected they're sent back to the RadarClient
 through the other queue and RadarClient sends those results back to the
 RadarServer.
+
+
+Console client operation
+------------------------
+
+The Radar console client is an external console application that allows you to
+remotely control certain aspects of a Radar server. It consists of the following
+threads :
+
+* RadarConsoleClient.
+* RadarConsoleClientInput.
+
+
+These two threads work cooperatively and communicate each other using two queues.
+Once again this is the same technique used between the RadarClient and CheckManager.
+The RadarConsoleClientInput waits indefinetly for user input. After the user types
+something in, the input is immediatly serialized into a JSON that contains the 'action'
+to be executed on the server side, then this JSON is communicated to the RadarConsoleClient
+which in turns sends it to the server. When the RadarServerConsole finishes
+processing the requested action (if valid) it talks back to the RadarConsoleClient
+replying the details about how the command performed, then it is once again passed 
+to the RadarConsoleClientInput (through a queue) which prints the results on the screen.
+
+Two commands are 'wrapped' from the RadarConsoleClientInput before passing them
+to the RadarConsoleClient thread. These are the '' (empty string) and the 'quit()'
+instructions. In the first case we simply print a new line, the latter if called
+makes the RadarConsoleClient gracefully finish its interaction with the server.
 
 
 Network protocol
