@@ -204,10 +204,6 @@ msgstr ""
 msgid "If you want to verify this small plugin, then :"
 msgstr "Si quieres verificar el funcionamiento de este plugin :"
 
-#: ../../plugins-development.rst:103
-msgid "Create a directory called dummy-plugin (or name it as you want)."
-msgstr "Crea un directorio llamado dummy-plugin (o nombralo como desees)"
-
 #: ../../plugins-development.rst:104
 msgid ""
 "Create an __init__.py file inside this directory and copy the above code to "
@@ -489,3 +485,7 @@ msgstr ""
 "¿no?) puedes echar un vistazo a un plugin notificador de correo `aquí "
 "<https://github.com/lliendo/Radar-Plugins>`_. Este plugin notificará a sus "
 "contactos cuando un chequeo tiene alguno de sus estados diferente a OK."
+
+#: ../../plugins-development.rst:103
+msgid "Create a directory called dummy_plugin (or name it as you want)."
+msgstr "Crea un directorio llamado dummy_plugin (o nombralo como desees)"

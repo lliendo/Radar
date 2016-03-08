@@ -100,7 +100,7 @@ a Python class where you can code anything you want.
 
 If you want to verify this small plugin, then :
 
-1. Create a directory called dummy-plugin (or name it as you want).
+1. Create a directory called dummy_plugin (or name it as you want).
 2. Create an __init__.py file inside this directory and copy the above code to it.
 3. Move the directory you created in step one to your Radar server's plugins directory.
 4. If Radar is already running then you'll need to restart it.
