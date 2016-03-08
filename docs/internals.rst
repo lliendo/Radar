@@ -61,7 +61,7 @@ Radar has the following project structure :
 
         /radar
             /check           # Check and CheckGroup abstractions.
-            /check_manager   # CheckManager governs concurrent check execution.
+            /check_manager   # CheckManager governs check execution.
             /class_loader    # Loading mechanism for plugins.
             /client          # Main RadarClient abstraction.
 
@@ -240,24 +240,7 @@ Whenever a CHECK message is received by the RadarClient thread and after
 little processing is immediately sent to the CheckManager. When the check
 information is received the CheckManager proceeds to instantiate a bunch
 of Checks (depending on the platform running it may instantiate a UnixCheck
-or a WindowsCheck) and puts them in the _wait_queue (this is actually reflected
-in the _on_check() method from the CheckManager class).
-
-The CheckManager maintains two queues to allow controlled concurrency execution
-of checks, these queues are the _wait_queue and the _execution_queue. As described
-before all checks go initially to the _wait_queue. This queue can indeed grow
-without any restrictions. The execution queue however only allows a maximun
-of N checks at any given time (N is actually the number specified by the 'check
-concurrency' option).
-Everytime a check or checks arrive they are put on the _wait_queue and if there
-is enough room available in the _execution_queue they are moved there and then
-those checks are launched. As our CheckManager is non-blocking we have the advantage
-to periodically check the status of our spawn checks, and that's exactly what we do
-to prenvent indefinite execution. Every time the CheckManager iterates
-it also verifies that no check has taken more than certain amount of time to
-execute. If this is indeed the case then those checks are forced to terminate
-and marked as TIMEOUT.
-
+or a WindowsCheck) and finally executes them sequentially.
 Every check's output is collected and verified (the CheckManager makes sure
 that the Check didn't blow up and that a valid status was returned). It also
 discards all fields that are not relevant (it will only keep the status,
