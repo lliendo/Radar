@@ -249,3 +249,16 @@ class TestCheck(TestCase):
         self.dummy_check._process_handler = Mock()
         self.dummy_check._process_handler.poll = MagicMock(return_value=None)
         self.assertFalse(self.dummy_check.has_finished())
+
+    def test_update_matches_returns_false_due_to_disabled_check(self):
+        self.dummy_check.disable()
+        self.assertFalse(self.dummy_check._update_matches({'id': self.dummy_check.id, 'status': self.dummy_check.current_status}))
+
+    def test_update_matches_returns_false_due_to_different_id(self):
+        self.assertFalse(self.dummy_check._update_matches({'id': self.dummy_check.id + 1, 'status': self.dummy_check.current_status}))
+
+    def test_update_matches_returns_false_due_to_invalid_status(self):
+        self.assertFalse(self.dummy_check._update_matches({'id': self.dummy_check.id, 'status': max(Check.STATUS.values()) + 1}))
+
+    def test_update_matches_returns_true(self):
+        self.assertTrue(self.dummy_check._update_matches({'id': self.dummy_check.id, 'status': self.dummy_check.current_status}))
