@@ -80,8 +80,8 @@ class Check(Switchable):
         self._start_time = None
 
     def _update_matches(self, check_status):
-        return (self.id == check_status['id']) and (check_status['status'] in list(self.STATUS.values())) and \
-            self.enabled
+        return self.enabled and (self.id == check_status['id']) and \
+            (check_status['status'] in list(self.STATUS.values()))
 
     def update_status(self, check_status):
         updated = False
