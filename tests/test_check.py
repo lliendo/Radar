@@ -20,8 +20,8 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from unittest import TestCase, skip
-from mock import Mock, MagicMock, ANY
+from unittest import TestCase
+from mock import Mock, MagicMock
 from nose.tools import raises
 from json import dumps as serialize_json
 from time import time
@@ -224,6 +224,7 @@ class TestCheck(TestCase):
         self.dummy_check._terminate = Mock()
         self.dummy_check.terminate()
         self.assertEqual(self.dummy_check.current_status, Check.STATUS['TIMEOUT'])
+        self.dummy_check._terminate.assert_called_with(*[])
 
     def test_check_is_overdue(self):
         self.dummy_check._start_time = time() - (self.dummy_check._platform_setup.config['check timeout'] + 1)
@@ -238,3 +239,13 @@ class TestCheck(TestCase):
         self.dummy_check.has_finished = MagicMock(return_value=True)
         self.dummy_check._start_time = time() - (self.dummy_check._platform_setup.config['check timeout'] / 2.0)
         self.assertFalse(self.dummy_check.is_overdue())
+
+    def test_has_finished_returns_true(self):
+        self.dummy_check._process_handler = Mock()
+        self.dummy_check._process_handler.poll = MagicMock(return_value=2148)
+        self.assertTrue(self.dummy_check.has_finished())
+
+    def test_has_finished_returns_false(self):
+        self.dummy_check._process_handler = Mock()
+        self.dummy_check._process_handler.poll = MagicMock(return_value=None)
+        self.assertFalse(self.dummy_check.has_finished())
