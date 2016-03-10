@@ -11,6 +11,7 @@ set action=%1
 
 if "%action%"=="start" call :start
 if "%action%"=="stop" call :stop
+if "%action%"=="restart" call :restart
 call :help
 
 
@@ -29,6 +30,22 @@ exit /b 0
         taskkill /pid %pid%
     ) else (
         echo "%desc% seems to be stopped."
+    )
+exit /b 0
+
+REM Yes, we're duplicating code here... We can't reuse the ':start' and ':stop' calls.
+:restart
+    if exist %pidfile% (
+        set /p pid=<%pidfile%
+        taskkill /pid %pid%
+    ) else (
+        echo "%desc% seems to be stopped."
+    )
+
+    if not exist %pidfile% (
+        start %service% %service_args%
+    ) else (
+        echo "%desc% seems to be running. If that's not the case then remove : %pidfile%."
     )
 exit /b 0
 
