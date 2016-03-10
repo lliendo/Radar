@@ -201,11 +201,11 @@ msgstr ""
 "unitarios en tus chequeos. De esta manera te aseguras de que los mismos se "
 "comportan de la manera en que tu esperas que lo hagan."
 
-#: ../../checks-development.rst:107
+#: ../../checks-development.rst:142
 msgid "Examples"
 msgstr "Ejemplos"
 
-#: ../../checks-development.rst:109
+#: ../../checks-development.rst:144
 msgid ""
 "If you're looking for some real examples you can take a look at this  "
 "`repository <https://github.com/lliendo/Radar-Checks>`_. In there you'll "
@@ -217,23 +217,23 @@ msgstr ""
 "encontrarás algunos chequeos básicos (escritos en Python) que te permitirán "
 "monitorear :"
 
-#: ../../checks-development.rst:113
+#: ../../checks-development.rst:148
 msgid "Disk usage."
 msgstr "Utilización de disco."
 
-#: ../../checks-development.rst:114
+#: ../../checks-development.rst:149
 msgid "Ram usage."
 msgstr "Utilización de memoria."
 
-#: ../../checks-development.rst:115
+#: ../../checks-development.rst:150
 msgid "Uptime."
 msgstr "Tiempo de encendido."
 
-#: ../../checks-development.rst:116
+#: ../../checks-development.rst:151
 msgid "Process status."
 msgstr "Estado de proceso."
 
-#: ../../checks-development.rst:118
+#: ../../checks-development.rst:153
 msgid ""
 "They have been designed to run on as many platforms as possible. They rely "
 "on the excellent `psutil <https://github.com/giampaolo/psutil>`_ module."
@@ -241,3 +241,50 @@ msgstr ""
 "Fueron diseñados para correr en tantas plataformas como sea posible. Se "
 "basan en el excelente módulo `psutil "
 "<https://github.com/giampaolo/psutil>`_."
+
+#: ../../checks-development.rst:107
+msgid "Language interpreted checks"
+msgstr "Chequeos utilizando lenguajes interpretdos"
+
+#: ../../checks-development.rst:109
+msgid ""
+"If you're on Unix systems and you're planning to use any interpreted "
+"programming language for check development keep in mind NOT to use the env "
+"program as `shebang <https://en.wikipedia.org/wiki/Shebang_%28Unix%29>`_, "
+"for example if you were going develop a `Ruby "
+"<https://en.wikipedia.org/wiki/Ruby_%28programming_language%29>`_ script, "
+"don't use :"
+msgstr ""
+"Si te encuentras en un sistema Unix y estas planeado utilizar algún lenguaje de "
+"programación interpretado ten en cuenta de NO utilizar el programa env como `shebang <https://en.wikipedia.org/wiki/Shebang_%28Unix%29>`_, "
+"por ejemplo si fueras a desarrollar un script en `Ruby <https://en.wikipedia.org/wiki/Ruby_%28programming_language%29>`_, no utilices : "
+
+#: ../../checks-development.rst:118
+msgid ""
+"If you do so, when Radar spawns the script it will end up as a defunct "
+"process. This is because the env program is fired initially (which in turn "
+"should call the Ruby interpreter). Always use a shebang that points directly"
+" to the interpreter that you want to use :"
+msgstr ""
+"Si lo haces, cuando Radar lance el script el mismo terminará como un proceso defunct. "
+"Esto se debe a que el programa env es invocado (que a su vez debería invocar al "
+"intérprete de Ruby). Siempre utiliza un shebang que apunte directamente al intérprete "
+"que deseas utilizar : "
+
+#: ../../checks-development.rst:128
+msgid ""
+"On Unix systems the exact path to the interpreter that you want to use can "
+"be retrieved using the 'whereis' command. For example to get the full path "
+"to the Ruby interpreter you would issue :"
+msgstr ""
+"En los sistemas Unix el path exácto al intérprete que quieres utilizar lo puedes "
+"obtener utilizando el comando 'whereis'. Por ejemplo, para obtener el path absoluto "
+"al intérprete de Ruby puedes ejecutar : "
+
+#: ../../checks-development.rst:137
+msgid ""
+"The above explained only applies to Unix environments. Also remember to turn"
+" on the execution bits if using a shebang."
+msgstr ""
+"Todo lo explicado anteriormente solo es válido en sistemas Unix. También recuerda "
+"habilitar los bits de ejecución si utilizas un script con shebang. "

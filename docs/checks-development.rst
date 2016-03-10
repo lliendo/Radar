@@ -103,6 +103,41 @@ write good checks :
   checks. This way you make sure that checks behave and fail as expected.
 
 
+Language interpreted checks
+---------------------------
+
+If you're on Unix systems and you're planning to use any interpreted programming language
+for check development keep in mind NOT to use the env program as `shebang <https://en.wikipedia.org/wiki/Shebang_%28Unix%29>`_,
+for example if you were going develop a `Ruby <https://en.wikipedia.org/wiki/Ruby_%28programming_language%29>`_ script, don't use :
+
+.. code-block:: bash
+
+    #!/usr/bin/env ruby
+
+
+If you do so, when Radar spawns the script it will end up as a defunct process.
+This is because the env program is fired initially (which in turn should call
+the Ruby interpreter). Always use a shebang that points directly to the interpreter
+that you want to use :
+
+.. code-block:: bash
+
+    #!/usr/bin/ruby
+
+
+On Unix systems the exact path to the interpreter that you want to use can be
+retrieved using the 'whereis' command. For example to get the full path to the
+Ruby interpreter you would issue :
+
+.. code-block:: bash
+
+    whereis ruby
+
+
+The above explained only applies to Unix environments. Also remember to turn on
+the execution bits if using a shebang.
+
+
 Examples
 --------
 
