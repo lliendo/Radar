@@ -266,7 +266,10 @@ class UnixCheck(Check):
             raise CheckError('Error - Group : \'{:}\' doesn\'t exist.'.format(group))
 
     def _owned_by_stated_user(self, filename):
-        return self._owned_by_user(filename) and self._owned_by_group(filename)
+        try:
+            return self._owned_by_user(filename) and self._owned_by_group(filename)
+        except OSError:
+            raise CheckError('Error - Filename : {:} does not exist.'.format(filename))
 
     def _terminate(self):
         if not self.has_finished():
@@ -349,7 +352,7 @@ class CheckGroup(Switchable):
         self.checks = set(checks) if checks is not None else []
 
     def update_status(self, check_status):
-        return any([c.update_status(check_status) for c in self.checks])
+        return any([check.update_status(check_status) for check in self.checks])
 
     def to_dict(self):
         check_group_dict = super(CheckGroup, self).to_dict(['id', 'name', 'enabled'])
