@@ -252,13 +252,17 @@ class TestCheck(TestCase):
 
     def test_update_matches_returns_false_due_to_disabled_check(self):
         self.dummy_check.disable()
-        self.assertFalse(self.dummy_check._update_matches({'id': self.dummy_check.id, 'status': self.dummy_check.current_status}))
+        new_status = {'id': self.dummy_check.id, 'status': self.dummy_check.current_status}
+        self.assertFalse(self.dummy_check._update_matches(new_status))
 
     def test_update_matches_returns_false_due_to_different_id(self):
-        self.assertFalse(self.dummy_check._update_matches({'id': self.dummy_check.id + 1, 'status': self.dummy_check.current_status}))
+        new_status = {'id': self.dummy_check.id + 1, 'status': self.dummy_check.current_status}
+        self.assertFalse(self.dummy_check._update_matches(new_status))
 
     def test_update_matches_returns_false_due_to_invalid_status(self):
-        self.assertFalse(self.dummy_check._update_matches({'id': self.dummy_check.id, 'status': max(Check.STATUS.values()) + 1}))
+        new_status = {'id': self.dummy_check.id, 'status': max(Check.STATUS.values()) + 1}
+        self.assertFalse(self.dummy_check._update_matches(new_status))
 
     def test_update_matches_returns_true(self):
-        self.assertTrue(self.dummy_check._update_matches({'id': self.dummy_check.id, 'status': self.dummy_check.current_status}))
+        new_status = {'id': self.dummy_check.id, 'status': self.dummy_check.current_status}
+        self.assertTrue(self.dummy_check._update_matches(new_status))
