@@ -30,6 +30,8 @@ class platform_skip_test(object):
     def __init__(self, selected_platform):
         self._selected_platform = selected_platform
 
+    # The closure name has to be 'test_...' otherwise it does not get executed
+    # by Nose.
     def __call__(self, f):
         def test_wrapper(*wrapped_f_args, **wrapped_f_kwargs):
             return f(*wrapped_f_args, **wrapped_f_kwargs)
