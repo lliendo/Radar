@@ -327,10 +327,6 @@ class WindowsCheck(Check):
     def _split_args(self):
         return split_args(self.args, posix=False)
 
-    def _invalid_pid(self, error):
-        error_code, _, _ = error
-        return error_code == ERROR_INVALID_PARAMETER
-
     def _terminate(self):
         if not self.has_finished():
             try:
