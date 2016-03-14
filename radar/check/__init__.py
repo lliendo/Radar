@@ -245,7 +245,7 @@ class UnixCheck(Check):
             from os import kill
             from signal import SIGKILL
         except ImportError:
-            pass
+            raise CheckError('Error - Unable to instantiate UnixCheck(s). Dependent modules unavailable.')
 
         return super(UnixCheck, cls).__new__(cls, *args, **kwargs)
 
@@ -291,7 +291,7 @@ class WindowsCheck(Check):
             from winerror import ERROR_INVALID_PARAMETER
             from win32con import PROCESS_TERMINATE
         except ImportError:
-            pass
+            raise CheckError('Error - Unable to instantiate WindowsCheck(s). Dependent modules unavailable.')
 
         return super(WindowsCheck, cls).__new__(cls, *args, **kwargs)
 
