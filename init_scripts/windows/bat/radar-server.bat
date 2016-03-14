@@ -1,12 +1,12 @@
-REM setLOCAL
-REM set PATH=%PATH%;ACA PUEDO AGREGAR OTRO path que necesite.
-
 set desc="Radar server"
 set name="radar-server"
 set service="%name%.py"
-set service_args="-c C:\Program Files\Radar\Server\Config\main.yml"
-set pidfile="C:\Program Files\Radar\Server\%pidfile%.pid"
 
+REM --------------------------------------------------------------
+REM Adjust the following paths if not happy with the default ones.
+REM --------------------------------------------------------------
+set service_args="-c C:\Program Files\Radar\Server\Config\main.yml"
+set pidfile="C:\Program Files\Radar\Server\%name%.pid"
 set action=%1
 
 if "%action%"=="start" call :start
@@ -28,6 +28,7 @@ exit /b 0
     if exist %pidfile% (
         set /p pid=<%pidfile%
         taskkill /pid %pid%
+        del /q %pidfile%
     ) else (
         echo "%desc% seems to be stopped."
     )
@@ -38,6 +39,7 @@ REM Yes, we're duplicating code here... We can't reuse the ':start' and ':stop' 
     if exist %pidfile% (
         set /p pid=<%pidfile%
         taskkill /pid %pid%
+        del /q %pidfile%
     ) else (
         echo "%desc% seems to be stopped."
     )
