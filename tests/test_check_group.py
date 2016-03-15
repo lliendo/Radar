@@ -22,7 +22,7 @@ Copyright 2015 Lucas Liendo.
 
 from unittest import TestCase
 from nose.tools import raises
-from radar.check import Check, CheckGroup, CheckGroupError
+from radar.check import Check, CheckError, CheckGroup, CheckGroupError
 
 
 class TestCheckGroup(TestCase):
@@ -86,21 +86,56 @@ class TestCheckGroup(TestCase):
     def test_check_groups_are_not_equal(self):
         check = Check(name='Load average', path='load_average.py')
         another_check = Check(name='Free RAM', path='free_ram.py')
-        self.assertNotEqual(CheckGroup(name='check group 1', checks=[check]), CheckGroup(name='check group 2', checks=[another_check]))
+        self.assertNotEqual(
+            CheckGroup(name='check group 1', checks=[check]),
+            CheckGroup(name='check group 2', checks=[another_check])
+        )
 
     def test_check_groups_set(self):
         check = Check(name='Load average', path='load_average.py')
         another_check = Check(name='Free RAM', path='free_ram.py')
-        self.assertEqual(len(set([CheckGroup(name='check group 1', checks=[check, another_check]), CheckGroup(name='check group 1', checks=[check, another_check])])), 1)
-        self.assertEqual(len(set([CheckGroup(name='check group 1', checks=[check]), CheckGroup(name='check group 2', checks=[another_check])])), 2)
+        repeated_check_groups = [
+            CheckGroup(name='check group 1', checks=[check, another_check]),
+            CheckGroup(name='check group 1', checks=[check, another_check])
+        ]
+        self.assertEqual(len(set(repeated_check_groups)), 1)
+        check_groups = [
+            CheckGroup(name='check group 1', checks=[check]),
+            CheckGroup(name='check group 2', checks=[another_check])
+        ]
+        self.assertEqual(len(set(check_groups)), 2)
 
     @raises(CheckGroupError)
+    def test_check_group_raises_error_due_to_missing_name(self):
+        CheckGroup(
+            checks=[
+                Check(name='check 1', path='check_1'),
+                Check(name='check 2', path='check_2')
+            ]
+        )
+
+    @raises(CheckError)
     def test_check_group_raises_exception_due_to_missing_id(self):
-        check_group = CheckGroup(checks=[Check(name='check', path='check.py')])
+        check_group = CheckGroup(name='dummy check group', checks=[Check(name='check', path='check.py')])
         check_group.update_status({'status': Check.STATUS['OK']})
 
-    @raises(CheckGroupError)
+    @raises(CheckError)
     def test_check_group_raises_exception_due_to_missing_status(self):
         check = Check(name='check', path='check.py')
-        check_group = CheckGroup(checks=[check])
+        check_group = CheckGroup(name='dummy check group', checks=[check])
         check_group.update_status({'id': check.id})
+
+    def _assert_dictionary_contains_keys(self, d, expected_keys):
+        self.assertTrue(all([k in d for k in expected_keys]))
+        self.assertEqual(len(d.keys()), len(expected_keys))
+
+    def test_to_dict(self):
+        check = Check(name='check', path='check.py')
+        check_group = CheckGroup(name='dummy check group', checks=[check])
+        expected_keys = ['id', 'name', 'enabled', 'checks']
+        self._assert_dictionary_contains_keys(check_group.to_dict(), expected_keys)
+
+    def test_to_check_dict(self):
+        check = Check(name='check', path='check.py')
+        check_group = CheckGroup(name='dummy check group', checks=[check])
+        self.assertEqual(type(check_group.to_check_dict()), list)
