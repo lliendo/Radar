@@ -4,7 +4,7 @@
 
 desc="Radar server"
 name="radar_server"
-command="/usr/local/bin/${name}.py"
+command="/usr/local/bin/radar-server.py"
 command_args="-c /etc/radar/server/config/main.yml"
 pidfile="/var/run/radar-server.pid"
 start_cmd="${name}_start"
