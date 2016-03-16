@@ -49,7 +49,7 @@ option (this time we will setup a Windows Radar client) :
   up) and new logs are written to a new file. By default Radar sets a maximum 
   of 100 MiB for the log file and rotates it at most 5 times.
 
-* pid file : This file holds the PID of the Radar server process. When Radar starts
+* pid file : This file holds the PID of the Radar client process. When Radar starts
   it will record its pidfile and when it shuts down this file is deleted.
   Pidfiles are maintained on all supported platforms. The pidfile is mainly used
   to determinate if an instance is already running.
