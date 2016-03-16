@@ -22,7 +22,10 @@ Copyright 2015 Lucas Liendo.
 
 from future.utils import listitems
 from abc import ABCMeta
+from errno import EEXIST
 from io import open
+from os import getpid, mkdir, remove
+from os.path import dirname, isfile as file_exists
 from yaml import safe_load, YAMLError
 from ..logger import RadarLogger
 
@@ -79,14 +82,51 @@ class ConfigBuilder(object):
     def _filter_config(self, key):
         return [config for config in self.config if key in config]
 
+    def _create_dir(self, path):
+        try:
+            mkdir(path)
+        except OSError as error:
+            if error.errno != EEXIST:
+                raise ConfigError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(
+                    path, error.strerror))
+
+    def _write_pidfile(self, pidfile):
+        self._create_dir(dirname(pidfile))
+
+        if file_exists(pidfile):
+            raise ConfigError('Error - \'{:}\' exists. Process already running ?.'.format(pidfile))
+
+        try:
+            with open(pidfile, 'w') as fd:
+                fd.write(u'{:}'.format(getpid()))
+        except IOError as error:
+            raise ConfigError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, error))
+
+
+    def _delete_pidfile(self, pidfile):
+        try:
+            remove(pidfile)
+        except OSError as error:
+            raise ConfigError('Error - Couldn\'t delete pidfile \'{:}\'. Details {:}.'.format(pidfile, error))
+
     def build(self):
         pass
+
+    def _configure_plugins(self):
+        [plugin.configure() for plugin in self.plugins]
+
+    def _shutdown_plugins(self):
+        [plugin.on_shutdown() for plugin in self.plugins]
 
     def configure(self, *args):
         RadarLogger(
             self.config['log']['to'], max_size=self.config['log']['size'],
             rotations=self.config['log']['rotations']
         )
+        self._write_pidfile(self.config['pid file'])
+        self._configure_plugins()
 
     def tear_down(self):
+        self._shutdown_plugins()
+        self._delete_pidfile(self.config['pid file'])
         RadarLogger.shutdown()

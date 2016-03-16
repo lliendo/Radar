@@ -72,27 +72,9 @@ class UnixSetup(object):
 
         return object.__new__(cls, *args, **kwargs)
 
-    def _create_dir(self, path):
+    def _change_pidfile_owner(self, pidfile, user, group):
         try:
-            mkdir(path)
-        except OSError as error:
-            if error.errno != EEXIST:
-                raise UnixSetupError('Error - Couldn\'t create directory : \'{:}\'. Details : {:}.'.format(
-                    path, error.strerror))
-
-    def _write_pid_file(self, pidfile, user, group):
-        self._create_dir(dirname(pidfile))
-
-        if file_exists(pidfile):
-            raise UnixSetupError('Error - \'{:}\' exists. Process already running ?.'.format(pidfile))
-
-        try:
-            with open(pidfile, 'w') as fd:
-                fd.write(u'{:}'.format(getpid()))
-
             chown(pidfile, getpwnam(user).pw_uid, getgrnam(group).gr_gid)
-        except IOError as error:
-            raise UnixSetupError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, error))
         except OSError as error:
             raise UnixSetupError('Error - Couldn\'t change permissions for pidfile \'{:}\'. Details : {:}.'.format(pidfile, error))
 
@@ -112,7 +94,7 @@ class UnixSetup(object):
             raise UnixSetupError('Error - User or group \'{:}.{:}\' does not exist.'.format(user, group))
 
     def configure(self, launcher):
-        self._write_pid_file(self.config['pid file'], self.config['run as']['user'], self.config['run as']['group'])
+        self._change_pidfile_owner(self.config['pid file'], self.config['run as']['user'], self.config['run as']['group'])
         self._install_signal_handlers(launcher)
         self._switch_process_owner(self.config['run as']['user'], self.config['run as']['group'])
 
@@ -124,3 +106,6 @@ class WindowsSetup(object):
     def _install_signal_handlers(self, launcher):
         signal(SIGTERM, launcher.stop)
         signal(SIGINT, launcher.stop)
+
+    def configure(self, launcher):
+        self._install_signal_handlers(launcher)

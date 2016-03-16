@@ -44,23 +44,10 @@ class UnixServerSetup(ServerConfig, UnixSetup):
     })
     PLATFORM_CONFIG['log']['to'] = '/var/log/radar-server.log'
 
-    # TODO: Can we get rid of the duplicated _configure & shutdown methods ?
-    def _configure_plugins(self):
-        [plugin.configure() for plugin in self.plugins]
-
-    def _shutdown_plugins(self):
-        [plugin.on_shutdown() for plugin in self.plugins]
-
     def configure(self, launcher):
         ServerConfig.configure(self)
         UnixSetup.configure(self, launcher)
-        self._configure_plugins()
-
         return self
-
-    def tear_down(self):
-        self._shutdown_plugins()
-        super(UnixServerSetup, self).tear_down()
 
 
 class WindowsServerSetup(ServerConfig, WindowsSetup):
@@ -74,22 +61,11 @@ class WindowsServerSetup(ServerConfig, WindowsSetup):
         'contacts': PLATFORM_CONFIG_PATH + '\\Contacts',
         'monitors': PLATFORM_CONFIG_PATH + '\\Monitors',
         'plugins': PLATFORM_CONFIG_PATH + '\\Plugins',
+        'pid file': PLATFORM_CONFIG_PATH + '\\radar-server.pid',
     })
     PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\radar-server.log'
 
-    def _configure_plugins(self):
-        [plugin.configure() for plugin in self.plugins]
-
-    def _shutdown_plugins(self):
-        [plugin.on_shutdown() for plugin in self.plugins]
-
     def configure(self, launcher):
-        super(WindowsServerSetup, self).configure()
-        self._configure_plugins()
-        self._install_signal_handlers(launcher)
-
+        ServerConfig.configure(self)
+        WindowsSetup.configure(self, launcher)
         return self
-
-    def tear_down(self):
-        self._shutdown_plugins()
-        super(WindowsServerSetup, self).tear_down()

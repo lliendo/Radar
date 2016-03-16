@@ -76,7 +76,7 @@ class RadarLauncher(object):
 
         try:
             PlatformSetup = self.AVAILABLE_PLATFORMS[platform]
-            platform_setup = PlatformSetup(path).configure(self).build()
+            platform_setup = PlatformSetup(path).build().configure(self)
         except KeyError:
             raise RadarLauncherError('Error - Platform : \'{:}\' is not available.'.format(platform))
 
