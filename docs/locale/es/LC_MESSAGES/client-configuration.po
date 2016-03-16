@@ -83,7 +83,7 @@ msgstr ""
 " archivo. Por defecto Radar define un máximo de 100 MiB para el tamaño del "
 "archivo de log y lo rota a lo sumo 5 veces."
 
-#: ../../client-configuration.rst:58
+#: ../../client-configuration.rst:57
 msgid ""
 "checks : This is the location where all your checks are stored. Every time a"
 " Radar client receives a CHECK message from the server all checks are first "
@@ -97,7 +97,7 @@ msgstr ""
 "contrario se lo intentará localizar por su ruta absoluta. Puedes organizar "
 "este directorio como gustes."
 
-#: ../../client-configuration.rst:63
+#: ../../client-configuration.rst:62
 msgid ""
 "enforce ownership : On Unix platforms if this option is True then every time"
 " the Radar client has to execute a check it will first verify that the user "
@@ -113,7 +113,7 @@ msgstr ""
 " un error y el chequeo no es ejecutado. En plataformas Windows solo se "
 "verificará el usuario. Por defecto esta opción tiene el valor True. "
 
-#: ../../client-configuration.rst:70
+#: ../../client-configuration.rst:69
 msgid ""
 "reconnect : This option specifies the behaviour of the client when a Radar "
 "server goes down. If set to True and if the Radar server stops working the "
@@ -125,7 +125,7 @@ msgstr ""
 " servidor se desconecta, el cliente intentará reconectarse al servidor. Por "
 "defecto esta opción tiene un valor True."
 
-#: ../../client-configuration.rst:84
+#: ../../client-configuration.rst:83
 msgid ""
 "As usual you can leave out almost every option to its default value. A "
 "minimum Radar client configuration file might look like this :"
@@ -134,7 +134,7 @@ msgstr ""
 "tomarán sus valores por defecto. A continuación podrás ver un archivo de "
 "configuración mínimo :"
 
-#: ../../client-configuration.rst:92
+#: ../../client-configuration.rst:91
 msgid ""
 "All remaining options take default values. Check these defaults on the "
 "platform defaults section."
@@ -142,20 +142,7 @@ msgstr ""
 "Todas las opciones restantes toman sus valores por defecto. Verifica estos "
 "valores en la sección 'valores por defecto' de la documentación."
 
-#: ../../client-configuration.rst:52
-msgid ""
-"pid file : On Unix platforms this file holds the PID of the Radar process. "
-"When Radar starts it will record its pidfile here and when it shuts down "
-"this file is deleted (the deletion is not performed by Radar itself, is done"
-" by init scripts). Pid files are not recorded on Windows platforms."
-msgstr ""
-"pid file : En plataformas Unix este archivo contiene el PID del proceso "
-"Radar. Este archivo se genera cuando Radar es arrancado y al finalizar su "
-"ejecución es eliminado (la eliminación de este archivo no la realiza Radar, "
-"sino su script de arranque). Este archivo no es generado en plataformas "
-"Windows."
-
-#: ../../client-configuration.rst:75
+#: ../../client-configuration.rst:74
 msgid ""
 "check concurrency : This option allows you to set the maximum number of "
 "checks that can be run simultaneously. By default all checks are run "
@@ -166,7 +153,7 @@ msgstr ""
 "son ejecutados de forma secuencial, es decir que el valor de este parámetro "
 "es por defecto 1. "
 
-#: ../../client-configuration.rst:79
+#: ../../client-configuration.rst:78
 msgid ""
 "check timeout : This option allows you to set the maximum time (in seconds) "
 "that a check is allowed to run. After a check reaches this running time "
@@ -175,6 +162,19 @@ msgid ""
 msgstr ""
 "check timeout : Mediante esta opción podrás controlar la máxima cantidad de "
 "tiempo (en segundos) que un chequeo tiene permitido ejecutarse. Luego de que"
-" un chequeo alcanza este límite es automaticamente terminado y el estado "
-"del mismo es marcado como TIMEOUT. Por defecto un chequeo tiene permitido "
+" un chequeo alcanza este límite es automaticamente terminado y el estado del"
+" mismo es marcado como TIMEOUT. Por defecto un chequeo tiene permitido "
 "correr durante un máximo de 10 segundos. "
+
+#: ../../client-configuration.rst:52
+msgid ""
+"pid file : This file holds the PID of the Radar client process. When Radar "
+"starts it will record its pidfile and when it shuts down this file is "
+"deleted. Pidfiles are maintained on all supported platforms. The pidfile is "
+"mainly used to determinate if an instance is already running."
+msgstr ""
+"pid file : Este archivo contiene el PID del proceso Radar client. Este "
+"archivo se genera cuando Radar es arrancado y al finalizar su ejecución es "
+"eliminado. El pidfile se escribe siempre en todas las platformas actualmente"
+" soportadas. Se lo utiliza principalmente para verificar si ya existe una "
+"instancia de Radar en ejecución. "
