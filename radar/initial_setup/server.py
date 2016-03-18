@@ -76,6 +76,12 @@ class ServerInitialSetup(InitialSetup):
                 'rotations': 'Log max rotations ? [{:}] ',
             },
 
+            'console': {
+                'address': 'Console listen address ? [{:}]',
+                'port': 'Console listen port ? [{:}]',
+                'allowed hosts': 'Console allowed hosts ? [{:}] (format: [IPv4 | IPv6 | HOSTNAME, IPv4 range | IPv6 range, ...])',
+            },
+
             'polling time': 'Polling time ? [{:}] ',
             'checks': 'Checks directory ? [{:}] ',
             'monitors': 'Monitors directory ? [{:}] ',

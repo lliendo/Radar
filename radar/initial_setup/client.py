@@ -82,6 +82,8 @@ class ClientInitialSetup(InitialSetup):
             'enforce ownership': 'Enforce check ownership ? [{:}] ',
             'reconnect': 'Reconnect automatically to server ? [{:}] ',
             'checks': 'Checks directory ? [{:}] ',
+            'check concurrency': 'Check concurrency ? [{:}]',
+            'check timeout': 'Check timeout? [{:}]',
         }
 
         config.update(self.user_setup._get_config_dict())
