@@ -20,9 +20,9 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from queue import Queue
 from threading import Event
 from argparse import ArgumentParser
+from queue import Queue
 from . import CLI, RadarLauncher
 from ..console_client import RadarConsoleClient, RadarConsoleClientInput
 from ..config.server import ServerConfig

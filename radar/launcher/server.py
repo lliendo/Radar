@@ -20,8 +20,8 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from queue import Queue
 from threading import Event
+from queue import Queue
 from . import RadarLauncher
 from ..client_manager import ClientManager
 from ..server import RadarServer, RadarServerPoller
