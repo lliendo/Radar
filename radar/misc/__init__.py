@@ -33,6 +33,8 @@ class Address(object):
 
     __metaclass__ = ABCMeta
 
+    SEPARATOR = ''  # Subclasses set their appropriate separator.
+
     def __init__(self, address):
         self.ip = self._validate(address.strip())
         self.n = self._to_int()
@@ -92,7 +94,7 @@ class IPV4Address(Address):
         return address
 
     def __eq__(self, other_address):
-        if type(other_address) == IPV4Address:
+        if isinstance(other_address, IPV4Address):
             return self.n == other_address.n
 
         return self.n == IPV4Address(other_address).n
@@ -116,7 +118,9 @@ class IPV6Address(Address):
 
         i = filled_address.index('')
         filled_address.pop(i)
-        [filled_address.insert(i, '0') for n in range(0, self.GROUPS - len(filled_address))]
+
+        for n in range(0, self.GROUPS - len(filled_address)):
+            filled_address.insert(i, '0')
 
         return self.SEPARATOR.join(filled_address)
 
@@ -145,7 +149,7 @@ class IPV6Address(Address):
         return super(IPV6Address, self)._to_int(n_groups=self.GROUPS, bits=16, base=16)
 
     def __eq__(self, other_address):
-        if type(other_address) == IPV6Address:
+        if isinstance(other_address, IPV6Address):
             return self.n == other_address.n
 
         return self.n == IPV6Address(other_address).n
@@ -180,7 +184,7 @@ class AddressRange(object):
         return self.start_ip.__hash__() ^ self.end_ip.__hash__()
 
     def __contains__(self, address):
-        if type(address) == self.AddressClass:
+        if isinstance(address, self.AddressClass):
             return self.start_ip.n <= address.n <= self.end_ip.n
 
         return self.start_ip.n <= self.AddressClass(address).n <= self.end_ip.n
@@ -191,7 +195,7 @@ class IPV4AddressRange(AddressRange):
     AddressClass = IPV4Address
 
     def __eq__(self, other_address_range):
-        if type(other_address_range) == IPV4AddressRange:
+        if isinstance(other_address_range, IPV4AddressRange):
             return self.start_ip == other_address_range.start_ip and \
                 self.end_ip == other_address_range.end_ip
 
@@ -204,7 +208,7 @@ class IPV6AddressRange(AddressRange):
     AddressClass = IPV6Address
 
     def __eq__(self, other_address_range):
-        if type(other_address_range) == IPV6AddressRange:
+        if isinstance(other_address_range, IPV6AddressRange):
             return self.start_ip == other_address_range.start_ip and \
                 self.end_ip == other_address_range.end_ip
 

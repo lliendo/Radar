@@ -19,14 +19,13 @@ along with Radar. If not, see <http://www.gnu.org/licenses/>.
 Copyright 2015 Lucas Liendo.
 """
 
-
-from future.utils import listitems
 from abc import ABCMeta
 from errno import EEXIST
-from io import open
+from io import open as io_open
 from os import getpid, mkdir, remove
 from os.path import dirname, isfile as file_exists
 from yaml import safe_load, YAMLError
+from future.utils import listitems
 from ..logger import RadarLogger
 
 
@@ -65,16 +64,16 @@ class ConfigBuilder(object):
 
     # Lowers down all keys of our config dictionary.
     def _lower_config_dict(self, obj):
-        if type(obj) == dict:
+        if isinstance(obj, dict):
             return {key.lower(): self._lower_config_dict(value) for key, value in obj.iteritems()}
-        elif type(obj) == list:
+        elif isinstance(obj, list):
             return [self._lower_config_dict(item) for item in obj]
 
         return obj
 
     def _read_config(self, path):
         try:
-            with open(path) as fd:
+            with io_open(path) as fd:
                 return safe_load(fd)
         except (YAMLError, IOError) as error:
             raise ConfigError('Error - Couldn\'t parse YAML file : \'{:}\'. Details : {:}.'.format(path, error))
@@ -97,7 +96,7 @@ class ConfigBuilder(object):
             raise ConfigError('Error - \'{:}\' exists. Process already running ?.'.format(pidfile))
 
         try:
-            with open(pidfile, 'w') as fd:
+            with io_open(pidfile, 'w') as fd:
                 fd.write(u'{:}'.format(getpid()))
         except IOError as error:
             raise ConfigError('Error - Couldn\'t write pidfile \'{:}\'. Details : {:}.'.format(pidfile, error))
@@ -113,10 +112,12 @@ class ConfigBuilder(object):
         pass
 
     def _configure_plugins(self):
-        [plugin.configure() for plugin in self.plugins]
+        for plugin in self.plugins:
+            plugin.configure()
 
     def _shutdown_plugins(self):
-        [plugin.on_shutdown() for plugin in self.plugins]
+        for plugin in self.plugins:
+            plugin.on_shutdown()
 
     def configure(self, *args):
         RadarLogger(

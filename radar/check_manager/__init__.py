@@ -20,8 +20,8 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from queue import Empty as EmptyQueue
 from threading import Thread, Event
+from queue import Empty as EmptyQueue
 from ..logger import RadarLogger
 from ..check import UnixCheck, WindowsCheck, CheckError, CheckStillRunning
 from ..protocol import RadarMessage
@@ -107,19 +107,25 @@ class CheckManager(Thread):
     def _can_keep_running(self, check):
         return not check.has_finished() and not check.is_overdue()
 
+    def _terminate_overdue_checks(self):
+        for check in self._execution_queue:
+            if check.is_overdue():
+                check.terminate()
+
     def _process_check_queues(self):
         if self._available_slots():
             checks = self._wait_queue[:self._free_slots_amount()]
             self._wait_queue = self._wait_queue[self._free_slots_amount():]
             self._execution_queue.extend([check.run() for check in checks])
         else:
-            [check.terminate() for check in self._execution_queue if check.is_overdue()]
+            self._terminate_overdue_checks()
             check_outputs = self._collect_outputs()
             self._execution_queue = [check for check in self._execution_queue if self._can_keep_running(check)]
             self._reply_check_outputs(check_outputs)
 
     def _terminate_all(self):
-        [check.terminate() for check in self._execution_queue]
+        for check in self._execution_queue:
+            check.terminate()
 
     def _on_check(self, message):
         self._wait_queue.extend(self._build_checks(message))
@@ -131,11 +137,11 @@ class CheckManager(Thread):
     def _log_action(self, message_type, check):
         RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
             RadarMessage.get_type(message_type), self._platform_setup.config['connect']['to'],
-            self._platform_setup.config['connect']['port'], check)
-        )
+            self._platform_setup.config['connect']['port'], check))
 
     def _log_incoming_message(self, message_type, message):
-        [self._log_action(message_type, check) for check in message]
+        for check in message:
+            self._log_action(message_type, check)
 
     def _process_message(self, message_type, message):
         try:
