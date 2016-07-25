@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from io import open
+from io import open as io_open
 from os.path import join as join_path
 from ast import parse as ast_parse, walk as ast_walk, ClassDef
 from pkgutil import iter_modules
@@ -45,17 +45,17 @@ class ClassLoader(object):
         self._module_path = module_path
         module_search_path.append(module_path)
 
-    def _get_class_names(self, file):
+    def _get_class_names(self, filename):
         class_names = []
 
         try:
-            with open(file) as fd:
+            with io_open(filename) as fd:
                 parsed_source = ast_parse(fd.read().strip(self.ENCODING_DECLARATION))  # We remove the encoding declaration, otherwise file parsing fails.
                 class_names = [node.name for node in ast_walk(parsed_source) if isinstance(node, ClassDef)]
         except IOError as error:
-            raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}.'.format(file, error.strerror))
+            raise ClassLoaderError('Error - Couldn\'t open : \'{:}\'. Reason : {:}.'.format(filename, error.strerror))
         except SyntaxError as error:
-            raise ClassLoaderError('Error - Couldn\'t parse \'{:}\'. Reason: {:}.'.format(file, error))
+            raise ClassLoaderError('Error - Couldn\'t parse \'{:}\'. Reason: {:}.'.format(filename, error))
 
         return class_names
 
