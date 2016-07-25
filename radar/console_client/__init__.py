@@ -118,7 +118,7 @@ class RadarConsoleClientInput(Thread):
 
     def _print_reply(self, response):
         try:
-            if type(response['message']) == unicode:
+            if isinstance(response['message'], unicode):
                 print(response['message'])
             else:
                 pprint(response['data'])
