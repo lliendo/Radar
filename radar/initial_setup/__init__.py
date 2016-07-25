@@ -21,14 +21,14 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
-from builtins import input
-from io import open
+from io import open as io_open
 from functools import reduce
 from os.path import dirname
 from os import chmod, makedirs
 from errno import EEXIST
 from stat import S_IRUSR, S_IWUSR, S_IXUSR
 from yaml import dump as dump_yaml
+from builtins import input
 from ..platform_setup import Platform
 
 
@@ -113,7 +113,7 @@ class InitialSetup(object):
         main_config_path = input(console_message) or self.PlatformSetup.MAIN_CONFIG_PATH
         self._create_directory(dirname(main_config_path))
 
-        with open(main_config_path, 'w') as fd:
+        with io_open(main_config_path, 'w') as fd:
             fd.write(u'{:}'.format(dump_yaml(config, default_flow_style=False, indent=4, line_break='\n\n')))
 
     def _print_header(self):
