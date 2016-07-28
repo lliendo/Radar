@@ -47,7 +47,7 @@ class ClientManager(object):
 
     def unregister(self, client):
         for monitor in self._monitors:
-            monitor.remove_client(client) 
+            monitor.remove_client(client)
 
     def poll(self, message_type=RadarMessage.TYPE['CHECK']):
         for monitor in self._monitors:
