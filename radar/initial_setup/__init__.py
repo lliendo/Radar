@@ -20,7 +20,7 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from abc import ABCMeta
+from abc import ABCMeta, abstractmethod
 from io import open as io_open
 from functools import reduce
 from os.path import dirname
@@ -39,6 +39,8 @@ class InitialSetupError(Exception):
 class InitialSetup(object):
 
     __metaclass__ = ABCMeta
+
+    AVAILABLE_PLATFORMS = {}
 
     def __init__(self):
         self.user_setup, self.PlatformSetup = self._get_setup()
@@ -119,6 +121,13 @@ class InitialSetup(object):
     def _print_header(self):
         print('Press enter for default values or input a custom one :')
         print('------------------------------------------------------\n')
+
+    @abstractmethod
+    def _build_config_dict(self):
+        pass
+
+    def _create_directories(self, config):
+        pass
 
     def _run(self):
         self._print_header()

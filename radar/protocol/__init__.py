@@ -38,6 +38,7 @@ class Message(object):
     HEADER_SIZE = calcsize(HEADER_FORMAT)
     MAX_PAYLOAD_SIZE = 2 ** (calcsize('H') * 8)  # We assume 8 bits per byte.
     PAYLOAD_FORMAT = '{:}s'
+    TYPE = {}
 
     OPTIONS = {
         'NONE': 0x00,

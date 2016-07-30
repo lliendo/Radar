@@ -67,6 +67,7 @@ class RadarLauncher(object):
     def __init__(self):
         cli = CLI(self._get_default_main_config_path(), program_name=self.PROGRAM_NAME, version=self.PROGRAM_VERSION)
         self._platform_setup = self._setup_platform(cli.main_config)
+        self._threads = []
 
     def _get_default_main_config_path(self):
         return self.AVAILABLE_PLATFORMS[Platform.get_platform_type()].MAIN_CONFIG_PATH
@@ -75,8 +76,8 @@ class RadarLauncher(object):
         platform = Platform.get_platform_type()
 
         try:
-            PlatformSetup = self.AVAILABLE_PLATFORMS[platform]
-            platform_setup = PlatformSetup(path).build().configure(self)
+            platform_setup_class = self.AVAILABLE_PLATFORMS[platform]
+            platform_setup = platform_setup_class(path).build().configure(self)
         except KeyError:
             raise RadarLauncherError('Error - Platform : \'{:}\' is not available.'.format(platform))
 
@@ -102,6 +103,9 @@ class RadarLauncher(object):
             raise error
 
         self._join_threads()
+
+    def _start_and_join_threads(self):
+        pass
 
     def run(self):
         try:

@@ -21,12 +21,8 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
-from io import open
-from os import getpid, mkdir
-from os.path import dirname, isfile as file_exists
 from signal import signal, SIGTERM, SIGINT
 from platform import system as platform_name
-from errno import EEXIST
 
 
 class UnixSetupError(Exception):
@@ -71,6 +67,9 @@ class UnixSetup(object):
             raise UnixSetupError('Error - Couldn\'t import Unix permission functions. Details : {:}.'.format(error))
 
         return object.__new__(cls, *args, **kwargs)
+
+    def __init__(self):
+        self.config = {}
 
     def _change_pidfile_owner(self, pidfile, user, group):
         try:
