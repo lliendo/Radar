@@ -246,40 +246,40 @@ class ServerConfig(ConfigBuilder):
         self.plugins = []
 
     def _search_files(self, path):
-        files = [join_path(root, file) for root, _, files in walk(path) for file in files]
-        return [file for file in files if S_ISREG(stat(file).st_mode)]
+        filenames = [join_path(root, filename) for root, _, filenames in walk(path) for filename in filenames]
+        return [filename for filename in filenames if S_ISREG(stat(filename).st_mode)]
 
-    def _build_and_reduce(self, Builder, files, builder_args=None):
+    def _build_and_reduce(self, Builder, filenames, builder_args=None):
         builder_args = builder_args if builder_args is not None else []
-        return reduce(lambda l, m: l + m, [Builder(file).build(*builder_args) for file in files])
+        return reduce(lambda l, m: l + m, [Builder(filename).build(*builder_args) for filename in filenames])
 
     def _build_contacts(self):
-        files = self._search_files(self.config['contacts'])
+        filenames = self._search_files(self.config['contacts'])
 
         try:
-            contacts = self._build_and_reduce(ContactBuilder, files)
-            contact_groups = self._build_and_reduce(ContactGroupBuilder, files, builder_args=[contacts])
+            contacts = self._build_and_reduce(ContactBuilder, filenames)
+            contact_groups = self._build_and_reduce(ContactGroupBuilder, filenames, builder_args=[contacts])
         except TypeError:
             return []
 
         return contacts + contact_groups
 
     def _build_checks(self):
-        files = self._search_files(self.config['checks'])
+        filenames = self._search_files(self.config['checks'])
 
         try:
-            checks = self._build_and_reduce(CheckBuilder, files)
-            check_groups = self._build_and_reduce(CheckGroupBuilder, files, builder_args=[checks])
+            checks = self._build_and_reduce(CheckBuilder, filenames)
+            check_groups = self._build_and_reduce(CheckGroupBuilder, filenames, builder_args=[checks])
         except TypeError:
             raise ConfigError('Error - No defined checks could be found.')
 
         return checks + check_groups
 
     def _build_monitors(self, checks, contacts):
-        files = self._search_files(self.config['monitors'])
+        filenames = self._search_files(self.config['monitors'])
 
         try:
-            return self._build_and_reduce(MonitorBuilder, files, builder_args=[checks, contacts])
+            return self._build_and_reduce(MonitorBuilder, filenames, builder_args=[checks, contacts])
         except TypeError:
             raise ConfigError('Error - No defined monitors could be found.')
 
