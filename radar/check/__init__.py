@@ -20,7 +20,6 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from future.utils import listitems
 from functools import reduce
 from json import loads as deserialize_json
 from os import stat
@@ -28,6 +27,7 @@ from os.path import join as join_path, isabs as is_absolute_path
 from shlex import split as split_args
 from subprocess import Popen, PIPE
 from time import time
+from future.utils import listitems
 from ..misc import Switchable
 
 
