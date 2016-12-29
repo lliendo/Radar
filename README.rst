@@ -45,7 +45,7 @@ you will first need to install it :
 .. code-block:: bash
 
     cd Radar
-    pip install -r docs-requirements.txt
+    pip install -r requirements-dev.txt
 
 Now from the project's main directory run :
 
@@ -102,12 +102,12 @@ Radar is aimed to be both simple and easy to use and understand.
 Tests
 -----
 
-Radar uses `Nose <https://nose.readthedocs.org/en/latest/>`_ to run its tests.
+Radar uses `Nose2 <http://nose2.readthedocs.io/en/latest/getting_started.html>`_ to run its tests.
 To install Nose, from the command line run :
 
 .. code-block:: bash
     
-    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
 
 To run the tests, clone the this repository and run Nose.
 
@@ -115,7 +115,7 @@ To run the tests, clone the this repository and run Nose.
 
     git clone https://github.com/lliendo/Radar.git
     cd Radar
-    nosetests
+    nose2
 
 
 License
