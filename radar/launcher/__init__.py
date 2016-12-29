@@ -83,14 +83,18 @@ class RadarLauncher(object):
         return platform_setup
 
     def _start_threads(self, threads):
-        [thread.start() for thread in threads]
+        for thread in threads:
+            thread.start()
 
     def _join_threads(self):
         while any([thread.is_alive() for thread in self._threads]):
-            [thread.join(self.THREAD_POLLING_TIME) for thread in self._threads if thread.is_alive()]
+            for thread in self._threads:
+                if thread.is_alive():
+                    thread.join(self.THREAD_POLLING_TIME)
 
     def stop(self, *args):
-        [thread.stop_event.set() for thread in self._threads]
+        for thread in self._threads:
+            thread.stop_event.set()
 
     # Let's try to re-join the threads one more time for graceful termination.
     def _resume_interrupted_call(self, error):

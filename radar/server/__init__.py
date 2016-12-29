@@ -20,10 +20,10 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from queue import Full as FullQueue
 from datetime import datetime, timedelta
 from json import loads as deserialize_json
 from threading import Thread, Event
+from queue import Full as FullQueue
 from ..logger import RadarLogger
 from ..client import RadarClientLite
 from ..network.server import Server
@@ -91,7 +91,9 @@ class RadarServer(Server, Thread):
             message_type, message = client.receive_message()
             deserialized_message = deserialize_json(message)
             updated_checks = self._client_manager.process_message(client, message_type, deserialized_message)
-            [self._write_queue(client, message_type, updated_check) for updated_check in updated_checks]
+
+            for updated_check in updated_checks:
+                self._write_queue(client, message_type, updated_check)
         except MessageNotReady:
             pass
 

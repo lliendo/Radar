@@ -149,7 +149,10 @@ class PluginManager(Thread):
 
     def _run_plugins(self, queue_message):
         plugin_args = self._get_plugin_args(queue_message)
-        [self._run_plugin(plugin, *plugin_args) for plugin in self._plugins if plugin.enabled]
+
+        for plugin in self._plugins:
+            if plugin.enabled:
+                self._run_plugin(plugin, *plugin_args)
 
     def run(self):
         while not self.is_stopped():

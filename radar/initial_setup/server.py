@@ -102,4 +102,5 @@ class ServerInitialSetup(InitialSetup):
             config['plugins'],
         ]
 
-        [self._create_directory(directory) for directory in directories + self.user_setup._get_directories(config)]
+        for directory in directories + self.user_setup._get_directories(config):
+            self._create_directory(directory)

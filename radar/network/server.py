@@ -140,7 +140,9 @@ class Server(object):
         self.disconnect(client)
 
     def on_shutdown(self):
-        [c.disconnect() for c in self._clients]
+        for client in self._clients:
+            client.disconnect()
+
         self.socket.close()
         self.socket = None
 
