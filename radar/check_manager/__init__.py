@@ -20,8 +20,8 @@ Copyright 2015 Lucas Liendo.
 """
 
 
-from queue import Empty as EmptyQueue
 from threading import Thread, Event
+from queue import Empty as EmptyQueue
 from ..logger import RadarLogger
 from ..check import UnixCheck, WindowsCheck, CheckError, CheckStillRunning
 from ..protocol import RadarMessage
@@ -79,7 +79,14 @@ class CheckManager(Thread):
 
     def _build_checks(self, checks):
         try:
-            return [self._check_class(name=c['path'], platform_setup=self._platform_setup, **c) for c in checks]
+            built_checks = []
+
+            for check in checks:
+                built_checks.append(self._check_class(
+                    name=check['path'], platform_setup=self._platform_setup, **check)
+                )
+
+            return built_checks
         except KeyError:
             raise CheckError('Error - Server sent empty or invalid check.')
 
@@ -107,19 +114,25 @@ class CheckManager(Thread):
     def _can_keep_running(self, check):
         return not check.has_finished() and not check.is_overdue()
 
+    def _terminate_overdue_checks(self):
+        for check in self._execution_queue:
+            if check.is_overdue():
+                check.terminate()
+
     def _process_check_queues(self):
         if self._available_slots():
             checks = self._wait_queue[:self._free_slots_amount()]
             self._wait_queue = self._wait_queue[self._free_slots_amount():]
             self._execution_queue.extend([check.run() for check in checks])
         else:
-            [check.terminate() for check in self._execution_queue if check.is_overdue()]
+            self._terminate_overdue_checks()
             check_outputs = self._collect_outputs()
             self._execution_queue = [check for check in self._execution_queue if self._can_keep_running(check)]
             self._reply_check_outputs(check_outputs)
 
-    def _terminate_all(self):
-        [check.terminate() for check in self._execution_queue]
+    def _terminate_all_checks(self):
+        for check in self._execution_queue:
+            check.terminate()
 
     def _on_check(self, message):
         self._wait_queue.extend(self._build_checks(message))
@@ -135,7 +148,8 @@ class CheckManager(Thread):
         )
 
     def _log_incoming_message(self, message_type, message):
-        [self._log_action(message_type, check) for check in message]
+        for check in message:
+            self._log_action(message_type, check)
 
     def _process_message(self, message_type, message):
         try:
@@ -160,4 +174,4 @@ class CheckManager(Thread):
 
             self._process_check_queues()
 
-        self._terminate_all()
+        self._terminate_all_checks()
