@@ -21,12 +21,8 @@ Copyright 2015 Lucas Liendo.
 
 
 from abc import ABCMeta
-from io import open
-from os import getpid, mkdir
-from os.path import dirname, isfile as file_exists
 from signal import signal, SIGTERM, SIGINT
 from platform import system as platform_name
-from errno import EEXIST
 
 
 class UnixSetupError(Exception):
@@ -47,6 +43,7 @@ class Platform(object):
     def get_platform_type():
         unixes = ['Linux', 'Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
         platform = platform_name()
+
         return 'Unix' if platform in unixes else platform
 
     @staticmethod
@@ -54,6 +51,7 @@ class Platform(object):
         bsds = ['Darwin', 'FreeBSD', 'NetBSD', 'OpenBSD']
         platform = platform_name()
         platform = 'BSD' if platform in bsds else platform
+
         return 'Unknown' if platform not in Platform.SUPPORTED_OS_TYPES else platform
 
 
