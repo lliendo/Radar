@@ -36,18 +36,48 @@ class RadarLauncherError(Exception):
 
 
 class CLI(object):
+    """
+    Command Line Interface.
+
+    Construct a CLI object that allows to retrieve arbitrary command
+    line options.
+
+    :param default_main_config_path: The default path to the main configuration
+        file provided the user didn't supply one.
+    :param program_name: Optional keyword argument that specifies the name
+        of the program to be shown on the command line.
+    :param version: Optional keyword argument that specifies the version
+        of the program to be shown from the command line.
+    """
+
     def __init__(self, default_main_config_path, program_name='', version=''):
         self._program_name = program_name
         self._version = version
         self._options = self._build_parser(default_main_config_path).parse_args()
 
     def __getattr__(self, option):
+        """
+        Retrieve an arbitrary command line option value or raise a
+        CLIError exception if the specified option does not exist.
+
+        :param option: The name of the command line option to be read.
+        :return: A string containing the value of the specified option.
+        """
+
         try:
             return getattr(self._options, option)
         except AttributeError:
-            raise CLIError('Error - Option: \'{:}\' does not exist.'.format(option))
+            raise CLIError("Error - Option: '{}' does not exist.".format(option))
 
     def _build_parser(self, default_main_config_path):
+        """
+        Construct the command line argument parser.
+
+        :param default_main_config_path: The default path to the main configuration
+            file if the user does not specify one.
+        :return: An `ArgumentParser` object.
+        """
+
         parser = ArgumentParser(prog=self._program_name)
         parser.add_argument('-c', '--config', dest='main_config', action='store', default=default_main_config_path, required=False)
         parser.add_argument('-v', '--version', action='version', version=self._version)
