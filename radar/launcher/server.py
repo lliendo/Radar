@@ -16,7 +16,7 @@ Lesser GNU General Public License for more details.
 You should have received a copy of the Lesser GNU General Public License
 along with Radar. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright 2015 Lucas Liendo.
+Copyright 2015 - 2017 Lucas Liendo.
 """
 
 
@@ -39,17 +39,37 @@ class RadarServerLauncher(RadarLauncher):
         'Windows': WindowsServerSetup,
     }
 
+    """
+    The RadarServerLauncher is responsible for launching the Radar server.
+    """
+
     def __init__(self):
         super(RadarServerLauncher, self).__init__()
         self._threads = self._build_threads()
 
     def _build_radar_server_console(self, client_manager, stop_event):
+        """
+        Construct a RadarServerConsole object.
+
+        :param client_manager: A `ClientManager` object.
+        :param stop_event: An `Event` object.
+        :return: A list containing an instance of `RadarServerConsole` if a server console
+            was configured from the configuration file. Otherwise an empty list is returned.
+        """
+
         radar_server_console_address = self._platform_setup.config['console']['address']
+
         return [
             RadarServerConsole(client_manager, self._platform_setup, stop_event=stop_event)
         ] if radar_server_console_address is not None else []
 
     def _build_threads(self):
+        """
+        Build server threads.
+
+        :return: A list containing all threads to be spawn by the server.
+        """
+
         client_manager = ClientManager(self._platform_setup.monitors)
         queue = Queue()
         stop_event = Event()
@@ -61,12 +81,17 @@ class RadarServerLauncher(RadarLauncher):
         ] + self._build_radar_server_console(client_manager, stop_event)
 
     def _start_and_join_threads(self):
-        self._start_threads(self._threads[:1])
+        """
+        Start and join server threads.
+        """
 
-        while self._threads[0].is_alive() and not self._threads[0].is_listening():
-            self._threads[0].join(self.THREAD_POLLING_TIME)
+        self._start_threads(self._threads[:1])
+        server = self._threads[0]
+
+        while server.is_alive() and not server.is_listening():
+            server.join(self.THREAD_POLLING_TIME)
 
         # Only spawn remaining threads if the server is listening.
-        if self._threads[0].is_alive():
+        if server.is_alive():
             self._start_threads(self._threads[1:])
             self._join_threads()
