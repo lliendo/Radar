@@ -16,7 +16,7 @@ Lesser GNU General Public License for more details.
 You should have received a copy of the Lesser GNU General Public License
 along with Radar. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright 2015 Lucas Liendo.
+Copyright 2015 - 2017 Lucas Liendo.
 """
 
 
@@ -94,41 +94,80 @@ class RadarLauncher(object):
     THREAD_POLLING_TIME = 0.2
     AVAILABLE_PLATFORMS = {}
 
+    """
+    Abstract launcher class used by both Radar server and client.
+
+    The RadarLauncher is responsible for starting, joining and stopping
+    all Radar threads.
+    """
+
     def __init__(self):
         cli = CLI(self._get_default_main_config_path(), program_name=self.PROGRAM_NAME, version=self.PROGRAM_VERSION)
         self._platform_setup = self._setup_platform(cli.main_config)
         self._threads = []
 
     def _get_default_main_config_path(self):
+        """
+        Retrieve the default main configuration file depending the platform
+        we are running on.
+        """
+
         return self.AVAILABLE_PLATFORMS[Platform.get_platform_type()].MAIN_CONFIG_PATH
 
-    def _setup_platform(self, path):
+    def _setup_platform(self, main_config_path):
+        """
+        Construct a PlatformSetup object
+
+        :param main_config_path: The path to the main configuration file.
+        :return: A PlatformSetup object.
+        """
+
         platform = Platform.get_platform_type()
 
         try:
             platform_setup_class = self.AVAILABLE_PLATFORMS[platform]
-            platform_setup = platform_setup_class(path).build().configure(self)
+            platform_setup = platform_setup_class(main_config_path).build().configure(self)
         except KeyError:
-            raise RadarLauncherError('Error - Platform : \'{:}\' is not available.'.format(platform))
+            raise RadarLauncherError("Error - Platform : '{}' is not available.".format(platform))
 
         return platform_setup
 
     def _start_threads(self, threads):
+        """
+        Start all Radar threads.
+
+        :param threads: A list of threads to be started.
+        """
+
         for thread in threads:
             thread.start()
 
     def _join_threads(self):
+        """
+        Join all Radar threads that are alive.
+        """
+
         while any([thread.is_alive() for thread in self._threads]):
             for thread in self._threads:
                 if thread.is_alive():
                     thread.join(self.THREAD_POLLING_TIME)
 
     def stop(self, *args):
+        """
+        Stop all Radar threads by setting `stop_event`.
+        """
+
         for thread in self._threads:
             thread.stop_event.set()
 
-    # Let's try to re-join the threads one more time for graceful termination.
     def _resume_interrupted_call(self, error):
+        """
+        Try to re-join the threads one more time for graceful termination
+        only if we receive an EINTR error.
+
+        :param error: The exception to compare its value.
+        """
+
         if error.errno != EINTR:
             raise error
 
@@ -138,13 +177,17 @@ class RadarLauncher(object):
         pass
 
     def run(self):
+        """
+        Start and join all Radar threads.
+        """
+
         try:
-            RadarLogger.log('Starting {:}.'.format(self.PROGRAM_NAME))
+            RadarLogger.log('Starting {}.'.format(self.PROGRAM_NAME))
             self._start_and_join_threads()
         except IOError as error:
             self._resume_interrupted_call(error)
         except Exception as error:
-            RadarLogger.log('Error - {:} raised an error. Details : {:}.'.format(self.__class__.__name__, error))
+            RadarLogger.log('Error - {} raised an error. Details : {}.'.format(self.__class__.__name__, error))
         finally:
-            RadarLogger.log('Shutting down {:}.'.format(self.PROGRAM_NAME))
+            RadarLogger.log('Shutting down {}.'.format(self.PROGRAM_NAME))
             self._platform_setup.tear_down()
