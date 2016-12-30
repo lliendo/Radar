@@ -28,6 +28,8 @@ class ClientConfig(ConfigBuilder):
 
     __metaclass__ = ABCMeta
 
+    MAIN_CONFIG_PATH = ''
+    PLATFORM_CONFIG = {}
     DEFAULT_CONFIG = {
         'connect': {
             'to': 'localhost',

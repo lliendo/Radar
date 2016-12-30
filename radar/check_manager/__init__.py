@@ -144,8 +144,7 @@ class CheckManager(Thread):
     def _log_action(self, message_type, check):
         RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
             RadarMessage.get_type(message_type), self._platform_setup.config['connect']['to'],
-            self._platform_setup.config['connect']['port'], check)
-        )
+            self._platform_setup.config['connect']['port'], check))
 
     def _log_incoming_message(self, message_type, message):
         for check in message:

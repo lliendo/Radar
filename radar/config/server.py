@@ -166,9 +166,9 @@ class AddressBuilder(object):
         self._addresses = addresses
 
     def _build_address(self, address):
-        for AddressClass in [IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange]:
+        for address_class in [IPV4Address, IPV4AddressRange, IPV6Address, IPV6AddressRange]:
             try:
-                return AddressClass(address)
+                return address_class(address)
             except AddressError as error:
                 address_error = error
 
@@ -204,7 +204,7 @@ class MonitorBuilder(ConfigBuilder):
             raise ConfigError('Error - Missing \'{:}\' while creating monitor from {:}.'.format(error.args[0], self.path))
         except TypeError as error:
             raise ConfigError('Error - Either hosts, checks or contacts are not a YAML list in monitor definition. File : {:}.'.format(
-                error.args[0], self.path))
+                self.path))
 
         return monitors
 
@@ -213,6 +213,8 @@ class ServerConfig(ConfigBuilder):
 
     __metaclass__ = ABCMeta
 
+    MAIN_CONFIG_PATH = ''
+    PLATFORM_CONFIG = {}
     DEFAULT_CONFIG = {
         'listen': {
             'address': 'localhost',

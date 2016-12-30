@@ -59,7 +59,7 @@ class Server(object):
         'Unknown': [SelectMonitor],
     }
 
-    Client = None
+    client_class = None
 
     def __init__(self, address, port, network_monitor=None, network_monitor_timeout=None, blocking_socket=True):
         self.blocking_socket = blocking_socket
@@ -71,9 +71,9 @@ class Server(object):
     def _get_network_monitor(self, network_monitor_timeout):
         platform = Platform.get_os_type()
 
-        for NetworkMonitor in self.AVAILABLE_PLATFORM_MONITORS[platform]:
+        for network_monitor_class in self.AVAILABLE_PLATFORM_MONITORS[platform]:
             try:
-                return NetworkMonitor(self, network_monitor_timeout)
+                return network_monitor_class(self, network_monitor_timeout)
             except KeyError:
                 raise ServerPlatformError('Error - Platform : \'{:}\' is not available.'.format(platform))
             except AttributeError:
@@ -134,6 +134,9 @@ class Server(object):
         self.on_receive_error(client, error)
         self.disconnect(client)
 
+    def on_send_error(self, client, error):
+        pass
+
     # In case the user of this class decides to perform a send just after reception.
     def _on_send_error(self, client, error):
         self.on_send_error(client, error)
@@ -168,10 +171,10 @@ class Server(object):
         if not self.blocking_socket:
             client_socket.setblocking(0)
 
-        if (self.Client is None) or (not issubclass(self.Client, BaseClient)):
+        if (self.client_class is None) or (not issubclass(self.client_class, BaseClient)):
             raise ServerError('Error - Wrong \'Client\' subclass or \'Client\' subclass not defined.')
 
-        return self.Client(address, port, socket=client_socket, blocking_socket=self.blocking_socket)
+        return self.client_class(address, port, socket=client_socket, blocking_socket=self.blocking_socket)
 
     def _serve_ready_clients(self, clients):
         for client in clients:

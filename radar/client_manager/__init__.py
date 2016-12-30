@@ -58,8 +58,7 @@ class ClientManager(object):
         check['status'] = Check.get_status(check['status'])
         RadarLogger.log('{:} from {:}:{:} -> {:}'.format(
             RadarMessage.get_type(message_type), client.address, client.port,
-            check)
-        )
+            check))
         check['status'] = Check.STATUS[check['status']]
 
     def _log_incoming_message(self, client, message_type, message):

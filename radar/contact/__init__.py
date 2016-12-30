@@ -93,4 +93,4 @@ class ContactGroup(Switchable):
 
     def disable(self, ids):
         return ([self.id] if super(ContactGroup, self).disable(ids=ids) else []) + \
-            [contact.id for contact in self.contact if contact.disable(ids=ids)]
+            [contact.id for contact in self.contacts if contact.disable(ids=ids)]

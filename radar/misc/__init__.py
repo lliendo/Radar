@@ -160,7 +160,7 @@ class AddressRange(object):
     __metaclass__ = ABCMeta
 
     SEPARATOR = '-'
-    AddressClass = None
+    address_class = None
 
     def __init__(self, address_range):
         self.start_ip, self.end_ip = self._validate(address_range.strip())
@@ -172,7 +172,7 @@ class AddressRange(object):
         }
 
     def _validate(self, address_range):
-        start_ip, end_ip = [self.AddressClass(address) for address in address_range.split(self.SEPARATOR, 1)]
+        start_ip, end_ip = [self.address_class(address) for address in address_range.split(self.SEPARATOR, 1)]
 
         if start_ip.n >= end_ip.n:
             raise AddressError('Error - Start ip address is lower (or equal) than end ip address : \'{:} - {:}\'.'.format(
@@ -184,15 +184,15 @@ class AddressRange(object):
         return self.start_ip.__hash__() ^ self.end_ip.__hash__()
 
     def __contains__(self, address):
-        if isinstance(address, self.AddressClass):
+        if isinstance(address, self.address_class):
             return self.start_ip.n <= address.n <= self.end_ip.n
 
-        return self.start_ip.n <= self.AddressClass(address).n <= self.end_ip.n
+        return self.start_ip.n <= self.address_class(address).n <= self.end_ip.n
 
 
 class IPV4AddressRange(AddressRange):
 
-    AddressClass = IPV4Address
+    address_class = IPV4Address
 
     def __eq__(self, other_address_range):
         if isinstance(other_address_range, IPV4AddressRange):
@@ -205,7 +205,7 @@ class IPV4AddressRange(AddressRange):
 
 class IPV6AddressRange(AddressRange):
 
-    AddressClass = IPV6Address
+    address_class = IPV6Address
 
     def __eq__(self, other_address_range):
         if isinstance(other_address_range, IPV6AddressRange):

@@ -70,6 +70,9 @@ class UnixSetup(object):
 
         return object.__new__(cls, *args, **kwargs)
 
+    def __init__(self):
+        self.config = {}
+
     def _change_pidfile_owner(self, pidfile, user, group):
         try:
             chown(pidfile, getpwnam(user).pw_uid, getgrnam(group).gr_gid)

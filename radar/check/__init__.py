@@ -283,12 +283,11 @@ class WindowsCheck(Check):
     def __new__(cls, *args, **kwargs):
         try:
             global FindExecutable, FindExecutableError, GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
-            global OpenProcess, TerminateProcess, CloseHandle
+            global OpenProcess, TerminateProcess, CloseHandle, Win32Error
             global PROCESS_TERMINATE
             from win32security import GetFileSecurity, LookupAccountSid, OWNER_SECURITY_INFORMATION
             from win32api import FindExecutable, OpenProcess, TerminateProcess, CloseHandle
             from pywintypes import error as Win32Error
-            from winerror import ERROR_INVALID_PARAMETER
             from win32con import PROCESS_TERMINATE
         except ImportError:
             raise CheckError('Error - Unable to instantiate WindowsCheck(s). Dependent modules unavailable.')

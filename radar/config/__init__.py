@@ -44,6 +44,7 @@ class ConfigBuilder(object):
         self.path = path
         self.config = self._lower_config_dict(self._read_config(path) or {})
         self.logger = None
+        self.plugins = []
 
     # Merges the current config with a default config.
     def merge_config(self, default_config):
