@@ -95,10 +95,10 @@ class RadarLauncher(object):
     AVAILABLE_PLATFORMS = {}
 
     """
-    Abstract launcher class used by both Radar server and client.
+    Abstract launcher class used by both Radar server and client launchers.
 
     The RadarLauncher is responsible for starting, joining and stopping
-    all Radar threads.
+    all Radar threads for both client and server.
     """
 
     def __init__(self):
@@ -116,7 +116,7 @@ class RadarLauncher(object):
 
     def _setup_platform(self, main_config_path):
         """
-        Construct a PlatformSetup object
+        Construct a PlatformSetup object.
 
         :param main_config_path: The path to the main configuration file.
         :return: A PlatformSetup object.
@@ -174,7 +174,9 @@ class RadarLauncher(object):
         self._join_threads()
 
     def _start_and_join_threads(self):
-        pass
+        """
+        Abstract method to be implemented by concrete sub-classes.
+        """
 
     def run(self):
         """
