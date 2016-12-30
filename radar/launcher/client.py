@@ -16,7 +16,7 @@ Lesser GNU General Public License for more details.
 You should have received a copy of the Lesser GNU General Public License
 along with Radar. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright 2015 Lucas Liendo.
+Copyright 2015 - 2017 Lucas Liendo.
 """
 
 
@@ -37,6 +37,10 @@ class RadarClientLauncher(RadarLauncher):
         'Windows': WindowsClientSetup,
     }
 
+    """
+    The RadarClientLauncher is responsible for launching the Radar client.
+    """
+
     def __init__(self):
         super(RadarClientLauncher, self).__init__()
         self._threads = self._build_threads()
@@ -44,6 +48,14 @@ class RadarClientLauncher(RadarLauncher):
     # TODO: Need better queue names (or maybe use a custom bidirectional alternative
     # such as a Channel abstraction).
     def _build_threads(self):
+        """
+        Build client threads.
+
+        :return: A list containing all threads to be spawn by the client.
+        """
+
+        # These two queues are used for bidirectional communication between the
+        # RadarClient and CheckManager threads.
         queue_a, queue_b = Queue(), Queue()
         stop_event = Event()
 
@@ -53,13 +65,18 @@ class RadarClientLauncher(RadarLauncher):
         ]
 
     def _start_and_join_threads(self):
-        self._start_threads(self._threads[:1])
+        """
+        Start and join client threads.
+        """
 
-        while self._threads[0].is_alive() and not self._threads[0].is_connected():
-            self._threads[0].join(self.THREAD_POLLING_TIME)
+        self._start_threads(self._threads[:1])
+        client = self._threads[0]
+
+        while client.is_alive() and not client.is_connected():
+            client.join(self.THREAD_POLLING_TIME)
 
         # Only spawn remaining threads if the client got connected or if the
         # client is trying to reconnect.
-        if self._threads[0].is_alive():
+        if client.is_alive():
             self._start_threads(self._threads[1:])
             self._join_threads()
