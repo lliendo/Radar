@@ -16,7 +16,7 @@ Lesser GNU General Public License for more details.
 You should have received a copy of the Lesser GNU General Public License
 along with Radar. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright 2015 Lucas Liendo.
+Copyright 2015 - 2017 Lucas Liendo.
 """
 
 
@@ -44,9 +44,25 @@ class UnixServerSetup(ServerConfig, UnixSetup):
     })
     PLATFORM_CONFIG['log']['to'] = '/var/log/radar-server.log'
 
+    """
+    The UnixServerSetup class performs the configuration and
+    setup of a Radar server on a Unix platform.
+
+    This class also defines all default paths to files and
+    directories needed during setup.
+    """
+
     def configure(self, launcher):
+        """
+        Perform server configuration and Unix setup.
+
+        :param launcher: A `RadarLauncher` object.
+        :return: A `UnixServerSetup` object.
+        """
+
         ServerConfig.configure(self)
         UnixSetup.configure(self, launcher)
+
         return self
 
 
@@ -65,7 +81,23 @@ class WindowsServerSetup(ServerConfig, WindowsSetup):
     })
     PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\radar-server.log'
 
+    """
+    The WindowsServerSetup class performs the configuration and
+    setup of a Radar server on a Unix platform.
+
+    This class also defines all default paths to files and
+    directories needed during setup.
+    """
+
     def configure(self, launcher):
+        """
+        Perform server configuration and Windows setup.
+
+        :param launcher: A `RadarLauncher` object.
+        :return: A `WindowsServerSetup` object.
+        """
+
         ServerConfig.configure(self)
         WindowsSetup.configure(self, launcher)
+
         return self
