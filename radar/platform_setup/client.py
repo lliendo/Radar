@@ -16,7 +16,7 @@ Lesser GNU General Public License for more details.
 You should have received a copy of the Lesser GNU General Public License
 along with Radar. If not, see <http://www.gnu.org/licenses/>.
 
-Copyright 2015 Lucas Liendo.
+Copyright 2015 - 2017 Lucas Liendo.
 """
 
 
@@ -37,7 +37,22 @@ class UnixClientSetup(ClientConfig, UnixSetup):
     })
     PLATFORM_CONFIG['log']['to'] = '/var/log/radar-client.log'
 
+    """
+    The UnixClientSetup class performs the configuration and
+    setup of a Radar client on a Unix platform.
+
+    This class also defines all default paths to files and
+    directories needed during setup.
+    """
+
     def configure(self, launcher):
+        """
+        Perform client configuration and Unix setup.
+
+        :param launcher: A `RadarLauncher` object.
+        :return: A `UnixClientSetup` object.
+        """
+
         ClientConfig.configure(self)
         UnixSetup.configure(self, launcher)
 
@@ -55,8 +70,23 @@ class WindowsClientSetup(ClientConfig, WindowsSetup):
     })
     PLATFORM_CONFIG['log']['to'] = BASE_PATH + '\\Log\\radar-client.log'
 
+    """
+    The WindowsClientSetup class performs the configuration and
+    setup of a Radar client on a Windows platform.
+
+    This class also defines all default paths to files and
+    directories needed during setup.
+    """
+
     def configure(self, launcher):
-        super(WindowsClientSetup, self).configure()
-        self._install_signal_handlers(launcher)
+        """
+        Perform client configuration and Windows setup.
+
+        :param launcher: A `RadarLauncher` object.
+        :return: A `WindowsClientSetup` object.
+        """
+
+        ClientConfig.configure(self)
+        WindowsSetup.configure(self, launcher)
 
         return self
