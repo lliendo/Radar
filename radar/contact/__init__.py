@@ -46,9 +46,6 @@ class Contact(Switchable):
     def to_dict(self):
         return super(Contact, self).to_dict(['id', 'name', 'email', 'phone', 'enabled'])
 
-    def as_list(self):
-        return [self]
-
     def __eq__(self, other_contact):
         return self.name == other_contact.name and self.email == other_contact.email and \
             self.phone == other_contact.phone
