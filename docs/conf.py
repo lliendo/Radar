@@ -20,7 +20,7 @@ import alabaster
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../radar'))
 
 # -- General configuration ------------------------------------------------
 
@@ -32,6 +32,7 @@ import alabaster
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
     'alabaster',
 ]
 
@@ -51,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Radar'
-copyright = u'2015, Lucas Liendo'
+copyright = u'2015 - 2017, Lucas Liendo'
 author = u'Lucas Liendo'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -117,7 +118,9 @@ html_theme = 'alabaster'
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+    'code_font_size': '0.75em',
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = [alabaster.get_path()]
@@ -290,3 +293,6 @@ texinfo_documents = [
 # Locale options.
 locale_dirs = ['locale/']
 gettext_compact = False
+
+# Autosummary.
+autosummary_generate = True
