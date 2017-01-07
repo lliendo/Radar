@@ -23,7 +23,6 @@ Copyright 2015 Lucas Liendo.
 from queue import Empty as EmptyQueue
 from abc import ABCMeta
 from ctypes import cast, py_object
-from functools import reduce
 from os.path import dirname, join as join_path
 from threading import Thread, Event
 from ..logger import RadarLogger
@@ -49,9 +48,16 @@ class ServerPlugin(ConfigBuilder, Switchable):
     PLUGIN_CONFIG_FILE = ''
     DEFAULT_CONFIG = {}
 
+    """
+    Abstract class that is used as a base for plugin development.
+
+    All plugins must inherit from this class and at least implement
+    the `on_check_reply` method in order to perform any useful work.
+    """
+
     def __init__(self):
         if not self.PLUGIN_NAME:
-            raise ServerPluginError('Error - Plugin name not defined.')
+            raise ServerPluginError("Error - Plugin name not defined.")
 
         try:
             ConfigBuilder.__init__(self, self.PLUGIN_CONFIG_FILE)
@@ -60,6 +66,8 @@ class ServerPlugin(ConfigBuilder, Switchable):
             self.config = self.DEFAULT_CONFIG
 
         Switchable.__init__(self, enabled=self.config.get('enabled', True))
+
+        # Currently we only support check and test replies.
         self._message_actions = {
             RadarMessage.TYPE['CHECK REPLY']: self.on_check_reply,
             RadarMessage.TYPE['TEST REPLY']: self.on_test_reply,
@@ -70,39 +78,74 @@ class ServerPlugin(ConfigBuilder, Switchable):
         return join_path(dirname(source_filename), config_filename)
 
     def run(self, address, port, message_type, checks, contacts):
+        """
+        Run an action. Currently we only support a check reply and
+        a test reply action.
+
+        :param address: A string containing the source IP address.
+        :param port: An integer representing the source port.
+        :param message_type: A RadarMessage.TYPE value.
+        :param checks: A list containing `Check` objects.
+        :param contacts: A list containing `Contact` objects.
+        """
+
         try:
             action = self._message_actions[message_type]
             action(address, port, checks, contacts)
         except KeyError:
-            raise ServerPluginError('Error - Unrecognized message type : {:}.'.format(message_type))
+            raise ServerPluginError("Error - Unrecognized message type : {}.".format(message_type))
 
     def log(self, message):
-        RadarLogger.log('Plugin \'{:}\' v{:}. {:}'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
+        """
+        Method that can be used by the user to perform logging.
+        """
+
+        RadarLogger.log("Plugin '{}' v{}. {}".format(self.PLUGIN_NAME, self.PLUGIN_VERSION, message))
 
     def configure(self):
-        RadarLogger.log('Loading plugin : \'{:}\' v{:}.'.format(self.PLUGIN_NAME, self.PLUGIN_VERSION))
+        """
+        Configure this `Plugin` by calling the `on_start` method.
+        """
+
+        RadarLogger.log("Loading plugin : '{}' v{}.".format(self.PLUGIN_NAME, self.PLUGIN_VERSION))
         self.on_start()
 
     def on_start(self):
-        """ Implement this method to initialize the plugin. """
-        pass
+        """
+        Implement this method to (optionally) initialize the plugin.
+        """
 
     def on_check_reply(self, address, port, checks, contacts):
-        """ Implement this method to process a check reply. """
-        pass
+        """
+        Implement this method to process a check reply.
+
+        The implementation of this method is mandatory.
+        """
+
+        raise ServerPluginError("Error - Unimplemented `on_check_reply` method.")
 
     def on_test_reply(self, address, port, checks, contacts):
-        """ Implement this method to process a test reply. """
-        pass
+        """
+        Implement this method to (optionally) process a test reply.
+        """
 
     def on_shutdown(self):
-        """ Implement this method to tear down the plugin. """
-        pass
+        """
+        Implement this method to (optionally) tear down the plugin.
+        """
 
     def to_dict(self):
         return super(ServerPlugin, self).to_dict(['id', 'plugin_id', 'plugin_version', 'enabled'])
 
     def __eq__(self, other_plugin):
+        """
+        Compare if two plugins are the same. Two plugins are considered
+        equal if their name and version are the same.
+
+        :param other_plugin: A `Plugin` object.
+        :return: A boolean indicating if this plugin is equal to another one.
+        """
+
         return (self.PLUGIN_NAME == other_plugin.PLUGIN_NAME) and \
             (self.PLUGIN_VERSION == other_plugin.PLUGIN_VERSION)
 
@@ -111,50 +154,110 @@ class PluginManager(Thread):
 
     STOP_EVENT_TIMEOUT = 0.2
 
+    """
+    The PluginManager thread is responsible for executing all defined and enabled
+    plugins.
+
+    :param plugins: A list containing `Plugin` objects.
+    :param queue: A `Queue` object used to receive upcoming messages from
+        the RadarServer thread.
+    :param stop_event: An `Event` object that is used to control thread
+        termination.
+    """
+
     def __init__(self, plugins, queue, stop_event=None):
         Thread.__init__(self)
         self._plugins = plugins
         self._queue = queue
         self.stop_event = stop_event or Event()
 
-    # We dereference ids, to avoid re-instantiating objects. We can actually
-    # do this because we're on the same process address space.
     def _dereference(self, ids):
+        """
+        Given a list of Python ids get their corresponding Python objects.
+        We dereference ids, to avoid re-instantiating objects. We can actually
+        do this because we're on the same process address space.
+
+        :return: A list of Python objects.
+        """
+
         return [cast(object_id, py_object).value for object_id in ids]
 
-    def _flatten(self, list_of_lists):
-        return reduce(lambda l, m: l + m, list_of_lists)
-
     def _get_plugin_args(self, message):
+        """
+        Construct a tuple with the data needed by every plugin to run.
+        This method dereferences a list of Python ids to Python objects.
+
+        :param message: A dictionary containing the following keys:
+            address, port, message_type, check_ids and contact_ids.
+        :return: A tuple containing the source IP addres, the source port, the message type,
+            a list of `Check` objects and a list of `Contact` objects.
+        """
+
         try:
             return (
                 message['address'],
                 message['port'],
                 message['message_type'],
-                self._flatten([check_ids.as_list() for check_ids in self._dereference(message['check_ids'])]),
-                self._flatten([contact_ids.as_list() for contact_ids in self._dereference(message['contact_ids'])]),
+                self._dereference(message['check_ids']),
+                self._dereference(message['contact_ids']),
             )
         except KeyError as error:
-            raise PluginManagerError('Error - Couldn\'t process incoming message from queue. Missing key : \'{:}\'.'.format(error))
+            raise PluginManagerError("Error - Couldn't process incoming message from queue. Missing key : '{}'.".format(error))
 
     def is_stopped(self):
+        """
+        Tell if the thread has been stopped.
+
+        :return: A boolean indicating if the thread has been stopped.
+        """
+
         return self.stop_event.is_set()
 
     def _run_plugin(self, plugin, address, port, message_type, checks, contacts):
+        """
+        Run a plugin. Each plugin is fed with:
+            - The source IP address of the client who sent the check reply.
+            - The source port of the client who sent the check reply.
+            - The message type of the reply.
+            - A list containing `Check` objects.
+            - A list containing `Contact` objects.
+
+        :param plugin: A `Plugin` object to be run.
+        :param address: A string containing the source IP address.
+        :param port: An integer representing the source port.
+        :param message_type: A RadarMessage.TYPE value.
+        :param checks: A list containing `Check` objects.
+        :param contacts: A list containing `Contact` objects.
+        """
+
         try:
             plugin.run(address, port, message_type, checks, contacts)
         except Exception as error:
-            RadarLogger.log('Error - Plugin \'{:}\' version \'{:}\' raised an error. Details : {:}.'.format(
+            RadarLogger.log("Error - Plugin '{}' version '{}' raised an error. Details : {}.".format(
                 plugin.PLUGIN_NAME, plugin.PLUGIN_VERSION, error))
 
-    def _run_plugins(self, queue_message):
-        plugin_args = self._get_plugin_args(queue_message)
+    def _run_plugins(self, message):
+        """
+        Rrocess all defined and enabled plugins.
+
+        :param message: A dictionary containing the following keys:
+            address, port, message_type, check_ids and contact_ids.
+        """
+
+        plugin_args = self._get_plugin_args(message)
 
         for plugin in self._plugins:
             if plugin.enabled:
                 self._run_plugin(plugin, *plugin_args)
 
     def run(self):
+        """
+        Run the PluginManager thread.
+
+        This method scans a `Queue` object continuously and if a new message
+        arrives it is passed to all defined plugins for further processing.
+        """
+
         while not self.is_stopped():
             try:
                 self._run_plugins(self._queue.get_nowait())
