@@ -45,7 +45,3 @@ class TestContact(TestCase):
         d = Contact(name='contact', email='contact@contact.com').to_dict()
         keys = ['id', 'name', 'email', 'phone']
         self.assertTrue(all([k in d for k in keys]))
-
-    def test_check_as_list(self):
-        self.assertEqual(type(self.contact.as_list()), list)
-        self.assertEqual(len(self.contact.as_list()), 1)

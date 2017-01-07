@@ -173,10 +173,6 @@ class TestCheck(TestCase):
         check.update_status({'id': check.id, 'status': Check.STATUS['OK'], 'data': 'some_data'})
         self.assertTrue('data' in check.to_check_reply_dict())
 
-    def test_check_as_list(self):
-        self.assertEqual(type(self.dummy_check.as_list()), list)
-        self.assertEqual(len(self.dummy_check.as_list()), 1)
-
     def test_check_set(self):
         duplicated_dummy_check = Check(name='dummy', path='dummy.py')
         another_check = Check(name='dummy 2', path='dummy_2.py')
