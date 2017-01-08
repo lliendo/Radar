@@ -156,7 +156,7 @@ class Check(Switchable):
         Return the representation of a `Check` as a dictionary.
 
         :return: A dictionary containing the following keys: id, name, path,
-            args, current_status, previous_status,  details, data and enabled.
+            args, current_status, previous_status, details, data and enabled.
         """
 
         return super(Check, self).to_dict([
@@ -646,7 +646,7 @@ class CheckGroup(Switchable):
 
         :param ids: A list containing the ids to be enabled. The list can
             include `Check` and `CheckGroup` ids.
-        :return: A list containing the ids of all the `Check` and `CheckGroup`
+        :return: A list containing ids of `Check` and `CheckGroup`
             objects that were enabled.
         """
 
@@ -659,7 +659,7 @@ class CheckGroup(Switchable):
 
         :param ids: A list containing check ids to be disabled. The list can
             include `Check` and `CheckGroup` ids.
-        :return: A list containing the ids of all the `Check` and `CheckGroup`
+        :return: A list containing ids of `Check` and `CheckGroup`
             objects that were disabled.
         """
 
